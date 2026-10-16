@@ -84,7 +84,7 @@ P1.5 的静态诊断显示 SQLite FK 103 原始实例/100 有效、JSON 102 pair
 
 ## 5. 提交规范和下一轮需返回的结果
 
-预期 `docs/research/text2sql/reports/p1_6_rebaseline_202610xx/` 包含审计摘要、94? 不——精确 **91** 项的分类、旧文本顺序可恢复性、基线哈希（有序 IDs+Text）、排序稳定性、代码/环境、P1.6 Gate、真实成本。公开仓库不上传逐题用户 Query、Gold SQL、候选向量或数据库。
+预期 `docs/research/text2sql/reports/p1_6_rebaseline_202610xx/` 包含审计摘要、**91** 项不一致检查的分类、旧文本顺序可恢复性、基线哈希（有序 IDs+Text）、排序稳定性、代码/环境、P1.6 Gate、真实成本。公开仓库不上传逐题用户 Query、Gold SQL、候选向量或数据库。
 
 只有 P1.6 通过后，另建 `reports/p2a_similarity_YYYYMMDD/`，冻结 S0/S1/S2 的比较和分库/预算指标。后续继续只向 [bArtyom/gfm-rag](https://github.com/bArtyom/gfm-rag) 提交指导。
 
