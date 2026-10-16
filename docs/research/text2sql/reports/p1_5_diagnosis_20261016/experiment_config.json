@@ -1,0 +1,77 @@
+{
+  "experiment_id": "p1_5_diagnosis_20261016",
+  "status": "registered_before_execution",
+  "registered_at_utc": "2026-10-16",
+  "protocol": "docs/research/text2sql/plans/p1_5_diagnostics_and_p2a_20261016.md",
+  "research_question": "Do the historical BIRD column-retrieval gaps reflect rank errors and token-budget pressure on a non-saturated candidate set, and is the current FK/Join-Instance metadata reliable enough to unlock later role/path work?",
+  "hypothesis": "A fixed 1024-dimensional replay can reproduce the historical retrieval metrics and reveal per-database ranking, saturation, budget-fit, and FK coverage limits without changing the model, candidate text, or data.",
+  "stage": "P1.5 offline diagnosis; exploratory BIRD dev evidence",
+  "source": {
+    "project_repository": "https://github.com/bArtyom/gfm-rag",
+    "project_branch": "main",
+    "project_base_commit": "1d3a05773cd4305fdd591e6bd729a03e22326e8c",
+    "official_encoder_source_commit": "b3e43219c49929da505244df4f0ba54c0947e4c4",
+    "official_encoder_source_file_sha256": "4515c5d6c586ad8ef63dc00b7ba6e70eac4496ce47e0a71c3988b81899c704a0",
+    "official_base_source_file_sha256": "bdf97e695add03d00978eaedc64dcd76647b8e3cf5d662b7491ddb65ec404328",
+    "historical_runner_sha256": "824cbfbd0e18b2ecadada6738b447300c8725515d7867cac4cb1467ff1d2bd4f",
+    "historical_shared_support_sha256": "54fadef342ba6eb5e19d16f2121d9e078b258de909a1c9ed1a52b32a1b2c26de"
+  },
+  "data": {
+    "dataset": "BIRD dev, previously used development set; exploratory only",
+    "questions": 1534,
+    "databases": 11,
+    "schema_nodes": 873,
+    "table_nodes": 75,
+    "column_nodes": 798,
+    "question_file_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "schema_file_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "p0_audit_sha256": "0f3f104638e1a37c579db81c453aa514188e0a40341938b92964db833410ebcf",
+    "gold_label_file_sha256": "1b501810f0247999de1210fc807f3c39e60c2fab498cd104f8eb60f815269525",
+    "previous_p1_summary_sha256": "33aed3af07201515aa59d3d4bd03894befec597ea3853c07e815db8db2dda97a",
+    "previous_p1_per_question_sha256": "c28776ed47a30f1c898cb0a849a9834d7668999c26eb3c643e00474928b249cb",
+    "schema_text_sha256": "b5b6ca9714195f733aaeb379aabbcb64c403e107444b8ed95679d798d924ab5a",
+    "question_prompt": "Instruct: Given a natural-language question about a database, retrieve the relevant tables and columns.\\nQuery: {question}",
+    "gold_use": "evaluation labels only; SQL is parsed only for FK coverage; neither enters candidate text or scoring"
+  },
+  "model_and_scoring": {
+    "model_alias": "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+    "local_model_manifest_sha256": "b89ec1366231e37e92c64eaff3f98edce0f0c6af15cc8c7991ed900520143c68",
+    "new_model_forward_dimension": 1024,
+    "historical_prefixes_reconstructed_for_diagnosis": [512, 1024],
+    "normalize_each_prefix": "L2",
+    "similarity": "exact cosine via dot product; stable descending sort",
+    "type_specific_top_k": [5, 10, 20],
+    "combined_schema_token_budgets": [512, 1024, 2048],
+    "budget_tokenizer": "local Qwen tokenizer; passage text only; same greedy candidate ordering as historical P1"
+  },
+  "execution_budget": {
+    "runs": [
+      "one CPU-only full-input and FK preflight",
+      "one five-question smoke",
+      "one full 1534-question 1024-dimensional encoding/scoring run"
+    ],
+    "gpu": "one RTX 4090, physical GPU 1",
+    "gpu_wall_seconds_max": 900,
+    "cpu_seconds_max": 1800,
+    "cpu_threads_max": 8,
+    "max_rss_gib": 16,
+    "api_calls": 0,
+    "sql_execution": 0,
+    "training_steps": 0,
+    "model_downloads": 0,
+    "dependency_installations": 0
+  },
+  "success_criteria": [
+    "All frozen question, schema, P0, Gold-label, SQLite/description, model-manifest, source-code, and historical-output hashes verify.",
+    "The five-question smoke completes with finite 1024-D vectors and valid rank/budget outputs.",
+    "The full replay reproduces the historical row-level P1 hit counts and 2048-token complete-coverage flags for 512/1024 prefixes.",
+    "Per-database saturation, Gold-rank, budget-oracle, error-feature, and stable FK-instance summaries are emitted with raw per-question artifacts kept local."
+  ],
+  "stop_conditions": [
+    "Any frozen hash, candidate-text hash, or source-code hash mismatch.",
+    "Unavailable selected GPU, resource-budget breach, failed smoke, non-finite embeddings, or historical row-level metric mismatch.",
+    "Any output-path collision or unexpected SQL/data operation."
+  ],
+  "decision_rule": "Do not run P2a in this experiment. After P1.5, permit only a separately frozen 1024-D Cosine/BM25/RRF comparison if the historical baseline reproduces, non-saturated column errors remain on reliable labels, and a runtime-visible error feature supports the comparison. FK failure blocks role/path claims independently.",
+  "local_private_output_root": "/mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom-local-results/p1_5_diagnosis_20261016"
+}

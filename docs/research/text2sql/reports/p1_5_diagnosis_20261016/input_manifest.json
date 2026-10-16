@@ -1,0 +1,121 @@
+{
+  "experiment_id": "p1_5_diagnosis_20261016",
+  "mode": "full",
+  "source": {
+    "project_repository": "https://github.com/bArtyom/gfm-rag",
+    "project_base_commit": "1d3a05773cd4305fdd591e6bd729a03e22326e8c",
+    "project_branch": "main",
+    "official_encoder_source_commit": "b3e43219c49929da505244df4f0ba54c0947e4c4",
+    "official_encoder_source_sha256": "4515c5d6c586ad8ef63dc00b7ba6e70eac4496ce47e0a71c3988b81899c704a0",
+    "official_base_model_source_sha256": "bdf97e695add03d00978eaedc64dcd76647b8e3cf5d662b7491ddb65ec404328",
+    "historical_runner_sha256": "824cbfbd0e18b2ecadada6738b447300c8725515d7867cac4cb1467ff1d2bd4f",
+    "historical_support_sha256": "54fadef342ba6eb5e19d16f2121d9e078b258de909a1c9ed1a52b32a1b2c26de",
+    "p1_5_runner_sha256": "af59d01d22a6b5d5538231b38c2bf52e0355a9193a5773f40b14d29470ec40cf",
+    "archived_support_used_for_input_and_text_reconstruction": "docs/research/text2sql/reports/gfmrag_p1_official_20261014/scripts/gfmrag_p1_common.py",
+    "archived_support_sha256": "54fadef342ba6eb5e19d16f2121d9e078b258de909a1c9ed1a52b32a1b2c26de"
+  },
+  "candidate_text": "Historical P1 type-first schema text; same 873 nodes and exact serialized-text hash. Gold labels are scoring-only.",
+  "data": {
+    "dataset": "BIRD dev; exploratory; not independent evaluation",
+    "question_count": 1534,
+    "database_count": 11,
+    "schema_node_count": 873,
+    "table_nodes": 75,
+    "column_nodes": 798,
+    "question_file_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "schema_file_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "p0_audit_sha256": "0f3f104638e1a37c579db81c453aa514188e0a40341938b92964db833410ebcf",
+    "gold_label_file_sha256": "1b501810f0247999de1210fc807f3c39e60c2fab498cd104f8eb60f815269525",
+    "schema_text_sha256": "b5b6ca9714195f733aaeb379aabbcb64c403e107444b8ed95679d798d924ab5a",
+    "query_prompt_sha256": "a33e140e6ae5a362b5480a437bc77431b8c878f000e3ea03dadba38108b25634",
+    "input_files_verified": {
+      "files_verified": 86,
+      "bytes_verified": 1493364802,
+      "by_extension": {
+        ".csv": {
+          "files": 75,
+          "bytes": 76866
+        },
+        ".sqlite": {
+          "files": 11,
+          "bytes": 1493287936
+        }
+      },
+      "database_input_hash_manifest_sha256": "0f3f104638e1a37c579db81c453aa514188e0a40341938b92964db833410ebcf"
+    },
+    "description_csv_encoding_counts": {
+      "cp1252": 4,
+      "utf-8-sig": 71
+    },
+    "tokenizer_stats": {
+      "tokenizer_class": "Qwen2TokenizerFast",
+      "model_max_positions": 131072,
+      "query_prompt_max_tokens": 84,
+      "schema_node_max_tokens": 498,
+      "schema_node_token_median": 23,
+      "schema_node_token_p95": 71,
+      "schema_nodes_over_model_limit": 0
+    }
+  },
+  "model": {
+    "model_path_alias": "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+    "local_model_manifest": {
+      "manifest_sha256": "b89ec1366231e37e92c64eaff3f98edce0f0c6af15cc8c7991ed900520143c68",
+      "files_verified": 26,
+      "verified_bytes": 1207490491,
+      "model_weights_sha256": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd"
+    },
+    "output_dimension": 1024,
+    "prefix_diagnostic_dimensions": [
+      512,
+      1024
+    ],
+    "normalization": "explicit L2 normalization per prefix; exact dot-product cosine",
+    "query_instruction": "Given a natural-language question about a database, retrieve the relevant tables and columns.",
+    "batch_size": 32
+  },
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.2.6",
+    "torch": "2.8.0",
+    "vllm": "0.10.2",
+    "transformers": "4.57.1",
+    "sqlglot": "28.0.0"
+  },
+  "execution": {
+    "run_id": "p1_5_diag_full_20261016_03",
+    "state": "completed",
+    "query_count": 1534,
+    "database_count": 11,
+    "schema_node_count_encoded": 873,
+    "elapsed_wall_seconds": 54.233215952292085,
+    "gpu_resources_at_start": {
+      "selected_physical_gpu": 1,
+      "selected_gpu_status": "NVIDIA GeForce RTX 4090, 641, 24564, 0",
+      "cpu_threads_available": 192,
+      "process_thread_limit": 8,
+      "python_maxrss_kib": 39936
+    },
+    "runtime": {
+      "gpu_name": "NVIDIA GeForce RTX 4090",
+      "gpu_id": 1,
+      "query_encode_seconds": 2.096385912038386,
+      "schema_encode_seconds": 1.0875612627714872,
+      "gpu_wall_seconds_load_and_encode": 27.013430285267532,
+      "cpu_seconds_process": 21.43613373,
+      "process_and_child_maxrss_gib": 2.2686080932617188,
+      "torch_threads": 8
+    },
+    "resource_budget": {
+      "gpu_wall_seconds_max": 900,
+      "cpu_seconds_max": 1800,
+      "process_maxrss_gib": 16,
+      "max_cpu_threads": 8
+    },
+    "no_api_calls": true,
+    "no_sql_execution": true,
+    "no_training": true,
+    "no_model_download": true,
+    "no_dependency_installation": true
+  }
+}

@@ -1,0 +1,1319 @@
+{
+  "mode": "full",
+  "questions": 1534,
+  "databases": 11,
+  "dimensions_reconstructed_from_one_1024_forward": [
+    512,
+    1024
+  ],
+  "norm_health": {
+    "512": {
+      "max_abs_error": 1.1920928955078125e-07,
+      "raw_query_norm_median": 0.7171703577041626,
+      "raw_node_norm_median": 0.7307546734809875
+    },
+    "1024": {
+      "max_abs_error": 1.1920928955078125e-07,
+      "raw_query_norm_median": 1,
+      "raw_node_norm_median": 1
+    }
+  },
+  "global": {
+    "512": {
+      "table_r5": {
+        "query_macro": 0.9481312472837897,
+        "database_macro": 0.9511446945192253,
+        "queries": 1534
+      },
+      "table_r10": {
+        "query_macro": 0.9987505432420688,
+        "database_macro": 0.9989986067572274,
+        "queries": 1534
+      },
+      "column_r5": {
+        "query_macro": 0.5153443683409438,
+        "database_macro": 0.5208118552174752,
+        "queries": 1460
+      },
+      "column_r10": {
+        "query_macro": 0.6730767558164819,
+        "database_macro": 0.6763679434701462,
+        "queries": 1460
+      },
+      "column_r20": {
+        "query_macro": 0.7879862470102196,
+        "database_macro": 0.7933149706595476,
+        "queries": 1460
+      },
+      "column_mrr": {
+        "query_macro": 0.8112094507471126,
+        "database_macro": 0.8205833124196871,
+        "queries": 1460
+      },
+      "column_map": {
+        "query_macro": 0.5379812490458729,
+        "database_macro": 0.5450957278470356,
+        "queries": 1460
+      },
+      "gold_column_rank_elements": {
+        "count": 6523,
+        "p50": 6,
+        "p90": 53,
+        "max": 198
+      },
+      "first_gold_column_rank_per_question": {
+        "count": 1460,
+        "p50": 1,
+        "p90": 3
+      },
+      "budgets": {
+        "512": {
+          "recall": {
+            "query_macro": 0.7037555367007421,
+            "database_macro": 0.711903394895338
+          },
+          "precision": {
+            "query_macro": 0.25930817562405317,
+            "database_macro": 0.2597670662147624
+          },
+          "complete": {
+            "query_macro": 0.35136986301369866,
+            "database_macro": 0.3754616650850185
+          },
+          "returned_elements": {
+            "query_macro": 17.0013698630137,
+            "database_macro": 17.366225652054926
+          },
+          "tokens_used": {
+            "query_macro": 505.5232876712329,
+            "database_macro": 504.99082148547274
+          }
+        },
+        "1024": {
+          "recall": {
+            "query_macro": 0.8219849708890806,
+            "database_macro": 0.8231652471623437
+          },
+          "precision": {
+            "query_macro": 0.18085123854447485,
+            "database_macro": 0.1867613324536898
+          },
+          "complete": {
+            "query_macro": 0.5602739726027397,
+            "database_macro": 0.5658948524579913
+          },
+          "returned_elements": {
+            "query_macro": 30.617123287671234,
+            "database_macro": 30.005089451469242
+          },
+          "tokens_used": {
+            "query_macro": 949.5390410958904,
+            "database_macro": 923.5307246422321
+          }
+        },
+        "2048": {
+          "recall": {
+            "query_macro": 0.9186806762491695,
+            "database_macro": 0.915330677807649
+          },
+          "precision": {
+            "query_macro": 0.13152882206449104,
+            "database_macro": 0.14062024153516245
+          },
+          "complete": {
+            "query_macro": 0.7890410958904109,
+            "database_macro": 0.7805610982110771
+          },
+          "returned_elements": {
+            "query_macro": 55.0013698630137,
+            "database_macro": 52.38387703375741
+          },
+          "tokens_used": {
+            "query_macro": 1709.454794520548,
+            "database_macro": 1629.232680262331
+          }
+        }
+      }
+    },
+    "1024": {
+      "table_r5": {
+        "query_macro": 0.947696653628857,
+        "database_macro": 0.9507889651872774,
+        "queries": 1534
+      },
+      "table_r10": {
+        "query_macro": 0.999348109517601,
+        "database_macro": 0.9994775339602927,
+        "queries": 1534
+      },
+      "column_r5": {
+        "query_macro": 0.5292911502500544,
+        "database_macro": 0.5324024426845462,
+        "queries": 1460
+      },
+      "column_r10": {
+        "query_macro": 0.6805767558164818,
+        "database_macro": 0.684546592723584,
+        "queries": 1460
+      },
+      "column_r20": {
+        "query_macro": 0.791614209610785,
+        "database_macro": 0.7973603166158437,
+        "queries": 1460
+      },
+      "column_mrr": {
+        "query_macro": 0.8278111961849317,
+        "database_macro": 0.8351459702978424,
+        "queries": 1460
+      },
+      "column_map": {
+        "query_macro": 0.5528327717724641,
+        "database_macro": 0.5586256774495967,
+        "queries": 1460
+      },
+      "gold_column_rank_elements": {
+        "count": 6523,
+        "p50": 6,
+        "p90": 51.80000000000018,
+        "max": 198
+      },
+      "first_gold_column_rank_per_question": {
+        "count": 1460,
+        "p50": 1,
+        "p90": 3
+      },
+      "budgets": {
+        "512": {
+          "recall": {
+            "query_macro": 0.7049444657321369,
+            "database_macro": 0.7126596189690808
+          },
+          "precision": {
+            "query_macro": 0.2588747277278281,
+            "database_macro": 0.25949067118691804
+          },
+          "complete": {
+            "query_macro": 0.3547945205479452,
+            "database_macro": 0.3792242530133661
+          },
+          "returned_elements": {
+            "query_macro": 17.017808219178082,
+            "database_macro": 17.373000544521556
+          },
+          "tokens_used": {
+            "query_macro": 505.57397260273973,
+            "database_macro": 505.0324226651586
+          }
+        },
+        "1024": {
+          "recall": {
+            "query_macro": 0.8239928298489942,
+            "database_macro": 0.8253681432220475
+          },
+          "precision": {
+            "query_macro": 0.1820726034473472,
+            "database_macro": 0.18779861402976927
+          },
+          "complete": {
+            "query_macro": 0.5643835616438356,
+            "database_macro": 0.567439388496608
+          },
+          "returned_elements": {
+            "query_macro": 30.353424657534248,
+            "database_macro": 29.769137858787733
+          },
+          "tokens_used": {
+            "query_macro": 949.5397260273973,
+            "database_macro": 923.5850107862735
+          }
+        },
+        "2048": {
+          "recall": {
+            "query_macro": 0.9208685359541524,
+            "database_macro": 0.917883927794472
+          },
+          "precision": {
+            "query_macro": 0.13211285805149262,
+            "database_macro": 0.14123715276161491
+          },
+          "complete": {
+            "query_macro": 0.7958904109589041,
+            "database_macro": 0.7877897861328883
+          },
+          "returned_elements": {
+            "query_macro": 54.72808219178082,
+            "database_macro": 52.09521775914871
+          },
+          "tokens_used": {
+            "query_macro": 1709.3575342465754,
+            "database_macro": 1629.212904034771
+          }
+        }
+      }
+    }
+  },
+  "per_database": {
+    "512": {
+      "california_schools": {
+        "questions": 89,
+        "column_eligible_questions": 87,
+        "table_recall_at_5": 1,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.3816684911512497,
+        "column_recall_at_10": 0.4903211092866266,
+        "column_recall_at_20": 0.6210135011859148,
+        "column_mrr": 0.7460184770529598,
+        "column_map": 0.3770553884484209,
+        "column_gold_rank_p50": 14,
+        "column_gold_rank_p90": 74,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 4.400000000000006,
+        "budgets": {
+          "512": {
+            "recall": 0.4260532251911561,
+            "precision": 0.23856831508961326,
+            "complete": 0.022988505747126436,
+            "returned_elements": 11.494252873563218,
+            "tokens_used": 506.8390804597701
+          },
+          "1024": {
+            "recall": 0.5449515682274303,
+            "precision": 0.16309205880368577,
+            "complete": 0.05747126436781609,
+            "returned_elements": 21.379310344827587,
+            "tokens_used": 1017.0344827586207
+          },
+          "2048": {
+            "recall": 0.6853323879185949,
+            "precision": 0.10501211717451732,
+            "complete": 0.13793103448275862,
+            "returned_elements": 42.13793103448276,
+            "tokens_used": 2041.7931034482758
+          }
+        }
+      },
+      "card_games": {
+        "questions": 191,
+        "column_eligible_questions": 175,
+        "table_recall_at_5": 0.9973821989528796,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.431952380952381,
+        "column_recall_at_10": 0.5354149659863945,
+        "column_recall_at_20": 0.6217414965986394,
+        "column_mrr": 0.726394512142425,
+        "column_map": 0.41568468582313584,
+        "column_gold_rank_p50": 13,
+        "column_gold_rank_p90": 97,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 5.599999999999994,
+        "budgets": {
+          "512": {
+            "recall": 0.5283995052566481,
+            "precision": 0.26020902246311356,
+            "complete": 0.1657142857142857,
+            "returned_elements": 10.8,
+            "tokens_used": 507.44
+          },
+          "1024": {
+            "recall": 0.6464994846423417,
+            "precision": 0.1454421563243278,
+            "complete": 0.32571428571428573,
+            "returned_elements": 22.46857142857143,
+            "tokens_used": 1019.8171428571428
+          },
+          "2048": {
+            "recall": 0.7528105545248402,
+            "precision": 0.08106267169524395,
+            "complete": 0.4342857142857143,
+            "returned_elements": 47.331428571428575,
+            "tokens_used": 2044.0685714285714
+          }
+        }
+      },
+      "codebase_community": {
+        "questions": 186,
+        "column_eligible_questions": 172,
+        "table_recall_at_5": 0.9484767025089607,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.5486226467331118,
+        "column_recall_at_10": 0.6938884274640088,
+        "column_recall_at_20": 0.8001315060908083,
+        "column_mrr": 0.8013635105204874,
+        "column_map": 0.5381353821934991,
+        "column_gold_rank_p50": 6,
+        "column_gold_rank_p90": 41,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 4,
+        "budgets": {
+          "512": {
+            "recall": 0.7533035924024295,
+            "precision": 0.1880533917332275,
+            "complete": 0.4011627906976744,
+            "returned_elements": 21.197674418604652,
+            "tokens_used": 506.29651162790697
+          },
+          "1024": {
+            "recall": 0.8903568492231284,
+            "precision": 0.11769675145922358,
+            "complete": 0.6744186046511628,
+            "returned_elements": 41.30232558139535,
+            "tokens_used": 1019
+          },
+          "2048": {
+            "recall": 1,
+            "precision": 0.07123932881954667,
+            "complete": 1,
+            "returned_elements": 79,
+            "tokens_used": 2005
+          }
+        }
+      },
+      "debit_card_specializing": {
+        "questions": 64,
+        "column_eligible_questions": 61,
+        "table_recall_at_5": 1,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.6629586260733803,
+        "column_recall_at_10": 0.807142857142857,
+        "column_recall_at_20": 0.9510928961748634,
+        "column_mrr": 0.9221311475409836,
+        "column_map": 0.6951884887102875,
+        "column_gold_rank_p50": 4,
+        "column_gold_rank_p90": 17,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 2,
+        "budgets": {
+          "512": {
+            "recall": 1,
+            "precision": 0.24401008827238335,
+            "complete": 1,
+            "returned_elements": 26,
+            "tokens_used": 497
+          },
+          "1024": {
+            "recall": 1,
+            "precision": 0.24401008827238335,
+            "complete": 1,
+            "returned_elements": 26,
+            "tokens_used": 497
+          },
+          "2048": {
+            "recall": 1,
+            "precision": 0.24401008827238335,
+            "complete": 1,
+            "returned_elements": 26,
+            "tokens_used": 497
+          }
+        }
+      },
+      "european_football_2": {
+        "questions": 129,
+        "column_eligible_questions": 122,
+        "table_recall_at_5": 0.9664082687338501,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.40460252406973723,
+        "column_recall_at_10": 0.47677270361696594,
+        "column_recall_at_20": 0.556163804319542,
+        "column_mrr": 0.8615202340250556,
+        "column_map": 0.40896715145755336,
+        "column_gold_rank_p50": 19,
+        "column_gold_rank_p90": 138,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 2.9000000000000057,
+        "budgets": {
+          "512": {
+            "recall": 0.46368485794715303,
+            "precision": 0.17130467062160085,
+            "complete": 0.13114754098360656,
+            "returned_elements": 17.040983606557376,
+            "tokens_used": 508.37704918032784
+          },
+          "1024": {
+            "recall": 0.5636881106143402,
+            "precision": 0.10669005170734733,
+            "complete": 0.22950819672131148,
+            "returned_elements": 32.82786885245902,
+            "tokens_used": 1020.9508196721312
+          },
+          "2048": {
+            "recall": 0.7047483026991224,
+            "precision": 0.06390157752890781,
+            "complete": 0.3524590163934426,
+            "returned_elements": 68.94262295081967,
+            "tokens_used": 2044.9262295081967
+          }
+        }
+      },
+      "financial": {
+        "questions": 106,
+        "column_eligible_questions": 102,
+        "table_recall_at_5": 0.8751572327044026,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.5023303765950825,
+        "column_recall_at_10": 0.6941876750700278,
+        "column_recall_at_20": 0.8514083411142234,
+        "column_mrr": 0.8308006535947713,
+        "column_map": 0.5695243099958367,
+        "column_gold_rank_p50": 6,
+        "column_gold_rank_p90": 29.900000000000034,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 3,
+        "budgets": {
+          "512": {
+            "recall": 0.7608854925031394,
+            "precision": 0.28065007467517894,
+            "complete": 0.2549019607843137,
+            "returned_elements": 20.676470588235293,
+            "tokens_used": 507.98039215686276
+          },
+          "1024": {
+            "recall": 0.9019949549361314,
+            "precision": 0.1819426538209829,
+            "complete": 0.5392156862745098,
+            "returned_elements": 39.05882352941177,
+            "tokens_used": 1019.4215686274509
+          },
+          "2048": {
+            "recall": 1,
+            "precision": 0.12573918456271393,
+            "complete": 1,
+            "returned_elements": 63,
+            "tokens_used": 1653
+          }
+        }
+      },
+      "formula_1": {
+        "questions": 174,
+        "column_eligible_questions": 163,
+        "table_recall_at_5": 0.7954980842911877,
+        "table_recall_at_10": 0.9889846743295018,
+        "column_recall_at_5": 0.35973074301295155,
+        "column_recall_at_10": 0.5166885772713993,
+        "column_recall_at_20": 0.6554460025318921,
+        "column_mrr": 0.6320484886263882,
+        "column_map": 0.38248779462130794,
+        "column_gold_rank_p50": 15,
+        "column_gold_rank_p90": 63,
+        "first_gold_column_rank_p50": 2,
+        "first_gold_column_rank_p90": 6,
+        "budgets": {
+          "512": {
+            "recall": 0.6014095652132463,
+            "precision": 0.18829983416909174,
+            "complete": 0.22699386503067484,
+            "returned_elements": 19.938650306748468,
+            "tokens_used": 508.7730061349693
+          },
+          "1024": {
+            "recall": 0.7577244330311814,
+            "precision": 0.12785332523426698,
+            "complete": 0.43558282208588955,
+            "returned_elements": 39.214723926380366,
+            "tokens_used": 1020.8834355828221
+          },
+          "2048": {
+            "recall": 0.933770523954573,
+            "precision": 0.08394715182152428,
+            "complete": 0.7055214723926381,
+            "returned_elements": 78.2760736196319,
+            "tokens_used": 2045.079754601227
+          }
+        }
+      },
+      "student_club": {
+        "questions": 158,
+        "column_eligible_questions": 158,
+        "table_recall_at_5": 0.9720464135021096,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.5425231062889291,
+        "column_recall_at_10": 0.7434649387181033,
+        "column_recall_at_20": 0.9094208358448864,
+        "column_mrr": 0.8239554222149159,
+        "column_map": 0.5989549458973469,
+        "column_gold_rank_p50": 6,
+        "column_gold_rank_p90": 21,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 3,
+        "budgets": {
+          "512": {
+            "recall": 0.7924223455869024,
+            "precision": 0.2999358404992394,
+            "complete": 0.37341772151898733,
+            "returned_elements": 16.968354430379748,
+            "tokens_used": 507.2911392405063
+          },
+          "1024": {
+            "recall": 0.9385039889786724,
+            "precision": 0.18600252773291825,
+            "complete": 0.7341772151898734,
+            "returned_elements": 33.4746835443038,
+            "tokens_used": 1018.6645569620254
+          },
+          "2048": {
+            "recall": 1,
+            "precision": 0.1196880650994575,
+            "complete": 1,
+            "returned_elements": 56,
+            "tokens_used": 1727
+          }
+        }
+      },
+      "superhero": {
+        "questions": 129,
+        "column_eligible_questions": 129,
+        "table_recall_at_5": 0.9076227390180879,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.5577950043066322,
+        "column_recall_at_10": 0.6874892334194659,
+        "column_recall_at_20": 0.8360495877937738,
+        "column_mrr": 0.9270025839793281,
+        "column_map": 0.6205194522981106,
+        "column_gold_rank_p50": 5,
+        "column_gold_rank_p90": 25,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 2,
+        "budgets": {
+          "512": {
+            "recall": 0.7097954586326679,
+            "precision": 0.3123213010299914,
+            "complete": 0.20155038759689922,
+            "returned_elements": 15.767441860465116,
+            "tokens_used": 509.37984496124034
+          },
+          "1024": {
+            "recall": 0.9040766296580249,
+            "precision": 0.22674447517719193,
+            "complete": 0.6124031007751938,
+            "returned_elements": 28.813953488372093,
+            "tokens_used": 1019.7829457364342
+          },
+          "2048": {
+            "recall": 1,
+            "precision": 0.17791643032709398,
+            "complete": 1,
+            "returned_elements": 41,
+            "tokens_used": 1340
+          }
+        }
+      },
+      "thrombosis_prediction": {
+        "questions": 163,
+        "column_eligible_questions": 159,
+        "table_recall_at_5": 1,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.5719377058999701,
+        "column_recall_at_10": 0.7965708295896976,
+        "column_recall_at_20": 0.9239967056004792,
+        "column_mrr": 0.8864945382323735,
+        "column_map": 0.6113575599372822,
+        "column_gold_rank_p50": 5,
+        "column_gold_rank_p90": 18,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 2,
+        "budgets": {
+          "512": {
+            "recall": 0.7949833011153765,
+            "precision": 0.30337811910187634,
+            "complete": 0.3522012578616352,
+            "returned_elements": 16.144654088050313,
+            "tokens_used": 508.52201257861634
+          },
+          "1024": {
+            "recall": 0.9070216994745297,
+            "precision": 0.1841934977511894,
+            "complete": 0.6163522012578616,
+            "returned_elements": 30.51572327044025,
+            "tokens_used": 1019.2830188679245
+          },
+          "2048": {
+            "recall": 0.9919756867870075,
+            "precision": 0.10359897087832726,
+            "complete": 0.9559748427672956,
+            "returned_elements": 59.534591194968556,
+            "tokens_used": 2036.691823899371
+          }
+        }
+      },
+      "toxicology": {
+        "questions": 145,
+        "column_eligible_questions": 132,
+        "table_recall_at_5": 1,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.7648088023088023,
+        "column_recall_at_10": 0.9981060606060606,
+        "column_recall_at_20": 1,
+        "column_mrr": 0.8686868686868686,
+        "column_map": 0.778177846934611,
+        "column_gold_rank_p50": 3,
+        "column_gold_rank_p90": 8,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 2,
+        "budgets": {
+          "512": {
+            "recall": 1,
+            "precision": 0.37070707070707065,
+            "complete": 1,
+            "returned_elements": 15,
+            "tokens_used": 487
+          },
+          "1024": {
+            "recall": 1,
+            "precision": 0.37070707070707065,
+            "complete": 1,
+            "returned_elements": 15,
+            "tokens_used": 487
+          },
+          "2048": {
+            "recall": 1,
+            "precision": 0.37070707070707065,
+            "complete": 1,
+            "returned_elements": 15,
+            "tokens_used": 487
+          }
+        }
+      }
+    },
+    "1024": {
+      "california_schools": {
+        "questions": 89,
+        "column_eligible_questions": 87,
+        "table_recall_at_5": 1,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.3895092136471446,
+        "column_recall_at_10": 0.5076217843459223,
+        "column_recall_at_20": 0.6264459040321109,
+        "column_mrr": 0.7669487600522084,
+        "column_map": 0.3963350496868612,
+        "column_gold_rank_p50": 13,
+        "column_gold_rank_p90": 76.60000000000002,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 4,
+        "budgets": {
+          "512": {
+            "recall": 0.4322560581181271,
+            "precision": 0.2413590072312182,
+            "complete": 0.022988505747126436,
+            "returned_elements": 11.448275862068966,
+            "tokens_used": 506.735632183908
+          },
+          "1024": {
+            "recall": 0.5727795193312435,
+            "precision": 0.162123160241397,
+            "complete": 0.05747126436781609,
+            "returned_elements": 22.379310344827587,
+            "tokens_used": 1018.1609195402299
+          },
+          "2048": {
+            "recall": 0.6933738037186313,
+            "precision": 0.10650372004084228,
+            "complete": 0.16091954022988506,
+            "returned_elements": 41.88505747126437,
+            "tokens_used": 2043.1264367816093
+          }
+        }
+      },
+      "card_games": {
+        "questions": 191,
+        "column_eligible_questions": 175,
+        "table_recall_at_5": 0.9973821989528796,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.45419727891156464,
+        "column_recall_at_10": 0.5415510204081633,
+        "column_recall_at_20": 0.6280816326530613,
+        "column_mrr": 0.761858448165591,
+        "column_map": 0.443312057512965,
+        "column_gold_rank_p50": 13,
+        "column_gold_rank_p90": 97,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 4,
+        "budgets": {
+          "512": {
+            "recall": 0.524023088023088,
+            "precision": 0.2518431772905457,
+            "complete": 0.17142857142857143,
+            "returned_elements": 10.96,
+            "tokens_used": 507.81142857142856
+          },
+          "1024": {
+            "recall": 0.6449962894248609,
+            "precision": 0.14653069121697943,
+            "complete": 0.3142857142857143,
+            "returned_elements": 22.285714285714285,
+            "tokens_used": 1019.6171428571429
+          },
+          "2048": {
+            "recall": 0.7473320964749535,
+            "precision": 0.08283205760755531,
+            "complete": 0.41714285714285715,
+            "returned_elements": 46.08,
+            "tokens_used": 2043.12
+          }
+        }
+      },
+      "codebase_community": {
+        "questions": 186,
+        "column_eligible_questions": 172,
+        "table_recall_at_5": 0.9431003584229392,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.5853128460686601,
+        "column_recall_at_10": 0.7133167220376522,
+        "column_recall_at_20": 0.8126384274640089,
+        "column_mrr": 0.8175872093023255,
+        "column_map": 0.5658389526840135,
+        "column_gold_rank_p50": 5,
+        "column_gold_rank_p90": 42.80000000000007,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 3,
+        "budgets": {
+          "512": {
+            "recall": 0.7688003372596395,
+            "precision": 0.19673061412798362,
+            "complete": 0.42441860465116277,
+            "returned_elements": 20.825581395348838,
+            "tokens_used": 506.5232558139535
+          },
+          "1024": {
+            "recall": 0.8849187472733984,
+            "precision": 0.11891448812081012,
+            "complete": 0.6744186046511628,
+            "returned_elements": 40.52325581395349,
+            "tokens_used": 1018.9709302325581
+          },
+          "2048": {
+            "recall": 1,
+            "precision": 0.07123932881954667,
+            "complete": 1,
+            "returned_elements": 79,
+            "tokens_used": 2005
+          }
+        }
+      },
+      "debit_card_specializing": {
+        "questions": 64,
+        "column_eligible_questions": 61,
+        "table_recall_at_5": 1,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.6573380171740829,
+        "column_recall_at_10": 0.8302498048399688,
+        "column_recall_at_20": 0.9841530054644808,
+        "column_mrr": 0.9159836065573771,
+        "column_map": 0.7008441303836765,
+        "column_gold_rank_p50": 4,
+        "column_gold_rank_p90": 16,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 2,
+        "budgets": {
+          "512": {
+            "recall": 1,
+            "precision": 0.24401008827238335,
+            "complete": 1,
+            "returned_elements": 26,
+            "tokens_used": 497
+          },
+          "1024": {
+            "recall": 1,
+            "precision": 0.24401008827238335,
+            "complete": 1,
+            "returned_elements": 26,
+            "tokens_used": 497
+          },
+          "2048": {
+            "recall": 1,
+            "precision": 0.24401008827238335,
+            "complete": 1,
+            "returned_elements": 26,
+            "tokens_used": 497
+          }
+        }
+      },
+      "european_football_2": {
+        "questions": 129,
+        "column_eligible_questions": 122,
+        "table_recall_at_5": 0.9689922480620154,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.394948607858444,
+        "column_recall_at_10": 0.4853792609940152,
+        "column_recall_at_20": 0.5385408534998699,
+        "column_mrr": 0.8645116268067089,
+        "column_map": 0.4106600577950236,
+        "column_gold_rank_p50": 23,
+        "column_gold_rank_p90": 136,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 2.9000000000000057,
+        "budgets": {
+          "512": {
+            "recall": 0.47058051238379106,
+            "precision": 0.16580384211412266,
+            "complete": 0.13934426229508196,
+            "returned_elements": 17.71311475409836,
+            "tokens_used": 508.88524590163934
+          },
+          "1024": {
+            "recall": 0.5565943391763063,
+            "precision": 0.10874972842346725,
+            "complete": 0.21311475409836064,
+            "returned_elements": 31.5,
+            "tokens_used": 1020.9672131147541
+          },
+          "2048": {
+            "recall": 0.7221500721500722,
+            "precision": 0.06789544750510243,
+            "complete": 0.3770491803278688,
+            "returned_elements": 66.1311475409836,
+            "tokens_used": 2044.77868852459
+          }
+        }
+      },
+      "financial": {
+        "questions": 106,
+        "column_eligible_questions": 102,
+        "table_recall_at_5": 0.879874213836478,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.507979302832244,
+        "column_recall_at_10": 0.6842748210395266,
+        "column_recall_at_20": 0.8385076252723311,
+        "column_mrr": 0.8345004668534081,
+        "column_map": 0.5734908046776316,
+        "column_gold_rank_p50": 6,
+        "column_gold_rank_p90": 30,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 2,
+        "budgets": {
+          "512": {
+            "recall": 0.7564354490825078,
+            "precision": 0.2825892338719949,
+            "complete": 0.29411764705882354,
+            "returned_elements": 20.274509803921568,
+            "tokens_used": 507.96078431372547
+          },
+          "1024": {
+            "recall": 0.8967192121603887,
+            "precision": 0.1830256101545172,
+            "complete": 0.5098039215686274,
+            "returned_elements": 38.35294117647059,
+            "tokens_used": 1019.4509803921569
+          },
+          "2048": {
+            "recall": 1,
+            "precision": 0.12573918456271393,
+            "complete": 1,
+            "returned_elements": 63,
+            "tokens_used": 1653
+          }
+        }
+      },
+      "formula_1": {
+        "questions": 174,
+        "column_eligible_questions": 163,
+        "table_recall_at_5": 0.8031609195402298,
+        "table_recall_at_10": 0.9942528735632183,
+        "column_recall_at_5": 0.3871530820917324,
+        "column_recall_at_10": 0.5207931638913234,
+        "column_recall_at_20": 0.6664402570844289,
+        "column_mrr": 0.6550999156908102,
+        "column_map": 0.40449400408942265,
+        "column_gold_rank_p50": 15,
+        "column_gold_rank_p90": 61,
+        "first_gold_column_rank_p50": 2,
+        "first_gold_column_rank_p90": 5,
+        "budgets": {
+          "512": {
+            "recall": 0.6172247997401372,
+            "precision": 0.19487369610391064,
+            "complete": 0.24539877300613497,
+            "returned_elements": 19.932515337423315,
+            "tokens_used": 508.4233128834356
+          },
+          "1024": {
+            "recall": 0.7747308758044954,
+            "precision": 0.1317660364454624,
+            "complete": 0.4539877300613497,
+            "returned_elements": 39.190184049079754,
+            "tokens_used": 1020.7116564417178
+          },
+          "2048": {
+            "recall": 0.9435564435564436,
+            "precision": 0.08409045853514048,
+            "complete": 0.754601226993865,
+            "returned_elements": 79.19018404907976,
+            "tokens_used": 2044.6564417177915
+          }
+        }
+      },
+      "student_club": {
+        "questions": 158,
+        "column_eligible_questions": 158,
+        "table_recall_at_5": 0.9688818565400843,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.5461623467952581,
+        "column_recall_at_10": 0.7347624070725336,
+        "column_recall_at_20": 0.9060277275467149,
+        "column_mrr": 0.8241033755274261,
+        "column_map": 0.5939453884378985,
+        "column_gold_rank_p50": 6,
+        "column_gold_rank_p90": 23,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 3,
+        "budgets": {
+          "512": {
+            "recall": 0.7840035491934226,
+            "precision": 0.29762395379067597,
+            "complete": 0.34810126582278483,
+            "returned_elements": 16.89240506329114,
+            "tokens_used": 507.25949367088606
+          },
+          "1024": {
+            "recall": 0.9401549224334036,
+            "precision": 0.18784837874203378,
+            "complete": 0.7721518987341772,
+            "returned_elements": 33.265822784810126,
+            "tokens_used": 1019.1455696202531
+          },
+          "2048": {
+            "recall": 1,
+            "precision": 0.1196880650994575,
+            "complete": 1,
+            "returned_elements": 56,
+            "tokens_used": 1727
+          }
+        }
+      },
+      "superhero": {
+        "questions": 129,
+        "column_eligible_questions": 129,
+        "table_recall_at_5": 0.8972868217054264,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.5735019072228376,
+        "column_recall_at_10": 0.7070259628399164,
+        "column_recall_at_20": 0.8309246954595791,
+        "column_mrr": 0.9476744186046512,
+        "column_map": 0.6371621345462228,
+        "column_gold_rank_p50": 5,
+        "column_gold_rank_p90": 25,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 1,
+        "budgets": {
+          "512": {
+            "recall": 0.6878562436701973,
+            "precision": 0.31395615016232054,
+            "complete": 0.18604651162790697,
+            "returned_elements": 15.333333333333334,
+            "tokens_used": 509.2480620155039
+          },
+          "1024": {
+            "recall": 0.8858297602483648,
+            "precision": 0.22707410831269187,
+            "complete": 0.5736434108527132,
+            "returned_elements": 28.03875968992248,
+            "tokens_used": 1019.9767441860465
+          },
+          "2048": {
+            "recall": 1,
+            "precision": 0.17791643032709398,
+            "complete": 1,
+            "returned_elements": 41,
+            "tokens_used": 1340
+          }
+        }
+      },
+      "thrombosis_prediction": {
+        "questions": 163,
+        "column_eligible_questions": 159,
+        "table_recall_at_5": 1,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.5807427373465109,
+        "column_recall_at_10": 0.8113507038035339,
+        "column_recall_at_20": 0.939203354297694,
+        "column_mrr": 0.9201812800591935,
+        "column_map": 0.6352338496101985,
+        "column_gold_rank_p50": 5,
+        "column_gold_rank_p90": 17.100000000000023,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 2,
+        "budgets": {
+          "512": {
+            "recall": 0.7980757711889788,
+            "precision": 0.294900549383872,
+            "complete": 0.33962264150943394,
+            "returned_elements": 16.72327044025157,
+            "tokens_used": 508.50943396226415
+          },
+          "1024": {
+            "recall": 0.9223259095900603,
+            "precision": 0.1850353936906487,
+            "complete": 0.6729559748427673,
+            "returned_elements": 30.92452830188679,
+            "tokens_used": 1018.433962264151
+          },
+          "2048": {
+            "recall": 0.9903107898390917,
+            "precision": 0.1029868289008576,
+            "complete": 0.9559748427672956,
+            "returned_elements": 59.76100628930818,
+            "tokens_used": 2036.6603773584907
+          }
+        }
+      },
+      "toxicology": {
+        "questions": 145,
+        "column_eligible_questions": 132,
+        "table_recall_at_5": 1,
+        "table_recall_at_10": 1,
+        "column_recall_at_5": 0.7795815295815295,
+        "column_recall_at_10": 0.9936868686868688,
+        "column_recall_at_20": 1,
+        "column_mrr": 0.8781565656565656,
+        "column_map": 0.7835660225216502,
+        "column_gold_rank_p50": 3,
+        "column_gold_rank_p90": 8,
+        "first_gold_column_rank_p50": 1,
+        "first_gold_column_rank_p90": 2,
+        "budgets": {
+          "512": {
+            "recall": 1,
+            "precision": 0.37070707070707065,
+            "complete": 1,
+            "returned_elements": 15,
+            "tokens_used": 487
+          },
+          "1024": {
+            "recall": 1,
+            "precision": 0.37070707070707065,
+            "complete": 1,
+            "returned_elements": 15,
+            "tokens_used": 487
+          },
+          "2048": {
+            "recall": 1,
+            "precision": 0.37070707070707065,
+            "complete": 1,
+            "returned_elements": 15,
+            "tokens_used": 487
+          }
+        }
+      }
+    }
+  },
+  "paired_512_vs_1024": {
+    "column_r10": {
+      "damage_1024": 117,
+      "rescue_1024": 154,
+      "same": 1189
+    },
+    "budget_complete_2048": {
+      "damage_1024": 8,
+      "rescue_1024": 18,
+      "same": 1434
+    }
+  },
+  "reproduction_vs_historical_p1": {
+    "historical_run_id": "gfmrag_official_full1534_20261014_01",
+    "previous_rows_sha256": "c28776ed47a30f1c898cb0a849a9834d7668999c26eb3c643e00474928b249cb",
+    "checks_expected": 14896,
+    "checks_matched": 14805,
+    "match_rate": 0.993890977443609,
+    "matches_by_dimension_and_metric": {
+      "1024_budget_complete_match": 1457,
+      "1024_column_r10_hits_match": 1444,
+      "1024_column_r5_hits_match": 1440,
+      "1024_table_r10_hits_match": 1533,
+      "1024_table_r5_hits_match": 1533,
+      "512_budget_complete_match": 1459,
+      "512_column_r10_hits_match": 1441,
+      "512_column_r5_hits_match": 1435,
+      "512_table_r10_hits_match": 1534,
+      "512_table_r5_hits_match": 1529
+    }
+  },
+  "error_feature_rates_1024": {
+    "definition": "Non-exclusive automatic text/metadata features among Gold column elements; descriptive association only, not causal or manually verified.",
+    "features": {
+      "name_token_overlap": {
+        "hit_at_10": {
+          "gold_elements": 4107,
+          "true_count": 2319,
+          "rate": 0.5646457268078889
+        },
+        "miss_at_10": {
+          "gold_elements": 2416,
+          "true_count": 805,
+          "rate": 0.3331953642384106
+        }
+      },
+      "has_any_description": {
+        "hit_at_10": {
+          "gold_elements": 4107,
+          "true_count": 4107,
+          "rate": 1
+        },
+        "miss_at_10": {
+          "gold_elements": 2416,
+          "true_count": 2410,
+          "rate": 0.9975165562913907
+        }
+      },
+      "has_value_description": {
+        "hit_at_10": {
+          "gold_elements": 4107,
+          "true_count": 1322,
+          "rate": 0.32188945702459215
+        },
+        "miss_at_10": {
+          "gold_elements": 2416,
+          "true_count": 355,
+          "rate": 0.14693708609271522
+        }
+      },
+      "has_data_format": {
+        "hit_at_10": {
+          "gold_elements": 4107,
+          "true_count": 4065,
+          "rate": 0.9897735573411249
+        },
+        "miss_at_10": {
+          "gold_elements": 2416,
+          "true_count": 2396,
+          "rate": 0.9917218543046358
+        }
+      },
+      "has_column_description": {
+        "hit_at_10": {
+          "gold_elements": 4107,
+          "true_count": 4039,
+          "rate": 0.9834429023618213
+        },
+        "miss_at_10": {
+          "gold_elements": 2416,
+          "true_count": 2277,
+          "rate": 0.9424668874172185
+        }
+      }
+    }
+  },
+  "reproduction_gate": "FAIL",
+  "p1_5_gate": "NO-GO: exact historical row-level metric reproduction failed",
+  "runtime": {
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "gpu_id": 1,
+    "query_encode_seconds": 2.096385912038386,
+    "schema_encode_seconds": 1.0875612627714872,
+    "gpu_wall_seconds_load_and_encode": 27.013430285267532,
+    "cpu_seconds_process": 21.43613373,
+    "process_and_child_maxrss_gib": 2.2686080932617188,
+    "torch_threads": 8
+  },
+  "posthoc_metrics": {
+    "type_specific_precision_at_k": {
+      "definition": "Hits@K divided by K, matching the runner convention; query_macro is averaged over questions and database_macro is the unweighted mean of database query means.",
+      "values": [
+        {
+          "dimension": 512,
+          "metric": "column_p10",
+          "query_macro": 0.27856164383561516,
+          "database_macro": 0.2841779003928083
+        },
+        {
+          "dimension": 512,
+          "metric": "column_p20",
+          "query_macro": 0.16804794520547872,
+          "database_macro": 0.17170229209544977
+        },
+        {
+          "dimension": 512,
+          "metric": "column_p5",
+          "query_macro": 0.41273972602739395,
+          "database_macro": 0.42408483914389394
+        },
+        {
+          "dimension": 512,
+          "metric": "table_p10",
+          "query_macro": 0.19374185136896738,
+          "database_macro": 0.19558596206402104
+        },
+        {
+          "dimension": 512,
+          "metric": "table_p5",
+          "query_macro": 0.3617992177314143,
+          "database_macro": 0.36658034491875
+        },
+        {
+          "dimension": 1024,
+          "metric": "column_p10",
+          "query_macro": 0.28130136986301246,
+          "database_macro": 0.2871439111656045
+        },
+        {
+          "dimension": 1024,
+          "metric": "column_p20",
+          "query_macro": 0.16869863013698563,
+          "database_macro": 0.17237603981804012
+        },
+        {
+          "dimension": 1024,
+          "metric": "column_p5",
+          "query_macro": 0.42424657534246263,
+          "database_macro": 0.43364395521718657
+        },
+        {
+          "dimension": 1024,
+          "metric": "table_p10",
+          "query_macro": 0.19393741851368707,
+          "database_macro": 0.19574270187593326
+        },
+        {
+          "dimension": 1024,
+          "metric": "table_p5",
+          "query_macro": 0.36153846153845465,
+          "database_macro": 0.3663013576686638
+        }
+      ]
+    },
+    "budget_token_efficiency": {
+      "definition": "Micro total retrieved Gold elements divided by micro total passage tokens used, multiplied by 1000; Gold labels remain scoring-only.",
+      "values": [
+        {
+          "dimension": 512,
+          "budget": "1024",
+          "retrieved_gold_elements": 7447,
+          "tokens_used": 1386327,
+          "gold_elements_per_1000_tokens": 5.371748512436099
+        },
+        {
+          "dimension": 512,
+          "budget": "2048",
+          "retrieved_gold_elements": 8502,
+          "tokens_used": 2495804,
+          "gold_elements_per_1000_tokens": 3.406517498970272
+        },
+        {
+          "dimension": 512,
+          "budget": "512",
+          "retrieved_gold_elements": 6215,
+          "tokens_used": 738064,
+          "gold_elements_per_1000_tokens": 8.420678965509767
+        },
+        {
+          "dimension": 1024,
+          "budget": "1024",
+          "retrieved_gold_elements": 7465,
+          "tokens_used": 1386328,
+          "gold_elements_per_1000_tokens": 5.384728577941151
+        },
+        {
+          "dimension": 1024,
+          "budget": "2048",
+          "retrieved_gold_elements": 8521,
+          "tokens_used": 2495662,
+          "gold_elements_per_1000_tokens": 3.414324535934754
+        },
+        {
+          "dimension": 1024,
+          "budget": "512",
+          "retrieved_gold_elements": 6225,
+          "tokens_used": 738138,
+          "gold_elements_per_1000_tokens": 8.433382375653332
+        }
+      ]
+    }
+  }
+}
