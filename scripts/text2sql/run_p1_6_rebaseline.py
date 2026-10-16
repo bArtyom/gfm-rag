@@ -518,7 +518,7 @@ def score_snapshot(prepared: dict[str, Any], query_vectors: np.ndarray, node_vec
             "table_hits": {},
             "column_gold_ranks": None,
             "column_topk_ids": {},
-            "column_hits": None,
+            "column_hits": {},
             "budgets": None,
         }
         for k in TOP_K["table"]:
