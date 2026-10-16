@@ -1,0 +1,75 @@
+{
+  "experiment_id": "gfmrag_p1_official_20261014",
+  "status": "registered_before_execution",
+  "registered_at_utc": "2026-10-14",
+  "parent_protocol": "configs/p1_dimension_20261014.json",
+  "hypothesis": "The official GFM-RAG Qwen3 embedding backend can reproduce the registered BIRD table/column dimension screening protocol while reducing float32 node-vector storage at lower prefix dimensions.",
+  "source": {
+    "url": "https://github.com/RManLuo/gfm-rag.git",
+    "commit": "b3e43219c49929da505244df4f0ba54c0947e4c4",
+    "license": "Apache-2.0",
+    "class": "gfmrag.text_emb_models.qwen3_model.Qwen3TextEmbModel",
+    "source_file": "upstream/gfm-rag/gfmrag/text_emb_models/qwen3_model.py",
+    "import_mode": "local selective import; skip unused package-level trainer and NVEmbed imports; upstream source unchanged"
+  },
+  "stage": "P1 official backend rerun, table/column only",
+  "data": {
+    "split": "BIRD dev; exploratory",
+    "questions": "/mnt/liansp3/sources/datasets/bird/dev/dev.json",
+    "schema": "/mnt/liansp3/sources/datasets/bird/dev/dev_tables.json",
+    "gold_label_source": "results/p1/full_1534_final_20261014/per_question_private.jsonl; read question id, database id, gold table/column ids and column eligibility only",
+    "candidate_text_definition": "Table: {table_name}; columns: {all original columns}; Column: {table}.{column}; type: {BIRD type}; then non-empty database_description fields description, format, values",
+    "description_csv_encoding": "utf-8-sig; UTF-8 decode failures fall back to cp1252; per-file encoding recorded; source files remain unchanged",
+    "foreign_keys": false,
+    "sql_execution": false
+  },
+  "model": {
+    "path": "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+    "precision": "backend default from local model configuration; outputs converted to CPU float32",
+    "upstream_truncate_dim": 1024,
+    "dimensions": [128, 256, 512, 768, 1024],
+    "normalization": "explicit L2 normalization after each prefix truncation; upstream normalize attribute is recorded but upstream embed does not apply it",
+    "local_files_only": true,
+    "batch_size": 32
+  },
+  "evaluation": {
+    "query_instruction": "Given a natural-language question about a database, retrieve the relevant tables and columns.",
+    "query_format": "Instruct: {instruction}\\nQuery: {question}",
+    "top_k": [5, 10],
+    "score": "exact cosine via dot product of L2-normalized float32 prefixes",
+    "column_recall_denominator": "1460 fully resolved column-label questions",
+    "complete_schema_budget_tokens": 2048,
+    "budget_tokenization": "local Qwen tokenizer; passage text only, no special tokens",
+    "cluster_bootstrap": {
+      "cluster": "database",
+      "replicates": 10000,
+      "seed": 20261014
+    },
+    "vector_storage": "873 nodes x dimension x 4 bytes",
+    "go_thresholds": {
+      "complete_schema_question_rate_loss_percentage_points_max": 1.0,
+      "vector_storage_saving_percent_min": 45.0,
+      "table_and_column_recall_at_5_and_10_must_not_decrease": true
+    }
+  },
+  "run_plan": {
+    "smoke_questions": 5,
+    "run_full_only_after_smoke_passes": true,
+    "full_questions": 1534,
+    "no_additional_models_dimensions_or_datasets": true,
+    "stop_after_p1": true
+  },
+  "resources": {
+    "physical_gpu_id": 1,
+    "gpu_seconds_max": 2700,
+    "cpu_threads_max": 8,
+    "cpu_seconds_max": 1800,
+    "ram_gib_max": 16,
+    "api_calls": 0,
+    "training_steps": 0,
+    "dependency_installation": 0,
+    "model_download": 0,
+    "vllm_http_service": 0
+  },
+  "output_root": "results/p1/"
+}
