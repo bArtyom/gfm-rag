@@ -302,3 +302,17 @@ If you find this repository helpful, please consider citing our paper:
   year={2025}
 }
 ```
+
+
+---
+
+## Text2SQL Research (Repository-specific)
+
+This fork also tracks the **QuadGraph / G-reasoner × Text2SQL** research program, including controlled Embedding-dimension ablations, retrieval similarity benchmarks, JOIN-role and path scoring, and downstream SQL evaluation. The research program is not part of the original upstream GFM-RAG claims.
+
+- **[Text2SQL Research Hub](docs/research/text2sql/README.md)** — current questions, canonical repository policy, links and next steps.
+- [Experiment Roadmap](docs/research/text2sql/experiment-roadmap.md) — P0→P4 protocol and decisions.
+- [Paper & Code Audit](docs/research/text2sql/paper-and-code-audit.md) — confirmed implementation constraints and research boundaries.
+- [Reproducibility Contract](docs/research/text2sql/reproducibility-contract.md) — labels, metrics, anti-leakage checks and reporting.
+
+The former `bArtyom/quadrag` repository is historical only; new research notes and reports should be committed here.
