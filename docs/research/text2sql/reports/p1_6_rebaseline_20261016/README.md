@@ -1,6 +1,6 @@
 # P1.6：历史差异审计与新 1024 基线冻结
 
-> **状态：预注册，尚未运行。** 本轮遵循仓库 commit `ec7ebe697b0350ac9b4b137c68e79a52a97255a3` 的 [P1.6 → P2a 执行指导](../../plans/p1_6_rebaseline_then_p2a_20261016.md)。旧 P1/P1.5 历史逐题复现 FAIL 与 FK/Role Gate FAIL 均保持。
+> **状态：预注册和输入预检通过；5 题 smoke 正在修复运行器错误，尚未通过。** 本轮遵循仓库 commit `ec7ebe697b0350ac9b4b137c68e79a52a97255a3` 的 [P1.6 → P2a 执行指导](../../plans/p1_6_rebaseline_then_p2a_20261016.md)。旧 P1/P1.5 历史逐题复现 FAIL 与 FK/Role Gate FAIL 均保持。Smoke 未通过前不运行全量。
 
 ## 研究问题与假设
 
@@ -26,4 +26,11 @@
 - 实现入口：[`run_p1_6_rebaseline.py`](../../../../../scripts/text2sql/run_p1_6_rebaseline.py)。
 - 本地结果：`/mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom-local-results/p1_6_rebaseline_20261016/`。逐题记录和向量缓存不上传；GitHub 仅保存匿名聚合、公开可重建配置、代码与候选 ID/text hash manifest。
 
-正式运行命令、实际环境/资源、输入和模型哈希、smoke 与 full 结果、91 项差异分类、P1.6 Gate、异常与结论将在实验完成后补入本报告。P2a 仅在本轮 Gate 通过后另建独立报告。
+## 当前进度与已处理异常
+
+- 输入预检通过：1,534 questions、11 DB、873 nodes（75 tables、798 columns）、1,460 column-eligible questions；冻结 schema/query/node manifest hash 与协议一致。历史 P1/P1.5 指标对比为 14,896 项检查、14,805 项相同、91 项不同；旧 vectors/scores/rank lists 不存在，差异原因保持 unresolved。
+- Smoke 尝试 `p1_6_smoke5_20261016_01` 在模型编码后因 per-question `column_hits` 被初始化为 `None` 而无法写列命中指标；修正在公开运行器中已提交。
+- Smoke 尝试 `p1_6_smoke5_20261016_02` 的模型加载与编码完成，但 scorer 汇总 schema token 数时把数据库节点索引当作节点对象访问，因而失败。该指标现按索引从当前有序节点数组取回 token count。两次失败均保留在本地私有输出，不上传含逐题信息的日志或记录。
+- 当前仍处于 smoke 门禁阶段。修复后需重新执行 5 题 smoke；只有成功且满足浮点有限、分母正确等冻结判据，才运行全量。
+
+最终报告将补入每次实际命令、环境与资源快照、输入和模型哈希、smoke 与 full 结果、91 项差异分类、P1.6 Gate、异常及结论。P2a 仅在本轮 Gate 通过后另建独立报告。

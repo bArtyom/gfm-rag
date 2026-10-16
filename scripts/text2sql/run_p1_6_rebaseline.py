@@ -673,7 +673,7 @@ def score_snapshot(prepared: dict[str, Any], query_vectors: np.ndarray, node_vec
             "column_eligible_questions": len(eligible_rows),
             "candidate_tables": sum(node.db_id == db_id and node.node_type == "table" for node in nodes),
             "candidate_columns": sum(node.db_id == db_id and node.node_type == "column" for node in nodes),
-            "schema_tokens": sum(node.token_count for node in nodes_by_db[db_id]),
+            "schema_tokens": sum(nodes[index].token_count for index in nodes_by_db[db_id]),
         }
         for key in ("table_r5", "table_r10", "column_r5", "column_r10", "column_r20"):
             db_values = metrics["database"].get(f"{db_id}|{key}", [])
