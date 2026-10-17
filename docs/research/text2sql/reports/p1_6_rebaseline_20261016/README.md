@@ -1,6 +1,6 @@
 # P1.6：历史差异审计与新 1024 基线冻结
 
-> **状态：预注册和输入预检通过；5 题 smoke 正在修复运行器错误，尚未通过。** 本轮遵循仓库 commit `ec7ebe697b0350ac9b4b137c68e79a52a97255a3` 的 [P1.6 → P2a 执行指导](../../plans/p1_6_rebaseline_then_p2a_20261016.md)。旧 P1/P1.5 历史逐题复现 FAIL 与 FK/Role Gate FAIL 均保持。Smoke 未通过前不运行全量。
+> **状态：输入预检通过；前两次 smoke 失败已保留。运行器修复及 CPU 回归测试已提交，5/5 通过；尚无修复后的 GPU smoke。** 2026-10-17 10:40 UTC 资源检查时四张 GPU 均未达到预注册的 8 GiB 空闲显存门槛，因此没有启动模型任务。当前遵循仓库 commit `dc94bf448abeb7ace6ab5795510d4d7bcd881b6d` 的 [Smoke 恢复 → Full Gate → P2a 指导](../../plans/p1_6_smoke_recovery_then_p2a_20261017.md)。旧 P1/P1.5 历史逐题复现 FAIL 与 FK/Role Gate FAIL 均保持。
 
 ## 研究问题与假设
 
@@ -31,6 +31,25 @@
 - 输入预检通过：1,534 questions、11 DB、873 nodes（75 tables、798 columns）、1,460 column-eligible questions；冻结 schema/query/node manifest hash 与协议一致。历史 P1/P1.5 指标对比为 14,896 项检查、14,805 项相同、91 项不同；旧 vectors/scores/rank lists 不存在，差异原因保持 unresolved。
 - Smoke 尝试 `p1_6_smoke5_20261016_01` 在模型编码后因 per-question `column_hits` 被初始化为 `None` 而无法写列命中指标；修正在公开运行器中已提交。
 - Smoke 尝试 `p1_6_smoke5_20261016_02` 的模型加载与编码完成，但 scorer 汇总 schema token 数时把数据库节点索引当作节点对象访问，因而失败。该指标现按索引从当前有序节点数组取回 token count。两次失败均保留在本地私有输出，不上传含逐题信息的日志或记录。
-- 当前仍处于 smoke 门禁阶段。修复后需重新执行 5 题 smoke；只有成功且满足浮点有限、分母正确等冻结判据，才运行全量。
+- 最新静态审计还发现两处 Full 门禁缺陷：Full 在哈希时包含了 Smoke 落盘前拆出的 `ordered_node_manifest`，且从 `smoke_summary.json` 读取实际只存于 `smoke_receipt.json` 的输入清单哈希。现由共享 `canonicalize_input_record()` 生成唯一 manifest 字节串；Full 以 Smoke receipt 校验该哈希，并核对已完成的 Smoke `run_start`、项目 commit、summary hash、节点清单文件及其独立有序摘要。
+- 上述代码和 CPU 回归测试作为独立源码提交推送：commit `9fd0f192985d20a2a61b9d15de625d2c9ef1422d`，tree `7fb6864abf1e50c9a07443ec49000ee33d2725a8`。测试覆盖 Smoke 保存后 Full 重算哈希一致、修改输入字段导致 hash 改变、改变节点顺序导致独立 node digest 改变，以及 Full 读取完成的 Smoke receipt 并拒绝不同代码 commit。
+- CPU 回归命令：`/root/miniconda3/envs/think2sql_20260909/bin/python3 -m pytest -q tests/test_p1_6_input_manifest.py`；环境 Python 3.12.14 / pytest 9.0.1；结果 **5 passed**（0.15 s）。
+- 新代码下 CPU 预检 `p1_6_preflight_20261017_03` 通过，source commit `9fd0f192985d20a2a61b9d15de625d2c9ef1422d`：1,534 questions、11 DB、873 nodes（75 tables、798 columns）、1,460 column-eligible questions；schema hash `b5b6ca9714195f733aaeb379aabbcb64c403e107444b8ed95679d798d924ab5a`，query prompt hash `a33e140e6ae5a362b5480a437bc77431b8c878f000e3ea03dadba38108b25634`，ordered node manifest content hash `4e930d3b906d46d77381edbfee8bfb57ab04fc09d47b9e90fc6272986cceaa5a`。
+- CPU 预检完整命令：
 
-最终报告将补入每次实际命令、环境与资源快照、输入和模型哈希、smoke 与 full 结果、91 项差异分类、P1.6 Gate、异常及结论。P2a 仅在本轮 Gate 通过后另建独立报告。
+  ```bash
+  /root/miniconda3/envs/think2sql_20260909/bin/python3 scripts/text2sql/run_p1_6_rebaseline.py \
+    --mode preflight --run-id p1_6_preflight_20261017_03 \
+    --expected-commit 9fd0f192985d20a2a61b9d15de625d2c9ef1422d \
+    --output-dir /mnt/liansp3/sources/results/gfmrag_p1_6_rebaseline_20261016/preflight_03 \
+    --legacy-root /mnt/liansp3/sources/projects/quadrag \
+    --dataset-root /mnt/liansp3/sources/datasets/bird/dev \
+    --model-path /mnt/liansp3/sources/models/qwen3-embedding-0.6b \
+    --previous-run-dir /mnt/liansp3/sources/results/quadrag_p1_dimension_20261014/gfmrag_official_full1534_20261014_01 \
+    --p1-5-run-dir /mnt/liansp3/sources/results/gfmrag_p1_5_diagnosis_20261016/full_03 \
+    --gpu-id 1
+  ```
+
+- GPU 资源快照（2026-10-17 10:40:04 UTC）：GPU 0/1/2/3 空闲显存分别为 7,393 / 1,603 / 355 / 5,973 MiB，利用率为 21% / 31% / 21% / 40%；均低于所需 8,192 MiB 空闲显存门槛。因此未启动新的 Smoke 或 Full，也未改变模型、batch 或资源门槛。首次通过资源门后使用全新 run ID/目录跑 5 题 Smoke；满足浮点、分母、manifest、预算和输出条件后才启动 Full。
+
+最终报告将在后续实验完成时补入实际 Smoke/Full 命令、环境与资源、向量/排序结果、91 项差异分类、P1.6 Gate、异常及结论。P2a 仅在本轮 Full Gate 通过后另建独立报告。
