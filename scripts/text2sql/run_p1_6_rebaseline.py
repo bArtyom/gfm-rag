@@ -74,6 +74,46 @@ def write_json(path: Path, value: Any) -> None:
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
 
 
+def canonicalize_input_record(input_record: dict[str, Any]) -> tuple[dict[str, Any], list[dict[str, Any]], bytes, str]:
+    manifest_without_nodes = dict(input_record)
+    try:
+        node_manifest = manifest_without_nodes.pop("ordered_node_manifest")
+    except KeyError as error:
+        raise ValueError("Input record is missing its ordered node manifest") from error
+    if not isinstance(node_manifest, list):
+        raise TypeError("Ordered node manifest must be a list")
+    manifest_payload = (json.dumps(manifest_without_nodes, ensure_ascii=False, indent=2, allow_nan=False) + "\n").encode("utf-8")
+    return manifest_without_nodes, node_manifest, manifest_payload, sha256_bytes(manifest_payload)
+
+
+def load_smoke_artifacts(smoke_dir: Path, expected_commit: str) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+    summary_path = smoke_dir / "smoke_summary.json"
+    receipt_path = smoke_dir / "smoke_receipt.json"
+    run_start_path = smoke_dir / "run_start.json"
+    for path in (summary_path, receipt_path, run_start_path):
+        if not path.is_file():
+            raise FileNotFoundError(f"Smoke evidence missing: {path}")
+
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    run_start = json.loads(run_start_path.read_text(encoding="utf-8"))
+    if summary.get("status") != "smoke_passed" or summary.get("questions") != 5:
+        raise RuntimeError("Full run blocked because the 5-question smoke did not pass")
+    if receipt.get("status") != "smoke_passed" or receipt.get("question_count") != 5:
+        raise RuntimeError("Full run blocked because the smoke receipt did not pass")
+    if receipt.get("run_id") != summary.get("run_id") or run_start.get("run_id") != receipt.get("run_id"):
+        raise RuntimeError("Smoke summary, receipt, and run metadata refer to different runs")
+    if receipt.get("smoke_summary_sha256") != sha256_file(summary_path):
+        raise RuntimeError("Smoke summary does not match the hash in its receipt")
+    if run_start.get("mode") != "smoke" or run_start.get("state") != "completed":
+        raise RuntimeError("Smoke run metadata is not completed")
+    if run_start.get("source", {}).get("published_commit") != expected_commit:
+        raise RuntimeError("Smoke was produced by a different project commit")
+    if not receipt.get("input_manifest_sha256"):
+        raise RuntimeError("Smoke receipt is missing its input-manifest hash")
+    return summary, receipt, run_start
+
+
 def json_digest(rows: list[dict[str, Any]]) -> str:
     digest = hashlib.sha256()
     for row in rows:
@@ -972,14 +1012,11 @@ def main() -> None:
     if args.mode == "full":
         if args.smoke_dir is None:
             raise RuntimeError("Full run requires the completed 5-question smoke directory")
-        smoke_path = args.smoke_dir.resolve() / "smoke_summary.json"
-        if not smoke_path.is_file():
-            raise FileNotFoundError(f"Smoke receipt missing: {smoke_path}")
-        smoke = json.loads(smoke_path.read_text(encoding="utf-8"))
-        if smoke.get("status") != "smoke_passed" or smoke.get("questions") != 5:
-            raise RuntimeError("Full run blocked because the 5-question smoke did not pass")
+        smoke, smoke_receipt, smoke_run_start = load_smoke_artifacts(args.smoke_dir.resolve(), args.expected_commit)
     else:
         smoke = None
+        smoke_receipt = None
+        smoke_run_start = None
     if args.mode in ("smoke", "full"):
         if os.environ.get("CUDA_VISIBLE_DEVICES") != str(args.gpu_id) or os.environ.get("LOCAL_RANK") != str(args.gpu_id):
             raise RuntimeError(f"Expected CUDA_VISIBLE_DEVICES={args.gpu_id} and LOCAL_RANK={args.gpu_id}")
@@ -987,23 +1024,31 @@ def main() -> None:
     helper, common = load_common(args.legacy_root, args.dataset_root, args.model_path)
     prepared = prepare_inputs(common)
     input_record = validate_inputs(prepared, common, args)
+    _, node_manifest, private_manifest_payload, private_manifest_hash = canonicalize_input_record(input_record)
     if smoke is not None:
-        smoke_input_hash = smoke.get("input_manifest_sha256")
-        current_input_json = json.dumps(input_record, ensure_ascii=False, indent=2, allow_nan=False) + "\n"
-        current_input_hash = sha256_bytes(current_input_json.encode("utf-8"))
+        smoke_input_hash = smoke_receipt["input_manifest_sha256"]
         smoke_input_record_path = args.smoke_dir.resolve() / "input_manifest_private.json"
         if not smoke_input_record_path.is_file() or sha256_file(smoke_input_record_path) != smoke_input_hash:
             raise RuntimeError("Smoke input manifest receipt does not match its saved file")
-        if current_input_hash != smoke_input_hash:
+        if private_manifest_hash != smoke_input_hash:
             raise RuntimeError("Full input manifest differs from the smoke input manifest")
+        smoke_node_manifest_path = args.smoke_dir.resolve() / "ordered_node_manifest.json"
+        if not smoke_node_manifest_path.is_file():
+            raise RuntimeError("Smoke node-manifest evidence is incomplete")
+        smoke_node_manifest = json.loads(smoke_node_manifest_path.read_text(encoding="utf-8"))
+        if smoke_node_manifest != node_manifest:
+            raise RuntimeError("Full ordered node manifest differs from the smoke node manifest")
+        if smoke_run_start.get("ordered_node_manifest_content_sha256") != input_record.get("ordered_node_manifest_sha256"):
+            raise RuntimeError("Full ordered node-manifest digest differs from smoke metadata")
+        if sha256_file(smoke_node_manifest_path) != smoke_run_start.get("ordered_node_manifest_sha256"):
+            raise RuntimeError("Smoke node-manifest file hash does not match its run metadata")
     mismatch_audit = historical_mismatch_audit(args)
-    node_manifest = input_record.pop("ordered_node_manifest")
     write_json(args.output_dir / "ordered_node_manifest.json", node_manifest)
-    write_json(args.output_dir / "input_manifest_private.json", input_record)
+    (args.output_dir / "input_manifest_private.json").write_bytes(private_manifest_payload)
     write_json(args.output_dir / "historical_mismatch_audit.json", mismatch_audit)
     run_start.update({
         "state": "preflight_passed",
-        "input_manifest_private_sha256": sha256_file(args.output_dir / "input_manifest_private.json"),
+        "input_manifest_private_sha256": private_manifest_hash,
         "ordered_node_manifest_sha256": sha256_file(args.output_dir / "ordered_node_manifest.json"),
         "ordered_node_manifest_content_sha256": input_record["ordered_node_manifest_sha256"],
         "historical_mismatch_audit_sha256": sha256_file(args.output_dir / "historical_mismatch_audit.json"),
