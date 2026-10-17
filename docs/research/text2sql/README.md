@@ -4,7 +4,7 @@
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新决策（2026-10-16，新分析）**：历史 P1 仍 NO-GO、P1.5 的严格逐题复现仍 FAIL（14,805/14,896 项一致）、FK/Role Gate 仍 FAIL。最新执行任务 **P1.6：限时定位历史差异并冻结可重复的新 1024 基线**；P1.6 新 Gate 通过后才运行 P2a Cosine/BM25/RRF 同批配对实验。**新基线不会把旧 P1.5 的 FAIL 改成 PASS。**
+> **最新状态（2026-10-17 复核）**：P1.6 已过输入预检，但两次 5 题 Smoke 因运行器统计错误失败；代码修复已提交，尚无修复后通过的 Smoke 或 Full 结果。**另在 Full 校验中发现 manifest 哈希计算对象不一致**，必须先修复并通过 CPU 回归测试。**下一步：修复清单哈希 → 重跑 Smoke → 运行 Full 并冻结 1024 基线 → 有条件开展 P2a Cosine/BM25/RRF。** 历史 P1/P1.5 复现 FAIL 与 FK/Role Gate FAIL 继续保持，不得重写。
 
 ## 现有研究文档
 
@@ -18,6 +18,8 @@
 | [P1.5 诊断报告](reports/p1_5_diagnosis_20261016/README.md) | 列检索、Top-K/预算饱和、复现核对及 FK 实例质量 | 2026-10-16 已运行；严格逐题复现 Gate 未通过；exploratory |
 | [P1.5 最新复核与决策](reports/p1_5_review_20261016/README.md) | 汇总预算/列 rank、历史 91 项差异、FK/Role Gate、继续实验的逻辑 | 2026-10-16 静态分析；非新实验 |
 | [P1.6 → P2a 新执行协议（当前有效）](plans/p1_6_rebaseline_then_p2a_20261016.md) | 限时溯源、冻结新基线、同数据 Cosine/BM25/RRF 与 Go/No-go | 当前唯一下一轮指导；尚未执行 |
+| [P1.6 最新 Smoke/代码审计（当前）](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、已提交修复及新发现的 Full manifest 哈希不一致 | 2026-10-17 静态审计，未产生新模型成绩 |
+| [P1.6 Smoke 恢复 → P2a 当前执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | 必要 CPU 测试、Smoke/Full Gate、后续 Cosine/BM25/RRF | 当前有效行动指导；待执行 |
 | [P1.5 → P2a 执行指导](plans/p1_5_diagnostics_and_p2a_20261016.md) | 离线诊断、FK Gate、条件式 BM25/RRF 检索实验及 Go/No-go | P1.5 已运行；P2a 未运行；门槛与指导保留 |
 | [G-reasoner 图算法源码精读（新）](graph-algorithm-code-review-20261016.md) | 分析 NER/Top-1 锚点、关系类型与逐边属性、NBFNet 消息传播、SQL 子图结构约束、创新性排序 | 2026-10-16 静态审查与研究建议；未跑新实验 |
 
@@ -38,13 +40,13 @@
 
 在 [2026-10-16 的代码级分析](graph-algorithm-code-review-20261016.md) 中，重点确定了 **Top-1 起始锚点、关系实例/逐边属性未纳入默认消息权重、节点 Top-K 非连通、SQL-aware 监督未落地**等可验证机制。最有潜力的后续方向是 **Query-aware JOIN Edge Gate + 实例感知约束子图解码**；但必须先过 FK/Join 标签 Gate，并与 Graph-Link、GRAST-SL、SchemaGraphSQL 同信息比较。**这不是已有实证收益**。
 
-## 最新行动结果与下一步
+## 最新行动结果与下一步（2026-10-17）
 
-P1.5 实验完成，但严格历史复现（91/14,896 项不一致）与 FK/Role Gate 均未通过。最新复核证实 **2048-token 已有 754/1460 题属于可直接完整容纳 Schema 的库**，Column R@10 仍是主要检索薄弱点。请先阅读 [最新结果分析](reports/p1_5_review_20261016/README.md)。
+最新归档的 P1.6 [阶段报告](reports/p1_6_rebaseline_20261016/README.md)显示预检通过、`smoke_01` / `smoke_02` 均因 scorer 汇总错误失败。两处已提交修复，但没有成功的 Smoke 回执，更没有 P1.6 Full 或 P2a 结果。参见 [最新源码诊断](reports/p1_6_smoke_review_20261017/README.md)。
 
-**当前唯一执行指导：[P1.6 重建可复现基线](plans/p1_6_rebaseline_then_p2a_20261016.md)。** 在固定输入/模型/逐题排序两次重算一致后，可另开**新注册** P2a：1024 维 Cosine、BM25、RRF 使用完全相同的候选和预算做同时配对比较。旧 P1/P1.5 严格门槛仍记录失败，不能以新 Gate 倒推成功。
+**唯一下一步：[先修复 Full manifest 哈希错配并加 CPU 单测，再用最新提交重跑 5 题 Smoke](plans/p1_6_smoke_recovery_then_p2a_20261017.md)。** Smoke 通过后再用同代码/输入哈希执行全量 1,534 题的 1024 基线，冻结向量缓存并两遍 scorer 检查 bit-exact；Full 新 Gate 通过后才启动 P2a。**本条指导新增于历史 P1.6 协议之上，不改变旧的 FAIL 记录与评测阈值。**
 
-FK/Role 数据质量修复只作为并行 CPU 审计；未通过前不要做 JOIN Role/Path 评分、Edge Gate 的效能声称。GNN、Jev 和 SQL EX 尚无新成绩。BIRD dev 只作探索性开发集，最终需独立数据库测试。
+FK/Role Gate 仍不通过，当前不启动 JOIN Edge/Role/Path、GNN、SQL EX、Jev 实验。BIRD dev 仍仅是开发诊断集，不具备独立泛化证据。
 
 
 ## 从今往后的提交规范
