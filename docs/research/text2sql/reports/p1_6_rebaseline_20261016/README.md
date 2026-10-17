@@ -1,6 +1,6 @@
 # P1.6：历史差异审计与新 1024 基线冻结
 
-> **状态：输入预检通过；前两次 smoke 失败已保留。运行器修复及 CPU 回归测试已提交，5/5 通过；尚无修复后的 GPU smoke。** 2026-10-17 10:40 UTC 资源检查时四张 GPU 均未达到预注册的 8 GiB 空闲显存门槛，因此没有启动模型任务。当前遵循仓库 commit `dc94bf448abeb7ace6ab5795510d4d7bcd881b6d` 的 [Smoke 恢复 → Full Gate → P2a 指导](../../plans/p1_6_smoke_recovery_then_p2a_20261017.md)。旧 P1/P1.5 历史逐题复现 FAIL 与 FK/Role Gate FAIL 均保持。
+> **状态：输入预检通过；前两次 smoke 失败已保留。运行器修复及 CPU 回归测试已提交，5/5 通过；尚无修复后的 GPU smoke。** 2026-10-17 10:44 UTC 资源检查时四张 GPU 均未达到预注册的 8 GiB 空闲显存门槛，因此没有启动模型任务。已重新核对用户仓库 `main` commit `bf3a1d28186b86815c4ff7873fff8368d761a027` 的实验指导；模型运行仍须待 GPU 资源门通过后再开始。旧 P1/P1.5 历史逐题复现 FAIL 与 FK/Role Gate FAIL 均保持。
 
 ## 研究问题与假设
 
@@ -19,7 +19,7 @@
 
 ## 固定来源与运行边界
 
-- 项目仓库：[`bArtyom/gfm-rag`](https://github.com/bArtyom/gfm-rag)，预注册 commit `ec7ebe697b0350ac9b4b137c68e79a52a97255a`；仓库内已阅读根 README、Text2SQL README、roadmap、reproducibility contract、P1.5 review 与当前 P1.6 指导。
+- 项目仓库：[`bArtyom/gfm-rag`](https://github.com/bArtyom/gfm-rag)，预注册实验代码 commit `9fd0f192985d20a2a61b9d15de625d2c9ef1422d`；2026-10-17 10:44 UTC 复核时 `main` 为 `bf3a1d28186b86815c4ff7873fff8368d761a027`。仓库内已阅读根 README、Text2SQL README、roadmap、reproducibility contract 与当前 P1.6 指导。
 - Encoder 来源：GFM-RAG 官方 `RManLuo/gfm-rag` commit `b3e43219c49929da505244df4f0ba54c0947e4c4`，Apache-2.0；选择性导入原 encoder 源文件，不修改上游实现。
 - 数据：本地冻结 BIRD dev；1,534 questions / 11 DBs / 873 candidate nodes；Table labels 1,534，Column labels 1,460；Gold 只用于离线计分。
 - 模型：`/mnt/liansp3/sources/models/qwen3-embedding-0.6b`，1024 维，query instruction 沿用 P1.5，batch size 32；继续验证 P1.5 的数据、模型 manifest、query prompt 与 schema-text 哈希。
@@ -50,6 +50,6 @@
     --gpu-id 1
   ```
 
-- GPU 资源快照（2026-10-17 10:40:04 UTC）：GPU 0/1/2/3 空闲显存分别为 7,393 / 1,603 / 355 / 5,973 MiB，利用率为 21% / 31% / 21% / 40%；均低于所需 8,192 MiB 空闲显存门槛。因此未启动新的 Smoke 或 Full，也未改变模型、batch 或资源门槛。首次通过资源门后使用全新 run ID/目录跑 5 题 Smoke；满足浮点、分母、manifest、预算和输出条件后才启动 Full。
+- GPU 资源快照（2026-10-17 10:44:23 UTC）：GPU 0/1/2/3 空闲显存分别为 7,038 / 1,248 / 0 / 5,618 MiB，利用率为 25% / 32% / 24% / 21%；均低于所需 8,192 MiB 空闲显存门槛。因此未启动新的 Smoke 或 Full，也未改变模型、batch 或资源门槛。首次通过资源门后使用全新 run ID/目录跑 5 题 Smoke；满足浮点、分母、manifest、预算和输出条件后才启动 Full。
 
 最终报告将在后续实验完成时补入实际 Smoke/Full 命令、环境与资源、向量/排序结果、91 项差异分类、P1.6 Gate、异常及结论。P2a 仅在本轮 Full Gate 通过后另建独立报告。

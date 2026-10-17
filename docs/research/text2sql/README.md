@@ -4,7 +4,7 @@
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新状态（2026-10-17）**：P1.6 两次早期 Smoke 失败记录保留；Full manifest 与 Smoke receipt 校验修复已推送（代码 commit `9fd0f192985d20a2a61b9d15de625d2c9ef1422d`），CPU 回归测试 5/5 通过，新提交下的输入预检也通过。尚无修复后的 Smoke 或 Full 结果。2026-10-17 10:40 UTC 四张 GPU 均未满足 8 GiB 空闲显存门槛，故未启动 GPU 运行。**下一步：资源门通过后用新目录重跑 Smoke → 通过后运行 Full 并冻结 1024 基线 → 有条件开展 P2a Cosine/BM25/RRF。** 历史 P1/P1.5 复现 FAIL 与 FK/Role Gate FAIL 继续保持，不得重写。
+> **最新状态（2026-10-17）**：P1.6 两次早期 Smoke 失败记录保留；Full manifest 与 Smoke receipt 校验修复已推送（代码 commit `9fd0f192985d20a2a61b9d15de625d2c9ef1422d`），CPU 回归测试 5/5 通过，新提交下的输入预检也通过。尚无修复后的 Smoke 或 Full 结果。2026-10-17 10:44 UTC 四张 GPU 均未满足 8 GiB 空闲显存门槛，故未启动 GPU 运行；本次复核时 GitHub `main` 为 `bf3a1d28186b86815c4ff7873fff8368d761a027`。**下一步：资源门通过后用新目录重跑 Smoke → 通过后运行 Full 并冻结 1024 基线 → 有条件开展 P2a Cosine/BM25/RRF。** 历史 P1/P1.5 复现 FAIL 与 FK/Role Gate FAIL 继续保持，不得重写。
 
 ## 现有研究文档
 
@@ -42,7 +42,7 @@
 
 ## 最新行动结果与下一步（2026-10-17）
 
-最新归档的 P1.6 [阶段报告](reports/p1_6_rebaseline_20261016/README.md)记录两次 Smoke 失败和已推送的修复。manifest/receipt CPU 回归测试 5/5 通过，新 commit 的输入预检通过；目前尚无修复后的 Smoke、P1.6 Full 或 P2a 结果。2026-10-17 10:40 UTC GPU 显存均未达到 Smoke 门槛，等待满足资源条件。
+最新归档的 P1.6 [阶段报告](reports/p1_6_rebaseline_20261016/README.md)记录两次 Smoke 失败和已推送的修复。manifest/receipt CPU 回归测试 5/5 通过，新 commit 的输入预检通过；目前尚无修复后的 Smoke、P1.6 Full 或 P2a 结果。2026-10-17 10:44 UTC GPU 显存均未达到 Smoke 门槛，等待满足资源条件。
 
 **唯一下一步：[资源门通过后，用最新清洁提交重跑 5 题 Smoke](plans/p1_6_smoke_recovery_then_p2a_20261017.md)。** Smoke 通过后再用同代码/输入哈希执行全量 1,534 题的 1024 基线，冻结向量缓存并两遍 scorer 检查 bit-exact；Full 新 Gate 通过后才启动 P2a。**本条指导新增于历史 P1.6 协议之上，不改变旧的 FAIL 记录与评测阈值。**
 
