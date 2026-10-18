@@ -31,7 +31,7 @@
 | 模型与缓存 | Qwen3-Embedding-0.6B，1,024 维；本轮不重新编码或加载模型，复用 P1.6 float32 Query/Node cache。模型文件清单 SHA256 b89ec1366231e37e92c64eaff3f98edce0f0c6af15cc8c7991ed900520143c68，向量缓存 SHA256 c7bb9ed942aa793e34e1253a5d1d8f8d8d871c95bdfdc33718dde7396d345250 |
 | 软件 | Conda 环境 think2sql_20260909；Python 3.12.14、NumPy 2.2.6。未安装 rank-bm25，BM25 按预注册公式用执行器内实现；未安装/升级依赖 |
 | 随机性 | Smoke 使用固定顺序前 5 题；Full 使用全部 1,534 题。DB bootstrap 10,000 次，seed=20261018 |
-| 资源 | CPU-only；GPU 0 秒。Full wall 13.315 秒、进程 CPU 12.858 秒、峰值 RSS 0.762 GiB；不调用 API、不训练、不执行 SQL、不下载模型 |
+| 资源 | 启动快照：4×RTX 4090，GPU 利用率 67–72%，显存已用 447 / 447 / 6,335 / 451 MiB；本实验不使用 GPU。主机内存 503 GiB、可用 447 GiB；192 CPU 线程；磁盘可用 116 TiB。Full wall 13.315 秒、进程 CPU 12.858 秒、峰值 RSS 0.762 GiB；不调用 API、不训练、不执行 SQL、不下载模型 |
 
 实际使用修复版主仓库 commit 689b7f681651f312a1db8850d86b8b7dc4f69fd2。完整参数数组、输入 hash、环境和日志路径见同目录 experiment_config.json。
 
