@@ -1,0 +1,116 @@
+{
+  "experiment_id": "p1_6_rebaseline_20261018_01",
+  "layer": "P1.6 frozen baseline reconstruction",
+  "hypothesis": "One fixed 1024-D float32 embedding cache can be reloaded bit-exactly and scored twice with identical per-question rankings and aggregates.",
+  "success_criteria": {
+    "smoke_questions": 5,
+    "smoke_status": "smoke_passed",
+    "full_questions": 1534,
+    "databases": 11,
+    "nodes": 873,
+    "table_question_denominator": 1534,
+    "column_question_denominator": 1460,
+    "cache_reload_bit_exact": true,
+    "scorer_replay_bit_exact": true
+  },
+  "stop_conditions": [
+    "Any frozen input, model, or ordered-node hash mismatch",
+    "Smoke failure or a data/label denominator mismatch",
+    "Embedding/scorer/cache validity failure",
+    "GPU/CPU/RSS budget exceedance"
+  ],
+  "budget": {
+    "gpu_wall_seconds_max": 900,
+    "cpu_seconds_max": 1800,
+    "rss_gib_max": 16,
+    "cpu_threads_max": 8
+  },
+  "source": {
+    "repository": "https://github.com/bArtyom/gfm-rag",
+    "branch": "main",
+    "commit": "d948d462f9407a18f4a48c85a76380d54f865cb2",
+    "tree": "db25ea92cffe4042e799b5c5fefd021bf20f23b2",
+    "official_encoder_repository": "https://github.com/RManLuo/gfm-rag",
+    "official_encoder_commit": "b3e43219c49929da505244df4f0ba54c0947e4c4",
+    "license": "Apache-2.0"
+  },
+  "data": {
+    "dataset": "BIRD dev",
+    "path": "/mnt/liansp3/sources/datasets/bird/dev",
+    "questions": 1534,
+    "databases": 11,
+    "table_nodes": 75,
+    "column_nodes": 798,
+    "column_eligible_questions": 1460,
+    "gold_column_elements": 6523,
+    "questions_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "schema_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "p0_audit_sha256": "0f3f104638e1a37c579db81c453aa514188e0a40341938b92964db833410ebcf",
+    "gold_labels_sha256": "1b501810f0247999de1210fc807f3c39e60c2fab498cd104f8eb60f815269525",
+    "query_prompt_sha256": "a33e140e6ae5a362b5480a437bc77431b8c878f000e3ea03dadba38108b25634",
+    "schema_text_sha256": "b5b6ca9714195f733aaeb379aabbcb64c403e107444b8ed95679d798d924ab5a",
+    "ordered_node_manifest_content_sha256": "4e930d3b906d46d77381edbfee8bfb57ab04fc09d47b9e90fc6272986cceaa5a"
+  },
+  "model": {
+    "name": "Qwen3-Embedding-0.6B",
+    "path": "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+    "dimension": 1024,
+    "batch_size": 32,
+    "precision": "float32",
+    "normalization": "L2",
+    "manifest_sha256": "b89ec1366231e37e92c64eaff3f98edce0f0c6af15cc8c7991ed900520143c68"
+  },
+  "environment": {
+    "conda_environment": "think2sql_20260909",
+    "python": "3.12.14",
+    "numpy": "2.2.6",
+    "torch": "2.8.0",
+    "vllm": "0.10.2",
+    "transformers": "4.57.1",
+    "sqlglot": "28.0.0"
+  },
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "gpu_index": 1,
+    "host_memory_gib": 503,
+    "available_memory_gib_at_full_start": 447,
+    "cpu_threads": 192
+  },
+  "random_seed": null,
+  "runs": [
+    {
+      "run_id": "p1_6_smoke5_20261018_01",
+      "mode": "smoke",
+      "output_directory": "/mnt/liansp3/sources/results/gfmrag_p1_6_rebaseline_20261016/smoke_5q_20261018_01",
+      "run_start_elapsed_wall_seconds": 38.5098,
+      "gpu_load_and_encode_seconds": 25.8416,
+      "process_cpu_seconds": 18.2281,
+      "process_peak_rss_gib": 0.9690,
+      "command": "CUDA_VISIBLE_DEVICES=1 LOCAL_RANK=1 OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 /root/miniconda3/envs/think2sql_20260909/bin/python3 scripts/text2sql/run_p1_6_rebaseline.py --mode smoke --run-id p1_6_smoke5_20261018_01 --expected-commit d948d462f9407a18f4a48c85a76380d54f865cb2 --output-dir /mnt/liansp3/sources/results/gfmrag_p1_6_rebaseline_20261016/smoke_5q_20261018_01 --legacy-root /mnt/liansp3/sources/projects/quadrag --dataset-root /mnt/liansp3/sources/datasets/bird/dev --model-path /mnt/liansp3/sources/models/qwen3-embedding-0.6b --previous-run-dir /mnt/liansp3/sources/results/quadrag_p1_dimension_20261014/gfmrag_official_full1534_20261014_01 --p1-5-run-dir /mnt/liansp3/sources/results/gfmrag_p1_5_diagnosis_20261016/full_03 --gpu-id 1"
+    },
+    {
+      "run_id": "p1_6_full1534_20261018_01",
+      "mode": "full",
+      "output_directory": "/mnt/liansp3/sources/results/gfmrag_p1_6_rebaseline_20261016/full_1534_20261018_01",
+      "run_start_elapsed_wall_seconds": 43.9757,
+      "gpu_load_and_encode_seconds": 29.3507,
+      "process_cpu_seconds": 21.5202,
+      "process_peak_rss_gib": 0.9757,
+      "input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a",
+      "ordered_node_manifest_file_sha256": "81ccc51c442c9d4771a16f600340c37f2673887fc0672d8179ecc20d39296754",
+      "cache_npz_sha256": "c7bb9ed942aa793e34e1253a5d1d8f8d8d871c95bdfdc33718dde7396d345250",
+      "cache_reload_bit_exact": true,
+      "scorer_replay_passes": 2,
+      "scorer_replay_bit_exact": true,
+      "score_matrix_digest_sha256": "08b33648f25a5da09e2e5651207b83732bbc4b06eea2a2529ea1c1e290c53625",
+      "question_rows_digest_sha256": "73f44cc435b29e8a118b4b5719acb1cf5f3c418d3d8b7c8cf6f7e07e9b732631"
+    }
+  ],
+  "api_usage": {
+    "external_api_requests": 0,
+    "confirmed_input_tokens": 0,
+    "confirmed_output_tokens": 0,
+    "confirmed_total_tokens": 0,
+    "cost_cny": "0.00"
+  }
+}
