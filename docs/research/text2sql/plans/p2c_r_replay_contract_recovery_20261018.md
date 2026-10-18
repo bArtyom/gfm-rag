@@ -36,11 +36,11 @@ mean_tokens_used["512"]            budgets["512"]["mean_returned_tokens"]
 1. 用仓库已归档 `docs/research/text2sql/reports/p2b_values_ablation_20261018_01/aggregate_summary.json`（**不是 mock 的虚构 key**）做成功路径合同测试，读取其 `conditions.R0_local_cpu_pass_1` 和 `conditions.R1_local_cpu_without_values`、检查 48 个字段及 nested paths。
 2. 合成 P2c nested summaries，使每项与对应真实 P2b 归档精确相等，调用完整 `assert_p2b_aggregate_replay()`，必须 PASS；对 48 个字段分别注入单独的 `+0.01` 变动，每项都必须 FAIL 且指出 metric path。对缺键、`None`、`NaN`、空集合分别 FAIL。
 3. 对 `build_aggregate()` 做**全路径 CPU 小型集成测试**，在测试构造的 5+ 问题、≥2 DB 的四臂 scorer rows 上覆盖 nested aggregate、factorial contrast、paired rescue/damage、bootstrap、per-DB alias、隐私过滤、`aggregate_summary.json` 写入→读取→SHA 校验。只调用 unit fixtures，禁止私有 BIRD/Gold 上传仓库。
-4. 用真实已归档 P2b `per_question_private.jsonl` 和 CPU cache 在本机做 **dry-run complete aggregate**（运行输出到临时私有目录，`mode=test-contract` 或另独立 `scripts` harness）；完整执行 V00/V01/V10/V11 → replay → build_aggregate → 写入/读回，**只检查无异常、48 项 parity、输出 JSON schema、nan/inf、计数和哈希，不读取、打印、比较 V01 或 V10 的 Complete 结果，也不做 H2 门槛判断**。这是工程契约验证不是科学实验，日志不能包含四臂结果值。
+4. 在本机用已归档 P2b `per_question_private.jsonl` 的 R0/R1 行运行完整聚合写入/读取路径：**V00=归档 R0、V11=归档 R1，V01/V10 只用合成测试行或重复填充行作占位，绝不在此阶段运行真实双视图交叉评分**；测试 `assert_p2b_aggregate_replay` → `build_aggregate` → JSON 写入/读回/哈希，以及全部分母和有限值。只能验证代码工程路径，测试结果不能当 P2c 任何指标。真正的 V01/V10 新评分只能发生在下方新注册的一次正式 Full 中。
 5. 作为额外回归测试，模拟“缩短前面高分候选使它从不适合变适合”导致某个后方 Gold 被挤出，验证 Context 更短时 Complete 不被错误地假设单调增加。
 6. 不能在单元测试成功前开始任何新的 Full。所有执行代码应独立提交，确保 `git status` clean、锁定 commit 和脚本 SHA，报告旧 P2c 的两次失败根因。
 
-**Gate 0 = 所有测试通过 + 真实 P2b archive 48 项 PASS + 私有缓存 dry-run aggregate 成功落盘且检查值不用于调参 + 版本/资源完整**。无法验证就 STOP，并只提交工程失败报告。
+**Gate 0 = 所有测试通过 + 真实 P2b archive 48 项 PASS + 仅基于归档/合成行的全链路聚合写盘成功 + 版本/资源完整；Gate 0 不得运行新的 V01/V10 四臂科学评分**。无法验证就 STOP，并只提交工程失败报告。
 
 ## B. Gate 1 — 独立 P2c-R 注册和正式恢复
 
