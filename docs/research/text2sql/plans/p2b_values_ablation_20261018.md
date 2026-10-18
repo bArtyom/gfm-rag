@@ -1,4 +1,3 @@
-/root/.profile: line 9: true_PROXY: command not found
 # P2b R0/R1 Values 文本消融：预注册方案
 
 > 状态：**已预注册，尚未运行**。对应实验记录：[P2b 报告](../reports/p2b_values_ablation_20261018_01/README.md)。本计划只覆盖一组有限消融与重复编码控制，不扩展为表示参数搜索。

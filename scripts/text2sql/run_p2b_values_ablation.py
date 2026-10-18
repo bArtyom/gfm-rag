@@ -1,4 +1,3 @@
-/root/.profile: line 9: true_PROXY: command not found
 #!/usr/bin/env python3
 """Run the preregistered local-CPU P2b Values text ablation.
 

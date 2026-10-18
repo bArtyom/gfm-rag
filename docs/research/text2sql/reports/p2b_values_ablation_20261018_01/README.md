@@ -1,4 +1,3 @@
-/root/.profile: line 9: true_PROXY: command not found
 # P2b R0/R1 Values 文本消融
 
 > **状态：已预注册，尚未运行。** 本文是本次运行的唯一正式记录；按 smoke → Full 顺序更新结果。BIRD dev 为探索集。

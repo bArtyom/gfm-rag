@@ -1,4 +1,3 @@
-/root/.profile: line 9: true_PROXY: command not found
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
 > **唯一主仓库：[`bArtyom/gfm-rag`](https://github.com/bArtyom/gfm-rag)。生效日期：2026-10-16。**
