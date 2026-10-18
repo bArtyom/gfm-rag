@@ -4,7 +4,7 @@
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新状态（2026-10-18）**：**P1.6 全量冻结 1024-D Cosine 基线 PASS**（同缓存 scorer 重放一致；重复编码并非 bit-exact），**P2a 全量 Cosine/BM25/RRF 已完成，但预注册方法增益 NO-GO**。非饱和 706 题 RRF Column R@10 仅 +0.09 pp、Complete@2048 -5.38 pp；BM25 两项都显著下降。**当前行动：P2a.5 只读错误归因和预算/文本审计，同时推进 FK/Join-Instance 数据质量修复**；待审计明确瓶颈才注册 P2b Schema Representation 消融。未有 GFM、JOIN Role、P3 SQL EX 新成绩。
+> **最新状态（2026-10-18）**：**P1.6 全量冻结 1024-D Cosine 基线 PASS**；**P2a 方法增益 NO-GO**；P2a.5 冻结重放、错误归因与 FK / Join-Instance 数据质量审计已完成，详见[报告](reports/p2a_5_error_audit_20261018_01/README.md)。审计支持考虑一次有限的 R0/R1 Values 文本消融，但字段关联不是因果证据；该消融尚未注册或运行。FK / Role Gate 仍 NO-GO，未有 GFM、JOIN Role、P3 SQL EX 新成绩。
 
 ## 现有研究文档
 
@@ -21,7 +21,8 @@
 | [P1.6 全量冻结基线（已通过）](reports/p1_6_rebaseline_20261018_01/README.md) | 1024-D cache/scorer replay，smoke 编码不稳定性记录 | 2026-10-18 PASS，新基线 |
 | [P2a Cosine/BM25/RRF 全量实验](reports/p2a_similarity_20261018_01/README.md) | 全体/非饱和 DB 的三种方法对比，NO-GO | 2026-10-18 已运行 |
 | [P2a 最新结果复核（当前）](reports/p2a_review_20261018/README.md) | 失败机制、RRF rescue/damage、排序/预算冲突和未来研究边界 | 2026-10-18 只读复核 |
-| [P2a.5 错误归因与后续表示消融计划（当前）](plans/p2a_5_diagnostic_and_schema_representation_20261018.md) | CPU-first 分类审计、条件式 P2b 及 FK Gate 并行修复 | 当前有效下一步，未执行 |
+| [P2a.5 错误归因与 FK Gate 报告](reports/p2a_5_error_audit_20261018_01/README.md) | 冻结排名错误归因、预算 / 字段特征、FK / JOIN 覆盖与下一步决策 | 2026-10-18 完成；原 P2a NO-GO 与 Role Gate NO-GO 均保留 |
+| [P2a.5 执行计划与后续消融指导](plans/p2a_5_diagnostic_and_schema_representation_20261018.md) | P2a.5 已执行范围、复现约束、条件式 P2b / packing 选择 | P2a.5 A/C 已完成；后续 R0/R1 Values 消融尚未注册或运行 |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
@@ -51,7 +52,9 @@
 
 [P1.6](reports/p1_6_rebaseline_20261018_01/README.md) 已建立通过 Gate 的冻结 1024-D 基线；[P2a](reports/p2a_similarity_20261018_01/README.md) 也已全量完成，验证 **简单 BM25 或 RRF 不能稳定替代 Cosine**。固定全体 1460 Column 可评题：Cosine R@10 68.00%，BM25 55.91%，RRF 66.90%；非饱和 706 题 RRF R@10 仅 +0.09 pp，完整 Schema@2048 比 Cosine 下降 5.38 pp。P2a 预注册 NO-GO，不应继续盲目扫描融合系数。
 
-**唯一最近行动：[P2a.5 不重新评分的错误模式审计](plans/p2a_5_diagnostic_and_schema_representation_20261018.md)。** 从冻结的 P2a 逐题结果中区分语义/词法命中、BM25 零分并列、RRF 正负转移及 Token Budget 装包损失；并行 CPU-only 修复 FK/Join-Instance Gate。只有诊断表明 Schema 描述/预算确实可控，才冻结 P2b Schema Text 或 Budget Packing 消融，不把本文计划冒充已运行结果。
+**P2a.5 已完成：** [匿名聚合报告](reports/p2a_5_error_audit_20261018_01/README.md)和[聚合 JSON](reports/p2a_5_error_audit_20261018_01/aggregate_summary.json)验证了 P2a 逐题 / 聚合重放与 S0 parity，P2a NO-GO 保持不变；FK JoinInstance ID 可重建，但 Role Gate 仍 NO-GO。Gold 与非 Gold top-10 的 Values 字段长度都显示可检验关联，不能据此称 Values 为噪声或宣称因果收益。
+
+**建议下一步：** 另行预注册一个有限的 R0 原文本 vs R1 移除 Values 消融，固定 1024-D Qwen3 + Cosine、候选集和 512/1024/2048 预算，并控制同文本重新编码波动。**尚未注册或运行**；不得把 P2a.5 结果表述为该消融结论，也不要继续搜索 BM25/RRF 参数或启动 JOIN/GNN 主张。
 
 **研究主线仍是 JOIN Instance + Query-aware Edge Gate + 受约束 Schema 子图推理**，但尚无合格的 FK/路径金标，也未完成官方 GraphReasoner 在 Text2SQL 的 GNN 基线，故暂时不能开始声称它的效果。P1/P1.5 历史严格复现 FAIL 与 P2a NO-GO 继续记录；当前 BIRD dev 仅用于探索。
 

@@ -1,10 +1,10 @@
 # P2a.5 执行计划：失败模式归因 → 条件式 Schema Representation 消融
 
-> **2026-10-18 制定；状态：仅指导、未运行。** 核心依据：[P2a 全量结果](../reports/p2a_similarity_20261018_01/README.md)、[P2a 复核](../reports/p2a_review_20261018/README.md) 与 [P1.6 新冻结基线](../reports/p1_6_rebaseline_20261018_01/README.md)。
+> **2026-10-18 制定；P2a.5 A/C 已完成。** 最终记录见[错误归因与 FK Gate 报告](../reports/p2a_5_error_audit_20261018_01/README.md)和匿名[聚合 JSON](../reports/p2a_5_error_audit_20261018_01/aggregate_summary.json)。核心依据：[P2a 全量结果](../reports/p2a_similarity_20261018_01/README.md)、[P2a 复核](../reports/p2a_review_20261018/README.md) 与 [P1.6 新冻结基线](../reports/p1_6_rebaseline_20261018_01/README.md)。
 >
 > **不要把旧的 P2a NO-GO 改为 PASS；停止在 BIRD dev 上继续试 RRF k0、BM25 k1/b 的盲搜索。**
 
-## A. 当前下一次实际执行任务：P2a.5 Error Transfer Audit（CPU-only）
+## A. P2a.5 Error Transfer Audit（已完成；CPU-only）
 
 **目标**：找出 BM25、RRF 导致 Column@10、Complete@2048 救回/损坏的原因，是否有可操作的 Schema 信息与候选构造瓶颈。只分析旧缓存/旧分数、**不生成新的模型分数，也不改变 S0/S1/S2 排名**。
 
@@ -84,6 +84,8 @@ P1.5 有原始 SQLite FK 103、有效 100、3 无效；BIRD JSON vs SQLite 有 5
 - 在 Text Schema 表示变化又重编码不稳定时，对 ~0.1pp 的小增益做确定性结论；
 - 将 P1.6 Full Gate PASS 错当作 P1 / P1.5 历史严格复现已经通过。
 
-## E. 下次需要的唯一回报
+## E. P2a.5 结果决策与后续 Gate
 
-**先提交 P2a.5 错误归因报告与 FK Gate 清洗进度，不要先跑新 GNN 或 RRF 调参。** 提交中明确区分「已测结果、审计发现、待验证新假设」，附代码/输入/缓存 hash、实际成本和本仓库提交 ID，下一次再依据错误类型决定是否进入 P2b 表示消融或 token-budget 子图选择。
+**P2a.5 已提交结果报告。** 冻结 P2a replay 与 S0 parity 通过，历史 P2a NO-GO 保持；FK JoinInstance ID 可复核，但业务 Role Gate 仍 NO-GO。聚合字段特征与预算统计是诊断关联，不作为方法收益或语义标签。
+
+诊断支持另行预注册一个有限的 **R0 原文本 vs R1 移除 Values** 消融：Gold 中 Values 字段有足够样本，且其文本长度在 BM25 的非 Gold Top-10 中较高；同一字段也与 Gold 命中率较高相关，因此方向未知，必须通过对照实测。下一轮应固定 1024-D Qwen3 + Cosine、候选集和预算，加入同文本重复编码控制；BIRD dev 仍只用于探索。**该 P2b 尚未注册或运行。** 不启动新的 BM25 / RRF 参数网格、GNN 或 JOIN Role 主张；除非后续预注册另有说明。

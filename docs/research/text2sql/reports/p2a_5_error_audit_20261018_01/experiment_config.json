@@ -72,6 +72,7 @@
     "python": "3.12.14",
     "numpy": "2.2.6",
     "sqlglot": "28.0.0",
+    "rank_bm25": "not installed; frozen runner uses its registered internal implementation",
     "runner_sha256": "e046595df72d3b684062a54d2fffc2c8df13cae419b056625b8981c20b805085"
   },
   "runs": [
@@ -80,12 +81,30 @@
     {"run_id": "p2a5_full1534_20261018_02", "mode": "full", "status": "failed_before_analysis_completion", "output_dir": "/mnt/liansp3/sources/results/gfmrag_p2a_5_error_audit_20261018/full_002", "failure": "Implementation KeyError because text-feature accumulators were initialized with a nested shape but consumed as flat counters; no aggregate result was produced. The output directory is retained."},
     {"run_id": "p2a5_full1534_20261018_03", "mode": "full", "status": "completed_intermediate_scope", "output_dir": "/mnt/liansp3/sources/results/gfmrag_p2a_5_error_audit_20261018/full_003", "note": "Replay and core diagnostics completed. Final plan review found the A2 non-Gold Top-10 schema-feature and field-token-length strata were not included; a revised anonymous aggregate is registered below."},
     {"run_id": "p2a5_smoke5_20261018_02", "mode": "smoke", "status": "passed", "questions": 5, "databases": 1, "elapsed_wall_seconds": 11.515342456288636, "process_maxrss_gib": 0.8157463073730469, "output_dir": "/mnt/liansp3/logs/gfmrag_p2a5_smoke5_20261018_02"},
-    {"run_id": "p2a5_full1534_20261018_04", "mode": "full", "status": "registered_after_extended_smoke_passed", "output_dir": "/mnt/liansp3/sources/results/gfmrag_p2a_5_error_audit_20261018/full_004"}
+    {"run_id": "p2a5_full1534_20261018_04", "mode": "full", "status": "completed", "output_dir": "/mnt/liansp3/sources/results/gfmrag_p2a_5_error_audit_20261018/full_004", "aggregate_sha256": "813f43c3952a97dbabe011de5869ce50c419f7432b0dc6bb586f56051ee1d58a", "run_start_sha256": "eb1e2bc7a41aa397da2043620495c54213431be82e67f0c15c77bebcaa51de9f", "elapsed_wall_seconds": 22.736981190741062, "cpu_seconds_process": 22.777387757, "process_maxrss_gib": 0.8369636535644531, "audit_source_commit": "210c2d2ba635a47881c6694f2754b3a407990f6d"}
   ],
   "outputs": {
     "public_report_directory": "docs/research/text2sql/reports/p2a_5_error_audit_20261018_01/",
-    "private_result_root": "/mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom-local-results/p2a_5_error_audit_20261018_01/",
+    "private_result_root": "/mnt/liansp3/sources/results/gfmrag_p2a_5_error_audit_20261018/",
+    "final_run_directory": "/mnt/liansp3/sources/results/gfmrag_p2a_5_error_audit_20261018/full_004",
+    "final_public_aggregate": "docs/research/text2sql/reports/p2a_5_error_audit_20261018_01/aggregate_summary.json",
+    "final_public_aggregate_sha256": "813f43c3952a97dbabe011de5869ce50c419f7432b0dc6bb586f56051ee1d58a",
     "publication_boundary": "Only README, this configuration, runner source, and aggregate_summary.json are public. No question IDs/text, Gold SQL, per-question ranks, schema values, vectors, databases, or logs are included."
   },
-  "api_usage": {"external_api_requests": 0, "confirmed_input_tokens": 0, "confirmed_output_tokens": 0, "confirmed_total_tokens": 0, "cost_cny": "0.00"}
+  "api_usage": {
+    "external_api_requests": 0,
+    "confirmed_input_tokens": 0,
+    "confirmed_output_tokens": 0,
+    "confirmed_total_tokens": 0,
+    "unknown_usage_requests_this_experiment": 0,
+    "cost_cny": "0.00",
+    "cumulative_logged_snapshot_date_utc": "2026-10-18",
+    "cumulative_logged_input_tokens": 4028809,
+    "cumulative_logged_output_tokens": 198188,
+    "cumulative_logged_total_tokens": 4226997,
+    "cumulative_logged_unknown_usage_requests": 14,
+    "cumulative_estimated_cost_cny": "8.5232850",
+    "cumulative_billed_cost_verified": false,
+    "cumulative_cost_basis": "uncached public list-price estimate on logged requests with reported usage; excludes unknown usage and is not a supplier bill"
+  }
 }
