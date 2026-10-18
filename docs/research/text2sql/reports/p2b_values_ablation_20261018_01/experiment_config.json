@@ -1,6 +1,6 @@
 {
   "experiment_id": "p2b_values_ablation_20261018_01",
-  "status": "preregistered_not_run",
+  "status": "recovery_preregistered_not_run",
   "project": {
     "repository": "https://github.com/bArtyom/gfm-rag",
     "branch": "main",
@@ -64,7 +64,7 @@
   "stop_conditions": [
     "any frozen input/model/cache/hash/denominator mismatch",
     "R0 text/node order does not exactly match P1.6 frozen manifest",
-    "smoke fails or emits invalid/non-finite vectors",
+    "the registered recovery smoke fails or emits invalid/non-finite vectors",
     "CPU time >7200 seconds, wall time >3600 seconds, RSS >16 GiB, or CPU threads >8",
     "private per-question data could enter public artifacts"
   ],
@@ -74,7 +74,9 @@
     "cpu_seconds_max": 7200,
     "wall_seconds_max": 3600,
     "rss_gib_max": 16,
-    "max_smokes": 1,
+    "max_initial_smokes": 1,
+    "max_implementation_recovery_smokes": 1,
+    "cumulative_budget_includes_all_attempts": true,
     "max_full_runs": 1,
     "gpu_seconds": 0,
     "api_calls": 0,
@@ -83,8 +85,22 @@
     "model_download": false
   },
   "run_ids": {
-    "smoke": "p2b_values_smoke5_20261018_01",
+    "initial_smoke_failed": "p2b_values_smoke5_20261018_01",
+    "recovery_smoke": "p2b_values_smoke5_20261018_02",
     "full": "p2b_values_full1534_20261018_01"
+  },
+  "execution_amendment": {
+    "parent_commit": "0feae6d1d682b62e082a96dfc1f37067467058ff",
+    "reason": "The initial 5-question run completed local encoding and scoring but stopped before writing aggregates because the denominator was read from prepared questions instead of scorer rows.",
+    "preserved_initial_run": "/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018/smoke_5q_20261018_01",
+    "initial_run_cpu_seconds": 313.046,
+    "initial_run_wall_seconds": 49.808,
+    "initial_run_local_model_input_tokens": 12238,
+    "condition_metric_artifacts_written": false,
+    "hypothesis_or_threshold_changes": false,
+    "only_allowed_recovery_run_id": "p2b_values_smoke5_20261018_02",
+    "stop_if_recovery_fails": true,
+    "cumulative_resource_budget_applies": true
   },
   "private_results": "/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018",
   "public_report": "docs/research/text2sql/reports/p2b_values_ablation_20261018_01/README.md",
@@ -95,7 +111,8 @@
     "actual_bill_status": "not_applicable_no_api_requests"
   },
   "local_model_token_accounting": {
-    "input_tokens": "to be counted from attention_mask during each actual local encoder pass",
+    "initial_failed_smoke_input_tokens": 12238,
+    "remaining_run_input_tokens": "to be counted from attention_mask during each actual local encoder pass",
     "output_tokens": 0
   }
 }

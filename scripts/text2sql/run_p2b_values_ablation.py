@@ -134,7 +134,10 @@ def load_frozen_inputs(args: argparse.Namespace) -> tuple[Any, Any, dict[str, An
     if not PLAN_PATH.is_file() or not CONFIG_PATH.is_file():
         raise FileNotFoundError("The P2b protocol or experiment config is missing")
     config = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
-    if config.get("experiment_id") != EXPERIMENT_ID or config.get("status") != "preregistered_not_run":
+    if config.get("experiment_id") != EXPERIMENT_ID or config.get("status") not in {
+        "preregistered_not_run",
+        "recovery_preregistered_not_run",
+    }:
         raise RuntimeError("The checked-in P2b config does not match the preregistered experiment")
 
     validation_args = argparse.Namespace(
@@ -654,7 +657,7 @@ def public_aggregate(
         "benchmark": {
             "questions": len(prepared["questions"]),
             "databases": len(db_ids),
-            "column_eligible_questions": sum(row["column_eligible"] for row in prepared["questions"]),
+            "column_eligible_questions": sum(row["column_eligible"] for row in r0_rows),
             "exploratory": True,
         },
         "encoder": {
@@ -734,7 +737,7 @@ def write_private_rows(path: Path, rows: dict[str, list[dict[str, Any]]]) -> Non
 
 def run() -> None:
     args = parse_args()
-    expected_smoke = "p2b_values_smoke5_20261018_01"
+    expected_smoke = "p2b_values_smoke5_20261018_02"
     expected_full = "p2b_values_full1534_20261018_01"
     if args.mode == "smoke" and args.run_id != expected_smoke:
         raise RuntimeError(f"Unexpected smoke run ID: {args.run_id}")

@@ -1,6 +1,6 @@
 # P2b R0/R1 Values 文本消融：预注册方案
 
-> 状态：**已预注册，尚未运行**。对应实验记录：[P2b 报告](../reports/p2b_values_ablation_20261018_01/README.md)。本计划只覆盖一组有限消融与重复编码控制，不扩展为表示参数搜索。
+> 状态：**已预注册；首个 smoke 因结果汇总代码错误失败，唯一一次工程修复 smoke 已单独登记，尚未重跑**。对应实验记录：[P2b 报告](../reports/p2b_values_ablation_20261018_01/README.md)。本计划只覆盖一组有限消融与重复编码控制，不扩展为表示参数搜索。
 
 ## 研究问题与核心假设
 
@@ -46,16 +46,17 @@
 
 ## 预算、成功判据与停止条件
 
-- 资源上限：CPU process time 7200 s、wall 3600 s、RSS 16 GiB、最多 8 个 CPU 线程；只运行一次 5 题 smoke 和一次 1534 题 Full。Full 内含 query 1 pass、R0 node 2 passes、R1 node 1 pass；不再加 seed 或重复直到有利。
-- 先跑前 5 题/1 DB smoke，检查冻结输入、R0 完全相同、R1 只删 Values、向量 shape/有限值/范数、输出格式与本地 CPU 可行性；smoke 不进入正式结果。
+- 累计资源上限（含所有失败尝试）：CPU process time 7200 s、wall 3600 s、RSS 16 GiB、最多 8 个 CPU 线程。最多一次初始 5 题 smoke、一次**仅限实现错误恢复**的 5 题 smoke、一次 1534 题 Full。Full 内含 query 1 pass、R0 node 2 passes、R1 node 1 pass；不再加 seed 或重复直到有利。
+- 先用前 5 题/1 DB 检查冻结输入、R0 完全相同、R1 只删 Values、向量 shape/有限值/范数、输出格式与本地 CPU 可行性；smoke 不进入正式结果。若实现性错误在正式比较结果成功写出前阻断 smoke，只能在记录故障与修正、更新远端预注册后使用唯一恢复 smoke；恢复 smoke 仍失败即停止，不再重跑或进入 Full。
 - Full 成功门：全部 1534 题 / 11 DB 及 1460 列分母完整；P1.6 冻结 cache 的 Cosine scorer parity 精确；所有输入、模型和代码 hash 校验通过；资源预算内完成。
 - H1 成功门：全体 Column R@10 提升至少 1.0 pp 且数据库 bootstrap 95% CI 下界 > 0，两个护栏均通过。通过只将 Values-removal 作为候选送去独立数据库验证，不覆盖 P2a NO-GO。
-- 任一 hash/分母/R0 text parity 错误、缺少模型/数据、非有限向量、smoke 失败、预算越界或输出有私有逐题数据风险即停止；不要启动第二组消融。若 H1 不通过，P2b 本轮结论为 NO-GO，并停止 Values 参数扩展。
+- 任一 hash/分母/R0 text parity 错误、缺少模型/数据、非有限向量、恢复 smoke 失败、累计预算越界或输出有私有逐题数据风险即停止；不要启动第二组消融。若 H1 不通过，P2b 本轮结论为 NO-GO，并停止 Values 参数扩展。
 
 ## 执行记录
 
-- Smoke：`p2b_values_smoke5_20261018_01`，独立本地结果目录 `/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018/smoke_5q_20261018_01`，日志 `/mnt/liansp3/logs/gfmrag_p2b_values_smoke5_20261018_01.log`。
-- Full：`p2b_values_full1534_20261018_01`，仅在 smoke 成功后启动；独立本地结果目录 `/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018/full_1534_20261018_01`，日志 `/mnt/liansp3/logs/gfmrag_p2b_values_full1534_20261018_01.log`。
+- 初始 Smoke（失败，保留）：`p2b_values_smoke5_20261018_01`，独立本地结果目录 `/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018/smoke_5q_20261018_01`，日志 `/mnt/liansp3/logs/gfmrag_p2b_values_smoke5_20261018_01.log`。5 题编码与打分完成后，aggregate 读取错字段（准备数据没有 `column_eligible` 字段，该标记只在 scorer rows 中）；聚合未写盘，错误记录与日志已保留。
+- 唯一恢复 Smoke（预注册待运行）：`p2b_values_smoke5_20261018_02`，新结果目录 `/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018/smoke_5q_20261018_02`、新日志 `/mnt/liansp3/logs/gfmrag_p2b_values_smoke5_20261018_02.log`。只把 column-eligible 计数改为从 scorer rows 获取；假设、数据、条件、模型、指标、阈值及 5 题样本保持不变。该修复和本恢复额度必须在恢复运行前提交并核实。
+- Full：`p2b_values_full1534_20261018_01`，仅在唯一恢复 smoke 成功后启动；独立本地结果目录 `/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018/full_1534_20261018_01`，日志 `/mnt/liansp3/logs/gfmrag_p2b_values_full1534_20261018_01.log`。累计计入初始失败 smoke 的 313.0 CPU s / 49.8 wall s。
 - 完整启动命令、环境快照和实际时间由 runner 写入本地 `run_start.json`；公开报告只保留可复现命令模板及安全聚合。
 
 ## 指导冲突
