@@ -4,7 +4,7 @@
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新状态（2026-10-18）**：**P1.6 全量冻结 1024-D Cosine 基线 PASS**；**P2a 方法增益 NO-GO**；P2a.5 冻结重放、错误归因与 FK / Join-Instance 数据质量审计已完成，详见[报告](reports/p2a_5_error_audit_20261018_01/README.md)。**P2b R0/R1 Values 消融 Full 已完成，预注册成功门 NO-GO**：R1 Column R@10 −0.96 pp（95% 数据库簇 bootstrap CI −2.06 至 +0.08 pp），Complete@1024 +9.32 pp；不继续 Values 扩展，详见[计划](plans/p2b_values_ablation_20261018.md)和[实验报告](reports/p2b_values_ablation_20261018_01/README.md)。BIRD dev 仍是探索集。FK / Role Gate 仍 NO-GO，未有 GFM、JOIN Role、P3 SQL EX 新成绩。
+> **最新决策（2026-10-18，P2b 结果复核）**：P2a.5 错误归因与 FK Gate 审计已完成；P2b R0/R1 Values 消融 Full 完成但**预注册主成功门 NO-GO**（Column R@10 −0.96 pp，Complete@1024 +9.32 pp，文本 token −27.0%）。最新独立研究问题是**检索语义文本与下游 Schema Context 是否应分离**，因此本仓库新增了[ P2c Dual-View 2×2 预注册](plans/p2c_dual_view_retrieval_context_factorial_20261018.md)：只用既有 P2b CPU 缓存交叉验证“R0/R1 排名 × R0/R1 Context 长度”，**未开始执行**。FK/Role Gate 仍 NO-GO，尚未验证图推理或 SQL EX。
 
 ## 现有研究文档
 
@@ -52,15 +52,13 @@
 
 ## 最新行动结果与下一步（2026-10-18）
 
-[P1.6](reports/p1_6_rebaseline_20261018_01/README.md) 已建立通过 Gate 的冻结 1024-D 基线；[P2a](reports/p2a_similarity_20261018_01/README.md) 也已全量完成，验证 **简单 BM25 或 RRF 不能稳定替代 Cosine**。固定全体 1460 Column 可评题：Cosine R@10 68.00%，BM25 55.91%，RRF 66.90%；非饱和 706 题 RRF R@10 仅 +0.09 pp，完整 Schema@2048 比 Cosine 下降 5.38 pp。P2a 预注册 NO-GO，不应继续盲目扫描融合系数。
+P1.6 新冻结 Dense 评分基线 PASS；P2a BM25/RRF 增益 NO-GO；[P2a.5 审计](reports/p2a_5_error_audit_20261018_01/README.md) PASS 但 FK/Role Gate 仍 NO-GO；[P2b Values 消融](reports/p2b_values_ablation_20261018_01/README.md) 全量完成，**主成功门 NO-GO**。P2b R1 删除 Values 使全体 Column R@10 −0.96 pp（95% CI [−2.06,+0.08] pp），Complete@1024 +9.32 pp，文本长度减少 27.0%。这是**有价值的可归因问题**，但未证明删除 Values 的语义检索效果更好。
 
-**P2a.5 已完成：** [匿名聚合报告](reports/p2a_5_error_audit_20261018_01/README.md)和[聚合 JSON](reports/p2a_5_error_audit_20261018_01/aggregate_summary.json)验证了 P2a 逐题 / 聚合重放与 S0 parity，P2a NO-GO 保持不变；FK JoinInstance ID 可重建，但 Role Gate 仍 NO-GO。Gold 与非 Gold top-10 的 Values 字段长度都显示可检验关联，不能据此称 Values 为噪声或宣称因果收益。
+**本轮下一步是已独立预注册的 [P2c Retrieval/Context 双视图四臂实验](plans/p2c_dual_view_retrieval_context_factorial_20261018.md)**：复用同一 P2b CPU Query/R0/R1 node 向量，V00=R0排名+R0 Context，V01=R0排名+R1 Context，V10=R1排名+R0 Context，V11=R1排名+R1 Context。**该实验尚未运行，V01/V10 不得报告预期数字为结果**。它能区分语义排序效应与节点文本长度/预算效应，避免继续盲目搜索 Values 组合和 BM25/RRF 参数。
 
-**P2b R0/R1 Values 消融已完成：** [实验报告](reports/p2b_values_ablation_20261018_01/README.md)显示全体 Column R@10 从 67.99% 到 67.03%（−0.96 pp；数据库簇 bootstrap 95% CI [−2.06, +0.08] pp），没有达到“提升至少 1 pp 且 CI 下界 >0”的预注册主成功门；固定非饱和 Column R@10 为 −0.67 pp，Complete@1024 全体 +9.32 pp、非饱和 +5.52 pp，两个护栏通过。移除 Values 减少预算内完整 Schema 缺失，但列召回方向略负且不确定；本轮 NO-GO，停止 Values 参数扩展，结果仍是 BIRD dev exploratory。
+同时在**独立 CPU 工作包**推进 FK/JoinInstance 数据质量清洗：P2a.5 标识了 student_club 元数据缺口 90 条、25 ambiguous JOIN 和 197 个同表多 FK 候选问题；这还不是可监督的 Role Label，**human review=0、可靠语义角色评测分母=0**。只有明确有效的 JOIN Role / Path 标签和 GraphReasoner baseline 才能启动 Query-aware Edge Gate 的科学实验。
 
-下一步先做误差分析和论文证据整理；不自动开启新的 GPU/模型实验。不得继续搜索 BM25/RRF 参数或启动 JOIN/GNN 主张，除非出现会改变当前主结论的明确未决问题并另行注册。
-
-**研究主线仍是 JOIN Instance + Query-aware Edge Gate + 受约束 Schema 子图推理**，但尚无合格的 FK/路径金标，也未完成官方 GraphReasoner 在 Text2SQL 的 GNN 基线，故暂时不能开始声称它的效果。P1/P1.5 历史严格复现 FAIL 与 P2a NO-GO 继续记录；当前 BIRD dev 仅用于探索。
+旧 P1/P1.5 历史严格复现 FAIL 与 P2a/P2b 的原预注册 NO-GO 保持，不把下一轮新问题视为“修改阈值”。**当前没有新增 GNN、SQL Generator/Selector 或 Jev 实验结果**；BIRD dev 是反复开发集，独立数据库验证是未来质量结论的必要条件。
 
 
 ## 从今往后的提交规范
