@@ -4,7 +4,7 @@
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新状态（2026-10-18）**：P1.6 修复后 Smoke 与 1,534 题 Full 已完成，匿名报告为 [P1.6 冻结基线重建](reports/p1_6_rebaseline_20261018_01/README.md)，Full Gate PASS。Smoke 重复编码非 bit-exact 且 5/5 指标行变化，已列为稳定性限制；冻结 cache 回读及两遍 scorer 重放逐位一致。**下一步按冻结协议运行 P2a：S0 Cosine、S1 BM25、S2 RRF(k0=60)。** 历史 P1/P1.5 复现 FAIL 与 FK/Role Gate FAIL 保持不变；不启动 Role/Path、GNN、P3 或 P4。
+> **最新状态（2026-10-18）**：P1.6 修复后 Smoke 与 1,534 题 Full 已完成，匿名报告为 [P1.6 冻结基线重建](reports/p1_6_rebaseline_20261018_01/README.md)，Full Gate PASS。Smoke 重复编码非 bit-exact 且 5/5 指标行变化，已列为稳定性限制；冻结 cache 回读及两遍 scorer 重放逐位一致。P2a 的 S0/S1/S2 方案及 CPU 执行器已在 [预注册协议](plans/p2a_similarity_20261018.md) 中冻结；待运行 5 题 Smoke，通过后才跑全量。历史 P1/P1.5 复现 FAIL 与 FK/Role Gate FAIL 保持不变；不启动 Role/Path、GNN、P3 或 P4。
 
 ## 现有研究文档
 
@@ -21,6 +21,7 @@
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 当前执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
+| [P2a 相似度对照预注册](plans/p2a_similarity_20261018.md) | 1024-D Cosine / BM25 / RRF 的冻结分词、候选集、指标、门槛与资源 | P1.6 Gate 后预注册；尚未运行结果 |
 | [P1.5 → P2a 执行指导](plans/p1_5_diagnostics_and_p2a_20261016.md) | 离线诊断、FK Gate、条件式 BM25/RRF 检索实验及 Go/No-go | P1.5 已运行；P2a 未运行；门槛与指导保留 |
 | [G-reasoner 图算法源码精读（新）](graph-algorithm-code-review-20261016.md) | 分析 NER/Top-1 锚点、关系类型与逐边属性、NBFNet 消息传播、SQL 子图结构约束、创新性排序 | 2026-10-16 静态审查与研究建议；未跑新实验 |
 
@@ -45,7 +46,7 @@
 
 P1.6 [本轮报告](reports/p1_6_rebaseline_20261018_01/README.md)记录修复后 Smoke 与 1,534 题 Full。Smoke Gate 和 Full Gate 均通过；固定 float32 向量 cache 回读逐位一致，两遍 scorer 的摘要与逐题输出一致。Smoke 重复模型前向的最大绝对误差为 query 0.002555、node 0.003764，5/5 题排序行变化，因此不声称跨前向 bit-exact。历史 P1/P1.5 strict reproduction 与 FK/Role Gate 状态未改。
 
-**唯一下一步：** 按 [P1.6→P2a 协议](plans/p1_6_rebaseline_then_p2a_20261016.md)预注册并执行同候选文本/同预算的 S0 Cosine、S1 BM25、S2 RRF（k0=60）；同时报告 1,460 列可评题与预先指定的 706 题非饱和子集，按 DB 汇总配对救回/损坏。结果仅支持 BIRD dev 内的探索性决策。Role/Path、GNN、P3 SQL EX 与 P4 仍保持 NO-GO。
+**唯一下一步：** 按已冻结的 [P2a 预注册协议](plans/p2a_similarity_20261018.md)先运行 5 题 Smoke，通过后运行同候选文本/同预算的 S0 Cosine、S1 BM25、S2 RRF（k0=60）全量对照；同时报告 1,460 列可评题与预先指定的 706 题非饱和子集，按 DB 汇总配对救回/损坏。结果仅支持 BIRD dev 内的探索性决策。Role/Path、GNN、P3 SQL EX 与 P4 仍保持 NO-GO。
 
 FK/Role Gate 仍不通过，当前不启动 JOIN Edge/Role/Path、GNN、SQL EX、Jev 实验。BIRD dev 仍仅是开发诊断集，不具备独立泛化证据。
 
