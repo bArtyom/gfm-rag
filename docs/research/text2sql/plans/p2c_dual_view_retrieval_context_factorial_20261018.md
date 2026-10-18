@@ -98,8 +98,11 @@
 - P2c 成功门会要求全体及固定子集的 Complete@1024 CI 下界均 >0，并要求固定 5 个数据库中至少 3 个 delta 非负、至少 2 个严格为正。这是对原文未指定 CI 所属分组的保守解释，计分前冻结。
 - 归档目录固定为 `docs/research/text2sql/reports/p2c_dual_view_20261018_01/`，含 `README.md`、`experiment_config.json` 与匿名 `aggregate_summary.json`。完整逐题输出、run receipt 与日志仅留本地。
 
-## 唯一实现恢复登记（2026-10-18，仍未计分）
+## 实现恢复登记（2026-10-18；Full 聚合尚未完成）
 
 - 首次 preflight `p2c_dual_view_preflight_20261018_01` 在验证 P2b 聚合 checksum 时因 runner 从 P2c config 读取 `final_result` 而出现 `KeyError`。用时 10.548 s wall / 10.306 CPU s / 0.749 GiB RSS；发生于四臂评分前，模型 forward=0，未产生实验分数。原目录与日志保留。
 - 最小修复：分别读取 P2c 注册状态与 P2b 已完成配置，并只从 P2b 配置读取其 aggregate SHA；新增配置来源回归检查。新一次且唯一恢复 preflight 固定为 `p2c_dual_view_preflight_20261018_02`，同一数据、阈值和资源预算；恢复再失败即停止，不运行 Smoke/Full。
-- smoke `p2c_dual_view_smoke5_20261018_01` 与 Full `p2c_dual_view_full1534_20261018_01` run ID 不变。首次失败和恢复尝试均计入 1800 CPU 秒 P2c 总预算；首次已耗 10.306 CPU 秒。
+- 5 题 smoke `p2c_dual_view_smoke5_20261018_01` 已通过：V00/V01 与 V10/V11 的 score/context 排名不变量通过，V00/V11 的 P2b Column Top-K 和预算行逐题精确重放。用时 11.217 s wall / 11.152 CPU s / 0.865 GiB RSS；不是正式证据。
+- 首次 Full `p2c_dual_view_full1534_20261018_01` 已完成四臂评测和逐题 replay，但在聚合构建时错误地用私有行键 `R0_local_cpu_pass1` 查找公共聚合键；真正 key 是 `R0_local_cpu_pass_1`。进程在写 aggregate/per-question 前失败，20.579 s wall / 20.685 CPU s / 0.969 GiB RSS；模型/API/SQL 均为 0。保留独立目录与日志。
+- 唯一 Full 恢复 `p2c_dual_view_full1534_20261018_02` 仅修正公共聚合键映射，并允许已登记的 2026-10-18 preflight/smoke commit `91fc6fef002edce8f68d78ca4050c4f62688107c` 作为同一代码链中的前置证据；打分和数据路径无改动。新增聚合键及前置提交回归检查。恢复再失败即停止，不进行第三次 Full。
+- P2c 所有尝试共享 1800 CPU 秒总预算；目前累计使用约 53.3 CPU 秒（两个 preflight、一个 smoke、失败 Full），Full 恢复前重新检查资源与剩余预算。

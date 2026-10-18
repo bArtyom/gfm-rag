@@ -42,6 +42,11 @@ P2B_ROW_VARIANTS = {
     "V00": "R0_local_cpu_pass1",
     "V11": "R1_local_cpu_without_values",
 }
+P2B_AGGREGATE_VARIANTS = {
+    "V00": "R0_local_cpu_pass_1",
+    "V11": "R1_local_cpu_without_values",
+}
+RECOVERY_PREDECESSOR_COMMIT = "91fc6fef002edce8f68d78ca4050c4f62688107c"
 
 for _name in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
     os.environ[_name] = str(MAX_THREADS)
@@ -223,10 +228,6 @@ def assert_p2b_replay(
 def assert_p2b_aggregate_replay(
     p2b_aggregate: dict[str, Any], metrics_by_arm: dict[str, dict[str, Any]]
 ) -> None:
-    expected_variants = {
-        "V00": "R0_local_cpu_pass1",
-        "V11": "R1_local_cpu_without_values",
-    }
     field_map = {
         "column_r5_query_macro": ("column_r5_query_macro", None),
         "column_r10_query_macro": ("column_r10_query_macro", None),
@@ -235,7 +236,7 @@ def assert_p2b_aggregate_replay(
         "budget_recall_query_macro": ("budget_recall_query_macro", "recall"),
         "mean_tokens_used": ("mean_tokens_used", "tokens_used"),
     }
-    for arm, baseline_key in expected_variants.items():
+    for arm, baseline_key in P2B_AGGREGATE_VARIANTS.items():
         baseline = p2b_aggregate["conditions"][baseline_key]
         replay = metrics_by_arm[arm]
         for group in ("all", "fixed_non_saturated"):
@@ -857,7 +858,14 @@ def write_private_rows(path: Path, rows_by_arm: dict[str, list[dict[str, Any]]],
     return sha256_file(path)
 
 
-def check_registered_predecessor(path: Path | None, expected_status: str, expected_commit: str) -> None:
+def predecessor_commit_is_registered(actual_commit: str, expected_commit: str, registered_prior_commits: set[str]) -> bool:
+    return actual_commit == expected_commit or actual_commit in registered_prior_commits
+
+
+def check_registered_predecessor(
+    path: Path | None, expected_status: str, expected_commit: str,
+    registered_prior_commits: set[str] | None = None,
+) -> None:
     if path is None:
         raise RuntimeError("A registered prior-stage result directory is required")
     summary_path = path / ("preflight_summary.json" if expected_status == "preflight_passed" else "smoke_summary.json")
@@ -868,7 +876,8 @@ def check_registered_predecessor(path: Path | None, expected_status: str, expect
     start = json.loads(start_path.read_text(encoding="utf-8"))
     if summary.get("status") != expected_status or start.get("state") != "completed":
         raise RuntimeError(f"Prior stage did not pass: expected {expected_status}")
-    if start.get("source", {}).get("published_commit") != expected_commit:
+    actual_commit = start.get("source", {}).get("published_commit")
+    if not predecessor_commit_is_registered(actual_commit, expected_commit, registered_prior_commits or set()):
         raise RuntimeError("Prior stage source commit differs from this run")
 
 
@@ -877,16 +886,21 @@ def run() -> None:
     expected_ids = {
         "preflight": "p2c_dual_view_preflight_20261018_02",
         "smoke": "p2c_dual_view_smoke5_20261018_01",
-        "full": "p2c_dual_view_full1534_20261018_01",
+        "full": "p2c_dual_view_full1534_20261018_02",
     }
     if args.run_id != expected_ids[args.mode]:
         raise RuntimeError(f"Unexpected {args.mode} run ID: {args.run_id}")
     if args.output_dir.exists():
         raise FileExistsError(f"Refusing to reuse P2c output directory: {args.output_dir}")
-    if args.mode in ("smoke", "full"):
+    if args.mode == "smoke":
         check_registered_predecessor(args.preflight_dir, "preflight_passed", args.expected_commit)
     if args.mode == "full":
-        check_registered_predecessor(args.smoke_dir, "smoke_passed", args.expected_commit)
+        check_registered_predecessor(
+            args.preflight_dir, "preflight_passed", args.expected_commit, {RECOVERY_PREDECESSOR_COMMIT}
+        )
+        check_registered_predecessor(
+            args.smoke_dir, "smoke_passed", args.expected_commit, {RECOVERY_PREDECESSOR_COMMIT}
+        )
     args.output_dir.mkdir(parents=True, exist_ok=False)
     started_wall = time.perf_counter()
     started_cpu = time.process_time()

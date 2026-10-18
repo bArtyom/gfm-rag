@@ -4,10 +4,12 @@ import pytest
 
 from scripts.text2sql.run_p2c_dual_view_factorial import (
     ARM_FACTORS,
+    P2B_AGGREGATE_VARIANTS,
     assert_context_only_ranking_invariant,
     assert_p2b_replay,
     factorial_contrasts,
     p2b_registered_aggregate_sha256,
+    predecessor_commit_is_registered,
 )
 
 
@@ -100,3 +102,16 @@ def test_p2b_aggregate_hash_comes_from_completed_p2b_config() -> None:
     p2b_config = {"experiment_id": "p2b_values_ablation_20261018_01", "final_result": {"aggregate_summary_sha256": "abc123"}}
 
     assert p2b_registered_aggregate_sha256(p2c_config, p2b_config) == "abc123"
+
+
+def test_p2b_public_aggregate_variant_keys_match_archived_schema() -> None:
+    assert P2B_AGGREGATE_VARIANTS == {
+        "V00": "R0_local_cpu_pass_1",
+        "V11": "R1_local_cpu_without_values",
+    }
+
+
+def test_full_recovery_accepts_only_the_registered_smoke_source_commit() -> None:
+    assert predecessor_commit_is_registered("91fc", "new-full-commit", {"91fc"})
+    assert predecessor_commit_is_registered("new-full-commit", "new-full-commit", set())
+    assert not predecessor_commit_is_registered("unrelated", "new-full-commit", {"91fc"})
