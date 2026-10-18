@@ -89,3 +89,11 @@
 - 本机保留完整 query、Gold、SQL、embedding cache、逐题排名、日志。GitHub 只公开安全的聚合/计划/代码。
 
 **下一轮执行者应先提交完整 P2c Full 及 Gate，再由研究分析决定是否需要额外的 SQL 级验证；本次只是计划提交，任何 V01/V10 的数值都尚未测得。**
+
+## 执行前实施澄清（2026-10-18，首次计分前登记）
+
+- 成功门的数据库簇 bootstrap 95% CI 下界 >0 同时应用于全体 1,460 个可评题和固定 706 题子集；不满足任一组即 NO-GO。
+- P2b 已归档的逐题私有行包含 Column Top-K 与 512/1024/2048 budget 选择，但没有逐题 Table Top-K ID。因此 V00/V11 将对所有已归档 Column Top-K 与预算字段做逐题精确重放，并对聚合指标做数值精确复核；新实验的 Table Top-K 将通过各自 context-only 配对臂的逐题排名与原始 score-matrix digest 完全一致性检查。这个归档字段缺口不改变实验假设、门槛或数据分母。
+- 新增执行器 `scripts/text2sql/run_p2c_dual_view_factorial.py` 只读同一缓存，不载入模型权重；仅加载本地 tokenizer 以按计划计算 R1 Context token 数。只允许一个 preflight、一个 5 题 smoke 和一个 Full，分别使用配置中冻结的独立 run ID 与目录。
+- P2c 成功门会要求全体及固定子集的 Complete@1024 CI 下界均 >0，并要求固定 5 个数据库中至少 3 个 delta 非负、至少 2 个严格为正。这是对原文未指定 CI 所属分组的保守解释，计分前冻结。
+- 归档目录固定为 `docs/research/text2sql/reports/p2c_dual_view_20261018_01/`，含 `README.md`、`experiment_config.json` 与匿名 `aggregate_summary.json`。完整逐题输出、run receipt 与日志仅留本地。

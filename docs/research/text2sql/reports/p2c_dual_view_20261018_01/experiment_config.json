@@ -1,0 +1,89 @@
+{
+  "experiment_id": "p2c_dual_view_20261018_01",
+  "status": "preregistered_not_run",
+  "project": {
+    "repository": "https://github.com/bArtyom/gfm-rag",
+    "branch": "main",
+    "preregistration_commit": "6037ff79d59d824e862348ec4a8325ef08dc6b77",
+    "protocol": "docs/research/text2sql/plans/p2c_dual_view_retrieval_context_factorial_20261018.md"
+  },
+  "research_question": "Can Values remain in Schema retrieval embeddings while the returned Schema Context omits Values, separating ranking quality from token-budget packing?",
+  "core_hypothesis": "V01 (R0 retrieval scores + R1 Context) preserves the R0 Column ranking while improving Complete Schema@1024 by at least 3.0 pp on the fixed R0 non-saturated subset and 5.0 pp overall.",
+  "layer": "minimal_factorial_diagnostic",
+  "budget": {
+    "preflight_runs": 1,
+    "smoke_runs": 1,
+    "full_runs": 1,
+    "max_cpu_seconds_per_run": 1800,
+    "max_process_rss_gib": 16,
+    "max_cpu_threads": 8,
+    "gpu_seconds": 0,
+    "api_calls": 0,
+    "model_forwards": 0,
+    "sql_executions": 0,
+    "dependency_installation": false,
+    "model_download": false
+  },
+  "success_criteria": {
+    "structural_gate": "V00/V01 and V10/V11 have identical score-matrix digests and Table/Column Top-K IDs; V00/V11 exactly replay every P2b archived Column Top-K and budget row.",
+    "complete_1024_fixed_non_saturated_delta_pp_minimum": 3.0,
+    "complete_1024_all_delta_pp_minimum": 5.0,
+    "cluster_bootstrap_95_ci_lower_bound_all_and_fixed_subset": "> 0",
+    "fixed_database_direction_gate": "at least 3 of 5 databases have delta >= 0 pp and at least 2 are strictly > 0 pp",
+    "success_means": "candidate for a separate Values-risk audit only; not a Text2SQL or SQL execution accuracy claim"
+  },
+  "stop_conditions": [
+    "any input, model manifest, cache, text hash, node order, denominator, or P2b checksum mismatch",
+    "non-finite score, score-view digest change across context-only arms, or Table/Column Top-K invariant failure",
+    "V00/V11 fail exact replay of the archived P2b Column Top-K or budget rows/aggregate metrics",
+    "CPU process time exceeds 1800 seconds or process RSS exceeds 16 GiB",
+    "any private row, question text, Gold SQL, database name, or model vector appears in a public artifact"
+  ],
+  "dataset": {
+    "name": "BIRD dev",
+    "questions": 1534,
+    "databases": 11,
+    "column_eligible_questions": 1460,
+    "fixed_R0_non_saturated_databases": 5,
+    "fixed_R0_non_saturated_column_eligible_questions": 706,
+    "status": "exploratory_development_data"
+  },
+  "conditions": {
+    "V00": {"score_view": "R0", "context_view": "R0"},
+    "V01": {"score_view": "R0", "context_view": "R1"},
+    "V10": {"score_view": "R1", "context_view": "R0"},
+    "V11": {"score_view": "R1", "context_view": "R1"}
+  },
+  "frozen_inputs": {
+    "dataset_entry": "/mnt/liansp3/sources/datasets/bird/dev",
+    "project_entry": "/mnt/liansp3/sources/projects/quadrag",
+    "model_entry": "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+    "environment": "think2sql_20260909",
+    "P1_6_input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a",
+    "P2b_CPU_embedding_cache_sha256": "63f0accdd1dee9d3e7ca2f0c93004f3c5a4201cac573d2a748a9d3f3bf613ba8",
+    "P2b_per_question_rows_sha256": "261128481b8c1eb35fa5a7f9674cf663f247a900eac9070e16f290f16bff6005",
+    "P2b_public_aggregate_sha256": "c537b5b1b67fdb59ffa859ece7a463174419db23c500cd0e47dfbcf67dfc6d37",
+    "P2b_source_commit": "7cb681000f4da87aeeb71098ff383aaae6b45660",
+    "model_manifest_sha256": "b89ec1366231e37e92c64eaff3f98edce0f0c6af15cc8c7991ed900520143c68"
+  },
+  "metrics": {
+    "ranking": ["Table R@5/@10", "Column R@5/@10/@20", "Column Precision@10", "per-question Top-K digests"],
+    "packing": ["Complete Schema@512/@1024/@2048", "Gold Schema recall", "returned tokens", "returned elements", "Gold-only fit"],
+    "inference": "database-cluster bootstrap 10000 draws, seed 20261020",
+    "paired_diagnostics": ["rescue/damage", "factorial ranking/context/interaction effects", "selected Values-bearing columns"]
+  },
+  "run_ids": {
+    "preflight": "p2c_dual_view_preflight_20261018_01",
+    "smoke": "p2c_dual_view_smoke5_20261018_01",
+    "full": "p2c_dual_view_full1534_20261018_01"
+  },
+  "private_result_root": "/mnt/liansp3/sources/results/gfmrag_p2c_dual_view_20261018",
+  "report_directory": "docs/research/text2sql/reports/p2c_dual_view_20261018_01",
+  "api_usage": {
+    "planned_requests": 0,
+    "confirmed_input_tokens": 0,
+    "confirmed_output_tokens": 0,
+    "confirmed_total_tokens": 0,
+    "planned_cost_cny": "0.00"
+  }
+}
