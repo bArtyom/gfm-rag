@@ -294,8 +294,8 @@ def analyze_p2a(prepared: dict[str, Any], query_vectors: np.ndarray, node_vector
     false_positive_top10_lengths: dict[str, dict[str, list[int]]] = {
         method: {scope: [] for scope in ("all", "non_saturated")} for method in METHODS
     }
-    text_feature_acc: dict[str, dict[str, collections.Counter[str]]] = {
-        feature: {method: collections.Counter() for method in METHODS}
+    text_feature_acc: dict[str, collections.Counter[str]] = {
+        feature: collections.Counter()
         for feature in ("has_description", "has_format", "has_values", "name_snake_case", "name_has_digit", "name_has_short_token", "query_has_single_char_token")
     }
     bm25_overlap = {"all_candidates": [], "column_candidates": [], "all_nonzero": [], "column_nonzero": [], "query_tokens": [], "gold_overlap": 0, "gold_elements": 0, "gold_missed_s1_no_overlap": 0, "gold_missed_s1_with_overlap": 0}
