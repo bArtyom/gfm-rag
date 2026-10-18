@@ -1,0 +1,182 @@
+{
+  "experiment_id": "p2a_similarity_20261018_01",
+  "decision": "no_go_stop_method_expansion",
+  "hypothesis": "On the preregistered 706 column-eligible BIRD dev questions from five databases whose schema exceeds 2048 tokens, BM25 or RRF should improve Column Recall@10 by at least 2.0 percentage points or Complete Schema@2048 by at least 1.0 point over S0 Cosine, with at least three of five database deltas positive; all-question Table Recall@10 may decline by no more than 1.0 point.",
+  "layer": "P2a primary scoring comparison; no training, model changes, graph topology changes, FK/role/path scoring, SQL generation, or SQL execution",
+  "resource_budget": {
+    "gpu_seconds_max": 0,
+    "cpu_seconds_max": 1800,
+    "process_maxrss_gib": 16,
+    "max_cpu_threads": 8
+  },
+  "source": {
+    "repository": "https://github.com/bArtyom/gfm-rag",
+    "branch": "main",
+    "protocol_initial_commit": "8874c208dd632931dd42d9e8b7283efdd42d097c",
+    "protocol_sha256": "4cd5c240df5512145d2c73c9c15e3b4f4fc3e65765257b6164aa2f6f28825c44",
+    "runner_path": "scripts/text2sql/run_p2a_similarity.py",
+    "run_commit": "689b7f681651f312a1db8850d86b8b7dc4f69fd2",
+    "run_tree": "97774d1ca2c7d1bec7346713fd3ce562ec6d1dbf",
+    "worktree_clean": true,
+    "code_change": "Corrected aggregate decision metric lookup after the first full attempt failed with KeyError; retrieval scoring and protocol were unchanged.",
+    "guidance_read": [
+      "README.md",
+      "docs/research/text2sql/README.md",
+      "docs/research/text2sql/experiment-roadmap.md",
+      "docs/research/text2sql/reproducibility-contract.md",
+      "docs/research/text2sql/plans/p2a_similarity_20261018.md",
+      "docs/research/text2sql/reports/p1_6_rebaseline_20261018_01/README.md"
+    ]
+  },
+  "data": {
+    "dataset": "BIRD dev",
+    "local_entry": "/mnt/liansp3/sources/datasets/bird/dev",
+    "question_count": 1534,
+    "database_count": 11,
+    "node_count": 873,
+    "table_count": 75,
+    "column_count": 798,
+    "table_question_denominator": 1534,
+    "column_question_denominator": 1460,
+    "gold_column_elements": 6523,
+    "non_saturated_database_count": 5,
+    "non_saturated_questions": 746,
+    "non_saturated_column_question_denominator": 706,
+    "non_saturated_gold_column_elements": 3156,
+    "input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a",
+    "ordered_node_manifest_content_sha256": "4e930d3b906d46d77381edbfee8bfb57ab04fc09d47b9e90fc6272986cceaa5a"
+  },
+  "model_and_cache": {
+    "model": "Qwen3-Embedding-0.6B",
+    "dimension": 1024,
+    "local_model_entry": "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+    "model_file_manifest_sha256": "b89ec1366231e37e92c64eaff3f98edce0f0c6af15cc8c7991ed900520143c68",
+    "encoding_performed_in_this_run": false,
+    "cache_source_run": "p1_6_full1534_20261018_01",
+    "cache_sha256": "c7bb9ed942aa793e34e1253a5d1d8f8d8d871c95bdfdc33718dde7396d345250"
+  },
+  "environment": {
+    "conda_environment": "think2sql_20260909",
+    "python": "3.12.14",
+    "numpy": "2.2.6",
+    "rank_bm25_package": "not installed; preregistered BM25 formula implemented in the runner",
+    "external_api_calls": 0,
+    "dependency_installations": 0,
+    "model_downloads": 0,
+    "sql_executions": 0
+  },
+  "methods": {
+    "S0_cosine": "Frozen float32 vectors; explicit L2 normalization; exact inner product; ties by stable node ID.",
+    "S1_bm25": {
+      "tokenizer": "casefold; underscore to space; regex [A-Za-z0-9]+; remove length-one tokens; no stemming, stopword removal, or expansion",
+      "k1": 1.5,
+      "b": 0.75,
+      "idf": "ln(1 + (N - df + 0.5) / (df + 0.5))",
+      "tie_break": "stable node ID"
+    },
+    "S2_rrf": {
+      "k0": 60,
+      "candidate_universe": "same complete per-database table+column candidate set",
+      "budget_selection": "greedy by frozen node token length; skip over-budget node and continue"
+    },
+    "top_k": {
+      "table_recall": [5, 10],
+      "column_recall_precision": [5, 10, 20]
+    },
+    "token_budgets": [512, 1024, 2048],
+    "bootstrap": {
+      "unit": "database cluster",
+      "draws": 10000,
+      "seed": 20261018,
+      "interval": "percentile 95%"
+    }
+  },
+  "commands": {
+    "launcher": "conda run -n think2sql_20260909 /root/miniconda3/envs/think2sql_20260909/bin/python3 scripts/text2sql/run_p2a_similarity.py",
+    "common_arguments": [
+      "--expected-commit", "689b7f681651f312a1db8850d86b8b7dc4f69fd2",
+      "--p1-6-run-dir", "/mnt/liansp3/sources/results/gfmrag_p1_6_rebaseline_20261016/full_1534_20261018_01",
+      "--legacy-root", "/mnt/liansp3/sources/projects/quadrag",
+      "--dataset-root", "/mnt/liansp3/sources/datasets/bird/dev",
+      "--model-path", "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+      "--previous-run-dir", "/mnt/liansp3/sources/results/quadrag_p1_dimension_20261014/gfmrag_official_full1534_20261014_01",
+      "--p1-5-run-dir", "/mnt/liansp3/sources/results/gfmrag_p1_5_diagnosis_20261016/full_03"
+    ],
+    "smoke": {
+      "argv": [
+        "--mode", "smoke",
+        "--run-id", "p2a_similarity_smoke5_20261018_02",
+        "--expected-commit", "689b7f681651f312a1db8850d86b8b7dc4f69fd2",
+        "--output-dir", "/mnt/liansp3/sources/results/gfmrag_p2a_similarity_20261018/smoke_5q_02",
+        "--p1-6-run-dir", "/mnt/liansp3/sources/results/gfmrag_p1_6_rebaseline_20261016/full_1534_20261018_01",
+        "--legacy-root", "/mnt/liansp3/sources/projects/quadrag",
+        "--dataset-root", "/mnt/liansp3/sources/datasets/bird/dev",
+        "--model-path", "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+        "--previous-run-dir", "/mnt/liansp3/sources/results/quadrag_p1_dimension_20261014/gfmrag_official_full1534_20261014_01",
+        "--p1-5-run-dir", "/mnt/liansp3/sources/results/gfmrag_p1_5_diagnosis_20261016/full_03"
+      ],
+      "mode": "smoke",
+      "run_id": "p2a_similarity_smoke5_20261018_02",
+      "output_dir": "/mnt/liansp3/sources/results/gfmrag_p2a_similarity_20261018/smoke_5q_02",
+      "log": "/mnt/liansp3/sources/results/gfmrag_p2a_similarity_20261018/smoke_5q_02.log",
+      "questions": 5,
+      "databases": 1,
+      "wall_seconds": 10.729606280103326,
+      "cpu_seconds": 10.339981262,
+      "maxrss_gib": 0.74267578125,
+      "status": "smoke_passed"
+    },
+    "full": {
+      "argv": [
+        "--mode", "full",
+        "--run-id", "p2a_similarity_full1534_20261018_02",
+        "--expected-commit", "689b7f681651f312a1db8850d86b8b7dc4f69fd2",
+        "--output-dir", "/mnt/liansp3/sources/results/gfmrag_p2a_similarity_20261018/full_1534_02",
+        "--p1-6-run-dir", "/mnt/liansp3/sources/results/gfmrag_p1_6_rebaseline_20261016/full_1534_20261018_01",
+        "--smoke-dir", "/mnt/liansp3/sources/results/gfmrag_p2a_similarity_20261018/smoke_5q_02",
+        "--legacy-root", "/mnt/liansp3/sources/projects/quadrag",
+        "--dataset-root", "/mnt/liansp3/sources/datasets/bird/dev",
+        "--model-path", "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+        "--previous-run-dir", "/mnt/liansp3/sources/results/quadrag_p1_dimension_20261014/gfmrag_official_full1534_20261014_01",
+        "--p1-5-run-dir", "/mnt/liansp3/sources/results/gfmrag_p1_5_diagnosis_20261016/full_03"
+      ],
+      "mode": "full",
+      "run_id": "p2a_similarity_full1534_20261018_02",
+      "output_dir": "/mnt/liansp3/sources/results/gfmrag_p2a_similarity_20261018/full_1534_02",
+      "log": "/mnt/liansp3/sources/results/gfmrag_p2a_similarity_20261018/full_1534_02.log",
+      "smoke_dir": "/mnt/liansp3/sources/results/gfmrag_p2a_similarity_20261018/smoke_5q_02",
+      "wall_seconds": 13.31476713065058,
+      "cpu_seconds": 12.858377706,
+      "maxrss_gib": 0.7623252868652344,
+      "status": "completed",
+      "result_summary_sha256": "0b5b3ddff8abfd4f330e5a0417b92403de1a01d0b01d8702b96cc87c4e2f0eec"
+    },
+    "failed_attempt_preserved": {
+      "run_id": "p2a_similarity_full1534_20261018_01",
+      "source_commit": "8874c208dd632931dd42d9e8b7283efdd42d097c",
+      "output_dir": "/mnt/liansp3/sources/results/gfmrag_p2a_similarity_20261018/full_1534_01",
+      "log": "/mnt/liansp3/sources/results/gfmrag_p2a_similarity_20261018/full_1534_01.log",
+      "failure": "KeyError: 'recall' in post-evaluation decision-summary lookup; no valid aggregate result was produced."
+    }
+  },
+  "results": {
+    "integrity_gate": "PASS",
+    "s0_parity": "PASS",
+    "exploratory_decision": "no_go_stop_method_expansion",
+    "p2a_success_criteria_met": false,
+    "public_aggregate_sha256": "0b5b3ddff8abfd4f330e5a0417b92403de1a01d0b01d8702b96cc87c4e2f0eec"
+  },
+  "private_artifact_policy": {
+    "local_only": [
+      "per_question_private.jsonl",
+      "input_manifest_private.json",
+      "embedding_cache_private.npz",
+      "logs"
+    ],
+    "published": [
+      "README.md",
+      "experiment_config.json",
+      "aggregate_summary.json"
+    ]
+  }
+}
