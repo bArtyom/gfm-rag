@@ -1,0 +1,87 @@
+{
+  "experiment_id": "p2a_5_error_audit_20261018_01",
+  "status_at_registration": "registered_before_execution",
+  "layer": "P2a.5 CPU-only diagnostic audit plus independent FK/Join-Instance data-quality gate",
+  "research_question": "Can the already-frozen P2a ranking and budget-selection differences be attributed to lexical coverage, stable-ID ties, schema-text features, or token-budget packing, and can FK/Join-Instance identity and label coverage be made auditable without treating reference SQL as semantic role truth?",
+  "core_hypothesis": "P2a BM25/RRF losses may be traceable to lexical zero-overlap/ties or to context-packing loss; FK/Join-Instance uncertainty is a separate data-quality gate. This audit does not predict that a new ranking method will improve results.",
+  "success_criteria": [
+    "Verify the P2a source commit, P1.6 cache, input manifest, S0 score digest, complete row counts, and P2a aggregate from preserved artifacts.",
+    "Reconstruct the full P2a run with the frozen scorer and match all per-question rows and aggregate metrics exactly; preserve the P2a NO-GO decision.",
+    "Produce aligned-by-ID Gold column rank-transition matrices for all 1,460 eligible questions and the 706-question non-saturated cohort, plus all three token budgets.",
+    "Quantify BM25 lexical overlap, zero-score candidates, tie groups, top-K boundary ties, and schema-text feature strata without publishing per-question rows.",
+    "Validate all stored FK JoinInstance IDs against their canonical ordered-pair identity, reproduce the archived FK/JOIN denominators, and assign one structural reason to each unmatched parsed JOIN ON clause.",
+    "Choose whether evidence supports a newly preregistered P2b representation or packing experiment; do not start that follow-on in this run."
+  ],
+  "stop_conditions": [
+    "Any P2a/P1.6 source, artifact, input-manifest, vector-cache, or score-digest mismatch.",
+    "Any row replay, aggregate metric, S0 parity, data denominator, JoinInstance ID, or archived FK/JOIN summary mismatch.",
+    "Missing private per-question ranks or incomplete FK artifacts.",
+    "CPU time above 1,800 seconds, process RSS above 16 GiB, or more than 8 CPU threads."
+  ],
+  "budget": {
+    "gpu_seconds_max": 0,
+    "cpu_seconds_max": 1800,
+    "process_rss_gib_max": 16,
+    "cpu_threads_max": 8,
+    "external_api_requests": 0,
+    "model_forward_calls": 0,
+    "dependency_installations": 0,
+    "sql_execution": 0
+  },
+  "smoke": {
+    "questions": 5,
+    "databases": 1,
+    "criteria": ["frozen P2a source and cache hashes match", "S0 parity passes", "all three methods replay the five archived rows exactly", "FK artifact has 103 raw instances across 11 databases"]
+  },
+  "data": {
+    "dataset": "BIRD dev; exploratory development data only",
+    "questions": 1534,
+    "databases": 11,
+    "table_nodes": 75,
+    "column_nodes": 798,
+    "column_eligible_questions": 1460,
+    "column_ineligible_questions": 74,
+    "column_gold_elements": 6523,
+    "non_saturated_databases": 5,
+    "non_saturated_questions": 746,
+    "non_saturated_column_eligible_questions": 706,
+    "input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a",
+    "ordered_node_manifest_content_sha256": "4e930d3b906d46d77381edbfee8bfb57ab04fc09d47b9e90fc6272986cceaa5a",
+    "p1_6_cache_sha256": "c7bb9ed942aa793e34e1253a5d1d8f8d8d871c95bdfdc33718dde7396d345250"
+  },
+  "references": {
+    "project_repository": "https://github.com/bArtyom/gfm-rag",
+    "registration_base_branch": "main",
+    "registration_base_commit": "a626e62c11aa7c2f6ae5367610c36d16bab18574",
+    "p2a_run_id": "p2a_similarity_full1534_20261018_02",
+    "p2a_source_commit": "689b7f681651f312a1db8850d86b8b7dc4f69fd2",
+    "p1_6_run_id": "p1_6_full1534_20261018_01",
+    "p1_6_source_commit": "d948d462f9407a18f4a48c85a76380d54f865cb2",
+    "p1_5_fk_run_id": "p1_5_diag_full_20261016_03",
+    "protocol": "docs/research/text2sql/plans/p2a_5_diagnostic_and_schema_representation_20261018.md",
+    "protocol_scope": "P2a.5 A and C only. No new ranking/model scores, no P2b execution, and no change to prior P2a NO-GO."
+  },
+  "methods": {
+    "scorer": "Import the scorer only from the pinned P2a commit; replay its BM25/RRF and Cosine rankings against the frozen P1.6 float32 cache.",
+    "rank_bins": ["1-5", "6-10", "11-20", "21-50", ">50"],
+    "metrics": ["Gold-column rank transitions aligned by stable node ID", "Column R@10 rescue/damage", "Complete schema rescue/damage at 512/1024/2048", "BM25 lexical overlap/zero-score/ties/boundary ties", "context selection size/tokens/Gold omissions", "FK identity and JOIN ON coverage"],
+    "classification": "Mechanical evidence labels only; semantic mismatch, Gold ambiguity, and causal schema-text noise require blinded human review and will remain unresolved."
+  },
+  "environment": {
+    "conda_environment": "think2sql_20260909",
+    "python": "3.12.14",
+    "numpy": "2.2.6",
+    "sqlglot": "28.0.0",
+    "runner_sha256": "859e583e8d87c1d95a373a9170245844177a539cf6d1cf8ca42e852f7c6a087c"
+  },
+  "runs": [
+    {"run_id": "p2a5_smoke5_20261018_01", "mode": "smoke", "status": "not_started"},
+    {"run_id": "p2a5_full_20261018_01", "mode": "full", "status": "blocked_until_smoke_passes"}
+  ],
+  "outputs": {
+    "public_report_directory": "docs/research/text2sql/reports/p2a_5_error_audit_20261018_01/",
+    "private_result_root": "/mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom-local-results/p2a_5_error_audit_20261018_01/",
+    "publication_boundary": "Only README, this configuration, runner source, and aggregate_summary.json are public. No question IDs/text, Gold SQL, per-question ranks, schema values, vectors, databases, or logs are included."
+  },
+  "api_usage": {"external_api_requests": 0, "confirmed_input_tokens": 0, "confirmed_output_tokens": 0, "confirmed_total_tokens": 0, "cost_cny": "0.00"}
+}
