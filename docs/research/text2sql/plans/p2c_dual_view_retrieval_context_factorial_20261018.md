@@ -97,3 +97,9 @@
 - 新增执行器 `scripts/text2sql/run_p2c_dual_view_factorial.py` 只读同一缓存，不载入模型权重；仅加载本地 tokenizer 以按计划计算 R1 Context token 数。只允许一个 preflight、一个 5 题 smoke 和一个 Full，分别使用配置中冻结的独立 run ID 与目录。
 - P2c 成功门会要求全体及固定子集的 Complete@1024 CI 下界均 >0，并要求固定 5 个数据库中至少 3 个 delta 非负、至少 2 个严格为正。这是对原文未指定 CI 所属分组的保守解释，计分前冻结。
 - 归档目录固定为 `docs/research/text2sql/reports/p2c_dual_view_20261018_01/`，含 `README.md`、`experiment_config.json` 与匿名 `aggregate_summary.json`。完整逐题输出、run receipt 与日志仅留本地。
+
+## 唯一实现恢复登记（2026-10-18，仍未计分）
+
+- 首次 preflight `p2c_dual_view_preflight_20261018_01` 在验证 P2b 聚合 checksum 时因 runner 从 P2c config 读取 `final_result` 而出现 `KeyError`。用时 10.548 s wall / 10.306 CPU s / 0.749 GiB RSS；发生于四臂评分前，模型 forward=0，未产生实验分数。原目录与日志保留。
+- 最小修复：分别读取 P2c 注册状态与 P2b 已完成配置，并只从 P2b 配置读取其 aggregate SHA；新增配置来源回归检查。新一次且唯一恢复 preflight 固定为 `p2c_dual_view_preflight_20261018_02`，同一数据、阈值和资源预算；恢复再失败即停止，不运行 Smoke/Full。
+- smoke `p2c_dual_view_smoke5_20261018_01` 与 Full `p2c_dual_view_full1534_20261018_01` run ID 不变。首次失败和恢复尝试均计入 1800 CPU 秒 P2c 总预算；首次已耗 10.306 CPU 秒。

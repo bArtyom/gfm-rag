@@ -16,4 +16,4 @@ The repository guidance is recorded in [the P2c protocol](../../plans/p2c_dual_v
 
 ## Results
 
-**Not run.** Results, exact resource use, parity checks, exceptions, and the retain/upgrade/stop decision will be added after the registered smoke and single Full run. No V01/V10 measurement is available yet.
+**No experiment scores have been computed.** The first preflight (`p2c_dual_view_preflight_20261018_01`) stopped before scoring with a runner `KeyError` while reading the P2b aggregate checksum from the wrong config object. It used 10.55 s wall / 10.31 CPU s / 0.75 GiB peak RSS; model forwards and scoring were zero. The failure receipt and log are retained locally. A single implementation recovery is registered as `p2c_dual_view_preflight_20261018_02`; the hypothesis, inputs, metrics, thresholds, and smoke/Full run IDs are unchanged. If recovery preflight fails, P2c stops.

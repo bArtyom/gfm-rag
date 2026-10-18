@@ -58,6 +58,7 @@ P2B_RUNNER = REPO_ROOT / "scripts/text2sql/run_p2b_values_ablation.py"
 PLAN_PATH = REPO_ROOT / "docs/research/text2sql/plans/p2c_dual_view_retrieval_context_factorial_20261018.md"
 CONFIG_PATH = REPO_ROOT / "docs/research/text2sql/reports/p2c_dual_view_20261018_01/experiment_config.json"
 P2B_PUBLIC_AGGREGATE = REPO_ROOT / "docs/research/text2sql/reports/p2b_values_ablation_20261018_01/aggregate_summary.json"
+P2B_CONFIG_PATH = REPO_ROOT / "docs/research/text2sql/reports/p2b_values_ablation_20261018_01/experiment_config.json"
 
 
 def sha256_file(path: Path) -> str:
@@ -264,6 +265,17 @@ def factorial_contrasts(values: dict[str, float]) -> dict[str, float]:
     }
 
 
+def p2b_registered_aggregate_sha256(p2c_config: dict[str, Any], p2b_config: dict[str, Any]) -> str:
+    if p2c_config.get("experiment_id") != EXPERIMENT_ID:
+        raise RuntimeError("Unexpected P2c configuration while validating P2b inputs")
+    if p2b_config.get("experiment_id") != "p2b_values_ablation_20261018_01":
+        raise RuntimeError("Unexpected P2b completed experiment configuration")
+    try:
+        return str(p2b_config["final_result"]["aggregate_summary_sha256"])
+    except (KeyError, TypeError) as error:
+        raise RuntimeError("Completed P2b configuration has no aggregate checksum") from error
+
+
 def fixed_non_saturated_dbs(nodes: list[Any]) -> set[str]:
     token_totals: dict[str, int] = defaultdict(int)
     for node in nodes:
@@ -283,10 +295,13 @@ def load_registered_inputs(args: argparse.Namespace) -> dict[str, Any]:
     source = p1.assert_committed_source(args.expected_commit)
     if source.get("worktree_status") != "clean" or source.get("branch") != "main":
         raise RuntimeError("P2c requires a clean published main checkout")
-    if not PLAN_PATH.is_file() or not CONFIG_PATH.is_file() or not P2B_PUBLIC_AGGREGATE.is_file():
+    if not PLAN_PATH.is_file() or not CONFIG_PATH.is_file() or not P2B_CONFIG_PATH.is_file() or not P2B_PUBLIC_AGGREGATE.is_file():
         raise FileNotFoundError("A registered P2c/P2b protocol or public aggregate is missing")
     config = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
-    if config.get("experiment_id") != EXPERIMENT_ID or config.get("status") != "preregistered_not_run":
+    p2b_config = json.loads(P2B_CONFIG_PATH.read_text(encoding="utf-8"))
+    if config.get("experiment_id") != EXPERIMENT_ID or config.get("status") not in {
+        "preregistered_not_run", "recovery_preregistered_not_run"
+    }:
         raise RuntimeError("P2c experiment config is not in its preregistered state")
 
     validation_args = argparse.Namespace(
@@ -336,7 +351,7 @@ def load_registered_inputs(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError("P2b private Full aggregate checksum differs from the receipt")
     if p2b_aggregate_sha != sha256_file(P2B_PUBLIC_AGGREGATE):
         raise RuntimeError("P2b local aggregate differs from the published report aggregate")
-    if p2b_aggregate_sha != config["final_result"]["aggregate_summary_sha256"]:
+    if p2b_aggregate_sha != p2b_registered_aggregate_sha256(config, p2b_config):
         raise RuntimeError("P2b aggregate checksum differs from the archived experiment config")
 
     p2b_rows: list[dict[str, Any]] = []
@@ -860,7 +875,7 @@ def check_registered_predecessor(path: Path | None, expected_status: str, expect
 def run() -> None:
     args = parse_args()
     expected_ids = {
-        "preflight": "p2c_dual_view_preflight_20261018_01",
+        "preflight": "p2c_dual_view_preflight_20261018_02",
         "smoke": "p2c_dual_view_smoke5_20261018_01",
         "full": "p2c_dual_view_full1534_20261018_01",
     }

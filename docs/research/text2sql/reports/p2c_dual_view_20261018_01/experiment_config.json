@@ -1,6 +1,6 @@
 {
   "experiment_id": "p2c_dual_view_20261018_01",
-  "status": "preregistered_not_run",
+  "status": "recovery_preregistered_not_run",
   "project": {
     "repository": "https://github.com/bArtyom/gfm-rag",
     "branch": "main",
@@ -11,7 +11,8 @@
   "core_hypothesis": "V01 (R0 retrieval scores + R1 Context) preserves the R0 Column ranking while improving Complete Schema@1024 by at least 3.0 pp on the fixed R0 non-saturated subset and 5.0 pp overall.",
   "layer": "minimal_factorial_diagnostic",
   "budget": {
-    "preflight_runs": 1,
+    "preflight_runs_max": 2,
+    "preflight_implementation_recovery_runs_max": 1,
     "smoke_runs": 1,
     "full_runs": 1,
     "max_cpu_seconds_per_run": 1800,
@@ -73,9 +74,29 @@
     "paired_diagnostics": ["rescue/damage", "factorial ranking/context/interaction effects", "selected Values-bearing columns"]
   },
   "run_ids": {
-    "preflight": "p2c_dual_view_preflight_20261018_01",
+    "preflight_initial_failed": "p2c_dual_view_preflight_20261018_01",
+    "preflight_recovery": "p2c_dual_view_preflight_20261018_02",
     "smoke": "p2c_dual_view_smoke5_20261018_01",
     "full": "p2c_dual_view_full1534_20261018_01"
+  },
+  "execution_recovery": {
+    "attempt_1": {
+      "run_id": "p2c_dual_view_preflight_20261018_01",
+      "status": "failed_before_scoring",
+      "error": "KeyError: 'final_result'",
+      "cause": "The runner used the current P2c preregistration object to read P2b's completed aggregate checksum.",
+      "wall_seconds": 10.547912960872054,
+      "process_cpu_seconds": 10.306041135,
+      "peak_rss_gib": 0.74853515625,
+      "model_forwards": 0,
+      "scoring_started": false
+    },
+    "recovery": {
+      "change": "Read the P2b final aggregate checksum from P2b's completed experiment_config.json, while retaining P2c config validation separately.",
+      "hypothesis_data_metrics_thresholds": "unchanged",
+      "new_code_regression_check": "tests/test_p2c_dual_view_factorial.py::test_p2b_aggregate_hash_comes_from_completed_p2b_config",
+      "stop_if_recovery_preflight_fails": true
+    }
   },
   "private_result_root": "/mnt/liansp3/sources/results/gfmrag_p2c_dual_view_20261018",
   "report_directory": "docs/research/text2sql/reports/p2c_dual_view_20261018_01",

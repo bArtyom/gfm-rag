@@ -7,6 +7,7 @@ from scripts.text2sql.run_p2c_dual_view_factorial import (
     assert_context_only_ranking_invariant,
     assert_p2b_replay,
     factorial_contrasts,
+    p2b_registered_aggregate_sha256,
 )
 
 
@@ -92,3 +93,10 @@ def test_factorial_contrasts_separate_context_ranking_and_interaction() -> None:
     assert actual["ranking_effect_at_R0"] == pytest.approx(0.05)
     assert actual["context_effect_at_R1"] == pytest.approx(0.17)
     assert actual["interaction"] == pytest.approx(0.07)
+
+
+def test_p2b_aggregate_hash_comes_from_completed_p2b_config() -> None:
+    p2c_config = {"experiment_id": "p2c_dual_view_20261018_01", "status": "recovery_preregistered_not_run"}
+    p2b_config = {"experiment_id": "p2b_values_ablation_20261018_01", "final_result": {"aggregate_summary_sha256": "abc123"}}
+
+    assert p2b_registered_aggregate_sha256(p2c_config, p2b_config) == "abc123"

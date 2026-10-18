@@ -58,6 +58,8 @@ P1.6 新冻结 Dense 评分基线 PASS；P2a BM25/RRF 增益 NO-GO；[P2a.5 审�
 
 P2c 的[机器可读预注册配置](reports/p2c_dual_view_20261018_01/experiment_config.json)和[报告目录](reports/p2c_dual_view_20261018_01/README.md)已建立；完整停止条件和结果门见专项计划。
 
+实施故障记录：首次 P2c preflight 在计分前因配置校验代码错误停止；唯一恢复 run 已在配置与计划中登记，恢复失败即停止。
+
 同时在**独立 CPU 工作包**推进 FK/JoinInstance 数据质量清洗：P2a.5 标识了 student_club 元数据缺口 90 条、25 ambiguous JOIN 和 197 个同表多 FK 候选问题；这还不是可监督的 Role Label，**human review=0、可靠语义角色评测分母=0**。只有明确有效的 JOIN Role / Path 标签和 GraphReasoner baseline 才能启动 Query-aware Edge Gate 的科学实验。
 
 旧 P1/P1.5 历史严格复现 FAIL 与 P2a/P2b 的原预注册 NO-GO 保持，不把下一轮新问题视为“修改阈值”。**当前没有新增 GNN、SQL Generator/Selector 或 Jev 实验结果**；BIRD dev 是反复开发集，独立数据库验证是未来质量结论的必要条件。
