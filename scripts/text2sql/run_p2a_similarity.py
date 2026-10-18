@@ -652,8 +652,13 @@ def db_deltas(summary: dict[str, Any], method: str, metric_path: tuple[str, ...]
 def delta_values(summary: dict[str, Any], method: str, area: str, metric: str, key: str, subset: bool = False) -> dict[str, Any]:
     base = summary["non_saturated_2048"]["methods"]["S0_cosine"] if subset else summary["global"]["S0_cosine"]
     candidate = summary["non_saturated_2048"]["methods"][method] if subset else summary["global"][method]
-    base_value = base[area][metric][key]["query_macro"] if metric in ("recall", "precision") else base[area][key][metric]["query_macro"]
-    candidate_value = candidate[area][metric][key]["query_macro"] if metric in ("recall", "precision") else candidate[area][key][metric]["query_macro"]
+    if area in ("table", "column"):
+        metric_key = f"{metric}@{key}"
+        base_value = base[area][metric_key]["query_macro"]
+        candidate_value = candidate[area][metric_key]["query_macro"]
+    else:
+        base_value = base[area][key][metric]["query_macro"]
+        candidate_value = candidate[area][key][metric]["query_macro"]
     return {"baseline": base_value, "candidate": candidate_value, "delta_pp": (candidate_value - base_value) * 100.0}
 
 
