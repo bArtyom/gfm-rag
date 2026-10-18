@@ -1,0 +1,95 @@
+{
+  "experiment_id": "p2c_dual_view_20261018_01",
+  "run_id": "p2c_dual_view_full1534_20261018_02",
+  "status": "failed_before_result_artifacts",
+  "source": {
+    "repository": "https://github.com/bArtyom/gfm-rag",
+    "branch": "main",
+    "published_commit": "1d6cad835a7b07189a1c6102de013707944a0eeb",
+    "checkout_tree_matches_published_commit": true,
+    "script_sha256": "9740f830ee07151b6756b45a501297bc49f33ca16c18bf6a0e88ce67ea610f09",
+    "protocol_sha256": "7bf2bc46f73cdad16a55c8410d1c339e5aaa89586dfda94cd95d737aa67a17f3",
+    "config_sha256": "1362993662e26480e972381cc7f24544c853f8956065b25e8a8e28f808965ab0"
+  },
+  "data": {
+    "benchmark": "BIRD dev",
+    "questions": 1534,
+    "databases": 11,
+    "schema_nodes": 873,
+    "column_eligible_questions": 1460,
+    "fixed_non_saturated_questions": 706,
+    "fixed_non_saturated_databases": 5
+  },
+  "environment": {
+    "conda_environment": "think2sql_20260909",
+    "python": "3.12.14",
+    "numpy": "2.2.6",
+    "transformers": "4.57.1",
+    "tokenizers": "0.22.1",
+    "model_path": "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+    "model_weights_loaded": false,
+    "local_only": true
+  },
+  "launch_environment": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "OMP_NUM_THREADS": "8",
+    "MKL_NUM_THREADS": "8",
+    "OPENBLAS_NUM_THREADS": "8",
+    "NUMEXPR_NUM_THREADS": "8"
+  },
+  "launch_command_argv": [
+    "conda", "run", "--no-capture-output", "-n", "think2sql_20260909", "python3",
+    "scripts/text2sql/run_p2c_dual_view_factorial.py",
+    "--mode", "full",
+    "--run-id", "p2c_dual_view_full1534_20261018_02",
+    "--expected-commit", "1d6cad835a7b07189a1c6102de013707944a0eeb",
+    "--output-dir", "/mnt/liansp3/sources/results/gfmrag_p2c_dual_view_20261018/full_1534_20261018_02",
+    "--preflight-dir", "/mnt/liansp3/sources/results/gfmrag_p2c_dual_view_20261018/preflight_20261018_02",
+    "--smoke-dir", "/mnt/liansp3/sources/results/gfmrag_p2c_dual_view_20261018/smoke_5q_20261018_01",
+    "--p1-6-run-dir", "/mnt/liansp3/sources/results/gfmrag_p1_6_rebaseline_20261016/full_1534_20261018_01",
+    "--legacy-root", "/mnt/liansp3/sources/projects/quadrag",
+    "--dataset-root", "/mnt/liansp3/sources/datasets/bird/dev",
+    "--model-path", "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+    "--previous-run-dir", "/mnt/liansp3/sources/results/quadrag_p1_dimension_20261014/gfmrag_official_full1534_20261014_01",
+    "--p1-5-run-dir", "/mnt/liansp3/sources/results/gfmrag_p1_5_diagnosis_20261016/full_03",
+    "--p2b-run-dir", "/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018/full_1534_20261018_01"
+  ],
+  "execution": {
+    "arms_evaluated": ["V00", "V01", "V10", "V11"],
+    "score_context_invariants_passed": true,
+    "P2b_per_question_row_replay_passed": true,
+    "P2b_aggregate_replay_passed": false,
+    "error_type": "KeyError",
+    "error_message": "'column_r5_query_macro'",
+    "failure_stage": "assert_p2b_aggregate_replay",
+    "cause": "The local P2c summary uses column_recall_query_macro, while the aggregate replay assertion requests column_r5_query_macro from that local summary. No metric comparison or scientific gate was completed.",
+    "aggregate_summary_written": false,
+    "per_question_result_written": false,
+    "scientific_result": "unavailable; this execution failure neither supports nor rejects the registered hypothesis"
+  },
+  "resources": {
+    "wall_seconds": 20.57488282583654,
+    "process_cpu_seconds": 20.680715106,
+    "process_peak_rss_gib": 0.9797210693359375,
+    "cpu_threads_limit": 8,
+    "host_cpu_threads": 192,
+    "available_ram_before_run_gib": 436,
+    "available_disk_before_run_tib": 116,
+    "gpu_devices_observed_but_not_used": 4,
+    "gpu_seconds": 0,
+    "model_weights_loaded": false,
+    "model_forwards": 0,
+    "api_calls": 0,
+    "sql_executions": 0
+  },
+  "recovery_policy": {
+    "registered_full_recovery_allowance": 1,
+    "allowance_used": true,
+    "third_full_attempt_permitted": false
+  },
+  "local_evidence": {
+    "run_directory": "/mnt/liansp3/sources/results/gfmrag_p2c_dual_view_20261018/full_1534_20261018_02",
+    "run_directory_files": ["run_start.json", "failure.json"],
+    "log": "/mnt/liansp3/logs/gfmrag_p2c_dual_view_full1534_20261018_02.log"
+  }
+}

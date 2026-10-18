@@ -1,6 +1,6 @@
 # P2c 预注册执行方案：Retrieval / Context 双视图 2×2 因子实验
 
-> **计划制定于 2026-10-18，状态：NOT RUN。** 本文件为新的独立研究问题，不是 P2b 已失败 Values 消融的扩展参数搜索；如果未验证私有向量缓存与完整输入，停止并报告缺口。
+> **计划制定于 2026-10-18；执行状态：STOPPED，注册的 Full 恢复也因实现错误失败，未产生科学结果。** 本文件为新的独立研究问题，不是 P2b 已失败 Values 消融的扩展参数搜索；如果未验证私有向量缓存与完整输入，停止并报告缺口。
 >
 > 依据：[P2b 最新分析](../reports/p2b_review_20261018/README.md)、[P2b 正式结果](../reports/p2b_values_ablation_20261018_01/README.md)、[P2a.5 错误/FK 审计](../reports/p2a_5_error_audit_20261018_01/README.md)。
 
@@ -94,7 +94,7 @@
 
 - 成功门的数据库簇 bootstrap 95% CI 下界 >0 同时应用于全体 1,460 个可评题和固定 706 题子集；不满足任一组即 NO-GO。
 - P2b 已归档的逐题私有行包含 Column Top-K 与 512/1024/2048 budget 选择，但没有逐题 Table Top-K ID。因此 V00/V11 将对所有已归档 Column Top-K 与预算字段做逐题精确重放，并对聚合指标做数值精确复核；新实验的 Table Top-K 将通过各自 context-only 配对臂的逐题排名与原始 score-matrix digest 完全一致性检查。这个归档字段缺口不改变实验假设、门槛或数据分母。
-- 新增执行器 `scripts/text2sql/run_p2c_dual_view_factorial.py` 只读同一缓存，不载入模型权重；仅加载本地 tokenizer 以按计划计算 R1 Context token 数。只允许一个 preflight、一个 5 题 smoke 和一个 Full，分别使用配置中冻结的独立 run ID 与目录。
+- 新增执行器 `scripts/text2sql/run_p2c_dual_view_factorial.py` 只读同一缓存，不载入模型权重；仅加载本地 tokenizer 以按计划计算 R1 Context token 数。冻结配置最多允许一个 preflight 实现恢复、一个 5 题 smoke 和一个 Full 实现恢复；恢复仍失败即停止，不进行第三次 Full。
 - P2c 成功门会要求全体及固定子集的 Complete@1024 CI 下界均 >0，并要求固定 5 个数据库中至少 3 个 delta 非负、至少 2 个严格为正。这是对原文未指定 CI 所属分组的保守解释，计分前冻结。
 - 归档目录固定为 `docs/research/text2sql/reports/p2c_dual_view_20261018_01/`，含 `README.md`、`experiment_config.json` 与匿名 `aggregate_summary.json`。完整逐题输出、run receipt 与日志仅留本地。
 
@@ -104,5 +104,6 @@
 - 最小修复：分别读取 P2c 注册状态与 P2b 已完成配置，并只从 P2b 配置读取其 aggregate SHA；新增配置来源回归检查。新一次且唯一恢复 preflight 固定为 `p2c_dual_view_preflight_20261018_02`，同一数据、阈值和资源预算；恢复再失败即停止，不运行 Smoke/Full。
 - 5 题 smoke `p2c_dual_view_smoke5_20261018_01` 已通过：V00/V01 与 V10/V11 的 score/context 排名不变量通过，V00/V11 的 P2b Column Top-K 和预算行逐题精确重放。用时 11.217 s wall / 11.152 CPU s / 0.865 GiB RSS；不是正式证据。
 - 首次 Full `p2c_dual_view_full1534_20261018_01` 已完成四臂评测和逐题 replay，但在聚合构建时错误地用私有行键 `R0_local_cpu_pass1` 查找公共聚合键；真正 key 是 `R0_local_cpu_pass_1`。进程在写 aggregate/per-question 前失败，20.579 s wall / 20.685 CPU s / 0.969 GiB RSS；模型/API/SQL 均为 0。保留独立目录与日志。
-- 唯一 Full 恢复 `p2c_dual_view_full1534_20261018_02` 仅修正公共聚合键映射，并允许已登记的 2026-10-18 preflight/smoke commit `91fc6fef002edce8f68d78ca4050c4f62688107c` 作为同一代码链中的前置证据；打分和数据路径无改动。新增聚合键及前置提交回归检查。恢复再失败即停止，不进行第三次 Full。
-- P2c 所有尝试共享 1800 CPU 秒总预算；目前累计使用约 53.3 CPU 秒（两个 preflight、一个 smoke、失败 Full），Full 恢复前重新检查资源与剩余预算。
+- 唯一 Full 恢复 `p2c_dual_view_full1534_20261018_02` 仅修正公共聚合键映射，并允许已登记的 2026-10-18 preflight/smoke commit `91fc6fef002edce8f68d78ca4050c4f62688107c` 作为同一代码链中的前置证据；打分和数据路径无改动。新增聚合键及前置提交回归检查。该恢复已完成四臂及逐题行 replay，但 aggregate replay 因本地 Column recall 字段名不一致再次触发 `KeyError: 'column_r5_query_macro'`。没有生成 Full aggregate 或 per-question 文件；恢复次数耗尽，停止，不进行第三次 Full。
+- 两个 preflight、一个 smoke 和两次 Full 合计 73.965210294 CPU 秒 / 73.943058270 wall 秒，最大峰值 RSS 0.979721 GiB；GPU/API/model forward/SQL 均为 0。Full 两次失败目录和日志保留在 `/mnt/liansp3/sources/results/gfmrag_p2c_dual_view_20261018/` 与 `/mnt/liansp3/logs/`。
+- 本轮是执行器聚合回放故障，**不是 H1/H2 通过或失败**；未产生可用于科学比较的 Full 指标。不得把 smoke 或进程内未落盘评分当作正式结果。只有另行修复并补充本地 summary-to-archive 字段契约后，才可考虑新的实验登记和运行预算。

@@ -1,6 +1,6 @@
 {
   "experiment_id": "p2c_dual_view_20261018_01",
-  "status": "recovery_preregistered_not_run",
+  "status": "stopped_full_recovery_failed_no_scientific_result",
   "project": {
     "repository": "https://github.com/bArtyom/gfm-rag",
     "branch": "main",
@@ -79,7 +79,8 @@
     "preflight_recovery": "p2c_dual_view_preflight_20261018_02",
     "smoke": "p2c_dual_view_smoke5_20261018_01",
     "full_initial_failed": "p2c_dual_view_full1534_20261018_01",
-    "full_recovery": "p2c_dual_view_full1534_20261018_02"
+    "full_recovery": "p2c_dual_view_full1534_20261018_02",
+    "full_recovery_status": "failed_aggregate_replay_no_artifacts"
   },
   "execution_recovery": {
     "attempt_1": {
@@ -122,16 +123,45 @@
       ],
       "new_full_run_id": "p2c_dual_view_full1534_20261018_02",
       "registered_preflight_smoke_source_commit": "91fc6fef002edce8f68d78ca4050c4f62688107c",
-      "stop_if_recovery_full_fails": true
+      "status": "failed_during_aggregate_replay_before_writing_results",
+      "error": "KeyError: 'column_r5_query_macro'",
+      "cause": "P2c summarize_rows exposes Column recall under column_recall_query_macro, while assert_p2b_aggregate_replay indexes column_r5_query_macro in the local replay summary. The P2b archived aggregate field is valid; the local replay schema mapping is inconsistent.",
+      "wall_seconds": 20.57488282583654,
+      "process_cpu_seconds": 20.680715106,
+      "peak_rss_gib": 0.9797210693359375,
+      "four_arms_evaluated": true,
+      "p2b_per_question_row_replay_passed": true,
+      "public_or_private_result_files_written": false,
+      "model_forwards": 0,
+      "api_calls": 0,
+      "sql_executions": 0,
+      "gpu_seconds": 0,
+      "stop_if_recovery_full_fails": true,
+      "third_full_attempt": "not_permitted; recovery allowance exhausted"
     }
+  },
+  "execution_summary": {
+    "scientific_result": "unavailable; do not infer support or rejection of the registered hypothesis",
+    "aggregate_summary_written": false,
+    "per_question_result_written": false,
+    "attempts_cpu_seconds_total": 73.965210294,
+    "attempts_wall_seconds_total": 73.94305827002972,
+    "peak_rss_gib_across_attempts": 0.9797210693359375,
+    "api_calls": 0,
+    "model_forwards": 0,
+    "sql_executions": 0,
+    "gpu_seconds": 0
   },
   "private_result_root": "/mnt/liansp3/sources/results/gfmrag_p2c_dual_view_20261018",
   "report_directory": "docs/research/text2sql/reports/p2c_dual_view_20261018_01",
   "api_usage": {
     "planned_requests": 0,
+    "actual_requests": 0,
     "confirmed_input_tokens": 0,
     "confirmed_output_tokens": 0,
     "confirmed_total_tokens": 0,
-    "planned_cost_cny": "0.00"
+    "planned_cost_cny": "0.00",
+    "actual_api_cost_cny": "0.00",
+    "billing_note": "No model API requests were made; local tokenizer and frozen-vector scoring only."
   }
 }

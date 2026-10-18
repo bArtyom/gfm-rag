@@ -4,7 +4,7 @@
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新决策（2026-10-18，P2b 结果复核）**：P2a.5 错误归因与 FK Gate 审计已完成；P2b R0/R1 Values 消融 Full 完成但**预注册主成功门 NO-GO**（Column R@10 −0.96 pp，Complete@1024 +9.32 pp，文本 token −27.0%）。最新独立研究问题是**检索语义文本与下游 Schema Context 是否应分离**，因此本仓库新增了[ P2c Dual-View 2×2 预注册](plans/p2c_dual_view_retrieval_context_factorial_20261018.md)：只用既有 P2b CPU 缓存交叉验证“R0/R1 排名 × R0/R1 Context 长度”，**未开始执行**。FK/Role Gate 仍 NO-GO，尚未验证图推理或 SQL EX。
+> **最新决策（2026-10-18，P2c 执行记录）**：P2a.5 错误归因与 FK Gate 审计已完成；P2b R0/R1 Values 消融 Full 完成但**预注册主成功门 NO-GO**。P2c 双视图 2×2 已完成 preflight 与 smoke，但初次 Full 和唯一登记恢复均在聚合回放阶段因执行器字段映射错误停止，未落盘 Full 聚合或逐题结果；实验预算停止条件已触发，**没有科学假设结论**。见 [P2c 报告](reports/p2c_dual_view_20261018_01/README.md)。FK/Role Gate 仍 NO-GO，尚未验证图推理或 SQL EX。
 
 ## 现有研究文档
 
@@ -25,6 +25,7 @@
 | [P2a.5 执行计划与后续消融指导](plans/p2a_5_diagnostic_and_schema_representation_20261018.md) | P2a.5 已执行范围、复现约束、条件式 P2b / packing 选择 | P2a.5 A/C 已完成；R0/R1 已按专项计划另行预注册 |
 | [P2b R0/R1 Values 文本消融预注册](plans/p2b_values_ablation_20261018.md) | 固定 1024-D Cosine 下只移除列 Values 文本，含 CPU 编码控制、成功门与停止条件 | Full 完成；预注册成功门 NO-GO，停止 Values 扩展 |
 | [P2b R0/R1 Values 消融记录](reports/p2b_values_ablation_20261018_01/README.md) | 预注册、运行状态、匿名结果及下一步决策 | 2026-10-18 完成，匿名聚合已归档 |
+| [P2c 双视图 2×2 实验报告](reports/p2c_dual_view_20261018_01/README.md) | 预注册、smoke 与两次 Full 执行故障、停止决定 | 执行器恢复额度耗尽；未产生 Full 科学结果 |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
@@ -54,11 +55,11 @@
 
 P1.6 新冻结 Dense 评分基线 PASS；P2a BM25/RRF 增益 NO-GO；[P2a.5 审计](reports/p2a_5_error_audit_20261018_01/README.md) PASS 但 FK/Role Gate 仍 NO-GO；[P2b Values 消融](reports/p2b_values_ablation_20261018_01/README.md) 全量完成，**主成功门 NO-GO**。P2b R1 删除 Values 使全体 Column R@10 −0.96 pp（95% CI [−2.06,+0.08] pp），Complete@1024 +9.32 pp，文本长度减少 27.0%。这是**有价值的可归因问题**，但未证明删除 Values 的语义检索效果更好。
 
-**本轮下一步是已独立预注册的 [P2c Retrieval/Context 双视图四臂实验](plans/p2c_dual_view_retrieval_context_factorial_20261018.md)**：复用同一 P2b CPU Query/R0/R1 node 向量，V00=R0排名+R0 Context，V01=R0排名+R1 Context，V10=R1排名+R0 Context，V11=R1排名+R1 Context。**该实验尚未运行，V01/V10 不得报告预期数字为结果**。它能区分语义排序效应与节点文本长度/预算效应，避免继续盲目搜索 Values 组合和 BM25/RRF 参数。
+**本轮执行的是已独立预注册的 [P2c Retrieval/Context 双视图四臂实验](plans/p2c_dual_view_retrieval_context_factorial_20261018.md)**：V00=R0排名+R0 Context，V01=R0排名+R1 Context，V10=R1排名+R0 Context，V11=R1排名+R1 Context。Preflight、5题 smoke 通过；两次 1534 题 Full 均在聚合回放时报字段 KeyError，恢复额度用尽后停止。**没有 Full 指标、置信区间或科学门结论**，不能推断假设支持/不支持。
 
 P2c 的[机器可读预注册配置](reports/p2c_dual_view_20261018_01/experiment_config.json)和[报告目录](reports/p2c_dual_view_20261018_01/README.md)已建立；完整停止条件和结果门见专项计划。
 
-实施故障记录：P2c 的首次 preflight 和 Full 分别因配置校验与聚合字段映射错误停止；preflight 恢复、smoke 已通过，Full 的唯一实现恢复已登记，恢复失败即停止。
+实施故障记录：P2c 首次 preflight 与两次 Full 的聚合回放均出现实现字段映射错误；preflight 恢复、smoke 已通过，唯一 Full 恢复失败后按预注册停止。后续如继续，先需单独修正并验证 summary-to-archive 字段契约，再新建实验运行登记。
 
 同时在**独立 CPU 工作包**推进 FK/JoinInstance 数据质量清洗：P2a.5 标识了 student_club 元数据缺口 90 条、25 ambiguous JOIN 和 197 个同表多 FK 候选问题；这还不是可监督的 Role Label，**human review=0、可靠语义角色评测分母=0**。只有明确有效的 JOIN Role / Path 标签和 GraphReasoner baseline 才能启动 Query-aware Edge Gate 的科学实验。
 
