@@ -1,6 +1,6 @@
 # P2b R0/R1 Values 文本消融：预注册方案
 
-> 状态：**已预注册；首个 smoke 因结果汇总代码错误失败，唯一一次工程修复 smoke 已单独登记，尚未重跑**。对应实验记录：[P2b 报告](../reports/p2b_values_ablation_20261018_01/README.md)。本计划只覆盖一组有限消融与重复编码控制，不扩展为表示参数搜索。
+> 状态：**已完成；Full 通过复现门，预注册主成功门 NO-GO，停止 Values 扩展**。报告：[P2b 结果](../reports/p2b_values_ablation_20261018_01/README.md)。本计划只覆盖一组有限消融与重复编码控制，不扩展为表示参数搜索。
 
 ## 研究问题与核心假设
 
@@ -55,8 +55,9 @@
 ## 执行记录
 
 - 初始 Smoke（失败，保留）：`p2b_values_smoke5_20261018_01`，独立本地结果目录 `/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018/smoke_5q_20261018_01`，日志 `/mnt/liansp3/logs/gfmrag_p2b_values_smoke5_20261018_01.log`。5 题编码与打分完成后，aggregate 读取错字段（准备数据没有 `column_eligible` 字段，该标记只在 scorer rows 中）；聚合未写盘，错误记录与日志已保留。
-- 唯一恢复 Smoke（预注册待运行）：`p2b_values_smoke5_20261018_02`，新结果目录 `/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018/smoke_5q_20261018_02`、新日志 `/mnt/liansp3/logs/gfmrag_p2b_values_smoke5_20261018_02.log`。只把 column-eligible 计数改为从 scorer rows 获取；假设、数据、条件、模型、指标、阈值及 5 题样本保持不变。该修复和本恢复额度必须在恢复运行前提交并核实。
-- Full：`p2b_values_full1534_20261018_01`，仅在唯一恢复 smoke 成功后启动；独立本地结果目录 `/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018/full_1534_20261018_01`，日志 `/mnt/liansp3/logs/gfmrag_p2b_values_full1534_20261018_01.log`。累计计入初始失败 smoke 的 313.0 CPU s / 49.8 wall s。
+- 唯一恢复 Smoke（通过）：`p2b_values_smoke5_20261018_02`，结果目录 `/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018/smoke_5q_20261018_02`、日志 `/mnt/liansp3/logs/gfmrag_p2b_values_smoke5_20261018_02.log`。Frozen scorer parity、R0 text hash、R1 唯一 Values 删除、向量和输出门均通过；smoke-only R@10 delta −5 pp 不作为证据。
+- Full：`p2b_values_full1534_20261018_01`，结果目录 `/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018/full_1534_20261018_01`，日志 `/mnt/liansp3/logs/gfmrag_p2b_values_full1534_20261018_01.log`；代码 commit `7cb681000f4da87aeeb71098ff383aaae6b45660`。完成 1534 问 / 11 DB / 1460 列可评题；S0 冻结 cache parity 精确通过。R1−R0 全体 Column R@10 = −0.955 pp，DB-cluster bootstrap 95% CI [−2.056, +0.083] pp，未达到 +1 pp 且 CI 下界 >0 的主成功门；固定非饱和 R@10 = −0.667 pp、全体 Complete@1024 = +9.315 pp、子集 Complete@1024 = +5.524 pp，护栏通过。结果判定 NO-GO，停止 Values 扩展。
+- 全部尝试累计 CPU 2755.610 s / wall 387.514 s / 峰值 RSS 5.700 GiB；本地 Qwen3 输入 165803 tokens、生成 0；API/GPU/SQL 均为 0。完整安全聚合 SHA-256 `c537b5b1b67fdb59ffa859ece7a463174419db23c500cd0e47dfbcf67dfc6d37`，已复制到本目录的 `aggregate_summary.json`。Full warning 仅为 Transformers 提示 `torch_dtype` 参数已弃用，未影响执行。
 - 完整启动命令、环境快照和实际时间由 runner 写入本地 `run_start.json`；公开报告只保留可复现命令模板及安全聚合。
 
 ## 指导冲突

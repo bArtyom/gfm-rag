@@ -1,6 +1,6 @@
 {
   "experiment_id": "p2b_values_ablation_20261018_01",
-  "status": "recovery_preregistered_not_run",
+  "status": "completed_no_go",
   "project": {
     "repository": "https://github.com/bArtyom/gfm-rag",
     "branch": "main",
@@ -99,20 +99,49 @@
     "condition_metric_artifacts_written": false,
     "hypothesis_or_threshold_changes": false,
     "only_allowed_recovery_run_id": "p2b_values_smoke5_20261018_02",
+    "recovery_status": "passed",
     "stop_if_recovery_fails": true,
-    "cumulative_resource_budget_applies": true
+    "cumulative_resource_budget_applies": true,
+    "full_status": "completed",
+    "full_source_commit": "7cb681000f4da87aeeb71098ff383aaae6b45660"
+  },
+  "final_result": {
+    "decision": "no_go_stop_values_ablation",
+    "formal_questions": 1534,
+    "databases": 11,
+    "column_eligible_questions": 1460,
+    "R1_minus_R0_column_r10_pp": -0.9554794520547947,
+    "database_cluster_bootstrap_95_ci_pp": [-2.0563592334511798, 0.08290627459675347],
+    "primary_success_gate": false,
+    "guardrails_pass": true,
+    "complete_1024_all_delta_pp": 9.315068493150685,
+    "complete_1024_fixed_non_saturated_delta_pp": 5.524079320113314,
+    "aggregate_summary_sha256": "c537b5b1b67fdb59ffa859ece7a463174419db23c500cd0e47dfbcf67dfc6d37",
+    "full_wall_seconds": 292.863022910431,
+    "full_cpu_seconds": 2168.754770642,
+    "full_peak_rss_gib": 5.699848175048828,
+    "cumulative_wall_seconds_all_attempts": 387.51367831416425,
+    "cumulative_cpu_seconds_all_attempts": 2755.610355025,
+    "cumulative_peak_rss_gib": 5.699848175048828
   },
   "private_results": "/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018",
   "public_report": "docs/research/text2sql/reports/p2b_values_ablation_20261018_01/README.md",
   "public_aggregate": "docs/research/text2sql/reports/p2b_values_ablation_20261018_01/aggregate_summary.json",
   "api_usage": {
     "planned_requests": 0,
+    "actual_requests": 0,
+    "actual_confirmed_input_tokens": 0,
+    "actual_confirmed_output_tokens": 0,
+    "actual_confirmed_total_tokens": 0,
+    "actual_cost_cny": "0.00",
     "planned_cost_cny": "0",
     "actual_bill_status": "not_applicable_no_api_requests"
   },
   "local_model_token_accounting": {
     "initial_failed_smoke_input_tokens": 12238,
-    "remaining_run_input_tokens": "to be counted from attention_mask during each actual local encoder pass",
+    "recovery_smoke_input_tokens": 12238,
+    "full_input_tokens": 141327,
+    "cumulative_input_tokens_all_attempts": 165803,
     "output_tokens": 0
   }
 }

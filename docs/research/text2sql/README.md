@@ -4,7 +4,7 @@
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新状态（2026-10-18）**：**P1.6 全量冻结 1024-D Cosine 基线 PASS**；**P2a 方法增益 NO-GO**；P2a.5 冻结重放、错误归因与 FK / Join-Instance 数据质量审计已完成，详见[报告](reports/p2a_5_error_audit_20261018_01/README.md)。**P2b R0/R1 Values 消融已预注册；首个 5 题 smoke 在编码和打分后因结果汇总代码字段错误失败，已保留现场并登记唯一一次修复 smoke**，方案见[预注册计划](plans/p2b_values_ablation_20261018.md)，执行与结果见[实验记录](reports/p2b_values_ablation_20261018_01/README.md)；Full 尚未启动，BIRD dev 仍是探索集。FK / Role Gate 仍 NO-GO，未有 GFM、JOIN Role、P3 SQL EX 新成绩。
+> **最新状态（2026-10-18）**：**P1.6 全量冻结 1024-D Cosine 基线 PASS**；**P2a 方法增益 NO-GO**；P2a.5 冻结重放、错误归因与 FK / Join-Instance 数据质量审计已完成，详见[报告](reports/p2a_5_error_audit_20261018_01/README.md)。**P2b R0/R1 Values 消融 Full 已完成，预注册成功门 NO-GO**：R1 Column R@10 −0.96 pp（95% 数据库簇 bootstrap CI −2.06 至 +0.08 pp），Complete@1024 +9.32 pp；不继续 Values 扩展，详见[计划](plans/p2b_values_ablation_20261018.md)和[实验报告](reports/p2b_values_ablation_20261018_01/README.md)。BIRD dev 仍是探索集。FK / Role Gate 仍 NO-GO，未有 GFM、JOIN Role、P3 SQL EX 新成绩。
 
 ## 现有研究文档
 
@@ -23,8 +23,8 @@
 | [P2a 最新结果复核（当前）](reports/p2a_review_20261018/README.md) | 失败机制、RRF rescue/damage、排序/预算冲突和未来研究边界 | 2026-10-18 只读复核 |
 | [P2a.5 错误归因与 FK Gate 报告](reports/p2a_5_error_audit_20261018_01/README.md) | 冻结排名错误归因、预算 / 字段特征、FK / JOIN 覆盖与下一步决策 | 2026-10-18 完成；原 P2a NO-GO 与 Role Gate NO-GO 均保留 |
 | [P2a.5 执行计划与后续消融指导](plans/p2a_5_diagnostic_and_schema_representation_20261018.md) | P2a.5 已执行范围、复现约束、条件式 P2b / packing 选择 | P2a.5 A/C 已完成；R0/R1 已按专项计划另行预注册 |
-| [P2b R0/R1 Values 文本消融预注册](plans/p2b_values_ablation_20261018.md) | 固定 1024-D Cosine 下只移除列 Values 文本，含 CPU 编码控制、成功门与停止条件 | 已预注册；首个 smoke 有实现错误，唯一 recovery smoke 已登记 |
-| [P2b R0/R1 Values 消融记录](reports/p2b_values_ablation_20261018_01/README.md) | 预注册、运行状态、匿名结果及下一步决策 | recovery smoke 待运行；Full 未启动 |
+| [P2b R0/R1 Values 文本消融预注册](plans/p2b_values_ablation_20261018.md) | 固定 1024-D Cosine 下只移除列 Values 文本，含 CPU 编码控制、成功门与停止条件 | Full 完成；预注册成功门 NO-GO，停止 Values 扩展 |
+| [P2b R0/R1 Values 消融记录](reports/p2b_values_ablation_20261018_01/README.md) | 预注册、运行状态、匿名结果及下一步决策 | 2026-10-18 完成，匿名聚合已归档 |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
@@ -56,7 +56,9 @@
 
 **P2a.5 已完成：** [匿名聚合报告](reports/p2a_5_error_audit_20261018_01/README.md)和[聚合 JSON](reports/p2a_5_error_audit_20261018_01/aggregate_summary.json)验证了 P2a 逐题 / 聚合重放与 S0 parity，P2a NO-GO 保持不变；FK JoinInstance ID 可重建，但 Role Gate 仍 NO-GO。Gold 与非 Gold top-10 的 Values 字段长度都显示可检验关联，不能据此称 Values 为噪声或宣称因果收益。
 
-**建议下一步：** 另行预注册一个有限的 R0 原文本 vs R1 移除 Values 消融，固定 1024-D Qwen3 + Cosine、候选集和 512/1024/2048 预算，并控制同文本重新编码波动。**尚未注册或运行**；不得把 P2a.5 结果表述为该消融结论，也不要继续搜索 BM25/RRF 参数或启动 JOIN/GNN 主张。
+**P2b R0/R1 Values 消融已完成：** [实验报告](reports/p2b_values_ablation_20261018_01/README.md)显示全体 Column R@10 从 67.99% 到 67.03%（−0.96 pp；数据库簇 bootstrap 95% CI [−2.06, +0.08] pp），没有达到“提升至少 1 pp 且 CI 下界 >0”的预注册主成功门；固定非饱和 Column R@10 为 −0.67 pp，Complete@1024 全体 +9.32 pp、非饱和 +5.52 pp，两个护栏通过。移除 Values 减少预算内完整 Schema 缺失，但列召回方向略负且不确定；本轮 NO-GO，停止 Values 参数扩展，结果仍是 BIRD dev exploratory。
+
+下一步先做误差分析和论文证据整理；不自动开启新的 GPU/模型实验。不得继续搜索 BM25/RRF 参数或启动 JOIN/GNN 主张，除非出现会改变当前主结论的明确未决问题并另行注册。
 
 **研究主线仍是 JOIN Instance + Query-aware Edge Gate + 受约束 Schema 子图推理**，但尚无合格的 FK/路径金标，也未完成官方 GraphReasoner 在 Text2SQL 的 GNN 基线，故暂时不能开始声称它的效果。P1/P1.5 历史严格复现 FAIL 与 P2a NO-GO 继续记录；当前 BIRD dev 仅用于探索。
 
