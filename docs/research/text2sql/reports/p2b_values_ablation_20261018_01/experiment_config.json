@@ -1,0 +1,102 @@
+/root/.profile: line 9: true_PROXY: command not found
+{
+  "experiment_id": "p2b_values_ablation_20261018_01",
+  "status": "preregistered_not_run",
+  "project": {
+    "repository": "https://github.com/bArtyom/gfm-rag",
+    "branch": "main",
+    "preregistration_base_commit": "8d00c66532d0110ea09e02d220ff3dbb45b50b22"
+  },
+  "hypothesis": "Removing Values from column Schema text improves all-question Column R@10 by at least 1.0 pp with a database-cluster bootstrap 95% CI lower bound above zero, while fixed non-saturated Column R@10 and Complete@1024 are non-inferior within -1.0 pp.",
+  "layer": "minimal_ablation",
+  "dataset": {
+    "name": "BIRD dev",
+    "questions": 1534,
+    "databases": 11,
+    "column_eligible_questions": 1460,
+    "gold_columns": 6523,
+    "split_status": "exploratory_development_data"
+  },
+  "conditions": {
+    "R0": "Name + Type + Description + Format + Values when present",
+    "R0_repeat": "same R0 node texts encoded a second time on the same local CPU backend",
+    "R1": "R0 with only value_description omitted from column nodes"
+  },
+  "encoder": {
+    "model": "Qwen3-Embedding-0.6B",
+    "model_path_alias": "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+    "model_manifest_sha256": "b89ec1366231e37e92c64eaff3f98edce0f0c6af15cc8c7991ed900520143c68",
+    "dimension": 1024,
+    "backend": "local Transformers AutoModel CPU; Qwen3 model-card left-padding last-token pooling",
+    "precision": "bfloat16 weights/forward, float32 L2-normalized output",
+    "batch_size": 32,
+    "max_sequence_length": 8192,
+    "query_vectors": "one local CPU encode pass, shared unchanged across R0/R0_repeat/R1",
+    "schema_vector_passes": {
+      "R0": 1,
+      "R0_repeat": 1,
+      "R1": 1
+    }
+  },
+  "scoring": {
+    "metric": "exact cosine after L2 normalization",
+    "candidate_pool": "same frozen 873 table/column nodes per source database",
+    "stable_tie_break": "node_id ascending",
+    "top_k": {
+      "column": [5, 10, 20],
+      "table": [5, 10]
+    },
+    "schema_token_budgets": [512, 1024, 2048],
+    "non_saturated_subset": "fixed by frozen R0/P1.6 Schema token totals; 5 DB / 706 column-eligible questions"
+  },
+  "statistics": {
+    "primary_metric": "all-question query-macro Column R@10 delta R1-R0",
+    "bootstrap_unit": "database cluster",
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 20261019
+  },
+  "success_criteria": {
+    "primary_delta_pp_minimum": 1.0,
+    "primary_ci_95_lower_bound": "> 0",
+    "fixed_non_saturated_column_r10_delta_pp_minimum": -1.0,
+    "complete_1024_all_and_fixed_subset_delta_pp_minimum": -1.0,
+    "success_means": "candidate for independent database validation only; P2a NO-GO unchanged"
+  },
+  "stop_conditions": [
+    "any frozen input/model/cache/hash/denominator mismatch",
+    "R0 text/node order does not exactly match P1.6 frozen manifest",
+    "smoke fails or emits invalid/non-finite vectors",
+    "CPU time >7200 seconds, wall time >3600 seconds, RSS >16 GiB, or CPU threads >8",
+    "private per-question data could enter public artifacts"
+  ],
+  "resource_budget": {
+    "device": "CPU only",
+    "cpu_threads_max": 8,
+    "cpu_seconds_max": 7200,
+    "wall_seconds_max": 3600,
+    "rss_gib_max": 16,
+    "max_smokes": 1,
+    "max_full_runs": 1,
+    "gpu_seconds": 0,
+    "api_calls": 0,
+    "sql_execution": false,
+    "dependency_installation": false,
+    "model_download": false
+  },
+  "run_ids": {
+    "smoke": "p2b_values_smoke5_20261018_01",
+    "full": "p2b_values_full1534_20261018_01"
+  },
+  "private_results": "/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018",
+  "public_report": "docs/research/text2sql/reports/p2b_values_ablation_20261018_01/README.md",
+  "public_aggregate": "docs/research/text2sql/reports/p2b_values_ablation_20261018_01/aggregate_summary.json",
+  "api_usage": {
+    "planned_requests": 0,
+    "planned_cost_cny": "0",
+    "actual_bill_status": "not_applicable_no_api_requests"
+  },
+  "local_model_token_accounting": {
+    "input_tokens": "to be counted from attention_mask during each actual local encoder pass",
+    "output_tokens": 0
+  }
+}

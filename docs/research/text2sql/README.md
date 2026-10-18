@@ -1,10 +1,11 @@
+/root/.profile: line 9: true_PROXY: command not found
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
 > **唯一主仓库：[`bArtyom/gfm-rag`](https://github.com/bArtyom/gfm-rag)。生效日期：2026-10-16。**
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新状态（2026-10-18）**：**P1.6 全量冻结 1024-D Cosine 基线 PASS**；**P2a 方法增益 NO-GO**；P2a.5 冻结重放、错误归因与 FK / Join-Instance 数据质量审计已完成，详见[报告](reports/p2a_5_error_audit_20261018_01/README.md)。审计支持考虑一次有限的 R0/R1 Values 文本消融，但字段关联不是因果证据；该消融尚未注册或运行。FK / Role Gate 仍 NO-GO，未有 GFM、JOIN Role、P3 SQL EX 新成绩。
+> **最新状态（2026-10-18）**：**P1.6 全量冻结 1024-D Cosine 基线 PASS**；**P2a 方法增益 NO-GO**；P2a.5 冻结重放、错误归因与 FK / Join-Instance 数据质量审计已完成，详见[报告](reports/p2a_5_error_audit_20261018_01/README.md)。下一组 **P2b R0/R1 Values 消融已预注册**，方案见[预注册计划](plans/p2b_values_ablation_20261018.md)，执行与结果见[实验记录](reports/p2b_values_ablation_20261018_01/README.md)；BIRD dev 仍是探索集。FK / Role Gate 仍 NO-GO，未有 GFM、JOIN Role、P3 SQL EX 新成绩。
 
 ## 现有研究文档
 
@@ -22,7 +23,9 @@
 | [P2a Cosine/BM25/RRF 全量实验](reports/p2a_similarity_20261018_01/README.md) | 全体/非饱和 DB 的三种方法对比，NO-GO | 2026-10-18 已运行 |
 | [P2a 最新结果复核（当前）](reports/p2a_review_20261018/README.md) | 失败机制、RRF rescue/damage、排序/预算冲突和未来研究边界 | 2026-10-18 只读复核 |
 | [P2a.5 错误归因与 FK Gate 报告](reports/p2a_5_error_audit_20261018_01/README.md) | 冻结排名错误归因、预算 / 字段特征、FK / JOIN 覆盖与下一步决策 | 2026-10-18 完成；原 P2a NO-GO 与 Role Gate NO-GO 均保留 |
-| [P2a.5 执行计划与后续消融指导](plans/p2a_5_diagnostic_and_schema_representation_20261018.md) | P2a.5 已执行范围、复现约束、条件式 P2b / packing 选择 | P2a.5 A/C 已完成；后续 R0/R1 Values 消融尚未注册或运行 |
+| [P2a.5 执行计划与后续消融指导](plans/p2a_5_diagnostic_and_schema_representation_20261018.md) | P2a.5 已执行范围、复现约束、条件式 P2b / packing 选择 | P2a.5 A/C 已完成；R0/R1 已按专项计划另行预注册 |
+| [P2b R0/R1 Values 文本消融预注册](plans/p2b_values_ablation_20261018.md) | 固定 1024-D Cosine 下只移除列 Values 文本，含 CPU 编码控制、成功门与停止条件 | 已预注册；待 smoke 与 Full |
+| [P2b R0/R1 Values 消融记录](reports/p2b_values_ablation_20261018_01/README.md) | 预注册、运行状态、匿名结果及下一步决策 | 已建档；待运行 |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
