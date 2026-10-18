@@ -64,7 +64,7 @@
   "methods": {
     "scorer": "Import the scorer only from the pinned P2a commit; replay its BM25/RRF and Cosine rankings against the frozen P1.6 float32 cache.",
     "rank_bins": ["1-5", "6-10", "11-20", "21-50", ">50"],
-    "metrics": ["Gold-column rank transitions aligned by stable node ID", "Column R@10 rescue/damage", "Complete schema rescue/damage at 512/1024/2048", "BM25 lexical overlap/zero-score/ties/boundary ties", "context selection size/tokens/Gold omissions", "FK identity and JOIN ON coverage"],
+    "metrics": ["Gold-column rank transitions aligned by stable node ID", "Column R@10 rescue/damage", "Complete schema rescue/damage at 512/1024/2048", "BM25 lexical overlap/zero-score/ties/boundary ties", "context selection size/tokens/Gold omissions", "Gold and non-Gold Top-10 runtime-visible schema feature strata and field token lengths", "FK identity and JOIN ON coverage"],
     "classification": "Mechanical evidence labels only; semantic mismatch, Gold ambiguity, and causal schema-text noise require blinded human review and will remain unresolved."
   },
   "environment": {
@@ -72,13 +72,15 @@
     "python": "3.12.14",
     "numpy": "2.2.6",
     "sqlglot": "28.0.0",
-    "runner_sha256": "0d07ea381114af397ed86a8aa2ae35a89bb579c6c31e947ba428d75cdf449835"
+    "runner_sha256": "e046595df72d3b684062a54d2fffc2c8df13cae419b056625b8981c20b805085"
   },
   "runs": [
     {"run_id": "p2a5_smoke5_20261018_01", "mode": "smoke", "status": "passed"},
     {"run_id": "p2a5_full1534_20261018_01", "mode": "full", "status": "failed_before_analysis_completion", "output_dir": "/mnt/liansp3/sources/results/gfmrag_p2a_5_error_audit_20261018/full_001", "failure": "Implementation KeyError while mapping frozen P1.5 aggregate field names; no aggregate result was produced. The output directory is retained."},
     {"run_id": "p2a5_full1534_20261018_02", "mode": "full", "status": "failed_before_analysis_completion", "output_dir": "/mnt/liansp3/sources/results/gfmrag_p2a_5_error_audit_20261018/full_002", "failure": "Implementation KeyError because text-feature accumulators were initialized with a nested shape but consumed as flat counters; no aggregate result was produced. The output directory is retained."},
-    {"run_id": "p2a5_full1534_20261018_03", "mode": "full", "status": "registered_after_recovery", "output_dir": "/mnt/liansp3/sources/results/gfmrag_p2a_5_error_audit_20261018/full_003"}
+    {"run_id": "p2a5_full1534_20261018_03", "mode": "full", "status": "completed_intermediate_scope", "output_dir": "/mnt/liansp3/sources/results/gfmrag_p2a_5_error_audit_20261018/full_003", "note": "Replay and core diagnostics completed. Final plan review found the A2 non-Gold Top-10 schema-feature and field-token-length strata were not included; a revised anonymous aggregate is registered below."},
+    {"run_id": "p2a5_smoke5_20261018_02", "mode": "smoke", "status": "registered_before_extended_full"},
+    {"run_id": "p2a5_full1534_20261018_04", "mode": "full", "status": "blocked_until_extended_smoke_passes", "output_dir": "/mnt/liansp3/sources/results/gfmrag_p2a_5_error_audit_20261018/full_004"}
   ],
   "outputs": {
     "public_report_directory": "docs/research/text2sql/reports/p2a_5_error_audit_20261018_01/",

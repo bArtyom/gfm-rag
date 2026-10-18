@@ -243,6 +243,65 @@ def quantiles(values: list[float | int]) -> dict[str, Any]:
     return {"n": int(arr.size), "mean": float(np.mean(arr)), "p50": float(np.quantile(arr, 0.5)), "p90": float(np.quantile(arr, 0.9))}
 
 
+SCHEMA_FEATURES = (
+    "has_description",
+    "has_format",
+    "has_values",
+    "name_snake_case",
+    "name_has_digit",
+    "name_has_short_token",
+    "name_has_id_like_marker",
+    "name_has_uppercase_abbreviation_proxy",
+    "name_query_token_overlap",
+    "query_has_single_char_token",
+)
+SCHEMA_TEXT_FIELDS = ("name", "description", "format", "values", "full_text")
+
+
+def schema_text_evidence(node_text: str, question_text: str, p2a: Any) -> tuple[dict[str, bool], dict[str, int]]:
+    prefix = node_text.split(";", 1)[0]
+    name = prefix.split(":", 1)[-1].split(".")[-1].strip()
+    name_tokens = re.findall(r"[A-Za-z0-9]+", name)
+    raw_question_tokens = re.findall(r"[A-Za-z0-9]+", question_text)
+    lower_name_tokens = {token.casefold() for token in name_tokens}
+    upper_abbreviation = any(token.isalpha() and token.isupper() and 2 <= len(token) <= 4 for token in name_tokens)
+    id_markers = {"id", "uid", "uuid", "key", "no", "num"}
+
+    def field_value(field: str) -> str:
+        marker = re.search(rf";\s*{field}:\s*", node_text, flags=re.IGNORECASE)
+        if marker is None:
+            return ""
+        start = marker.end()
+        next_marker = re.search(r";\s*(?:description|format|values):\s*", node_text[start:], flags=re.IGNORECASE)
+        end = start + next_marker.start() if next_marker is not None else len(node_text)
+        return node_text[start:end].strip()
+
+    description = field_value("description")
+    format_text = field_value("format")
+    values = field_value("values")
+    lower_text = node_text.casefold()
+    features = {
+        "has_description": "; description:" in lower_text,
+        "has_format": "; format:" in lower_text,
+        "has_values": "; values:" in lower_text,
+        "name_snake_case": "_" in name,
+        "name_has_digit": any(ch.isdigit() for ch in name),
+        "name_has_short_token": any(len(token) == 1 for token in name_tokens),
+        "name_has_id_like_marker": bool(lower_name_tokens & id_markers),
+        "name_has_uppercase_abbreviation_proxy": upper_abbreviation,
+        "name_query_token_overlap": bool(set(p2a.tokenize(name)).intersection(p2a.tokenize(question_text))),
+        "query_has_single_char_token": any(len(token) == 1 for token in raw_question_tokens),
+    }
+    lengths = {
+        "name": len(p2a.tokenize(name)),
+        "description": len(p2a.tokenize(description)),
+        "format": len(p2a.tokenize(format_text)),
+        "values": len(p2a.tokenize(values)),
+        "full_text": len(p2a.tokenize(node_text)),
+    }
+    return features, lengths
+
+
 def rank_bin(rank: int) -> str:
     for lower, upper, label in TRANSITION_BINS:
         if lower <= rank <= upper:
@@ -294,9 +353,23 @@ def analyze_p2a(prepared: dict[str, Any], query_vectors: np.ndarray, node_vector
     false_positive_top10_lengths: dict[str, dict[str, list[int]]] = {
         method: {scope: [] for scope in ("all", "non_saturated")} for method in METHODS
     }
+    false_positive_feature_acc: dict[str, dict[str, dict[str, Any]]] = {
+        method: {
+            scope: {
+                "questions": 0,
+                "top10_slots": 0,
+                "false_positive_columns": 0,
+                "feature_true_counts": collections.Counter(),
+                "field_token_lengths": {field: [] for field in SCHEMA_TEXT_FIELDS},
+            }
+            for scope in ("all", "non_saturated")
+        }
+        for method in METHODS
+    }
+    gold_field_token_lengths: dict[str, list[int]] = {field: [] for field in SCHEMA_TEXT_FIELDS}
     text_feature_acc: dict[str, collections.Counter[str]] = {
         feature: collections.Counter()
-        for feature in ("has_description", "has_format", "has_values", "name_snake_case", "name_has_digit", "name_has_short_token", "query_has_single_char_token")
+        for feature in SCHEMA_FEATURES
     }
     bm25_overlap = {"all_candidates": [], "column_candidates": [], "all_nonzero": [], "column_nonzero": [], "query_tokens": [], "gold_overlap": 0, "gold_elements": 0, "gold_missed_s1_no_overlap": 0, "gold_missed_s1_with_overlap": 0}
     bm25_lost_classes = collections.Counter()
@@ -410,20 +483,9 @@ def analyze_p2a(prepared: dict[str, Any], query_vectors: np.ndarray, node_vector
         if saved["column_eligible"]:
             for node_id in gold_cols:
                 node = nodes_by_id[node_id]
-                text_lower = node.text.casefold()
-                prefix = node.text.split(";", 1)[0]
-                name = prefix.removeprefix("Column: ").split(".")[-1]
-                name_tokens = re.findall(r"[A-Za-z0-9]+", name)
-                raw_question_tokens = re.findall(r"[A-Za-z0-9]+", question["text"])
-                features = {
-                    "has_description": "; description:" in text_lower,
-                    "has_format": "; format:" in text_lower,
-                    "has_values": "; values:" in text_lower,
-                    "name_snake_case": "_" in name,
-                    "name_has_digit": any(ch.isdigit() for ch in name),
-                    "name_has_short_token": any(len(token) == 1 for token in name_tokens),
-                    "query_has_single_char_token": any(len(token) == 1 for token in raw_question_tokens),
-                }
+                features, field_lengths = schema_text_evidence(node.text, question["text"], p2a)
+                for field, length in field_lengths.items():
+                    gold_field_token_lengths[field].append(length)
                 bm25_overlap["gold_elements"] += 1
                 overlap = bool(set(p2a.tokenize(node.text)).intersection(q_tokens))
                 bm25_overlap["gold_overlap"] += int(overlap)
@@ -485,9 +547,22 @@ def analyze_p2a(prepared: dict[str, Any], query_vectors: np.ndarray, node_vector
                     keys[f"missing_gold_rank_{budget}"].extend(missing_gold_ranks)
             if saved["column_eligible"]:
                 top10 = method_orders[method]["column"][:10]
-                false_positive_top10_lengths[method]["all"].extend(nodes_by_id[node_id].token_count for node_id in top10 if node_id not in gold_cols)
+                false_positives = [nodes_by_id[node_id] for node_id in top10 if node_id not in gold_cols]
+                false_positive_top10_lengths[method]["all"].extend(node.token_count for node in false_positives)
+                scopes = ["all"] + (["non_saturated"] if db in non_saturated else [])
+                for scope in scopes:
+                    acc = false_positive_feature_acc[method][scope]
+                    acc["questions"] += 1
+                    acc["top10_slots"] += len(top10)
+                    acc["false_positive_columns"] += len(false_positives)
+                    for node in false_positives:
+                        features, field_lengths = schema_text_evidence(node.text, question["text"], p2a)
+                        for feature, flag in features.items():
+                            acc["feature_true_counts"][feature] += int(flag)
+                        for field, length in field_lengths.items():
+                            acc["field_token_lengths"][field].append(length)
                 if db in non_saturated:
-                    false_positive_top10_lengths[method]["non_saturated"].extend(nodes_by_id[node_id].token_count for node_id in top10 if node_id not in gold_cols)
+                    false_positive_top10_lengths[method]["non_saturated"].extend(node.token_count for node in false_positives)
 
     if set(non_saturated) != set(replay_summary["non_saturated_2048"]["databases"]):
         raise RuntimeError("Non-saturated DB cohort differs from the archived P2a aggregate")
@@ -511,6 +586,35 @@ def analyze_p2a(prepared: dict[str, Any], query_vectors: np.ndarray, node_vector
         budget_result[method] = {scope: {key: quantiles(values) if key.startswith(("tokens_used_", "selected_tables_", "selected_columns_", "gold_tables_selected_", "gold_columns_selected_", "gold_elements_selected_", "gold_elements_total_", "gold_only_tokens_", "selected_non_gold_text_tokens_", "missing_gold_rank_")) else {"n": len(values), "count": int(sum(values)), "rate": float(np.mean(values)) if values else None} for key, values in data.items()} for scope, data in scopes.items()}
 
     top10_lengths = {method: {scope: quantiles(values) for scope, values in scopes.items()} for method, scopes in false_positive_top10_lengths.items()}
+    false_positive_feature_result = {}
+    for method, scopes in false_positive_feature_acc.items():
+        false_positive_feature_result[method] = {}
+        for scope, acc in scopes.items():
+            false_positive_count = acc["false_positive_columns"]
+            top10_slots = acc["top10_slots"]
+            false_positive_feature_result[method][scope] = {
+                "column_eligible_questions": acc["questions"],
+                "top10_column_slots": top10_slots,
+                "false_positive_columns": false_positive_count,
+                "false_positive_fraction_of_top10_slots": false_positive_count / top10_slots if top10_slots else None,
+                "runtime_visible_features_among_false_positives": {
+                    feature: {
+                        "count": acc["feature_true_counts"][feature],
+                        "rate": acc["feature_true_counts"][feature] / false_positive_count if false_positive_count else None,
+                    }
+                    for feature in SCHEMA_FEATURES
+                },
+                "schema_field_token_lengths": {field: quantiles(values) for field, values in acc["field_token_lengths"].items()},
+                "feature_definitions": {
+                    "name_has_id_like_marker": "identifier token exactly matches id, uid, uuid, key, no, or num",
+                    "name_has_uppercase_abbreviation_proxy": "an all-uppercase alphabetic identifier token of length 2-4; a surface-form proxy, not a semantic abbreviation label",
+                    "name_query_token_overlap": "non-empty intersection under the frozen P2a tokenizer",
+                    "query_has_single_char_token": "raw question contains an ASCII alphanumeric token of length 1",
+                    "field_token_lengths": "token counts use the frozen P2a tokenizer; absent description/format/values fields have length zero",
+                },
+            }
+
+    gold_field_token_length_summary = {field: quantiles(values) for field, values in gold_field_token_lengths.items()}
     feature_result = {}
     for feature, counter in text_feature_acc.items():
         total = counter["denominator"]
@@ -573,6 +677,8 @@ def analyze_p2a(prepared: dict[str, Any], query_vectors: np.ndarray, node_vector
         "paired_rescue_damage": paired_result,
         "budget_selection": budget_result,
         "false_positive_column_top10_text_length_tokens": top10_lengths,
+        "false_positive_column_top10_runtime_features": false_positive_feature_result,
+        "gold_column_schema_text_field_token_lengths": gold_field_token_length_summary,
         "gold_column_schema_text_feature_strata": feature_result,
         "bm25_lexical_and_tie_audit": bm25_result,
         "database_paired_deltas_pp": database_delta,
