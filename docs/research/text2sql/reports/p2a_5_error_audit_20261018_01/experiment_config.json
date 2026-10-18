@@ -72,11 +72,12 @@
     "python": "3.12.14",
     "numpy": "2.2.6",
     "sqlglot": "28.0.0",
-    "runner_sha256": "859e583e8d87c1d95a373a9170245844177a539cf6d1cf8ca42e852f7c6a087c"
+    "runner_sha256": "cde405657029d586a07ebac88acce608f702b06f87ff332b5d814fd50fc4adc6"
   },
   "runs": [
-    {"run_id": "p2a5_smoke5_20261018_01", "mode": "smoke", "status": "not_started"},
-    {"run_id": "p2a5_full_20261018_01", "mode": "full", "status": "blocked_until_smoke_passes"}
+    {"run_id": "p2a5_smoke5_20261018_01", "mode": "smoke", "status": "passed"},
+    {"run_id": "p2a5_full1534_20261018_01", "mode": "full", "status": "failed_before_analysis_completion", "output_dir": "/mnt/liansp3/sources/results/gfmrag_p2a_5_error_audit_20261018/full_001", "failure": "Implementation KeyError while mapping frozen P1.5 aggregate field names; no aggregate result was produced. The output directory is retained."},
+    {"run_id": "p2a5_full1534_20261018_02", "mode": "full", "status": "registered_after_recovery", "output_dir": "/mnt/liansp3/sources/results/gfmrag_p2a_5_error_audit_20261018/full_002"}
   ],
   "outputs": {
     "public_report_directory": "docs/research/text2sql/reports/p2a_5_error_audit_20261018_01/",

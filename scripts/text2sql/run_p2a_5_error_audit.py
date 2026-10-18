@@ -664,9 +664,20 @@ def build_fk_structures(fk_artifact: dict[str, Any], schemas: list[dict[str, Any
             "invalid_endpoint_issue_counts": dict(sorted(invalid_issues.items())),
         }
         archived = fk_artifact["per_database"][db]
-        for key in ("schema_json_fk_pairs", "sqlite_fk_instances_raw", "valid_join_instances", "composite_join_instances", "invalid_join_instances", "duplicate_join_instance_signatures", "implicit_parent_key_instances", "json_fk_pairs_missing_in_sqlite", "sqlite_fk_pairs_missing_in_json"):
-            if database_summary[db][{"schema_json_fk_pairs": "json_fk_pairs"}.get(key, key)] != archived[key]:
-                raise RuntimeError(f"FK artifact aggregate mismatch in {db} for {key}")
+        archived_to_rebuilt = {
+            "schema_json_fk_pairs": "json_fk_pairs",
+            "sqlite_fk_instances_raw": "sqlite_instances_raw",
+            "valid_join_instances": "valid_join_instances",
+            "composite_join_instances": "composite_join_instances",
+            "invalid_join_instances": "invalid_join_instances",
+            "duplicate_join_instance_signatures": "duplicate_valid_relation_signatures",
+            "implicit_parent_key_instances": "implicit_parent_key_resolved_instances",
+            "json_fk_pairs_missing_in_sqlite": "json_fk_pairs_missing_in_sqlite",
+            "sqlite_fk_pairs_missing_in_json": "sqlite_fk_pairs_missing_in_json",
+        }
+        for archived_key, rebuilt_key in archived_to_rebuilt.items():
+            if database_summary[db][rebuilt_key] != archived[archived_key]:
+                raise RuntimeError(f"FK artifact aggregate mismatch in {db} for {archived_key}")
     ids_payload = json.dumps(sorted(id_list), ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     return valid, json_pairs, sqlite_pairs, {"per_database": database_summary, "raw_instances": len(id_list), "stable_ids_unique": len(set(id_list)), "stable_id_set_sha256": sha256_bytes(ids_payload)}
 
