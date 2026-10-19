@@ -1,0 +1,62 @@
+{
+  "experiment_id": "p2c_value_binding_20261019_01",
+  "status": "preregistered_not_run",
+  "guidance_commit": "99e4db00837d420cba18de76175f18f910a903bf",
+  "core_hypothesis": "Dual-view context reduction retains retrieval ranking but may remove predicate-value information; resolve direct AST bindings of the frozen priority flags.",
+  "layer": "exploratory_error_analysis",
+  "mainline_evidence": false,
+  "budget": {
+    "smoke_runs": 1,
+    "full_runs": 1,
+    "retries": 0,
+    "cpu_seconds_per_run": 300,
+    "threads": 8,
+    "rss_gib": 4,
+    "api_requests": 0,
+    "model_forwards": 0,
+    "gpu_seconds": 0,
+    "sql_executions": 0
+  },
+  "run_ids": {
+    "smoke": "p2c_value_binding_smoke5_20261019_01",
+    "full": "p2c_value_binding_full19_20261019_01"
+  },
+  "private_output_dirs": {
+    "smoke": "/mnt/liansp3/sources/results/gfmrag_p2c_value_binding_20261019/smoke_5q_20261019_01",
+    "full": "/mnt/liansp3/sources/results/gfmrag_p2c_value_binding_20261019/full_19q_20261019_01"
+  },
+  "frozen_inputs": {
+    "P2b_cache_sha256": "63f0accdd1dee9d3e7ca2f0c93004f3c5a4201cac573d2a748a9d3f3bf613ba8",
+    "P2b_private_rows_sha256": "261128481b8c1eb35fa5a7f9674cf663f247a900eac9070e16f290f16bff6005",
+    "P2b_public_aggregate_sha256": "c537b5b1b67fdb59ffa859ece7a463174419db23c500cd0e47dfbcf67dfc6d37",
+    "input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a"
+  },
+  "audit_inputs_sha256": {
+    "query_json": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "schema_json": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "p2c_aggregate": "7e4ce4b2a92df5e17160bb2429402b66ab7caec521c6e4da9ec90abd108e8fdc",
+    "p2c_private_rows": "99935116001811bef790bf2e916d34f4f40ffecc70322f7b71e28f885d9425ff",
+    "lexical_aggregate": "e81a1d7fca13209a0aafa33d612e4a6f05290678f49e8d78fdf7a01c9e3efcb4",
+    "lexical_private_rows": "66b38471056efc084c0af80d0dca99aaff5dca47df51aba985ddce52ea8ea7a9",
+    "priority_queue": "d9c28cba11018a3234ec0966c814add769ba85acf0abc8959a0e2cd0e196bff8"
+  },
+  "sqlglot_version": "28.0.0",
+  "expected_questions": 19,
+  "expected_literal_flags": 21,
+  "success_criterion": "Engineering identity/replay/partition/roundtrip checks; AST-supported cases prioritize review only, never semantic or SQL-effect success.",
+  "stop_conditions": [
+    "Any hash/source/replay/denominator mismatch",
+    "Smoke or Full failure; zero retries",
+    "CPU/RSS budget exceeded",
+    "Stop after one full scan regardless binding count"
+  ],
+  "human_reviews": 0,
+  "semantic_necessity_denominator": 0,
+  "api_usage": {
+    "requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "cost_cny": "0.00"
+  }
+}
