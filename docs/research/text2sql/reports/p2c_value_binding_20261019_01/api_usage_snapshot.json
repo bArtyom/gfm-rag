@@ -1,0 +1,28 @@
+{
+  "snapshot_reference_utc": "2026-10-19T07:28:40Z",
+  "requests": 311,
+  "requests_with_usage": 297,
+  "reported_input_tokens": 4762889,
+  "reported_output_tokens": 217761,
+  "reported_total_tokens": 4980650,
+  "requests_without_usage": 14,
+  "auth_rejected_without_usage": 10,
+  "other_requests_without_usage": 4,
+  "estimated_CNY_from_reported_usage": "17.4014610",
+  "priced_usage_requests": 255,
+  "unpriced_reported_usage_requests": 42,
+  "verified_billed_CNY": null,
+  "billed_cost_verified": false,
+  "cost_basis": "uncached list price estimate; unknown usage/discounts/billing excluded",
+  "scope": "logged model API calls only; unknown usage excluded from confirmed totals",
+  "current_experiment": {
+    "experiment_id": "p2c_value_binding_20261019_01",
+    "requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "unknown_usage_requests": 0,
+    "external_api_cost_CNY": "0.00"
+  },
+  "attribution": "Global registered calls include concurrent other projects; this CPU audit issued zero model requests. Local compute monetary cost is unpriced; estimates are not bills."
+}

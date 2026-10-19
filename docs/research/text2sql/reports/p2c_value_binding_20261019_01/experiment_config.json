@@ -1,6 +1,6 @@
 {
   "experiment_id": "p2c_value_binding_20261019_01",
-  "status": "preregistered_not_run",
+  "status": "completed_ast_binding_review_priority_only",
   "guidance_commit": "99e4db00837d420cba18de76175f18f910a903bf",
   "core_hypothesis": "Dual-view context reduction retains retrieval ranking but may remove predicate-value information; resolve direct AST bindings of the frozen priority flags.",
   "layer": "exploratory_error_analysis",
@@ -58,5 +58,31 @@
     "output_tokens": 0,
     "total_tokens": 0,
     "cost_cny": "0.00"
+  },
+  "final_result": {
+    "execution_source_commit": "0f0bf08a611600423948f416542db26952bea934",
+    "counts": {
+      "questions": 19,
+      "literal_flags": 21,
+      "binding_mismatch": 9,
+      "mismatch_questions": 8,
+      "supported_flags_with_other_unresolved_occurrences": 0,
+      "binding_supported": 10,
+      "supported_questions": 9,
+      "binding_unresolved": 2,
+      "unresolved_questions": 2
+    },
+    "aggregate_sha256": "5b5c7ad4dd20dee4645c6febcf9ecb215e08822de1d97cd202b4cd6ea73d3bb2",
+    "private_rows_sha256": "9af35480aa5804edba6ea8d772431fc90af96aa91e9771e479ad18f2ec5ffae1",
+    "full_cpu_seconds": 11.031840997,
+    "full_wall_seconds": 11.336784940212965,
+    "full_peak_rss_gib": 0.8614616394042969,
+    "smoke_full_cpu_seconds": 22.023162905,
+    "smoke_full_wall_seconds": 22.63965571578592,
+    "new_run_failures": 0,
+    "test_count": 124,
+    "decision": "prioritize_binding_supported_cases_for_semantic_review",
+    "verification": "verification_summary.json",
+    "stop": "Registered one-pass audit complete; no new inference or parser-rule scan queued"
   }
 }

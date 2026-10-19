@@ -1,0 +1,113 @@
+{
+  "experiment_id": "p2c_value_binding_20261019_01",
+  "run_id": "p2c_value_binding_smoke5_20261019_01",
+  "mode": "smoke",
+  "state": "completed",
+  "started_at_utc": "2026-10-19T07:25:43Z",
+  "command": [
+    "/root/miniconda3/envs/think2sql_20260909/bin/python3",
+    "/mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom/scripts/text2sql/run_p2c_value_binding.py",
+    "--mode",
+    "smoke",
+    "--run-id",
+    "p2c_value_binding_smoke5_20261019_01",
+    "--expected-commit",
+    "0f0bf08a611600423948f416542db26952bea934",
+    "--output-dir",
+    "/mnt/liansp3/sources/results/gfmrag_p2c_value_binding_20261019/smoke_5q_20261019_01",
+    "--p2c-run-dir",
+    "/mnt/liansp3/sources/results/gfmrag_p2c_r_recovery_20261019/full_1534_20261019_01",
+    "--lexical-run-dir",
+    "/mnt/liansp3/sources/results/gfmrag_p2c_values_risk_20261019/full_1534_20261019_01",
+    "--p1-6-run-dir",
+    "/mnt/liansp3/sources/results/gfmrag_p1_6_rebaseline_20261016/full_1534_20261018_01",
+    "--legacy-root",
+    "/mnt/liansp3/sources/projects/quadrag",
+    "--dataset-root",
+    "/mnt/liansp3/sources/datasets/bird/dev",
+    "--model-path",
+    "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+    "--previous-run-dir",
+    "/mnt/liansp3/sources/results/quadrag_p1_dimension_20261014/gfmrag_official_full1534_20261014_01",
+    "--p1-5-run-dir",
+    "/mnt/liansp3/sources/results/gfmrag_p1_5_diagnosis_20261016/full_03",
+    "--p2b-run-dir",
+    "/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018/full_1534_20261018_01"
+  ],
+  "source": {
+    "published_commit": "0f0bf08a611600423948f416542db26952bea934",
+    "execution_sources": {
+      "scripts/text2sql/run_p2c_r_recovery.py": "3fde48dc7a296608dbe74f4f8464174daf790d7adfe1cbfaefae437117db9e41",
+      "scripts/text2sql/run_p2c_dual_view_factorial.py": "350393789c13f8b90920c4110519352321670b9c7c9a955cc524dd1db5c72512",
+      "scripts/text2sql/run_p1_6_rebaseline.py": "ac9331611c3563388b19fca6fdd65dd9a7cad0454045d1a6554c4039f8cbbbb0",
+      "scripts/text2sql/run_p2a_similarity.py": "8b8758c01c9f7df83c572c649bb6852e5a0580d856dc778449862048ea2d8e6d",
+      "scripts/text2sql/run_p2b_values_ablation.py": "0ecdd00e72f2a01bed4dc755d73e0145f677c7ae521af1a44b3845b3c9ce265f",
+      "scripts/text2sql/run_p1_5_diagnostics.py": "af59d01d22a6b5d5538231b38c2bf52e0355a9193a5773f40b14d29470ec40cf",
+      "docs/research/text2sql/reports/gfmrag_p1_official_20261014/scripts/gfmrag_p1_common.py": "54fadef342ba6eb5e19d16f2121d9e078b258de909a1c9ed1a52b32a1b2c26de",
+      "scripts/text2sql/audit_p2c_values_risk.py": "bc593c9ad902e4f25c4b90c1802e03212fc2790bab43121f7c95b6222af7e61b",
+      "scripts/text2sql/predicate_value_binding.py": "2b9c6f95e307674e7083854151fd49d73d19809e861111daf6e3baa8df5fda50",
+      "scripts/text2sql/run_p2c_value_binding.py": "9160516f77f1914995dd3640136e2b563832b6055d796772a21d82e56bcb0dc8"
+    },
+    "config_sha256": "99e8be7a478d00b70c8d8de1afbf7362b3ad0a640d2fbb51f24eaaa72c0d5bc9",
+    "protocol_sha256": "784e50c9ce58d571c824280369711e014558a133b1fff7e7915507de4449ad14"
+  },
+  "dependency_source_sha256": {
+    "qualify.py": "015d17cb89a8aa8c46186ed1c9ae903df9575bdc4704cb67341edc4d63462e2a",
+    "scope.py": "3da1533b069b1324517707bcaba045a698f7d7db002743ca377117f36a26cacb"
+  },
+  "environment": {
+    "numpy": "2.2.6",
+    "transformers": "4.57.1",
+    "tokenizers": "0.22.1",
+    "sqlglot": "28.0.0"
+  },
+  "api_calls": 0,
+  "model_forwards": 0,
+  "gpu_seconds": 0,
+  "sql_executions": 0,
+  "human_reviews": 0,
+  "input_hashes": {
+    "cpu_cache_sha256": "63f0accdd1dee9d3e7ca2f0c93004f3c5a4201cac573d2a748a9d3f3bf613ba8",
+    "private_rows_sha256": "261128481b8c1eb35fa5a7f9674cf663f247a900eac9070e16f290f16bff6005",
+    "public_aggregate_sha256": "c537b5b1b67fdb59ffa859ece7a463174419db23c500cd0e47dfbcf67dfc6d37",
+    "p1_6_cache_sha256": "c7bb9ed942aa793e34e1253a5d1d8f8d8d871c95bdfdc33718dde7396d345250",
+    "input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a",
+    "query_json": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "schema_json": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "p2c_aggregate": "7e4ce4b2a92df5e17160bb2429402b66ab7caec521c6e4da9ec90abd108e8fdc",
+    "p2c_private_rows": "99935116001811bef790bf2e916d34f4f40ffecc70322f7b71e28f885d9425ff",
+    "lexical_aggregate": "e81a1d7fca13209a0aafa33d612e4a6f05290678f49e8d78fdf7a01c9e3efcb4",
+    "lexical_private_rows": "66b38471056efc084c0af80d0dca99aaff5dca47df51aba985ddce52ea8ea7a9",
+    "priority_queue": "d9c28cba11018a3234ec0966c814add769ba85acf0abc8959a0e2cd0e196bff8"
+  },
+  "aggregate_summary_sha256": "413cd3be3c516704336e6dcf261affe10d4104b67571f403fef6351e4280950a",
+  "private_rows_sha256": "76d8c440acef0b159107bffcb340163ff00e8b86bd669f63e6dd7483c927ff54",
+  "stage_result": "smoke_passed",
+  "decision": "prioritize_binding_supported_cases_for_semantic_review",
+  "cpu_seconds": 10.991321908,
+  "wall_seconds": 11.302870775572956,
+  "peak_rss_gib": 0.8643913269042969,
+  "finished_at_utc": "2026-10-19T07:25:54Z",
+  "environment_name": "think2sql_20260909",
+  "python_version": "3.12.14",
+  "resource_limits": {
+    "cpu_seconds": 300,
+    "threads": 8,
+    "rss_gib": 4,
+    "gpu_seconds": 0
+  },
+  "hardware_observation": {
+    "cpu_threads": 192,
+    "ram_gib": 503,
+    "available_ram_gib": 445,
+    "disk_available_tib": 115,
+    "gpu_devices": "4 x RTX4090; busy; not allocated"
+  },
+  "launch_environment": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "OMP_NUM_THREADS": "8",
+    "MKL_NUM_THREADS": "8",
+    "OPENBLAS_NUM_THREADS": "8",
+    "NUMEXPR_NUM_THREADS": "8"
+  }
+}

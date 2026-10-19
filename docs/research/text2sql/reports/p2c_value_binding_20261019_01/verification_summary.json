@@ -1,0 +1,13 @@
+{
+  "status": "verified",
+  "trace_rows": 19,
+  "literal_flags_recounted": 21,
+  "partition_counts_exact": true,
+  "prior_flags_and_identity_exact": true,
+  "source_hashes_and_prior_artifact_hashes_verified": true,
+  "public_privacy_scan_passed": true,
+  "aggregate_sha256": "5b5c7ad4dd20dee4645c6febcf9ecb215e08822de1d97cd202b4cd6ea73d3bb2",
+  "private_rows_sha256": "9af35480aa5804edba6ea8d772431fc90af96aa91e9771e479ad18f2ec5ffae1",
+  "semantic_review_performed": false,
+  "verification_boundary": "Recounts stored bindings; does not independently prove lineage semantics or necessity"
+}

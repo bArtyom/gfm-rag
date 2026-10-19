@@ -1,0 +1,117 @@
+{
+  "experiment_id": "p2c_value_binding_20261019_01",
+  "run_id": "p2c_value_binding_full19_20261019_01",
+  "mode": "full",
+  "smoke_only": false,
+  "status": "completed",
+  "source_commit": "0f0bf08a611600423948f416542db26952bea934",
+  "counts": {
+    "questions": 19,
+    "literal_flags": 21,
+    "binding_mismatch": 9,
+    "mismatch_questions": 8,
+    "supported_flags_with_other_unresolved_occurrences": 0,
+    "binding_supported": 10,
+    "supported_questions": 9,
+    "binding_unresolved": 2,
+    "unresolved_questions": 2
+  },
+  "per_database_anonymized": {
+    "db_01": {
+      "questions": 8,
+      "literal_flags": 8,
+      "binding_mismatch": 4,
+      "mismatch_questions": 4,
+      "supported_flags_with_other_unresolved_occurrences": 0,
+      "binding_supported": 4,
+      "supported_questions": 4
+    },
+    "db_06": {
+      "questions": 2,
+      "literal_flags": 2,
+      "binding_supported": 2,
+      "supported_questions": 2,
+      "supported_flags_with_other_unresolved_occurrences": 0
+    },
+    "db_02": {
+      "questions": 3,
+      "literal_flags": 3,
+      "binding_supported": 1,
+      "supported_questions": 1,
+      "supported_flags_with_other_unresolved_occurrences": 0,
+      "binding_mismatch": 1,
+      "mismatch_questions": 1,
+      "binding_unresolved": 1,
+      "unresolved_questions": 1
+    },
+    "db_05": {
+      "questions": 1,
+      "literal_flags": 1,
+      "binding_unresolved": 1,
+      "unresolved_questions": 1,
+      "supported_flags_with_other_unresolved_occurrences": 0
+    },
+    "db_10": {
+      "questions": 5,
+      "literal_flags": 7,
+      "binding_mismatch": 4,
+      "mismatch_questions": 3,
+      "supported_flags_with_other_unresolved_occurrences": 0,
+      "binding_supported": 3,
+      "supported_questions": 2
+    }
+  },
+  "coverage_strata": {
+    "rescued": {
+      "questions": 6,
+      "literal_flags": 7,
+      "binding_mismatch": 4,
+      "mismatch_questions": 3,
+      "supported_flags_with_other_unresolved_occurrences": 0,
+      "binding_supported": 3,
+      "supported_questions": 3
+    },
+    "unchanged": {
+      "questions": 13,
+      "literal_flags": 14,
+      "binding_mismatch": 5,
+      "mismatch_questions": 5,
+      "supported_flags_with_other_unresolved_occurrences": 0,
+      "binding_supported": 7,
+      "supported_questions": 6,
+      "binding_unresolved": 2,
+      "unresolved_questions": 2
+    }
+  },
+  "unresolved_reason_flag_counts": {
+    "transformed_or_unsupported_predicate_target": 2
+  },
+  "input_hashes": {
+    "cpu_cache_sha256": "63f0accdd1dee9d3e7ca2f0c93004f3c5a4201cac573d2a748a9d3f3bf613ba8",
+    "private_rows_sha256": "261128481b8c1eb35fa5a7f9674cf663f247a900eac9070e16f290f16bff6005",
+    "public_aggregate_sha256": "c537b5b1b67fdb59ffa859ece7a463174419db23c500cd0e47dfbcf67dfc6d37",
+    "p1_6_cache_sha256": "c7bb9ed942aa793e34e1253a5d1d8f8d8d871c95bdfdc33718dde7396d345250",
+    "input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a",
+    "query_json": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "schema_json": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "p2c_aggregate": "7e4ce4b2a92df5e17160bb2429402b66ab7caec521c6e4da9ec90abd108e8fdc",
+    "p2c_private_rows": "99935116001811bef790bf2e916d34f4f40ffecc70322f7b71e28f885d9425ff",
+    "lexical_aggregate": "e81a1d7fca13209a0aafa33d612e4a6f05290678f49e8d78fdf7a01c9e3efcb4",
+    "lexical_private_rows": "66b38471056efc084c0af80d0dca99aaff5dca47df51aba985ddce52ea8ea7a9",
+    "priority_queue": "d9c28cba11018a3234ec0966c814add769ba85acf0abc8959a0e2cd0e196bff8"
+  },
+  "decision": "prioritize_binding_supported_cases_for_semantic_review",
+  "interpretation": "AST incidence only; mismatch does not rule out indirect utility; unknowns are not negatives; no semantic necessity or SQL accuracy assessment",
+  "human_reviews": 0,
+  "semantic_necessity_denominator": 0,
+  "api_usage": {
+    "requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "cost_cny": "0.00"
+  },
+  "model_forwards": 0,
+  "gpu_seconds": 0,
+  "sql_executions": 0
+}

@@ -29,3 +29,7 @@
 ## 产物与隐私
 
 独立路径及哈希见`reports/p2c_value_binding_20261019_01/experiment_config.json`；报告归档该目录。私有逐题只保存定位、hash、源节点ID与原因，不复制SQL/Literal原文。公开代码、配置、匿名计数、回执和验证材料；不公开数据库名、逐题ID、节点ID、参考SQL、原常量或日志。原19条人工空白模板和历史实验均不修改。
+
+## 执行后补记（不改变冻结规则）
+
+执行源`0f0bf08a611600423948f416542db26952bea934`完成同提交Smoke及一次19题Full，无失败/重试。124项相关合成/回归测试通过；输入、旧标记重放、分母和写盘验证通过。题级supported/mismatch/unknown=9/8/2，标记级10/9/2，unknown为原规则未支持的变换型目标。一次Full后按协议停止；supported只提高语义复核优先级，不是语义必要性或SQL EX。详见[完成报告](../reports/p2c_value_binding_20261019_01/README.md)。
