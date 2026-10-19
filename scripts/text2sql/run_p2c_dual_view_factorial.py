@@ -227,31 +227,53 @@ def assert_p2b_replay(
 
 def assert_p2b_aggregate_replay(
     p2b_aggregate: dict[str, Any], metrics_by_arm: dict[str, dict[str, Any]]
-) -> None:
-    field_map = {
-        "column_r5_query_macro": ("column_r5_query_macro", None),
-        "column_r10_query_macro": ("column_r10_query_macro", None),
-        "column_r20_query_macro": ("column_r20_query_macro", None),
-        "complete_query_macro": ("complete_query_macro", "complete"),
-        "budget_recall_query_macro": ("budget_recall_query_macro", "recall"),
-        "mean_tokens_used": ("mean_tokens_used", "tokens_used"),
-    }
+) -> dict[str, int]:
+    # Archive and local summary are distinct, versioned schemas.
+    field_paths = [
+        ((f"column_r{k}_query_macro",), ("column_recall_query_macro", str(k)))
+        for k in (5, 10, 20)
+    ] + [
+        ((archive_field, str(budget)), ("budgets", str(budget), local_field))
+        for budget in (512, 1024, 2048)
+        for archive_field, local_field in (
+            ("complete_query_macro", "complete_query_macro"),
+            ("budget_recall_query_macro", "gold_schema_recall_query_macro"),
+            ("mean_tokens_used", "mean_returned_tokens"),
+        )
+    ]
+
+    def numeric(root: Any, path: tuple[str, ...], prefix: str) -> float:
+        full_path = prefix + "/" + "/".join(path)
+        try:
+            value = root
+            for key in path:
+                value = value[key]
+        except (KeyError, TypeError, IndexError) as error:
+            raise RuntimeError(f"P2b aggregate missing metric path: {full_path}") from error
+        if isinstance(value, bool) or not isinstance(value, (int, float, np.integer, np.floating)) or not np.isfinite(value):
+            raise RuntimeError(f"P2b aggregate invalid numeric metric: {full_path}")
+        return float(value)
+
+    comparisons = 0
+    denominators = 0
     for arm, baseline_key in P2B_AGGREGATE_VARIANTS.items():
-        baseline = p2b_aggregate["conditions"][baseline_key]
-        replay = metrics_by_arm[arm]
-        for group in ("all", "fixed_non_saturated"):
-            for field, (metric_key, _) in field_map.items():
-                if field in ("complete_query_macro", "budget_recall_query_macro", "mean_tokens_used"):
-                    for budget in ("512", "1024", "2048"):
-                        expected = baseline[group][field][budget]
-                        actual = replay[group][metric_key][budget]
-                        if not np.isclose(expected, actual, rtol=0.0, atol=1e-14):
-                            raise RuntimeError(f"P2b aggregate replay differs: {arm}/{group}/{field}/{budget}")
-                else:
-                    expected = baseline[group][field]
-                    actual = replay[group][metric_key]
-                    if not np.isclose(expected, actual, rtol=0.0, atol=1e-14):
-                        raise RuntimeError(f"P2b aggregate replay differs: {arm}/{group}/{field}")
+        for group, denominator_key in (
+            ("all", "all_column_eligible_questions"),
+            ("fixed_non_saturated", "fixed_non_saturated_questions"),
+        ):
+            expected_count = numeric(p2b_aggregate, ("conditions", baseline_key, "denominators", denominator_key), "archive")
+            count_path = (arm, group, "denominators", "column_eligible_questions")
+            actual_count = numeric(metrics_by_arm, count_path, "local")
+            if expected_count <= 0 or not expected_count.is_integer() or actual_count != expected_count:
+                raise RuntimeError("P2b aggregate denominator differs: " + "/".join(count_path))
+            denominators += 1
+            for archive_path, local_path in field_paths:
+                expected = numeric(p2b_aggregate, ("conditions", baseline_key, group, *archive_path), "archive")
+                actual = numeric(metrics_by_arm, (arm, group, *local_path), "local")
+                if not np.isclose(expected, actual, rtol=0.0, atol=1e-14):
+                    raise RuntimeError("P2b aggregate replay differs: " + "/".join((arm, group, *local_path)))
+                comparisons += 1
+    return {"metric_comparisons": comparisons, "denominator_comparisons": denominators}
 
 
 def factorial_contrasts(values: dict[str, float]) -> dict[str, float]:
@@ -266,8 +288,10 @@ def factorial_contrasts(values: dict[str, float]) -> dict[str, float]:
     }
 
 
-def p2b_registered_aggregate_sha256(p2c_config: dict[str, Any], p2b_config: dict[str, Any]) -> str:
-    if p2c_config.get("experiment_id") != EXPERIMENT_ID:
+def p2b_registered_aggregate_sha256(
+    p2c_config: dict[str, Any], p2b_config: dict[str, Any], *, expected_experiment_id: str = EXPERIMENT_ID
+) -> str:
+    if p2c_config.get("experiment_id") != expected_experiment_id:
         raise RuntimeError("Unexpected P2c configuration while validating P2b inputs")
     if p2b_config.get("experiment_id") != "p2b_values_ablation_20261018_01":
         raise RuntimeError("Unexpected P2b completed experiment configuration")
@@ -288,7 +312,10 @@ def token_sequence_hash(nodes: list[Any]) -> str:
     return sha256_bytes("\n".join(node.text for node in nodes).encode("utf-8"))
 
 
-def load_registered_inputs(args: argparse.Namespace) -> dict[str, Any]:
+def load_registered_inputs(
+    args: argparse.Namespace, *, config_path: Path = CONFIG_PATH, plan_path: Path = PLAN_PATH,
+    experiment_id: str = EXPERIMENT_ID,
+) -> dict[str, Any]:
     p1 = load_module(P1_6_RUNNER, "p1_6_for_p2c_dual_view")
     p2a = load_module(P2A_RUNNER, "p2a_for_p2c_dual_view")
     p2b = load_module(P2B_RUNNER, "p2b_for_p2c_dual_view")
@@ -296,11 +323,11 @@ def load_registered_inputs(args: argparse.Namespace) -> dict[str, Any]:
     source = p1.assert_committed_source(args.expected_commit)
     if source.get("worktree_status") != "clean" or source.get("branch") != "main":
         raise RuntimeError("P2c requires a clean published main checkout")
-    if not PLAN_PATH.is_file() or not CONFIG_PATH.is_file() or not P2B_CONFIG_PATH.is_file() or not P2B_PUBLIC_AGGREGATE.is_file():
+    if not plan_path.is_file() or not config_path.is_file() or not P2B_CONFIG_PATH.is_file() or not P2B_PUBLIC_AGGREGATE.is_file():
         raise FileNotFoundError("A registered P2c/P2b protocol or public aggregate is missing")
-    config = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+    config = json.loads(config_path.read_text(encoding="utf-8"))
     p2b_config = json.loads(P2B_CONFIG_PATH.read_text(encoding="utf-8"))
-    if config.get("experiment_id") != EXPERIMENT_ID or config.get("status") not in {
+    if config.get("experiment_id") != experiment_id or config.get("status") not in {
         "preregistered_not_run", "recovery_preregistered_not_run"
     }:
         raise RuntimeError("P2c experiment config is not in its preregistered state")
@@ -352,7 +379,7 @@ def load_registered_inputs(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError("P2b private Full aggregate checksum differs from the receipt")
     if p2b_aggregate_sha != sha256_file(P2B_PUBLIC_AGGREGATE):
         raise RuntimeError("P2b local aggregate differs from the published report aggregate")
-    if p2b_aggregate_sha != p2b_registered_aggregate_sha256(config, p2b_config):
+    if p2b_aggregate_sha != p2b_registered_aggregate_sha256(config, p2b_config, expected_experiment_id=experiment_id):
         raise RuntimeError("P2b aggregate checksum differs from the archived experiment config")
 
     p2b_rows: list[dict[str, Any]] = []
