@@ -1,0 +1,131 @@
+{
+  "experiment_id": "p2c_r_recovery_20261019_01",
+  "status": "preregistered_not_run",
+  "repository": "https://github.com/bArtyom/gfm-rag",
+  "branch": "main",
+  "protocol": "docs/research/text2sql/plans/p2c_r_replay_contract_recovery_20261018.md",
+  "guidance_commit": "629bfe00680289c9ae3b2173337e7b62ccf99faf",
+  "core_hypothesis": "V01 (R0 retrieval scores + R1 Context) preserves the R0 Column ranking while improving Complete Schema@1024 by at least 3.0 pp on the fixed R0 non-saturated subset and 5.0 pp overall.",
+  "layer": "minimal_factorial_diagnostic",
+  "mainline_evidence": "exploratory BIRD dev screening only; no SQL EX or generalization claim",
+  "historical_status": {
+    "original_preregistration_commit": "6037ff79d59d824e862348ec4a8325ef08dc6b77",
+    "original_P2c": "stopped_no_scientific_result; no third Full under that registration",
+    "failed_full_runs": [
+      "p2c_dual_view_full1534_20261018_01",
+      "p2c_dual_view_full1534_20261018_02"
+    ],
+    "errors": [
+      "R0_local_cpu_pass1 public/private condition alias",
+      "column_r5_query_macro flat/nested mismatch"
+    ],
+    "old_total_cpu_seconds": 73.965210294
+  },
+  "recovery_rationale": "Independent recovery authorized by new guidance after complete aggregate contract gate. Frozen scientific design and thresholds retained.",
+  "gate0_directory": "/mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom/ai_temp_code/p2c_r_contract_20261019_01",
+  "gate0_run_id": "p2c_r_contract_20261019_01",
+  "gate0_receipt_sha256": "93a94c1c9ba207bbd32d2f46b173257fa4fc72a625e76d5daecd4b183cc15da1",
+  "gate0_code_commit": "34f843ce0ea4014f152e4b53ab2b32ea93bfce12",
+  "gate0_tests_passed": 93,
+  "frozen_inputs": {
+    "P2b_cache_sha256": "63f0accdd1dee9d3e7ca2f0c93004f3c5a4201cac573d2a748a9d3f3bf613ba8",
+    "P2b_private_rows_sha256": "261128481b8c1eb35fa5a7f9674cf663f247a900eac9070e16f290f16bff6005",
+    "P2b_public_aggregate_sha256": "c537b5b1b67fdb59ffa859ece7a463174419db23c500cd0e47dfbcf67dfc6d37",
+    "input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a"
+  },
+  "conditions": {
+    "V00": {
+      "score_view": "R0",
+      "context_view": "R0"
+    },
+    "V01": {
+      "score_view": "R0",
+      "context_view": "R1"
+    },
+    "V10": {
+      "score_view": "R1",
+      "context_view": "R0"
+    },
+    "V11": {
+      "score_view": "R1",
+      "context_view": "R1"
+    }
+  },
+  "dataset": {
+    "name": "BIRD dev",
+    "questions": 1534,
+    "databases": 11,
+    "column_eligible_questions": 1460,
+    "fixed_R0_non_saturated_databases": 5,
+    "fixed_R0_non_saturated_column_eligible_questions": 706,
+    "status": "exploratory_development_data"
+  },
+  "metrics": {
+    "ranking": [
+      "Table R@5/@10",
+      "Column R@5/@10/@20",
+      "Column Precision@10",
+      "per-question Top-K digests"
+    ],
+    "packing": [
+      "Complete Schema@512/@1024/@2048",
+      "Gold Schema recall",
+      "returned tokens",
+      "returned elements",
+      "Gold-only fit"
+    ],
+    "inference": "database-cluster bootstrap 10000 draws, seed 20261020",
+    "paired_diagnostics": [
+      "rescue/damage",
+      "factorial ranking/context/interaction effects",
+      "selected Values-bearing columns"
+    ]
+  },
+  "success_criteria": {
+    "structural_gate": "V00/V01 and V10/V11 have identical score-matrix digests and Table/Column Top-K IDs; V00/V11 exactly replay every P2b archived Column Top-K and budget row.",
+    "complete_1024_fixed_non_saturated_delta_pp_minimum": 3.0,
+    "complete_1024_all_delta_pp_minimum": 5.0,
+    "cluster_bootstrap_95_ci_lower_bound_all_and_fixed_subset": "> 0",
+    "fixed_database_direction_gate": "at least 3 of 5 databases have delta >= 0 pp and at least 2 are strictly > 0 pp",
+    "success_means": "candidate for a separate Values-risk audit only; not a Text2SQL or SQL execution accuracy claim"
+  },
+  "model_manifest_sha256": "b89ec1366231e37e92c64eaff3f98edce0f0c6af15cc8c7991ed900520143c68",
+  "environment": "think2sql_20260909",
+  "source_policy": "All seven execution sources and dependencies must equal Gate 0. Smoke and Full must use one published commit and identical frozen inputs.",
+  "budget": {
+    "smoke_runs": 1,
+    "full_runs": 1,
+    "retries": 0,
+    "cpu_seconds_per_run": 1800,
+    "cpu_threads": 8,
+    "rss_gib": 16,
+    "gpu_seconds": 0,
+    "api_requests": 0,
+    "model_forwards": 0,
+    "sql_executions": 0
+  },
+  "run_ids": {
+    "smoke": "p2c_r_smoke5_20261019_01",
+    "full": "p2c_r_full1534_20261019_01"
+  },
+  "private_output_dirs": {
+    "smoke": "/mnt/liansp3/sources/results/gfmrag_p2c_r_recovery_20261019/smoke_5q_20261019_01",
+    "full": "/mnt/liansp3/sources/results/gfmrag_p2c_r_recovery_20261019/full_1534_20261019_01"
+  },
+  "stop_conditions": [
+    "any input, model manifest, cache, text hash, node order, denominator, or P2b checksum mismatch",
+    "non-finite score, score-view digest change across context-only arms, or Table/Column Top-K invariant failure",
+    "V00/V11 fail exact replay of the archived P2b Column Top-K or budget rows/aggregate metrics",
+    "CPU process time exceeds 1800 seconds or process RSS exceeds 16 GiB",
+    "any private row, question text, Gold SQL, database name, or model vector appears in a public artifact",
+    "Any smoke/full implementation failure; no retry",
+    "Any code/dependency/input change after Gate 0"
+  ],
+  "api_usage": {
+    "requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "cost_cny": "0.00"
+  }
+}

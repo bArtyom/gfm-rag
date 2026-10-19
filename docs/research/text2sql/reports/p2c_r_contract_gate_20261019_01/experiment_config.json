@@ -1,25 +1,55 @@
 {
   "experiment_id": "p2c_r_contract_gate_20261019_01",
-  "status": "preregistered_not_run",
+  "status": "completed_gate0_passed",
   "type": "engineering_contract_only",
   "guidance": "docs/research/text2sql/plans/p2c_r_replay_contract_recovery_20261018.md",
   "guidance_commit_prefix": "629bfe0",
   "scientific_hypothesis": "Original P2c H1/H2 unchanged; Gate 0 does not evaluate the new cross arms.",
   "scientific_results_allowed": false,
-  "run_ids": {"contract": "p2c_r_contract_20261019_01"},
+  "run_ids": {
+    "contract": "p2c_r_contract_20261019_01"
+  },
   "private_output_dirs": {
     "contract": "/mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom/ai_temp_code/p2c_r_contract_20261019_01"
   },
   "input_policy": "Only frozen P2b archived R0/R1 rows. V01 repeats R0 and V10 repeats R1 as engineering placeholders; Table metrics are synthetic zero placeholders. No new cross-arm scoring.",
-  "checks": {"archive_metrics": 48, "eligible_denominators": 4, "json_roundtrip": true, "finite_values": true},
-  "resource_budget": {"cpu_seconds": 1800, "threads": 8, "rss_gib": 16, "gpu_seconds": 0, "api_requests": 0, "model_forwards": 0, "sql_executions": 0},
+  "checks": {
+    "archive_metrics": 48,
+    "eligible_denominators": 4,
+    "json_roundtrip": true,
+    "finite_values": true
+  },
+  "resource_budget": {
+    "cpu_seconds": 1800,
+    "threads": 8,
+    "rss_gib": 16,
+    "gpu_seconds": 0,
+    "api_requests": 0,
+    "model_forwards": 0,
+    "sql_executions": 0
+  },
   "frozen_inputs": {
     "P2b_cache_sha256": "63f0accdd1dee9d3e7ca2f0c93004f3c5a4201cac573d2a748a9d3f3bf613ba8",
     "P2b_private_rows_sha256": "261128481b8c1eb35fa5a7f9674cf663f247a900eac9070e16f290f16bff6005",
     "P2b_public_aggregate_sha256": "c537b5b1b67fdb59ffa859ece7a463174419db23c500cd0e47dfbcf67dfc6d37",
     "input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a"
   },
-  "stop_conditions": ["Any failed contract or denominator/hash mismatch", "Any new V01/V10 score generated in contract mode", "Any resource budget violation", "Any public artifact containing private rows, question text, SQL, database names, or vectors"],
+  "stop_conditions": [
+    "Any failed contract or denominator/hash mismatch",
+    "Any new V01/V10 score generated in contract mode",
+    "Any resource budget violation",
+    "Any public artifact containing private rows, question text, SQL, database names, or vectors"
+  ],
   "next_action": "Only after Gate 0 passes: separately register one P2c-R smoke and one Full; no retry under the old P2c registration.",
-  "api_usage": {"requests": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0, "cost_cny": "0.00"}
+  "api_usage": {
+    "requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "cost_cny": "0.00"
+  },
+  "result": {
+    "checks": "gate0_checks.json",
+    "private_receipt_sha256": "93a94c1c9ba207bbd32d2f46b173257fa4fc72a625e76d5daecd4b183cc15da1"
+  }
 }
