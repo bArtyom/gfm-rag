@@ -1,0 +1,28 @@
+{
+  "requests": 274,
+  "requests_with_usage": 260,
+  "reported_input_tokens": 4081634,
+  "reported_output_tokens": 198230,
+  "reported_total_tokens": 4279864,
+  "requests_without_usage": 14,
+  "auth_rejected_without_usage": 10,
+  "other_requests_without_usage": 4,
+  "estimated_CNY_from_reported_usage": "8.5232850",
+  "priced_usage_requests": 218,
+  "unpriced_reported_usage_requests": 42,
+  "verified_billed_CNY": null,
+  "billed_cost_verified": false,
+  "cost_basis": "uncached list price estimate; unknown usage/discounts/billing excluded",
+  "scope": "logged model API calls only; unknown usage excluded from confirmed totals",
+  "snapshot_utc": "2026-10-19T01:26:53Z",
+  "current_experiment": {
+    "experiment_id": "p2c_values_risk_20261019_01",
+    "requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "unknown_usage_requests": 0,
+    "external_api_cost_CNY": "0.00"
+  },
+  "attribution": "Global totals include registered calls from other projects; no increase is attributed to this CPU-only experiment. Unknown usage and unpriced requests remain pending; estimate is not a verified bill."
+}

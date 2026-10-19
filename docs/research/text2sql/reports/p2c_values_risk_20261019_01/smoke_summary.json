@@ -1,0 +1,112 @@
+{
+  "experiment_id": "p2c_values_risk_20261019_01",
+  "run_id": "p2c_values_risk_smoke5_20261019_01",
+  "status": "completed",
+  "source_commit": "9f1ac0e71b8b5bc1fe9fda8381b0281dcdd72222",
+  "mode": "smoke",
+  "smoke_only": true,
+  "interpretation": "Lexical exposure flags only; no semantic necessity, SQL accuracy or safety certification",
+  "counts": {
+    "all": {
+      "questions": 5,
+      "parsed_queries": 5,
+      "questions_with_predicate_literals": 4,
+      "questions_with_values_exposure": 2,
+      "literal_exposures": 2,
+      "questions_with_exposure_absent_from_question_evidence": 2,
+      "questions_with_exposure_on_gold_schema_column": 0,
+      "questions_with_retained_node_exposure": 2
+    },
+    "column_eligible": {
+      "questions": 5,
+      "parsed_queries": 5,
+      "questions_with_predicate_literals": 4,
+      "questions_with_values_exposure": 2,
+      "literal_exposures": 2,
+      "questions_with_exposure_absent_from_question_evidence": 2,
+      "questions_with_exposure_on_gold_schema_column": 0,
+      "questions_with_retained_node_exposure": 2
+    },
+    "fixed_non_saturated": {
+      "questions": 5,
+      "parsed_queries": 5,
+      "questions_with_predicate_literals": 4,
+      "questions_with_values_exposure": 2,
+      "literal_exposures": 2,
+      "questions_with_exposure_absent_from_question_evidence": 2,
+      "questions_with_exposure_on_gold_schema_column": 0,
+      "questions_with_retained_node_exposure": 2
+    }
+  },
+  "per_database_anonymized": {
+    "db_01": {
+      "questions": 5,
+      "parsed_queries": 5,
+      "questions_with_predicate_literals": 4,
+      "questions_with_values_exposure": 2,
+      "literal_exposures": 2,
+      "questions_with_exposure_absent_from_question_evidence": 2,
+      "questions_with_exposure_on_gold_schema_column": 0,
+      "questions_with_retained_node_exposure": 2
+    },
+    "db_02": {},
+    "db_03": {},
+    "db_04": {},
+    "db_05": {},
+    "db_06": {},
+    "db_07": {},
+    "db_08": {},
+    "db_09": {},
+    "db_10": {},
+    "db_11": {}
+  },
+  "coverage_strata": {
+    "rescued": {
+      "questions": 1,
+      "parsed_queries": 1,
+      "questions_with_predicate_literals": 1,
+      "questions_with_values_exposure": 1,
+      "literal_exposures": 1,
+      "questions_with_exposure_absent_from_question_evidence": 1,
+      "questions_with_exposure_on_gold_schema_column": 0,
+      "questions_with_retained_node_exposure": 1
+    },
+    "damaged": {},
+    "unchanged": {
+      "questions": 4,
+      "parsed_queries": 4,
+      "questions_with_predicate_literals": 3,
+      "questions_with_values_exposure": 1,
+      "literal_exposures": 1,
+      "questions_with_exposure_absent_from_question_evidence": 1,
+      "questions_with_exposure_on_gold_schema_column": 0,
+      "questions_with_retained_node_exposure": 1
+    }
+  },
+  "exposure_denominator": 5,
+  "unassessed_column_ineligible_questions": 0,
+  "literal_diagnostics": {
+    "pagination_literals_excluded": 3,
+    "unique_predicate_literals": 7
+  },
+  "parse_error_types": {},
+  "human_reviews": 0,
+  "decision": "retain_offline_candidate_prioritize_human_value_review",
+  "frozen_p2c_aggregate_sha256": "7e4ce4b2a92df5e17160bb2429402b66ab7caec521c6e4da9ec90abd108e8fdc",
+  "input_hashes": {
+    "cpu_cache_sha256": "63f0accdd1dee9d3e7ca2f0c93004f3c5a4201cac573d2a748a9d3f3bf613ba8",
+    "private_rows_sha256": "261128481b8c1eb35fa5a7f9674cf663f247a900eac9070e16f290f16bff6005",
+    "public_aggregate_sha256": "c537b5b1b67fdb59ffa859ece7a463174419db23c500cd0e47dfbcf67dfc6d37",
+    "p1_6_cache_sha256": "c7bb9ed942aa793e34e1253a5d1d8f8d8d871c95bdfdc33718dde7396d345250",
+    "input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a"
+  },
+  "api_usage": {
+    "requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "cost_cny": "0.00"
+  },
+  "sql_executions": 0,
+  "model_forwards": 0
+}

@@ -1,0 +1,215 @@
+{
+  "experiment_id": "p2c_values_risk_20261019_01",
+  "run_id": "p2c_values_risk_full1534_20261019_01",
+  "status": "completed",
+  "source_commit": "9f1ac0e71b8b5bc1fe9fda8381b0281dcdd72222",
+  "mode": "full",
+  "smoke_only": false,
+  "interpretation": "Lexical exposure flags only; no semantic necessity, SQL accuracy or safety certification",
+  "counts": {
+    "all": {
+      "questions": 1534,
+      "parsed_queries": 1534,
+      "questions_with_predicate_literals": 1374,
+      "questions_with_values_exposure": 407,
+      "literal_exposures": 548,
+      "questions_with_exposure_absent_from_question_evidence": 19,
+      "questions_with_exposure_on_gold_schema_column": 375,
+      "questions_with_retained_node_exposure": 407
+    },
+    "column_eligible": {
+      "questions": 1460,
+      "parsed_queries": 1460,
+      "questions_with_predicate_literals": 1314,
+      "questions_with_values_exposure": 407,
+      "literal_exposures": 548,
+      "questions_with_exposure_absent_from_question_evidence": 19,
+      "questions_with_exposure_on_gold_schema_column": 375,
+      "questions_with_retained_node_exposure": 407
+    },
+    "fixed_non_saturated": {
+      "questions": 706,
+      "parsed_queries": 706,
+      "questions_with_predicate_literals": 625,
+      "questions_with_values_exposure": 223,
+      "literal_exposures": 314,
+      "questions_with_exposure_absent_from_question_evidence": 17,
+      "questions_with_exposure_on_gold_schema_column": 195,
+      "questions_with_retained_node_exposure": 223
+    }
+  },
+  "per_database_anonymized": {
+    "db_01": {
+      "questions": 89,
+      "parsed_queries": 89,
+      "questions_with_predicate_literals": 67,
+      "questions_with_values_exposure": 26,
+      "literal_exposures": 31,
+      "questions_with_exposure_absent_from_question_evidence": 8,
+      "questions_with_exposure_on_gold_schema_column": 18,
+      "questions_with_retained_node_exposure": 26
+    },
+    "db_02": {
+      "questions": 191,
+      "parsed_queries": 191,
+      "questions_with_predicate_literals": 180,
+      "questions_with_values_exposure": 57,
+      "literal_exposures": 71,
+      "questions_with_exposure_absent_from_question_evidence": 3,
+      "questions_with_exposure_on_gold_schema_column": 48,
+      "questions_with_retained_node_exposure": 57
+    },
+    "db_03": {
+      "questions": 186,
+      "parsed_queries": 186,
+      "questions_with_predicate_literals": 152,
+      "questions_with_values_exposure": 16,
+      "literal_exposures": 21,
+      "questions_with_exposure_absent_from_question_evidence": 0,
+      "questions_with_exposure_on_gold_schema_column": 14,
+      "questions_with_retained_node_exposure": 16
+    },
+    "db_04": {
+      "questions": 64,
+      "parsed_queries": 64,
+      "questions_with_predicate_literals": 58,
+      "questions_with_values_exposure": 0,
+      "literal_exposures": 0,
+      "questions_with_exposure_absent_from_question_evidence": 0,
+      "questions_with_exposure_on_gold_schema_column": 0,
+      "questions_with_retained_node_exposure": 0
+    },
+    "db_05": {
+      "questions": 129,
+      "parsed_queries": 129,
+      "questions_with_predicate_literals": 106,
+      "questions_with_values_exposure": 17,
+      "literal_exposures": 19,
+      "questions_with_exposure_absent_from_question_evidence": 1,
+      "questions_with_exposure_on_gold_schema_column": 15,
+      "questions_with_retained_node_exposure": 17
+    },
+    "db_06": {
+      "questions": 106,
+      "parsed_queries": 106,
+      "questions_with_predicate_literals": 100,
+      "questions_with_values_exposure": 50,
+      "literal_exposures": 60,
+      "questions_with_exposure_absent_from_question_evidence": 2,
+      "questions_with_exposure_on_gold_schema_column": 50,
+      "questions_with_retained_node_exposure": 50
+    },
+    "db_07": {
+      "questions": 174,
+      "parsed_queries": 174,
+      "questions_with_predicate_literals": 148,
+      "questions_with_values_exposure": 0,
+      "literal_exposures": 0,
+      "questions_with_exposure_absent_from_question_evidence": 0,
+      "questions_with_exposure_on_gold_schema_column": 0,
+      "questions_with_retained_node_exposure": 0
+    },
+    "db_08": {
+      "questions": 158,
+      "parsed_queries": 158,
+      "questions_with_predicate_literals": 147,
+      "questions_with_values_exposure": 12,
+      "literal_exposures": 12,
+      "questions_with_exposure_absent_from_question_evidence": 0,
+      "questions_with_exposure_on_gold_schema_column": 11,
+      "questions_with_retained_node_exposure": 12
+    },
+    "db_09": {
+      "questions": 129,
+      "parsed_queries": 129,
+      "questions_with_predicate_literals": 116,
+      "questions_with_values_exposure": 18,
+      "literal_exposures": 18,
+      "questions_with_exposure_absent_from_question_evidence": 0,
+      "questions_with_exposure_on_gold_schema_column": 17,
+      "questions_with_retained_node_exposure": 18
+    },
+    "db_10": {
+      "questions": 163,
+      "parsed_queries": 163,
+      "questions_with_predicate_literals": 158,
+      "questions_with_values_exposure": 123,
+      "literal_exposures": 193,
+      "questions_with_exposure_absent_from_question_evidence": 5,
+      "questions_with_exposure_on_gold_schema_column": 114,
+      "questions_with_retained_node_exposure": 123
+    },
+    "db_11": {
+      "questions": 145,
+      "parsed_queries": 145,
+      "questions_with_predicate_literals": 142,
+      "questions_with_values_exposure": 88,
+      "literal_exposures": 123,
+      "questions_with_exposure_absent_from_question_evidence": 0,
+      "questions_with_exposure_on_gold_schema_column": 88,
+      "questions_with_retained_node_exposure": 88
+    }
+  },
+  "coverage_strata": {
+    "rescued": {
+      "questions": 162,
+      "parsed_queries": 162,
+      "questions_with_predicate_literals": 153,
+      "questions_with_values_exposure": 62,
+      "literal_exposures": 92,
+      "questions_with_exposure_absent_from_question_evidence": 6,
+      "questions_with_exposure_on_gold_schema_column": 56,
+      "questions_with_retained_node_exposure": 62
+    },
+    "damaged": {
+      "questions": 2,
+      "parsed_queries": 2,
+      "questions_with_predicate_literals": 2,
+      "questions_with_values_exposure": 1,
+      "literal_exposures": 2,
+      "questions_with_exposure_absent_from_question_evidence": 0,
+      "questions_with_exposure_on_gold_schema_column": 1,
+      "questions_with_retained_node_exposure": 1
+    },
+    "unchanged": {
+      "questions": 1296,
+      "parsed_queries": 1296,
+      "questions_with_predicate_literals": 1159,
+      "questions_with_values_exposure": 344,
+      "literal_exposures": 454,
+      "questions_with_exposure_absent_from_question_evidence": 13,
+      "questions_with_exposure_on_gold_schema_column": 318,
+      "questions_with_retained_node_exposure": 344
+    }
+  },
+  "exposure_denominator": 1460,
+  "unassessed_column_ineligible_questions": 74,
+  "literal_diagnostics": {
+    "pagination_literals_excluded": 302,
+    "unique_predicate_literals": 2334,
+    "pattern_literals_excluded": 49,
+    "computed_or_function_literals_excluded": 303,
+    "noncolumn_predicate_literals_excluded": 548,
+    "empty_literals_excluded": 4
+  },
+  "parse_error_types": {},
+  "human_reviews": 0,
+  "decision": "retain_offline_candidate_prioritize_human_value_review",
+  "frozen_p2c_aggregate_sha256": "7e4ce4b2a92df5e17160bb2429402b66ab7caec521c6e4da9ec90abd108e8fdc",
+  "input_hashes": {
+    "cpu_cache_sha256": "63f0accdd1dee9d3e7ca2f0c93004f3c5a4201cac573d2a748a9d3f3bf613ba8",
+    "private_rows_sha256": "261128481b8c1eb35fa5a7f9674cf663f247a900eac9070e16f290f16bff6005",
+    "public_aggregate_sha256": "c537b5b1b67fdb59ffa859ece7a463174419db23c500cd0e47dfbcf67dfc6d37",
+    "p1_6_cache_sha256": "c7bb9ed942aa793e34e1253a5d1d8f8d8d871c95bdfdc33718dde7396d345250",
+    "input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a"
+  },
+  "api_usage": {
+    "requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "cost_cny": "0.00"
+  },
+  "sql_executions": 0,
+  "model_forwards": 0
+}

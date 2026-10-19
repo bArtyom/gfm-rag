@@ -29,3 +29,7 @@
 ## 归档
 
 报告：`docs/research/text2sql/reports/p2c_values_risk_20261019_01/`。公开规则、代码、配置、匿名聚合及hash；逐题ID、node ID、Literal hash和审查线索仅保留本地，不公开SQL、Literal原文、数据库名、业务内容或日志。
+
+## 执行后补记（不修改冻结规则）
+
+执行源`9f1ac0e71b8b5bc1fe9fda8381b0281dcdd72222`完成同源Smoke及一次Full，无重试。1534题均解析，主分母1460中407题有词面线索、19题至少一个常量亦未见于问题/evidence；19条本地人工模板均未复核。548个标记及分层由持久化trace独立重计，hash/隐私检查通过。按既定停止条件结束扫描，进入语义复核准备；不把线索当作SQL损害或新主方法收益。详情以[完成报告](../reports/p2c_values_risk_20261019_01/README.md)为准。

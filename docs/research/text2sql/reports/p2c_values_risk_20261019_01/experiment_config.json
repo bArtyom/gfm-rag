@@ -1,13 +1,27 @@
 {
   "experiment_id": "p2c_values_risk_20261019_01",
-  "status": "preregistered_not_run",
+  "status": "completed_lexical_flags_require_semantic_review",
   "guidance_commit": "3a72c13b3054951f13dfc6a7fc56422e225365c1",
   "protocol": "docs/research/text2sql/plans/p2c_values_risk_audit_20261019.md",
   "core_hypothesis": "Some reference data-predicate constants may be visible exclusively in V00 selected Values fields and absent from V01 returned context; lexical evidence only, not semantic necessity.",
   "layer": "minimal_information_risk_diagnostic",
   "mainline_relevance": "Determines whether the schema-coverage gain can be described as preserving visible predicate-value information; SQL accuracy remains untested.",
-  "budget": {"smoke_runs": 1, "full_runs": 1, "retries": 0, "cpu_seconds_per_run": 300, "threads": 8, "rss_gib": 4, "gpu_seconds": 0, "api_requests": 0, "model_forwards": 0, "sql_executions": 0},
-  "run_ids": {"smoke": "p2c_values_risk_smoke5_20261019_01", "full": "p2c_values_risk_full1534_20261019_01"},
+  "budget": {
+    "smoke_runs": 1,
+    "full_runs": 1,
+    "retries": 0,
+    "cpu_seconds_per_run": 300,
+    "threads": 8,
+    "rss_gib": 4,
+    "gpu_seconds": 0,
+    "api_requests": 0,
+    "model_forwards": 0,
+    "sql_executions": 0
+  },
+  "run_ids": {
+    "smoke": "p2c_values_risk_smoke5_20261019_01",
+    "full": "p2c_values_risk_full1534_20261019_01"
+  },
   "private_output_dirs": {
     "smoke": "/mnt/liansp3/sources/results/gfmrag_p2c_values_risk_20261019/smoke_5q_20261019_01",
     "full": "/mnt/liansp3/sources/results/gfmrag_p2c_values_risk_20261019/full_1534_20261019_01"
@@ -23,7 +37,41 @@
   "p2c_private_rows_sha256": "99935116001811bef790bf2e916d34f4f40ffecc70322f7b71e28f885d9425ff",
   "sqlglot_version": "28.0.0",
   "success_criterion": "One bounded scan with valid persisted artifacts and >=95% SQL parsing. Nonzero exposure flags indicate manual review candidates only; zero flags do not prove semantic safety.",
-  "stop_conditions": ["Any hash/denominator/source mismatch", "Smoke failure or Full parser coverage below 95%", "CPU/RSS budget violation", "Any implementation failure; no retry", "After one Full, stop and require semantic review/design before SQL-model experiments"],
+  "stop_conditions": [
+    "Any hash/denominator/source mismatch",
+    "Smoke failure or Full parser coverage below 95%",
+    "CPU/RSS budget violation",
+    "Any implementation failure; no retry",
+    "After one Full, stop and require semantic review/design before SQL-model experiments"
+  ],
   "human_reviews": 0,
-  "api_usage": {"requests": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0, "cost_cny": "0.00"}
+  "api_usage": {
+    "requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "cost_cny": "0.00"
+  },
+  "final_result": {
+    "execution_source_commit": "9f1ac0e71b8b5bc1fe9fda8381b0281dcdd72222",
+    "aggregate_sha256": "e81a1d7fca13209a0aafa33d612e4a6f05290678f49e8d78fdf7a01c9e3efcb4",
+    "private_rows_sha256": "66b38471056efc084c0af80d0dca99aaff5dca47df51aba985ddce52ea8ea7a9",
+    "questions": 1534,
+    "exposure_eligible_questions": 1460,
+    "parsed_queries": 1534,
+    "flagged_questions": 407,
+    "literal_flags": 548,
+    "priority_absent_input_questions": 19,
+    "human_reviews": 0,
+    "semantic_necessity_denominator": 0,
+    "new_run_failures": 0,
+    "full_cpu_seconds": 12.322501996,
+    "full_wall_seconds": 12.485752252861857,
+    "full_peak_rss_gib": 0.8611679077148438,
+    "smoke_full_cpu_seconds": 23.198087227000002,
+    "smoke_full_wall_seconds": 23.51674103178084,
+    "decision": "retain_offline_candidate_prioritize_human_value_review",
+    "verification": "verification_summary.json",
+    "stop": "Bounded scan complete; no additional model/GPU or matching-rule experiment queued"
+  }
 }

@@ -30,7 +30,7 @@
 | [P2c-R 聚合契约恢复协议](plans/p2c_r_replay_contract_recovery_20261018.md) | 48 项源归档字段映射测试、全流程合成/归档回归、新恢复试验 Gate | Gate 0 与一次正式恢复已完成 |
 | [P2c-R Gate 0 工程记录](reports/p2c_r_contract_gate_20261019_01/README.md) | 完整字段适配、缺失/非有限值与分母验证、占位臂聚合写盘 | 93 项测试、真实归档 48 指标/4 分母和 JSON 写盘 Gate PASS |
 | [P2c-R 独立恢复全量结果](reports/p2c_r_recovery_20261019_01/README.md) | Gate 0 后同四臂、同阈值恢复及独立产物复核 | H1/H2 PASS；V01为Values风险审计候选，无SQL EX结论 |
-| [Values 词面信息风险审计](reports/p2c_values_risk_20261019_01/README.md) | 冻结1024预算下的参考谓词常量可见性，CPU一次有界扫描 | 已登记，待5题Smoke与1534题Full；非语义安全门 |
+| [Values 词面信息风险审计](reports/p2c_values_risk_20261019_01/README.md) | 冻结1024预算下的参考谓词常量可见性，CPU一次有界扫描 | 完成；407/1460题有线索，19题优先复核；非语义安全门 |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
@@ -56,11 +56,13 @@
 
 在 [2026-10-16 的代码级分析](graph-algorithm-code-review-20261016.md) 中，重点确定了 **Top-1 起始锚点、关系实例/逐边属性未纳入默认消息权重、节点 Top-K 非连通、SQL-aware 监督未落地**等可验证机制。最有潜力的后续方向是 **Query-aware JOIN Edge Gate + 实例感知约束子图解码**；但必须先过 FK/Join 标签 Gate，并与 Graph-Link、GRAST-SL、SchemaGraphSQL 同信息比较。**这不是已有实证收益**。
 
-## 最新行动结果与下一步（2026-10-19，P2c-R 完成）
+## 最新行动结果与下一步（2026-10-19，Values 风险审计完成）
 
 按最新独立恢复协议完成93项相关测试、真实P2b归档48字段/4分母以及JSON写盘Gate，再用同一提交运行一次5题Smoke和一次1534题Full，均通过。V01的全体Complete@1024为67.60%（V00为56.64%），困难集为46.18%（V00为37.96%），两个预注册CI下界都>0，固定5库全部正向。V01/V00排名逐题不变；V00/V11重放P2b归档，独立产物验证通过。详见[全量报告](reports/p2c_r_recovery_20261019_01/README.md)。
 
-完整性提升伴随162题救回、2题损坏；候选Schema文本减少27.03%，不等于完整SQL Prompt节省同样比例。V01省略了278个候选列的Values字段，在1024预算下平均每题选中12.84个此类列。**下一关键问题是这些被移除的信息是否影响SQL谓词/枚举值判断**，应先做独立、无模型的Values信息风险审计，再设计固定Generator/Selector、数据库级独立验证的SQL EX对照。保持V01为离线候选，不追加截断或拼接规则搜索。
+完整性提升伴随162题救回、2题损坏；候选Schema文本减少27.03%，不等于完整SQL Prompt节省同样比例。V01省略了278个候选列的Values字段，在1024预算下平均每题选中12.84个此类列。随后按成功分支完成一次5题Smoke和一次1534题本地CPU风险扫描：所有SQL可解析，407/1460题有被移除的参考谓词常量词面线索，固定子集223/706；19题至少一个常量也不在问题/evidence中，其中10题同一标记命中Gold Schema列的Values。详见[审计报告](reports/p2c_values_risk_20261019_01/README.md)。
+
+**V01保持离线候选，风险诊断已按注册条件停止。** 407题不是SQL受损题数，19题也不是已确认语义必要性；人工复核=0，语义判断分母=0。已建立19条本地优先复核空白模板。下一步先核对Literal与SQL列/业务编码绑定，再确定固定Generator/Selector、独立数据库验证与SQL EX方案；不得以词面命中代替人工语义证据，不自动新增LLM/GPU实验，也不追加匹配规则、截断或拼接搜索。
 
 原P2c在旧注册下仍为停止/无科学结果；P1/P1.5历史严格复现FAIL、P2a/B原NO-GO、FK/Role Gate NO-GO均保留。当前没有GNN或SQL EX新结果，BIRD dev仅提供探索性证据。
 

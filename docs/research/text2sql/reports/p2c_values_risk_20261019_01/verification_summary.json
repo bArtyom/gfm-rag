@@ -1,0 +1,19 @@
+{
+  "status": "verified",
+  "trace_rows": 1534,
+  "literal_flags_recounted": 548,
+  "all_group_and_alias_counts_exact": true,
+  "strata_recount_exact": true,
+  "persisted_hashes_verified": true,
+  "public_privacy_scan_passed": true,
+  "semantic_review_performed": false,
+  "priority_queue_size": 19,
+  "intersections": {
+    "absent_input_questions": 19,
+    "absent_input_literals": 21,
+    "absent_input_and_gold_same_flag_questions": 10,
+    "absent_input_and_retained_same_flag_questions": 19
+  },
+  "aggregate_sha256": "e81a1d7fca13209a0aafa33d612e4a6f05290678f49e8d78fdf7a01c9e3efcb4",
+  "private_rows_sha256": "66b38471056efc084c0af80d0dca99aaff5dca47df51aba985ddce52ea8ea7a9"
+}
