@@ -4,7 +4,7 @@
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新决策（2026-10-19，Values直接列值绑定完成）**：P2c-R H1/H2 PASS和覆盖增益保持；后续词面审计的19题优先队列，进一步核验为9题有同源列直接谓词绑定、8题直接绑定不一致、2题未知（标记数10/9/2）。这只细化待审查证据，**V01仍是离线候选**；人工语义判断、SQL EX与独立数据库泛化未测。本轮扫描停止，见[绑定报告](reports/p2c_value_binding_20261019_01/README.md)。原P2c停止、P2b NO-GO和FK/Role Gate NO-GO保持。
+> **最新决策（2026-10-19，P2c-R 与两轮 Values 风险审计后）**：P2c-R H1/H2 **PASS**，V01 vs V00 的 Complete@1024 全体 +10.96 pp、困难 706 题 +8.22 pp，排名逐题不变。Values 词面风险 Full 与冻结 19 题 AST 绑定审计均完成：19 题中 9 直接绑定支持、8 直接绑定不一致、2 unknown。**人工必要性判断与 SQL EX 仍为 0；V01 仅是离线候选。** 最新唯一研究优先级为 [P2d Values 语义审查 + 固定生成器三臂 SQL EX Pilot](plans/p2d_value_utility_and_sql_pilot_20261019.md)，需先通过生成器和只读评测环境 Gate；目前 P2d 尚未运行。FK/Role Gate 仍 NO-GO，未有新 GNN 性能。
 
 ## 现有研究文档
 
@@ -57,17 +57,15 @@
 
 在 [2026-10-16 的代码级分析](graph-algorithm-code-review-20261016.md) 中，重点确定了 **Top-1 起始锚点、关系实例/逐边属性未纳入默认消息权重、节点 Top-K 非连通、SQL-aware 监督未落地**等可验证机制。最有潜力的后续方向是 **Query-aware JOIN Edge Gate + 实例感知约束子图解码**；但必须先过 FK/Join 标签 Gate，并与 Graph-Link、GRAST-SL、SchemaGraphSQL 同信息比较。**这不是已有实证收益**。
 
-## 最新行动结果与下一步（2026-10-19，Values 绑定审计完成）
+## 最新行动结果与下一步（2026-10-19，P2c-R + Values审计完成）
 
-按最新独立恢复协议完成93项相关测试、真实P2b归档48字段/4分母以及JSON写盘Gate，再用同一提交运行一次5题Smoke和一次1534题Full，均通过。V01的全体Complete@1024为67.60%（V00为56.64%），困难集为46.18%（V00为37.96%），两个预注册CI下界都>0，固定5库全部正向。V01/V00排名逐题不变；V00/V11重放P2b归档，独立产物验证通过。详见[全量报告](reports/p2c_r_recovery_20261019_01/README.md)。
+[P2c-R](reports/p2c_r_recovery_20261019_01/README.md) 四臂全量 H1/H2 PASS：V01 与 V00 的 Column@10 完全相同（67.99%），Complete Schema@1024 全体 **56.64→67.60%（+10.96 pp）**、困难 706 题 **37.96→46.18%（+8.22 pp）**；全体 162 题救回/2 题损坏。只是 BIRD dev 的 Schema 节点覆盖指标，不是 SQL EX。
 
-完整性提升伴随162题救回、2题损坏；候选Schema文本减少27.03%，不等于完整SQL Prompt节省同样比例。V01省略了278个候选列的Values字段，在1024预算下平均每题选中12.84个此类列。随后按成功分支完成一次5题Smoke和一次1534题本地CPU风险扫描：所有SQL可解析，407/1460题有被移除的参考谓词常量词面线索，固定子集223/706；19题至少一个常量也不在问题/evidence中，其中10题同一标记命中Gold Schema列的Values。详见[审计报告](reports/p2c_values_risk_20261019_01/README.md)。
+[Values 词面风险 Full](reports/p2c_values_risk_20261019_01/README.md) 在1460题中识别407题词面线索，19题至少一个线索未出现于问题/evidence；[冻结19题的直接列值绑定](reports/p2c_value_binding_20261019_01/README.md)进一步得到9题 supported、8题 mismatch、2题 unknown。**这些不是 SQL 生成失败题数、不是 Value 必要性 Gold，人工复核仍0、SQL EX仍未运行**；19题高风险筛选集不可当作总体风险率。
 
-**V01保持离线候选，词面风险诊断已按注册条件停止。** 407题不是SQL受损题数，19题也不是已确认语义必要性；人工复核=0，语义判断分母=0。原19条本地人工空白模板保持不变。随后完成的直接绑定核验见下段；业务编码必要性、固定Generator/Selector下的SQL EX与独立数据库验证仍未完成。不得以词面命中代替语义证据，不追加匹配规则、截断或拼接搜索。
+**当前唯一优先的下一轮研究工作：[P2d Values 语义必要性审核与固定 Generator 三臂 SQL Execution Pilot](plans/p2d_value_utility_and_sql_pilot_20261019.md)。** 审核原19题、预先冻结至多19题对照，检查本地已有生成器/选择器及只读 BIRD SQL evaluator；工程 Gate 通过后，使用相同 Prompt/Generator/预算比较 E0=V00节点+完整文本、E1=V01节点+紧凑文本、E2=V00原节点+紧凑文本，明确 Set EX/Bag EX、谓词值正确性及真实模型成本。**当前仅制定协议，尚未产生 P2d SQL 结果**，无固定生成器或只读 SQL evaluator 时必须 BLOCKED，不启动付费 API。
 
-按用户再次“继续实验”的请求，另行登记并完成一次5题Smoke+一次19题的CPU直接列值绑定核验，124项相关测试通过，原词面匹配规则、人工空白模板和历史产物未变。21个标记分为10个同源列直接绑定、9个绑定到其他列、2个变换型目标未知；题级9/8/2，绑定支持涉及4库，覆盖rescue中有3题。详见[绑定报告](reports/p2c_value_binding_20261019_01/README.md)。**绑定审计也已停止**；9题是更具体的语义复核候选，8题不一致不排除间接用途，2题未知不算负例；不按结果追加解析规则，不将其当成SQL受损题数。下一未决问题仍是值映射说明是否影响固定生成器的谓词值与SQL EX，需先形成独立验证契约；没有新的推理/GPU/SQL任务排队。
-
-原P2c在旧注册下仍为停止/无科学结果；P1/P1.5历史严格复现FAIL、P2a/B原NO-GO、FK/Role Gate NO-GO均保留。当前没有GNN或SQL EX新结果，BIRD dev仅提供探索性证据。
+图研究并行任务独立保留：先提升 FK/JoinInstance 可信标签并建立 GraphReasoner Schema Graph G0 兼容性基线；原 FK/Role Gate 仍 NO-GO，不能声称 Query-aware Edge Gate 有效。P2b 预注册 NO-GO、旧 P2c 停止、历史 P1/P1.5 严格复现失败记录均保留。BIRD dev 属于反复使用的探索集合，论文结论需要数据库级独立验证。
 
 
 ## 从今往后的提交规范
