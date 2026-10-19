@@ -1,0 +1,29 @@
+{
+  "experiment_id": "p2c_values_risk_20261019_01",
+  "status": "preregistered_not_run",
+  "guidance_commit": "3a72c13b3054951f13dfc6a7fc56422e225365c1",
+  "protocol": "docs/research/text2sql/plans/p2c_values_risk_audit_20261019.md",
+  "core_hypothesis": "Some reference data-predicate constants may be visible exclusively in V00 selected Values fields and absent from V01 returned context; lexical evidence only, not semantic necessity.",
+  "layer": "minimal_information_risk_diagnostic",
+  "mainline_relevance": "Determines whether the schema-coverage gain can be described as preserving visible predicate-value information; SQL accuracy remains untested.",
+  "budget": {"smoke_runs": 1, "full_runs": 1, "retries": 0, "cpu_seconds_per_run": 300, "threads": 8, "rss_gib": 4, "gpu_seconds": 0, "api_requests": 0, "model_forwards": 0, "sql_executions": 0},
+  "run_ids": {"smoke": "p2c_values_risk_smoke5_20261019_01", "full": "p2c_values_risk_full1534_20261019_01"},
+  "private_output_dirs": {
+    "smoke": "/mnt/liansp3/sources/results/gfmrag_p2c_values_risk_20261019/smoke_5q_20261019_01",
+    "full": "/mnt/liansp3/sources/results/gfmrag_p2c_values_risk_20261019/full_1534_20261019_01"
+  },
+  "frozen_inputs": {
+    "P2b_cache_sha256": "63f0accdd1dee9d3e7ca2f0c93004f3c5a4201cac573d2a748a9d3f3bf613ba8",
+    "P2b_private_rows_sha256": "261128481b8c1eb35fa5a7f9674cf663f247a900eac9070e16f290f16bff6005",
+    "P2b_public_aggregate_sha256": "c537b5b1b67fdb59ffa859ece7a463174419db23c500cd0e47dfbcf67dfc6d37",
+    "input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a"
+  },
+  "query_json_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+  "p2c_aggregate_sha256": "7e4ce4b2a92df5e17160bb2429402b66ab7caec521c6e4da9ec90abd108e8fdc",
+  "p2c_private_rows_sha256": "99935116001811bef790bf2e916d34f4f40ffecc70322f7b71e28f885d9425ff",
+  "sqlglot_version": "28.0.0",
+  "success_criterion": "One bounded scan with valid persisted artifacts and >=95% SQL parsing. Nonzero exposure flags indicate manual review candidates only; zero flags do not prove semantic safety.",
+  "stop_conditions": ["Any hash/denominator/source mismatch", "Smoke failure or Full parser coverage below 95%", "CPU/RSS budget violation", "Any implementation failure; no retry", "After one Full, stop and require semantic review/design before SQL-model experiments"],
+  "human_reviews": 0,
+  "api_usage": {"requests": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0, "cost_cny": "0.00"}
+}
