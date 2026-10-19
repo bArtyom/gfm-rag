@@ -1,0 +1,2572 @@
+{
+  "experiment_id": "p2c_r_recovery_20261019_01",
+  "run_id": "p2c_r_full1534_20261019_01",
+  "status": "completed",
+  "source_commit": "7f5893ac9840ada957680bce7bce183a756ed6ab",
+  "input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a",
+  "benchmark": {
+    "name": "BIRD dev",
+    "questions": 1534,
+    "databases": 11,
+    "column_eligible_questions": 1460,
+    "fixed_non_saturated_databases": 5,
+    "fixed_non_saturated_column_eligible_questions": 706,
+    "exploratory_only": true
+  },
+  "input_hashes": {
+    "cpu_cache_sha256": "63f0accdd1dee9d3e7ca2f0c93004f3c5a4201cac573d2a748a9d3f3bf613ba8",
+    "private_rows_sha256": "261128481b8c1eb35fa5a7f9674cf663f247a900eac9070e16f290f16bff6005",
+    "public_aggregate_sha256": "c537b5b1b67fdb59ffa859ece7a463174419db23c500cd0e47dfbcf67dfc6d37",
+    "p1_6_cache_sha256": "c7bb9ed942aa793e34e1253a5d1d8f8d8d871c95bdfdc33718dde7396d345250",
+    "input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a"
+  },
+  "views": {
+    "R0": {
+      "text_sequence_sha256": "b5b6ca9714195f733aaeb379aabbcb64c403e107444b8ed95679d798d924ab5a",
+      "token_count": 27506
+    },
+    "R1": {
+      "text_sequence_sha256": "73c59126b931fb72b7c09ba06de76327057e32832e2aeef0c8175b8956ed3e3c",
+      "token_count": 20071
+    }
+  },
+  "arms": {
+    "V00": {
+      "score_view": "R0",
+      "context_view": "R0",
+      "score_matrix_digest": "ac6a19a3eac54d5f6ad578523cba68bbd08aeefe66ac1edcb3bed6c88419943b",
+      "topk_question_rows_digest": "707b9be077c3ff631affc0c2d0da763aab9d7e2955aedf17ebf5c3538285f5eb",
+      "metrics": {
+        "all": {
+          "denominators": {
+            "table_questions": 1534,
+            "column_eligible_questions": 1460
+          },
+          "table_recall_query_macro": {
+            "5": 0.9475336810082573,
+            "10": 0.999348109517601
+          },
+          "column_recall_query_macro": {
+            "5": 0.528167536420961,
+            "10": 0.6798861165470754,
+            "20": 0.7921232876712329
+          },
+          "column_precision_query_macro": {
+            "5": 0.4232876712328767,
+            "10": 0.2810273972602739,
+            "20": 0.18276774595267747
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.35342465753424657,
+              "gold_schema_recall_query_macro": 0.7046923757368961,
+              "mean_returned_tokens": 505.57397260273973,
+              "mean_returned_elements": 17.00890410958904
+            },
+            "1024": {
+              "complete_query_macro": 0.5664383561643835,
+              "gold_schema_recall_query_macro": 0.8252407561996603,
+              "mean_returned_tokens": 949.5890410958904,
+              "mean_returned_elements": 30.363013698630137
+            },
+            "2048": {
+              "complete_query_macro": 0.7952054794520548,
+              "gold_schema_recall_query_macro": 0.9209897997740464,
+              "mean_returned_tokens": 1709.2746575342467,
+              "mean_returned_elements": 54.72808219178082
+            }
+          }
+        },
+        "fixed_non_saturated": {
+          "denominators": {
+            "table_questions": 746,
+            "column_eligible_questions": 706
+          },
+          "table_recall_query_macro": {
+            "5": 0.9480563002680965,
+            "10": 0.9986595174262735
+          },
+          "column_recall_query_macro": {
+            "5": 0.44733182697063717,
+            "10": 0.581805049687486,
+            "20": 0.6924665002922794
+          },
+          "column_precision_query_macro": {
+            "5": 0.3526912181303116,
+            "10": 0.23427762039660058,
+            "20": 0.14390934844192635
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.19971671388101983,
+              "gold_schema_recall_query_macro": 0.5864913218666761,
+              "mean_returned_tokens": 508.23512747875355,
+              "mean_returned_elements": 15.560906515580736
+            },
+            "1024": {
+              "complete_query_macro": 0.37960339943342775,
+              "gold_schema_recall_query_macro": 0.715043989689882,
+              "mean_returned_tokens": 1019.7747875354107,
+              "mean_returned_elements": 29.75212464589235
+            },
+            "2048": {
+              "complete_query_macro": 0.5764872521246459,
+              "gold_schema_recall_query_macro": 0.8366078012324472,
+              "mean_returned_tokens": 2042.1359773371105,
+              "mean_returned_elements": 59.75354107648725
+            }
+          }
+        }
+      }
+    },
+    "V01": {
+      "score_view": "R0",
+      "context_view": "R1",
+      "score_matrix_digest": "ac6a19a3eac54d5f6ad578523cba68bbd08aeefe66ac1edcb3bed6c88419943b",
+      "topk_question_rows_digest": "707b9be077c3ff631affc0c2d0da763aab9d7e2955aedf17ebf5c3538285f5eb",
+      "metrics": {
+        "all": {
+          "denominators": {
+            "table_questions": 1534,
+            "column_eligible_questions": 1460
+          },
+          "table_recall_query_macro": {
+            "5": 0.9475336810082573,
+            "10": 0.999348109517601
+          },
+          "column_recall_query_macro": {
+            "5": 0.528167536420961,
+            "10": 0.6798861165470754,
+            "20": 0.7921232876712329
+          },
+          "column_precision_query_macro": {
+            "5": 0.4232876712328767,
+            "10": 0.2810273972602739,
+            "20": 0.18276774595267747
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.39315068493150684,
+              "gold_schema_recall_query_macro": 0.7487093234011043,
+              "mean_returned_tokens": 488.1527397260274,
+              "mean_returned_elements": 20.65684931506849
+            },
+            "1024": {
+              "complete_query_macro": 0.6760273972602739,
+              "gold_schema_recall_query_macro": 0.8696791241483021,
+              "mean_returned_tokens": 915.2342465753425,
+              "mean_returned_elements": 38.87876712328767
+            },
+            "2048": {
+              "complete_query_macro": 0.8636986301369863,
+              "gold_schema_recall_query_macro": 0.9546565705983514,
+              "mean_returned_tokens": 1498.3527397260275,
+              "mean_returned_elements": 64.93972602739726
+            }
+          }
+        },
+        "fixed_non_saturated": {
+          "denominators": {
+            "table_questions": 746,
+            "column_eligible_questions": 706
+          },
+          "table_recall_query_macro": {
+            "5": 0.9480563002680965,
+            "10": 0.9986595174262735
+          },
+          "column_recall_query_macro": {
+            "5": 0.44733182697063717,
+            "10": 0.581805049687486,
+            "20": 0.6924665002922794
+          },
+          "column_precision_query_macro": {
+            "5": 0.3526912181303116,
+            "10": 0.23427762039660058,
+            "20": 0.14390934844192635
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.23796033994334279,
+              "gold_schema_recall_query_macro": 0.6387550205538874,
+              "mean_returned_tokens": 508.5864022662889,
+              "mean_returned_elements": 19.871104815864022
+            },
+            "1024": {
+              "complete_query_macro": 0.46175637393767704,
+              "gold_schema_recall_query_macro": 0.765310000826998,
+              "mean_returned_tokens": 1020.1189801699717,
+              "mean_returned_elements": 40.29036827195468
+            },
+            "2048": {
+              "complete_query_macro": 0.7181303116147308,
+              "gold_schema_recall_query_macro": 0.9062303018039563,
+              "mean_returned_tokens": 1924.1543909348443,
+              "mean_returned_elements": 80.87110481586403
+            }
+          }
+        }
+      }
+    },
+    "V10": {
+      "score_view": "R1",
+      "context_view": "R0",
+      "score_matrix_digest": "5cdb42cd7b48d45dd927b435de5a45a5b9f670044f722ab2ecca8bfb13f9bd64",
+      "topk_question_rows_digest": "006cffe6b7c6d101538e0f865ba20988eb53a4da17970fe57ceae8440bfa868c",
+      "metrics": {
+        "all": {
+          "denominators": {
+            "table_questions": 1534,
+            "column_eligible_questions": 1460
+          },
+          "table_recall_query_macro": {
+            "5": 0.9475336810082573,
+            "10": 0.999348109517601
+          },
+          "column_recall_query_macro": {
+            "5": 0.5176829202000435,
+            "10": 0.6703313220265276,
+            "20": 0.7866653076755816
+          },
+          "column_precision_query_macro": {
+            "5": 0.4138356164383562,
+            "10": 0.27664383561643835,
+            "20": 0.18115815691158157
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.35,
+              "gold_schema_recall_query_macro": 0.6988885638714405,
+              "mean_returned_tokens": 505.6856164383562,
+              "mean_returned_elements": 16.707534246575342
+            },
+            "1024": {
+              "complete_query_macro": 0.5376712328767124,
+              "gold_schema_recall_query_macro": 0.8117627482867209,
+              "mean_returned_tokens": 949.9534246575342,
+              "mean_returned_elements": 29.671232876712327
+            },
+            "2048": {
+              "complete_query_macro": 0.7883561643835616,
+              "gold_schema_recall_query_macro": 0.9168318306503237,
+              "mean_returned_tokens": 1709.8349315068492,
+              "mean_returned_elements": 54.013698630136986
+            }
+          }
+        },
+        "fixed_non_saturated": {
+          "denominators": {
+            "table_questions": 746,
+            "column_eligible_questions": 706
+          },
+          "table_recall_query_macro": {
+            "5": 0.9480563002680965,
+            "10": 0.9986595174262735
+          },
+          "column_recall_query_macro": {
+            "5": 0.44897140159179816,
+            "10": 0.5751388326813256,
+            "20": 0.6838155942263591
+          },
+          "column_precision_query_macro": {
+            "5": 0.3521246458923513,
+            "10": 0.23101983002832865,
+            "20": 0.14135977337110484
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.18696883852691218,
+              "gold_schema_recall_query_macro": 0.5803603738093822,
+              "mean_returned_tokens": 508.24079320113316,
+              "mean_returned_elements": 15.236543909348441
+            },
+            "1024": {
+              "complete_query_macro": 0.3413597733711048,
+              "gold_schema_recall_query_macro": 0.6959839578111533,
+              "mean_returned_tokens": 1020.4107648725212,
+              "mean_returned_elements": 28.85269121813031
+            },
+            "2048": {
+              "complete_query_macro": 0.5623229461756374,
+              "gold_schema_recall_query_macro": 0.8280091682003864,
+              "mean_returned_tokens": 2043.2946175637394,
+              "mean_returned_elements": 58.27620396600567
+            }
+          }
+        }
+      }
+    },
+    "V11": {
+      "score_view": "R1",
+      "context_view": "R1",
+      "score_matrix_digest": "5cdb42cd7b48d45dd927b435de5a45a5b9f670044f722ab2ecca8bfb13f9bd64",
+      "topk_question_rows_digest": "006cffe6b7c6d101538e0f865ba20988eb53a4da17970fe57ceae8440bfa868c",
+      "metrics": {
+        "all": {
+          "denominators": {
+            "table_questions": 1534,
+            "column_eligible_questions": 1460
+          },
+          "table_recall_query_macro": {
+            "5": 0.9475336810082573,
+            "10": 0.999348109517601
+          },
+          "column_recall_query_macro": {
+            "5": 0.5176829202000435,
+            "10": 0.6703313220265276,
+            "20": 0.7866653076755816
+          },
+          "column_precision_query_macro": {
+            "5": 0.4138356164383562,
+            "10": 0.27664383561643835,
+            "20": 0.18115815691158157
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.38904109589041097,
+              "gold_schema_recall_query_macro": 0.7419786454033029,
+              "mean_returned_tokens": 488.07671232876714,
+              "mean_returned_elements": 20.705479452054796
+            },
+            "1024": {
+              "complete_query_macro": 0.6595890410958904,
+              "gold_schema_recall_query_macro": 0.8639291606414894,
+              "mean_returned_tokens": 915.2712328767124,
+              "mean_returned_elements": 38.84109589041096
+            },
+            "2048": {
+              "complete_query_macro": 0.8582191780821918,
+              "gold_schema_recall_query_macro": 0.9524283193974974,
+              "mean_returned_tokens": 1498.2630136986302,
+              "mean_returned_elements": 64.79520547945205
+            }
+          }
+        },
+        "fixed_non_saturated": {
+          "denominators": {
+            "table_questions": 746,
+            "column_eligible_questions": 706
+          },
+          "table_recall_query_macro": {
+            "5": 0.9480563002680965,
+            "10": 0.9986595174262735
+          },
+          "column_recall_query_macro": {
+            "5": 0.44897140159179816,
+            "10": 0.5751388326813256,
+            "20": 0.6838155942263591
+          },
+          "column_precision_query_macro": {
+            "5": 0.3521246458923513,
+            "10": 0.23101983002832865,
+            "20": 0.14135977337110484
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.21813031161473087,
+              "gold_schema_recall_query_macro": 0.6263456523017429,
+              "mean_returned_tokens": 508.5410764872521,
+              "mean_returned_elements": 19.98725212464589
+            },
+            "1024": {
+              "complete_query_macro": 0.4348441926345609,
+              "gold_schema_recall_query_macro": 0.7548180101296248,
+              "mean_returned_tokens": 1020.3668555240794,
+              "mean_returned_elements": 40.18271954674221
+            },
+            "2048": {
+              "complete_query_macro": 0.7067988668555241,
+              "gold_schema_recall_query_macro": 0.9016223035698956,
+              "mean_returned_tokens": 1923.9688385269121,
+              "mean_returned_elements": 80.57223796033995
+            }
+          }
+        }
+      }
+    }
+  },
+  "replay_checks": {
+    "p2b_preserved_column_and_budget_rows_exact": true,
+    "p2b_aggregate_metrics_exact_within_1e-14": true,
+    "archived_p2b_table_topk_rows_available": false,
+    "archived_p2b_table_topk_note": "P2b private rows archived only Column Top-K IDs and budget selections; P2c verifies table rank invariance across context-only pairs and records new Table results.",
+    "context_only_score_digest_identical": {
+      "V00_vs_V01": true,
+      "V10_vs_V11": true
+    },
+    "context_only_table_and_column_topk_identical": {
+      "V00_vs_V01": true,
+      "V10_vs_V11": true
+    },
+    "fixed_subset_rebuilt_from_R0_context": true
+  },
+  "primary_gate": {
+    "comparison": "V01_minus_V00 Complete Schema@1024",
+    "all": {
+      "delta_query_macro": 0.1095890410958904,
+      "delta_pp": 10.95890410958904,
+      "database_cluster_bootstrap_95_ci": [
+        0.053668909003327096,
+        0.18698763794460022
+      ],
+      "database_cluster_bootstrap_95_ci_pp": [
+        5.366890900332709,
+        18.69876379446002
+      ],
+      "databases": 11,
+      "questions": 1460,
+      "bootstrap_draws": 10000,
+      "bootstrap_seed": 20261020
+    },
+    "fixed_non_saturated": {
+      "delta_query_macro": 0.0821529745042493,
+      "delta_pp": 8.21529745042493,
+      "database_cluster_bootstrap_95_ci": [
+        0.041116005873715125,
+        0.13119533527696792
+      ],
+      "database_cluster_bootstrap_95_ci_pp": [
+        4.1116005873715125,
+        13.119533527696792
+      ],
+      "databases": 5,
+      "questions": 706,
+      "bootstrap_draws": 10000,
+      "bootstrap_seed": 20261020
+    },
+    "fixed_database_deltas_pp_anonymized": {
+      "db_01": 6.896551724137931,
+      "db_02": 4.571428571428571,
+      "db_05": 2.459016393442623,
+      "db_07": 8.588957055214724,
+      "db_10": 16.9811320754717
+    },
+    "nonnegative_fixed_databases": 5,
+    "positive_fixed_databases": 5,
+    "success": true,
+    "decision": "candidate_for_value_risk_audit"
+  },
+  "factorial_contrasts": {
+    "complete_1024": {
+      "all": {
+        "context_effect_at_R0": 0.1095890410958904,
+        "ranking_effect_at_R0": -0.02876712328767117,
+        "context_effect_at_R1": 0.12191780821917808,
+        "interaction": 0.012328767123287676
+      },
+      "fixed_non_saturated": {
+        "context_effect_at_R0": 0.0821529745042493,
+        "ranking_effect_at_R0": -0.038243626062322955,
+        "context_effect_at_R1": 0.09348441926345613,
+        "interaction": 0.011331444759206832
+      }
+    },
+    "column_r10": {
+      "all": {
+        "context_effect_at_R0": 0.0,
+        "ranking_effect_at_R0": -0.00955479452054786,
+        "context_effect_at_R1": 0.0,
+        "interaction": 0.0
+      },
+      "fixed_non_saturated": {
+        "context_effect_at_R0": 0.0,
+        "ranking_effect_at_R0": -0.006666217006160435,
+        "context_effect_at_R1": 0.0,
+        "interaction": 0.0
+      }
+    }
+  },
+  "paired_rescue_damage": {
+    "V01_minus_V00": {
+      "all": {
+        "complete_1024": {
+          "rescued": 162,
+          "damaged": 2,
+          "unchanged": 1296,
+          "questions": 1460
+        },
+        "column_recall_10": {
+          "improved": 0,
+          "regressed": 0,
+          "unchanged": 1460,
+          "questions": 1460
+        }
+      },
+      "fixed_non_saturated": {
+        "complete_1024": {
+          "rescued": 60,
+          "damaged": 2,
+          "unchanged": 644,
+          "questions": 706
+        },
+        "column_recall_10": {
+          "improved": 0,
+          "regressed": 0,
+          "unchanged": 706,
+          "questions": 706
+        }
+      }
+    },
+    "V10_minus_V00": {
+      "all": {
+        "complete_1024": {
+          "rescued": 39,
+          "damaged": 81,
+          "unchanged": 1340,
+          "questions": 1460
+        },
+        "column_recall_10": {
+          "improved": 91,
+          "regressed": 149,
+          "unchanged": 1220,
+          "questions": 1460
+        }
+      },
+      "fixed_non_saturated": {
+        "complete_1024": {
+          "rescued": 17,
+          "damaged": 44,
+          "unchanged": 645,
+          "questions": 706
+        },
+        "column_recall_10": {
+          "improved": 59,
+          "regressed": 78,
+          "unchanged": 569,
+          "questions": 706
+        }
+      }
+    },
+    "V11_minus_V10": {
+      "all": {
+        "complete_1024": {
+          "rescued": 179,
+          "damaged": 1,
+          "unchanged": 1280,
+          "questions": 1460
+        },
+        "column_recall_10": {
+          "improved": 0,
+          "regressed": 0,
+          "unchanged": 1460,
+          "questions": 1460
+        }
+      },
+      "fixed_non_saturated": {
+        "complete_1024": {
+          "rescued": 67,
+          "damaged": 1,
+          "unchanged": 638,
+          "questions": 706
+        },
+        "column_recall_10": {
+          "improved": 0,
+          "regressed": 0,
+          "unchanged": 706,
+          "questions": 706
+        }
+      }
+    }
+  },
+  "gold_only_fit": {
+    "R0_context": {
+      "all": {
+        "512": {
+          "fit": 1399,
+          "questions": 1460,
+          "rate": 0.9582191780821918
+        },
+        "1024": {
+          "fit": 1460,
+          "questions": 1460,
+          "rate": 1.0
+        },
+        "2048": {
+          "fit": 1460,
+          "questions": 1460,
+          "rate": 1.0
+        }
+      },
+      "fixed_non_saturated": {
+        "512": {
+          "fit": 645,
+          "questions": 706,
+          "rate": 0.9135977337110481
+        },
+        "1024": {
+          "fit": 706,
+          "questions": 706,
+          "rate": 1.0
+        },
+        "2048": {
+          "fit": 706,
+          "questions": 706,
+          "rate": 1.0
+        }
+      }
+    },
+    "R1_context": {
+      "all": {
+        "512": {
+          "fit": 1423,
+          "questions": 1460,
+          "rate": 0.9746575342465753
+        },
+        "1024": {
+          "fit": 1460,
+          "questions": 1460,
+          "rate": 1.0
+        },
+        "2048": {
+          "fit": 1460,
+          "questions": 1460,
+          "rate": 1.0
+        }
+      },
+      "fixed_non_saturated": {
+        "512": {
+          "fit": 669,
+          "questions": 706,
+          "rate": 0.9475920679886686
+        },
+        "1024": {
+          "fit": 706,
+          "questions": 706,
+          "rate": 1.0
+        },
+        "2048": {
+          "fit": 706,
+          "questions": 706,
+          "rate": 1.0
+        }
+      }
+    }
+  },
+  "value_context_coverage": {
+    "candidate_columns_with_values_removed": 278,
+    "removed_text_token_reduction": 7435,
+    "by_arm": {
+      "V00": {
+        "context_view": "R0",
+        "selected_values_bearing_columns": {
+          "512": {
+            "mean_values_bearing_columns_selected_per_question": 4.42945205479452,
+            "sum_values_bearing_columns_selected_across_questions": 6467
+          },
+          "1024": {
+            "mean_values_bearing_columns_selected_per_question": 9.082876712328767,
+            "sum_values_bearing_columns_selected_across_questions": 13261
+          },
+          "2048": {
+            "mean_values_bearing_columns_selected_per_question": 17.906164383561645,
+            "sum_values_bearing_columns_selected_across_questions": 26143
+          }
+        },
+        "values_present_in_context": true
+      },
+      "V01": {
+        "context_view": "R1",
+        "selected_values_bearing_columns": {
+          "512": {
+            "mean_values_bearing_columns_selected_per_question": 6.258219178082192,
+            "sum_values_bearing_columns_selected_across_questions": 9137
+          },
+          "1024": {
+            "mean_values_bearing_columns_selected_per_question": 12.836301369863014,
+            "sum_values_bearing_columns_selected_across_questions": 18741
+          },
+          "2048": {
+            "mean_values_bearing_columns_selected_per_question": 22.438356164383563,
+            "sum_values_bearing_columns_selected_across_questions": 32760
+          }
+        },
+        "values_present_in_context": false
+      },
+      "V10": {
+        "context_view": "R0",
+        "selected_values_bearing_columns": {
+          "512": {
+            "mean_values_bearing_columns_selected_per_question": 4.66027397260274,
+            "sum_values_bearing_columns_selected_across_questions": 6804
+          },
+          "1024": {
+            "mean_values_bearing_columns_selected_per_question": 9.520547945205479,
+            "sum_values_bearing_columns_selected_across_questions": 13900
+          },
+          "2048": {
+            "mean_values_bearing_columns_selected_per_question": 17.96712328767123,
+            "sum_values_bearing_columns_selected_across_questions": 26232
+          }
+        },
+        "values_present_in_context": true
+      },
+      "V11": {
+        "context_view": "R1",
+        "selected_values_bearing_columns": {
+          "512": {
+            "mean_values_bearing_columns_selected_per_question": 6.772602739726027,
+            "sum_values_bearing_columns_selected_across_questions": 9888
+          },
+          "1024": {
+            "mean_values_bearing_columns_selected_per_question": 13.504794520547945,
+            "sum_values_bearing_columns_selected_across_questions": 19717
+          },
+          "2048": {
+            "mean_values_bearing_columns_selected_per_question": 22.613698630136987,
+            "sum_values_bearing_columns_selected_across_questions": 33016
+          }
+        },
+        "values_present_in_context": false
+      }
+    }
+  },
+  "per_database_anonymized": {
+    "db_01": {
+      "fixed_non_saturated": true,
+      "conditions": {
+        "V00": {
+          "denominators": {
+            "table_questions": 89,
+            "column_eligible_questions": 87
+          },
+          "table_recall_query_macro": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.3868272213099798,
+            "10": 0.509537493158183,
+            "20": 0.6313446451377485
+          },
+          "column_precision_query_macro": {
+            "5": 0.33793103448275863,
+            "10": 0.2252873563218391,
+            "20": 0.1442528735632184
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.022988505747126436,
+              "gold_schema_recall_query_macro": 0.4326711283607835,
+              "mean_returned_tokens": 506.632183908046,
+              "mean_returned_elements": 11.505747126436782
+            },
+            "1024": {
+              "complete_query_macro": 0.06896551724137931,
+              "gold_schema_recall_query_macro": 0.5784764724419897,
+              "mean_returned_tokens": 1018.6206896551724,
+              "mean_returned_elements": 22.64367816091954
+            },
+            "2048": {
+              "complete_query_macro": 0.1724137931034483,
+              "gold_schema_recall_query_macro": 0.6979715048680566,
+              "mean_returned_tokens": 2042.103448275862,
+              "mean_returned_elements": 42.03448275862069
+            }
+          }
+        },
+        "V01": {
+          "denominators": {
+            "table_questions": 89,
+            "column_eligible_questions": 87
+          },
+          "table_recall_query_macro": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.3868272213099798,
+            "10": 0.509537493158183,
+            "20": 0.6313446451377485
+          },
+          "column_precision_query_macro": {
+            "5": 0.33793103448275863,
+            "10": 0.2252873563218391,
+            "20": 0.1442528735632184
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.04597701149425287,
+              "gold_schema_recall_query_macro": 0.5322892305650927,
+              "mean_returned_tokens": 507.735632183908,
+              "mean_returned_elements": 18.137931034482758
+            },
+            "1024": {
+              "complete_query_macro": 0.13793103448275862,
+              "gold_schema_recall_query_macro": 0.6558806455358179,
+              "mean_returned_tokens": 1019.3218390804598,
+              "mean_returned_elements": 35.67816091954023
+            },
+            "2048": {
+              "complete_query_macro": 0.47126436781609193,
+              "gold_schema_recall_query_macro": 0.887227778607089,
+              "mean_returned_tokens": 2043.528735632184,
+              "mean_returned_elements": 70.44827586206897
+            }
+          }
+        },
+        "V10": {
+          "denominators": {
+            "table_questions": 89,
+            "column_eligible_questions": 87
+          },
+          "table_recall_query_macro": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.38197409231891977,
+            "10": 0.5012634555738004,
+            "20": 0.6214103265827403
+          },
+          "column_precision_query_macro": {
+            "5": 0.33103448275862063,
+            "10": 0.2241379310344827,
+            "20": 0.14195402298850573
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.022988505747126436,
+              "gold_schema_recall_query_macro": 0.44868554178899006,
+              "mean_returned_tokens": 505.6896551724138,
+              "mean_returned_elements": 11.425287356321839
+            },
+            "1024": {
+              "complete_query_macro": 0.08045977011494253,
+              "gold_schema_recall_query_macro": 0.563196414058483,
+              "mean_returned_tokens": 1019.2413793103449,
+              "mean_returned_elements": 21.67816091954023
+            },
+            "2048": {
+              "complete_query_macro": 0.14942528735632185,
+              "gold_schema_recall_query_macro": 0.6687387006352522,
+              "mean_returned_tokens": 2041.816091954023,
+              "mean_returned_elements": 38.666666666666664
+            }
+          }
+        },
+        "V11": {
+          "denominators": {
+            "table_questions": 89,
+            "column_eligible_questions": 87
+          },
+          "table_recall_query_macro": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.38197409231891977,
+            "10": 0.5012634555738004,
+            "20": 0.6214103265827403
+          },
+          "column_precision_query_macro": {
+            "5": 0.33103448275862063,
+            "10": 0.2241379310344827,
+            "20": 0.14195402298850573
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.034482758620689655,
+              "gold_schema_recall_query_macro": 0.5160558789869134,
+              "mean_returned_tokens": 507.735632183908,
+              "mean_returned_elements": 17.839080459770116
+            },
+            "1024": {
+              "complete_query_macro": 0.13793103448275862,
+              "gold_schema_recall_query_macro": 0.6445145212386592,
+              "mean_returned_tokens": 1020.3793103448276,
+              "mean_returned_elements": 34.6551724137931
+            },
+            "2048": {
+              "complete_query_macro": 0.41379310344827586,
+              "gold_schema_recall_query_macro": 0.8617119470567747,
+              "mean_returned_tokens": 2043.2298850574712,
+              "mean_returned_elements": 69.54022988505747
+            }
+          }
+        }
+      }
+    },
+    "db_02": {
+      "fixed_non_saturated": true,
+      "conditions": {
+        "V00": {
+          "denominators": {
+            "table_questions": 191,
+            "column_eligible_questions": 175
+          },
+          "table_recall_query_macro": {
+            "5": 0.9973821989528796,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.4527687074829932,
+            "10": 0.537687074829932,
+            "20": 0.6280816326530613
+          },
+          "column_precision_query_macro": {
+            "5": 0.2982857142857143,
+            "10": 0.18342857142857139,
+            "20": 0.11028571428571426
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.16,
+              "gold_schema_recall_query_macro": 0.5203836322407752,
+              "mean_returned_tokens": 507.9371428571429,
+              "mean_returned_elements": 11.022857142857143
+            },
+            "1024": {
+              "complete_query_macro": 0.30857142857142855,
+              "gold_schema_recall_query_macro": 0.6451502782931354,
+              "mean_returned_tokens": 1019.7828571428571,
+              "mean_returned_elements": 22.285714285714285
+            },
+            "2048": {
+              "complete_query_macro": 0.4114285714285714,
+              "gold_schema_recall_query_macro": 0.7478695114409398,
+              "mean_returned_tokens": 2043.3485714285714,
+              "mean_returned_elements": 46.01714285714286
+            }
+          }
+        },
+        "V01": {
+          "denominators": {
+            "table_questions": 191,
+            "column_eligible_questions": 175
+          },
+          "table_recall_query_macro": {
+            "5": 0.9973821989528796,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.4527687074829932,
+            "10": 0.537687074829932,
+            "20": 0.6280816326530613
+          },
+          "column_precision_query_macro": {
+            "5": 0.2982857142857143,
+            "10": 0.18342857142857139,
+            "20": 0.11028571428571426
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.2057142857142857,
+              "gold_schema_recall_query_macro": 0.5671886209029067,
+              "mean_returned_tokens": 508.08,
+              "mean_returned_elements": 14.177142857142858
+            },
+            "1024": {
+              "complete_query_macro": 0.35428571428571426,
+              "gold_schema_recall_query_macro": 0.6908897134611421,
+              "mean_returned_tokens": 1019.88,
+              "mean_returned_elements": 32.245714285714286
+            },
+            "2048": {
+              "complete_query_macro": 0.4742857142857143,
+              "gold_schema_recall_query_macro": 0.8123731189445476,
+              "mean_returned_tokens": 2044.3028571428572,
+              "mean_returned_elements": 71.81714285714285
+            }
+          }
+        },
+        "V10": {
+          "denominators": {
+            "table_questions": 191,
+            "column_eligible_questions": 175
+          },
+          "table_recall_query_macro": {
+            "5": 0.9973821989528796,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.4609047619047619,
+            "10": 0.5573061224489797,
+            "20": 0.642734693877551
+          },
+          "column_precision_query_macro": {
+            "5": 0.30514285714285716,
+            "10": 0.1891428571428571,
+            "20": 0.112
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.1657142857142857,
+              "gold_schema_recall_query_macro": 0.5166307977736548,
+              "mean_returned_tokens": 507.9714285714286,
+              "mean_returned_elements": 10.874285714285714
+            },
+            "1024": {
+              "complete_query_macro": 0.30857142857142855,
+              "gold_schema_recall_query_macro": 0.6438305504019789,
+              "mean_returned_tokens": 1019.8857142857142,
+              "mean_returned_elements": 22.034285714285716
+            },
+            "2048": {
+              "complete_query_macro": 0.42857142857142855,
+              "gold_schema_recall_query_macro": 0.7435203050917336,
+              "mean_returned_tokens": 2043.8514285714286,
+              "mean_returned_elements": 47.205714285714286
+            }
+          }
+        },
+        "V11": {
+          "denominators": {
+            "table_questions": 191,
+            "column_eligible_questions": 175
+          },
+          "table_recall_query_macro": {
+            "5": 0.9973821989528796,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.4609047619047619,
+            "10": 0.5573061224489797,
+            "20": 0.642734693877551
+          },
+          "column_precision_query_macro": {
+            "5": 0.30514285714285716,
+            "10": 0.1891428571428571,
+            "20": 0.112
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.2057142857142857,
+              "gold_schema_recall_query_macro": 0.5756944959802102,
+              "mean_returned_tokens": 507.9942857142857,
+              "mean_returned_elements": 14.4
+            },
+            "1024": {
+              "complete_query_macro": 0.3657142857142857,
+              "gold_schema_recall_query_macro": 0.6882364460935889,
+              "mean_returned_tokens": 1019.8285714285714,
+              "mean_returned_elements": 32.16
+            },
+            "2048": {
+              "complete_query_macro": 0.4685714285714286,
+              "gold_schema_recall_query_macro": 0.8103323026180169,
+              "mean_returned_tokens": 2044.1085714285714,
+              "mean_returned_elements": 71.68571428571428
+            }
+          }
+        }
+      }
+    },
+    "db_03": {
+      "fixed_non_saturated": false,
+      "conditions": {
+        "V00": {
+          "denominators": {
+            "table_questions": 186,
+            "column_eligible_questions": 172
+          },
+          "table_recall_query_macro": {
+            "5": 0.9448924731182796,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5859357696566999,
+            "10": 0.7131229235880397,
+            "20": 0.8108942414174973
+          },
+          "column_precision_query_macro": {
+            "5": 0.4011627906976744,
+            "10": 0.2534883720930233,
+            "20": 0.14854651162790697
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.42441860465116277,
+              "gold_schema_recall_query_macro": 0.7662740360414778,
+              "mean_returned_tokens": 506.43023255813955,
+              "mean_returned_elements": 20.808139534883722
+            },
+            "1024": {
+              "complete_query_macro": 0.6686046511627907,
+              "gold_schema_recall_query_macro": 0.8822540185912278,
+              "mean_returned_tokens": 1018.9883720930233,
+              "mean_returned_elements": 40.43604651162791
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 2005.0,
+              "mean_returned_elements": 79.0
+            }
+          }
+        },
+        "V01": {
+          "denominators": {
+            "table_questions": 186,
+            "column_eligible_questions": 172
+          },
+          "table_recall_query_macro": {
+            "5": 0.9448924731182796,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5859357696566999,
+            "10": 0.7131229235880397,
+            "20": 0.8108942414174973
+          },
+          "column_precision_query_macro": {
+            "5": 0.4011627906976744,
+            "10": 0.2534883720930233,
+            "20": 0.14854651162790697
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.45930232558139533,
+              "gold_schema_recall_query_macro": 0.7842257709990268,
+              "mean_returned_tokens": 507.50581395348837,
+              "mean_returned_elements": 22.36046511627907
+            },
+            "1024": {
+              "complete_query_macro": 0.7267441860465116,
+              "gold_schema_recall_query_macro": 0.9027876354911238,
+              "mean_returned_tokens": 1019.4186046511628,
+              "mean_returned_elements": 44.45348837209303
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 1786.0,
+              "mean_returned_elements": 79.0
+            }
+          }
+        },
+        "V10": {
+          "denominators": {
+            "table_questions": 186,
+            "column_eligible_questions": 172
+          },
+          "table_recall_query_macro": {
+            "5": 0.9448924731182796,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5807585825027685,
+            "10": 0.713468992248062,
+            "20": 0.8114756367663345
+          },
+          "column_precision_query_macro": {
+            "5": 0.3965116279069767,
+            "10": 0.2540697674418605,
+            "20": 0.148546511627907
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.4418604651162791,
+              "gold_schema_recall_query_macro": 0.7682858485184068,
+              "mean_returned_tokens": 506.7674418604651,
+              "mean_returned_elements": 20.00581395348837
+            },
+            "1024": {
+              "complete_query_macro": 0.6453488372093024,
+              "gold_schema_recall_query_macro": 0.8749565841135607,
+              "mean_returned_tokens": 1018.8720930232558,
+              "mean_returned_elements": 39.25581395348837
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 2005.0,
+              "mean_returned_elements": 79.0
+            }
+          }
+        },
+        "V11": {
+          "denominators": {
+            "table_questions": 186,
+            "column_eligible_questions": 172
+          },
+          "table_recall_query_macro": {
+            "5": 0.9448924731182796,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5807585825027685,
+            "10": 0.713468992248062,
+            "20": 0.8114756367663345
+          },
+          "column_precision_query_macro": {
+            "5": 0.3965116279069767,
+            "10": 0.2540697674418605,
+            "20": 0.148546511627907
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.47674418604651164,
+              "gold_schema_recall_query_macro": 0.7870543055136078,
+              "mean_returned_tokens": 507.3953488372093,
+              "mean_returned_elements": 22.476744186046513
+            },
+            "1024": {
+              "complete_query_macro": 0.6976744186046512,
+              "gold_schema_recall_query_macro": 0.894526032752777,
+              "mean_returned_tokens": 1019.1802325581396,
+              "mean_returned_elements": 44.53488372093023
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 1786.0,
+              "mean_returned_elements": 79.0
+            }
+          }
+        }
+      }
+    },
+    "db_04": {
+      "fixed_non_saturated": false,
+      "conditions": {
+        "V00": {
+          "denominators": {
+            "table_questions": 64,
+            "column_eligible_questions": 61
+          },
+          "table_recall_query_macro": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.6532396565183451,
+            "10": 0.8302498048399688,
+            "20": 0.9841530054644808
+          },
+          "column_precision_query_macro": {
+            "5": 0.5508196721311476,
+            "10": 0.35901639344262287,
+            "20": 0.2188524590163934
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 497.0,
+              "mean_returned_elements": 26.0
+            },
+            "1024": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 497.0,
+              "mean_returned_elements": 26.0
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 497.0,
+              "mean_returned_elements": 26.0
+            }
+          }
+        },
+        "V01": {
+          "denominators": {
+            "table_questions": 64,
+            "column_eligible_questions": 61
+          },
+          "table_recall_query_macro": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.6532396565183451,
+            "10": 0.8302498048399688,
+            "20": 0.9841530054644808
+          },
+          "column_precision_query_macro": {
+            "5": 0.5508196721311476,
+            "10": 0.35901639344262287,
+            "20": 0.2188524590163934
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 484.0,
+              "mean_returned_elements": 26.0
+            },
+            "1024": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 484.0,
+              "mean_returned_elements": 26.0
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 484.0,
+              "mean_returned_elements": 26.0
+            }
+          }
+        },
+        "V10": {
+          "denominators": {
+            "table_questions": 64,
+            "column_eligible_questions": 61
+          },
+          "table_recall_query_macro": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.6499609679937549,
+            "10": 0.8265807962529272,
+            "20": 0.9841530054644808
+          },
+          "column_precision_query_macro": {
+            "5": 0.5475409836065573,
+            "10": 0.3573770491803278,
+            "20": 0.2188524590163934
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 497.0,
+              "mean_returned_elements": 26.0
+            },
+            "1024": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 497.0,
+              "mean_returned_elements": 26.0
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 497.0,
+              "mean_returned_elements": 26.0
+            }
+          }
+        },
+        "V11": {
+          "denominators": {
+            "table_questions": 64,
+            "column_eligible_questions": 61
+          },
+          "table_recall_query_macro": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.6499609679937549,
+            "10": 0.8265807962529272,
+            "20": 0.9841530054644808
+          },
+          "column_precision_query_macro": {
+            "5": 0.5475409836065573,
+            "10": 0.3573770491803278,
+            "20": 0.2188524590163934
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 484.0,
+              "mean_returned_elements": 26.0
+            },
+            "1024": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 484.0,
+              "mean_returned_elements": 26.0
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 484.0,
+              "mean_returned_elements": 26.0
+            }
+          }
+        }
+      }
+    },
+    "db_05": {
+      "fixed_non_saturated": true,
+      "conditions": {
+        "V00": {
+          "denominators": {
+            "table_questions": 129,
+            "column_eligible_questions": 122
+          },
+          "table_recall_query_macro": {
+            "5": 0.9689922480620154,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.396587952120739,
+            "10": 0.48190541243819934,
+            "20": 0.5399069737184492
+          },
+          "column_precision_query_macro": {
+            "5": 0.3098360655737705,
+            "10": 0.1877049180327869,
+            "20": 0.10696721311475411
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.13934426229508196,
+              "gold_schema_recall_query_macro": 0.47201168594611215,
+              "mean_returned_tokens": 509.2950819672131,
+              "mean_returned_elements": 17.672131147540984
+            },
+            "1024": {
+              "complete_query_macro": 0.22131147540983606,
+              "gold_schema_recall_query_macro": 0.5589037328791427,
+              "mean_returned_tokens": 1021.0,
+              "mean_returned_elements": 31.524590163934427
+            },
+            "2048": {
+              "complete_query_macro": 0.36885245901639346,
+              "gold_schema_recall_query_macro": 0.7191576183379461,
+              "mean_returned_tokens": 2044.983606557377,
+              "mean_returned_elements": 66.1311475409836
+            }
+          }
+        },
+        "V01": {
+          "denominators": {
+            "table_questions": 129,
+            "column_eligible_questions": 122
+          },
+          "table_recall_query_macro": {
+            "5": 0.9689922480620154,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.396587952120739,
+            "10": 0.48190541243819934,
+            "20": 0.5399069737184492
+          },
+          "column_precision_query_macro": {
+            "5": 0.3098360655737705,
+            "10": 0.1877049180327869,
+            "20": 0.10696721311475411
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.13934426229508196,
+              "gold_schema_recall_query_macro": 0.4993991436614388,
+              "mean_returned_tokens": 508.9836065573771,
+              "mean_returned_elements": 22.885245901639344
+            },
+            "1024": {
+              "complete_query_macro": 0.2459016393442623,
+              "gold_schema_recall_query_macro": 0.6218629503465569,
+              "mean_returned_tokens": 1020.688524590164,
+              "mean_returned_elements": 43.442622950819676
+            },
+            "2048": {
+              "complete_query_macro": 0.5081967213114754,
+              "gold_schema_recall_query_macro": 0.8096542119083103,
+              "mean_returned_tokens": 2044.7459016393443,
+              "mean_returned_elements": 96.81967213114754
+            }
+          }
+        },
+        "V10": {
+          "denominators": {
+            "table_questions": 129,
+            "column_eligible_questions": 122
+          },
+          "table_recall_query_macro": {
+            "5": 0.9689922480620154,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.4056954202446006,
+            "10": 0.4689858183710643,
+            "20": 0.5297976841009628
+          },
+          "column_precision_query_macro": {
+            "5": 0.3131147540983608,
+            "10": 0.1836065573770492,
+            "20": 0.1045081967213115
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.13114754098360656,
+              "gold_schema_recall_query_macro": 0.45693557353393416,
+              "mean_returned_tokens": 508.90983606557376,
+              "mean_returned_elements": 16.18032786885246
+            },
+            "1024": {
+              "complete_query_macro": 0.1885245901639344,
+              "gold_schema_recall_query_macro": 0.5405882596456368,
+              "mean_returned_tokens": 1020.8770491803278,
+              "mean_returned_elements": 29.721311475409838
+            },
+            "2048": {
+              "complete_query_macro": 0.3524590163934426,
+              "gold_schema_recall_query_macro": 0.7047645660350577,
+              "mean_returned_tokens": 2044.3688524590164,
+              "mean_returned_elements": 62.82786885245902
+            }
+          }
+        },
+        "V11": {
+          "denominators": {
+            "table_questions": 129,
+            "column_eligible_questions": 122
+          },
+          "table_recall_query_macro": {
+            "5": 0.9689922480620154,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.4056954202446006,
+            "10": 0.4689858183710643,
+            "20": 0.5297976841009628
+          },
+          "column_precision_query_macro": {
+            "5": 0.3131147540983608,
+            "10": 0.1836065573770492,
+            "20": 0.1045081967213115
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.13934426229508196,
+              "gold_schema_recall_query_macro": 0.49014530551415797,
+              "mean_returned_tokens": 508.62295081967216,
+              "mean_returned_elements": 22.549180327868854
+            },
+            "1024": {
+              "complete_query_macro": 0.22950819672131148,
+              "gold_schema_recall_query_macro": 0.6158623707804035,
+              "mean_returned_tokens": 1020.7295081967213,
+              "mean_returned_elements": 43.09836065573771
+            },
+            "2048": {
+              "complete_query_macro": 0.5,
+              "gold_schema_recall_query_macro": 0.8048565278073475,
+              "mean_returned_tokens": 2044.8524590163934,
+              "mean_returned_elements": 96.12295081967213
+            }
+          }
+        }
+      }
+    },
+    "db_06": {
+      "fixed_non_saturated": false,
+      "conditions": {
+        "V00": {
+          "denominators": {
+            "table_questions": 106,
+            "column_eligible_questions": 102
+          },
+          "table_recall_query_macro": {
+            "5": 0.8743710691823899,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5030773420479303,
+            "10": 0.6877878929349516,
+            "20": 0.840958605664488
+          },
+          "column_precision_query_macro": {
+            "5": 0.5058823529411764,
+            "10": 0.35294117647058815,
+            "20": 0.22009803921568627
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.29411764705882354,
+              "gold_schema_recall_query_macro": 0.7571895968954792,
+              "mean_returned_tokens": 507.65686274509807,
+              "mean_returned_elements": 20.225490196078432
+            },
+            "1024": {
+              "complete_query_macro": 0.5098039215686274,
+              "gold_schema_recall_query_macro": 0.8969801168330582,
+              "mean_returned_tokens": 1019.7058823529412,
+              "mean_returned_elements": 38.46078431372549
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 1653.0,
+              "mean_returned_elements": 63.0
+            }
+          }
+        },
+        "V01": {
+          "denominators": {
+            "table_questions": 106,
+            "column_eligible_questions": 102
+          },
+          "table_recall_query_macro": {
+            "5": 0.8743710691823899,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5030773420479303,
+            "10": 0.6877878929349516,
+            "20": 0.840958605664488
+          },
+          "column_precision_query_macro": {
+            "5": 0.5058823529411764,
+            "10": 0.35294117647058815,
+            "20": 0.22009803921568627
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.3137254901960784,
+              "gold_schema_recall_query_macro": 0.8057949675596734,
+              "mean_returned_tokens": 507.7843137254902,
+              "mean_returned_elements": 25.872549019607842
+            },
+            "1024": {
+              "complete_query_macro": 0.7647058823529411,
+              "gold_schema_recall_query_macro": 0.9627929804400391,
+              "mean_returned_tokens": 1019.343137254902,
+              "mean_returned_elements": 52.245098039215684
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 1256.0,
+              "mean_returned_elements": 63.0
+            }
+          }
+        },
+        "V10": {
+          "denominators": {
+            "table_questions": 106,
+            "column_eligible_questions": 102
+          },
+          "table_recall_query_macro": {
+            "5": 0.8743710691823899,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.4896436352318705,
+            "10": 0.6728057889822594,
+            "20": 0.8262177093059445
+          },
+          "column_precision_query_macro": {
+            "5": 0.49215686274509807,
+            "10": 0.3441176470588234,
+            "20": 0.21568627450980388
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.27450980392156865,
+              "gold_schema_recall_query_macro": 0.7587293697587815,
+              "mean_returned_tokens": 507.7450980392157,
+              "mean_returned_elements": 21.42156862745098
+            },
+            "1024": {
+              "complete_query_macro": 0.5392156862745098,
+              "gold_schema_recall_query_macro": 0.9062332003508474,
+              "mean_returned_tokens": 1019.3823529411765,
+              "mean_returned_elements": 40.68627450980392
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 1653.0,
+              "mean_returned_elements": 63.0
+            }
+          }
+        },
+        "V11": {
+          "denominators": {
+            "table_questions": 106,
+            "column_eligible_questions": 102
+          },
+          "table_recall_query_macro": {
+            "5": 0.8743710691823899,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.4896436352318705,
+            "10": 0.6728057889822594,
+            "20": 0.8262177093059445
+          },
+          "column_precision_query_macro": {
+            "5": 0.49215686274509807,
+            "10": 0.3441176470588234,
+            "20": 0.21568627450980388
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.3137254901960784,
+              "gold_schema_recall_query_macro": 0.801096262125674,
+              "mean_returned_tokens": 507.1470588235294,
+              "mean_returned_elements": 25.784313725490197
+            },
+            "1024": {
+              "complete_query_macro": 0.7352941176470589,
+              "gold_schema_recall_query_macro": 0.9589887236946061,
+              "mean_returned_tokens": 1019.0490196078431,
+              "mean_returned_elements": 52.13725490196079
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 1256.0,
+              "mean_returned_elements": 63.0
+            }
+          }
+        }
+      }
+    },
+    "db_07": {
+      "fixed_non_saturated": true,
+      "conditions": {
+        "V00": {
+          "denominators": {
+            "table_questions": 174,
+            "column_eligible_questions": 163
+          },
+          "table_recall_query_macro": {
+            "5": 0.8031609195402298,
+            "10": 0.9942528735632183
+          },
+          "column_recall_query_macro": {
+            "5": 0.3845968448729185,
+            "10": 0.522589833479404,
+            "20": 0.6662941863862109
+          },
+          "column_precision_query_macro": {
+            "5": 0.3276073619631902,
+            "10": 0.22515337423312884,
+            "20": 0.1530674846625767
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.24539877300613497,
+              "gold_schema_recall_query_macro": 0.615471951361522,
+              "mean_returned_tokens": 508.5153374233129,
+              "mean_returned_elements": 19.920245398773005
+            },
+            "1024": {
+              "complete_query_macro": 0.44785276073619634,
+              "gold_schema_recall_query_macro": 0.774531620390516,
+              "mean_returned_tokens": 1020.7668711656441,
+              "mean_returned_elements": 39.147239263803684
+            },
+            "2048": {
+              "complete_query_macro": 0.754601226993865,
+              "gold_schema_recall_query_macro": 0.943084522839124,
+              "mean_returned_tokens": 2044.7116564417179,
+              "mean_returned_elements": 79.20858895705521
+            }
+          }
+        },
+        "V01": {
+          "denominators": {
+            "table_questions": 174,
+            "column_eligible_questions": 163
+          },
+          "table_recall_query_macro": {
+            "5": 0.8031609195402298,
+            "10": 0.9942528735632183
+          },
+          "column_recall_query_macro": {
+            "5": 0.3845968448729185,
+            "10": 0.522589833479404,
+            "20": 0.6662941863862109
+          },
+          "column_precision_query_macro": {
+            "5": 0.3276073619631902,
+            "10": 0.22515337423312884,
+            "20": 0.1530674846625767
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.26380368098159507,
+              "gold_schema_recall_query_macro": 0.6680572494989674,
+              "mean_returned_tokens": 509.52147239263803,
+              "mean_returned_elements": 23.78527607361963
+            },
+            "1024": {
+              "complete_query_macro": 0.5337423312883436,
+              "gold_schema_recall_query_macro": 0.8135003885003884,
+              "mean_returned_tokens": 1021.6871165644171,
+              "mean_returned_elements": 46.969325153374236
+            },
+            "2048": {
+              "complete_query_macro": 0.9938650306748467,
+              "gold_schema_recall_query_macro": 0.9979550102249488,
+              "mean_returned_tokens": 2045.1779141104294,
+              "mean_returned_elements": 97.74846625766871
+            }
+          }
+        },
+        "V10": {
+          "denominators": {
+            "table_questions": 174,
+            "column_eligible_questions": 163
+          },
+          "table_recall_query_macro": {
+            "5": 0.8031609195402298,
+            "10": 0.9942528735632183
+          },
+          "column_recall_query_macro": {
+            "5": 0.3829803291459733,
+            "10": 0.5120970883240823,
+            "20": 0.6466671535689941
+          },
+          "column_precision_query_macro": {
+            "5": 0.3226993865030675,
+            "10": 0.21963190184049078,
+            "20": 0.14785276073619633
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.25153374233128833,
+              "gold_schema_recall_query_macro": 0.6182040011794613,
+              "mean_returned_tokens": 508.87116564417175,
+              "mean_returned_elements": 20.368098159509202
+            },
+            "1024": {
+              "complete_query_macro": 0.43558282208588955,
+              "gold_schema_recall_query_macro": 0.7471340860911412,
+              "mean_returned_tokens": 1021.3803680981595,
+              "mean_returned_elements": 38.16564417177914
+            },
+            "2048": {
+              "complete_query_macro": 0.6993865030674846,
+              "gold_schema_recall_query_macro": 0.9360729080054232,
+              "mean_returned_tokens": 2044.8957055214723,
+              "mean_returned_elements": 76.08588957055214
+            }
+          }
+        },
+        "V11": {
+          "denominators": {
+            "table_questions": 174,
+            "column_eligible_questions": 163
+          },
+          "table_recall_query_macro": {
+            "5": 0.8031609195402298,
+            "10": 0.9942528735632183
+          },
+          "column_recall_query_macro": {
+            "5": 0.3829803291459733,
+            "10": 0.5120970883240823,
+            "20": 0.6466671535689941
+          },
+          "column_precision_query_macro": {
+            "5": 0.3226993865030675,
+            "10": 0.21963190184049078,
+            "20": 0.14785276073619633
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.2822085889570552,
+              "gold_schema_recall_query_macro": 0.6526861175634182,
+              "mean_returned_tokens": 509.4355828220859,
+              "mean_returned_elements": 23.66871165644172
+            },
+            "1024": {
+              "complete_query_macro": 0.48466257668711654,
+              "gold_schema_recall_query_macro": 0.7936014394603352,
+              "mean_returned_tokens": 1021.036809815951,
+              "mean_returned_elements": 46.8159509202454
+            },
+            "2048": {
+              "complete_query_macro": 0.9877300613496932,
+              "gold_schema_recall_query_macro": 0.997397285740844,
+              "mean_returned_tokens": 2044.6625766871166,
+              "mean_returned_elements": 97.60122699386503
+            }
+          }
+        }
+      }
+    },
+    "db_08": {
+      "fixed_non_saturated": false,
+      "conditions": {
+        "V00": {
+          "denominators": {
+            "table_questions": 158,
+            "column_eligible_questions": 158
+          },
+          "table_recall_query_macro": {
+            "5": 0.9688818565400843,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5460568615631907,
+            "10": 0.7344911593329314,
+            "20": 0.9061784207353827
+          },
+          "column_precision_query_macro": {
+            "5": 0.4696202531645569,
+            "10": 0.3253164556962025,
+            "20": 0.2088607594936709
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.35443037974683544,
+              "gold_schema_recall_query_macro": 0.7875618052833242,
+              "mean_returned_tokens": 507.4810126582278,
+              "mean_returned_elements": 16.88607594936709
+            },
+            "1024": {
+              "complete_query_macro": 0.7784810126582279,
+              "gold_schema_recall_query_macro": 0.9425283401549226,
+              "mean_returned_tokens": 1018.9240506329114,
+              "mean_returned_elements": 33.24050632911393
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 1727.0,
+              "mean_returned_elements": 56.0
+            }
+          }
+        },
+        "V01": {
+          "denominators": {
+            "table_questions": 158,
+            "column_eligible_questions": 158
+          },
+          "table_recall_query_macro": {
+            "5": 0.9688818565400843,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5460568615631907,
+            "10": 0.7344911593329314,
+            "20": 0.9061784207353827
+          },
+          "column_precision_query_macro": {
+            "5": 0.4696202531645569,
+            "10": 0.3253164556962025,
+            "20": 0.2088607594936709
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.41139240506329117,
+              "gold_schema_recall_query_macro": 0.8356062889290737,
+              "mean_returned_tokens": 507.45569620253167,
+              "mean_returned_elements": 20.449367088607595
+            },
+            "1024": {
+              "complete_query_macro": 0.8607594936708861,
+              "gold_schema_recall_query_macro": 0.9742930592614136,
+              "mean_returned_tokens": 1018.5253164556962,
+              "mean_returned_elements": 41.063291139240505
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 1380.0,
+              "mean_returned_elements": 56.0
+            }
+          }
+        },
+        "V10": {
+          "denominators": {
+            "table_questions": 158,
+            "column_eligible_questions": 158
+          },
+          "table_recall_query_macro": {
+            "5": 0.9688818565400843,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5300683142455296,
+            "10": 0.738170584689572,
+            "20": 0.9173925055254171
+          },
+          "column_precision_query_macro": {
+            "5": 0.45443037974683553,
+            "10": 0.32721518987341774,
+            "20": 0.21234177215189876
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.379746835443038,
+              "gold_schema_recall_query_macro": 0.778429569727038,
+              "mean_returned_tokens": 507.4810126582278,
+              "mean_returned_elements": 16.253164556962027
+            },
+            "1024": {
+              "complete_query_macro": 0.759493670886076,
+              "gold_schema_recall_query_macro": 0.9387735682039479,
+              "mean_returned_tokens": 1018.8227848101266,
+              "mean_returned_elements": 32.41139240506329
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 1727.0,
+              "mean_returned_elements": 56.0
+            }
+          }
+        },
+        "V11": {
+          "denominators": {
+            "table_questions": 158,
+            "column_eligible_questions": 158
+          },
+          "table_recall_query_macro": {
+            "5": 0.9688818565400843,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5300683142455296,
+            "10": 0.738170584689572,
+            "20": 0.9173925055254171
+          },
+          "column_precision_query_macro": {
+            "5": 0.45443037974683553,
+            "10": 0.32721518987341774,
+            "20": 0.21234177215189876
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.43037974683544306,
+              "gold_schema_recall_query_macro": 0.8397101667671287,
+              "mean_returned_tokens": 507.32278481012656,
+              "mean_returned_elements": 20.537974683544302
+            },
+            "1024": {
+              "complete_query_macro": 0.879746835443038,
+              "gold_schema_recall_query_macro": 0.9794919742704552,
+              "mean_returned_tokens": 1018.2088607594936,
+              "mean_returned_elements": 41.177215189873415
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 1380.0,
+              "mean_returned_elements": 56.0
+            }
+          }
+        }
+      }
+    },
+    "db_09": {
+      "fixed_non_saturated": false,
+      "conditions": {
+        "V00": {
+          "denominators": {
+            "table_questions": 129,
+            "column_eligible_questions": 129
+          },
+          "table_recall_query_macro": {
+            "5": 0.8972868217054264,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5731327673188138,
+            "10": 0.7070259628399164,
+            "20": 0.83067860219023
+          },
+          "column_precision_query_macro": {
+            "5": 0.5178294573643412,
+            "10": 0.3317829457364341,
+            "20": 0.20000000000000004
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.17829457364341086,
+              "gold_schema_recall_query_macro": 0.6846570311686591,
+              "mean_returned_tokens": 508.94573643410854,
+              "mean_returned_elements": 15.279069767441861
+            },
+            "1024": {
+              "complete_query_macro": 0.5891472868217055,
+              "gold_schema_recall_query_macro": 0.890475243963616,
+              "mean_returned_tokens": 1019.937984496124,
+              "mean_returned_elements": 28.131782945736433
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 1340.0,
+              "mean_returned_elements": 41.0
+            }
+          }
+        },
+        "V01": {
+          "denominators": {
+            "table_questions": 129,
+            "column_eligible_questions": 129
+          },
+          "table_recall_query_macro": {
+            "5": 0.8972868217054264,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5731327673188138,
+            "10": 0.7070259628399164,
+            "20": 0.83067860219023
+          },
+          "column_precision_query_macro": {
+            "5": 0.5178294573643412,
+            "10": 0.3317829457364341,
+            "20": 0.20000000000000004
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.2868217054263566,
+              "gold_schema_recall_query_macro": 0.7755880209368582,
+              "mean_returned_tokens": 508.91472868217056,
+              "mean_returned_elements": 22.07751937984496
+            },
+            "1024": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 830.0,
+              "mean_returned_elements": 41.0
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 830.0,
+              "mean_returned_elements": 41.0
+            }
+          }
+        },
+        "V10": {
+          "denominators": {
+            "table_questions": 129,
+            "column_eligible_questions": 129
+          },
+          "table_recall_query_macro": {
+            "5": 0.8972868217054264,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5377168696936139,
+            "10": 0.6608527131782945,
+            "20": 0.8133967023501907
+          },
+          "column_precision_query_macro": {
+            "5": 0.48372093023255813,
+            "10": 0.3108527131782946,
+            "20": 0.1949612403100775
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.17054263565891473,
+              "gold_schema_recall_query_macro": 0.6598096563212842,
+              "mean_returned_tokens": 509.6589147286822,
+              "mean_returned_elements": 14.542635658914728
+            },
+            "1024": {
+              "complete_query_macro": 0.5038759689922481,
+              "gold_schema_recall_query_macro": 0.8492588806542295,
+              "mean_returned_tokens": 1021.1162790697674,
+              "mean_returned_elements": 26.05426356589147
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 1340.0,
+              "mean_returned_elements": 41.0
+            }
+          }
+        },
+        "V11": {
+          "denominators": {
+            "table_questions": 129,
+            "column_eligible_questions": 129
+          },
+          "table_recall_query_macro": {
+            "5": 0.8972868217054264,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5377168696936139,
+            "10": 0.6608527131782945,
+            "20": 0.8133967023501907
+          },
+          "column_precision_query_macro": {
+            "5": 0.48372093023255813,
+            "10": 0.3108527131782946,
+            "20": 0.1949612403100775
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.3023255813953488,
+              "gold_schema_recall_query_macro": 0.762243613406404,
+              "mean_returned_tokens": 509.1162790697674,
+              "mean_returned_elements": 21.7984496124031
+            },
+            "1024": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 830.0,
+              "mean_returned_elements": 41.0
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 830.0,
+              "mean_returned_elements": 41.0
+            }
+          }
+        }
+      }
+    },
+    "db_10": {
+      "fixed_non_saturated": true,
+      "conditions": {
+        "V00": {
+          "denominators": {
+            "table_questions": 163,
+            "column_eligible_questions": 159
+          },
+          "table_recall_query_macro": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5777029050613957,
+            "10": 0.8072626534890687,
+            "20": 0.9406633722671459
+          },
+          "column_precision_query_macro": {
+            "5": 0.47924528301886804,
+            "10": 0.340251572327044,
+            "20": 0.19968553459119492
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.33962264150943394,
+              "gold_schema_recall_query_macro": 0.8015471425848784,
+              "mean_returned_tokens": 508.33962264150944,
+              "mean_returned_elements": 16.68553459119497
+            },
+            "1024": {
+              "complete_query_macro": 0.6792452830188679,
+              "gold_schema_recall_query_macro": 0.9255182099521722,
+              "mean_returned_tokens": 1018.440251572327,
+              "mean_returned_elements": 30.867924528301888
+            },
+            "2048": {
+              "complete_query_macro": 0.9559748427672956,
+              "gold_schema_recall_query_macro": 0.9910969533611043,
+              "mean_returned_tokens": 2035.993710691824,
+              "mean_returned_elements": 59.729559748427675
+            }
+          }
+        },
+        "V01": {
+          "denominators": {
+            "table_questions": 163,
+            "column_eligible_questions": 159
+          },
+          "table_recall_query_macro": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5777029050613957,
+            "10": 0.8072626534890687,
+            "20": 0.9406633722671459
+          },
+          "column_precision_query_macro": {
+            "5": 0.47924528301886804,
+            "10": 0.340251572327044,
+            "20": 0.19968553459119492
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.4276729559748428,
+              "gold_schema_recall_query_macro": 0.8526656955902239,
+              "mean_returned_tokens": 508.34591194968556,
+              "mean_returned_elements": 20.761006289308177
+            },
+            "1024": {
+              "complete_query_macro": 0.8490566037735849,
+              "gold_schema_recall_query_macro": 0.967759127664788,
+              "mean_returned_tokens": 1018.7735849056604,
+              "mean_returned_elements": 42.40251572327044
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 1510.0,
+              "mean_returned_elements": 67.0
+            }
+          }
+        },
+        "V10": {
+          "denominators": {
+            "table_questions": 163,
+            "column_eligible_questions": 159
+          },
+          "table_recall_query_macro": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5733528002395927,
+            "10": 0.7812668463611859,
+            "20": 0.9194369571728063
+          },
+          "column_precision_query_macro": {
+            "5": 0.47547169811320766,
+            "10": 0.3289308176100629,
+            "20": 0.19496855345911945
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.27672955974842767,
+              "gold_schema_recall_query_macro": 0.7784591194968554,
+              "mean_returned_tokens": 508.77358490566036,
+              "mean_returned_elements": 16.138364779874212
+            },
+            "1024": {
+              "complete_query_macro": 0.5408805031446541,
+              "gold_schema_recall_query_macro": 0.8928403532177118,
+              "mean_returned_tokens": 1020.2767295597484,
+              "mean_returned_elements": 30.069182389937108
+            },
+            "2048": {
+              "complete_query_macro": 0.9559748427672956,
+              "gold_schema_recall_query_macro": 0.9919307631571782,
+              "mean_returned_tokens": 2041.0251572327045,
+              "mean_returned_elements": 59.44025157232704
+            }
+          }
+        },
+        "V11": {
+          "denominators": {
+            "table_questions": 163,
+            "column_eligible_questions": 159
+          },
+          "table_recall_query_macro": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.5733528002395927,
+            "10": 0.7812668463611859,
+            "20": 0.9194369571728063
+          },
+          "column_precision_query_macro": {
+            "5": 0.47547169811320766,
+            "10": 0.3289308176100629,
+            "20": 0.19496855345911945
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 0.3270440251572327,
+              "gold_schema_recall_query_macro": 0.8199438227740113,
+              "mean_returned_tokens": 508.60377358490564,
+              "mean_returned_elements": 21.572327044025158
+            },
+            "1024": {
+              "complete_query_macro": 0.779874213836478,
+              "gold_schema_recall_query_macro": 0.9553152822020748,
+              "mean_returned_tokens": 1019.9874213836478,
+              "mean_returned_elements": 43.0
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 1510.0,
+              "mean_returned_elements": 67.0
+            }
+          }
+        }
+      }
+    },
+    "db_11": {
+      "fixed_non_saturated": false,
+      "conditions": {
+        "V00": {
+          "denominators": {
+            "table_questions": 145,
+            "column_eligible_questions": 132
+          },
+          "table_recall_query_macro": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.7814754689754689,
+            "10": 0.9936868686868688,
+            "20": 1.0
+          },
+          "column_precision_query_macro": {
+            "5": 0.5590909090909091,
+            "10": 0.37272727272727274,
+            "20": 0.3415977961432507
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 487.0,
+              "mean_returned_elements": 15.0
+            },
+            "1024": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 487.0,
+              "mean_returned_elements": 15.0
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 487.0,
+              "mean_returned_elements": 15.0
+            }
+          }
+        },
+        "V01": {
+          "denominators": {
+            "table_questions": 145,
+            "column_eligible_questions": 132
+          },
+          "table_recall_query_macro": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.7814754689754689,
+            "10": 0.9936868686868688,
+            "20": 1.0
+          },
+          "column_precision_query_macro": {
+            "5": 0.5590909090909091,
+            "10": 0.37272727272727274,
+            "20": 0.3415977961432507
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 297.0,
+              "mean_returned_elements": 15.0
+            },
+            "1024": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 297.0,
+              "mean_returned_elements": 15.0
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 297.0,
+              "mean_returned_elements": 15.0
+            }
+          }
+        },
+        "V10": {
+          "denominators": {
+            "table_questions": 145,
+            "column_eligible_questions": 132
+          },
+          "table_recall_query_macro": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.7291305916305916,
+            "10": 0.977200577200577,
+            "20": 1.0
+          },
+          "column_precision_query_macro": {
+            "5": 0.5272727272727272,
+            "10": 0.36666666666666664,
+            "20": 0.3415977961432507
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 487.0,
+              "mean_returned_elements": 15.0
+            },
+            "1024": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 487.0,
+              "mean_returned_elements": 15.0
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 487.0,
+              "mean_returned_elements": 15.0
+            }
+          }
+        },
+        "V11": {
+          "denominators": {
+            "table_questions": 145,
+            "column_eligible_questions": 132
+          },
+          "table_recall_query_macro": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "column_recall_query_macro": {
+            "5": 0.7291305916305916,
+            "10": 0.977200577200577,
+            "20": 1.0
+          },
+          "column_precision_query_macro": {
+            "5": 0.5272727272727272,
+            "10": 0.36666666666666664,
+            "20": 0.3415977961432507
+          },
+          "budgets": {
+            "512": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 297.0,
+              "mean_returned_elements": 15.0
+            },
+            "1024": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 297.0,
+              "mean_returned_elements": 15.0
+            },
+            "2048": {
+              "complete_query_macro": 1.0,
+              "gold_schema_recall_query_macro": 1.0,
+              "mean_returned_tokens": 297.0,
+              "mean_returned_elements": 15.0
+            }
+          }
+        }
+      }
+    }
+  },
+  "bootstrap": {
+    "unit": "database cluster",
+    "draws": 10000,
+    "seed": 20261020
+  },
+  "limitations": [
+    "BIRD dev has been used for iterative development and is exploratory, not an independent test set.",
+    "Schema-node recall/coverage does not measure SQL execution accuracy, predicate-value usefulness, or JOIN-role correctness.",
+    "No model forward, SQL execution, API request, or independent database validation was part of P2c.",
+    "P2b archived private rows omit per-question Table Top-K IDs; exact historical replay is available for archived Column Top-K and budget rows, while Table rankings are checked across context-only P2c pairs."
+  ],
+  "privacy": {
+    "question_ids_published": false,
+    "questions_published": false,
+    "gold_sql_published": false,
+    "per_question_rows_published": false,
+    "database_names_published": false,
+    "vectors_published": false
+  },
+  "api_usage": {
+    "requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "cost_cny": "0.00"
+  },
+  "local_model_usage": {
+    "model_weights_loaded": false,
+    "forward_passes": 0,
+    "input_tokens": 0,
+    "output_tokens": 0
+  },
+  "scientific_result": true
+}

@@ -1,0 +1,18 @@
+{
+  "status": "verified",
+  "questions": 1534,
+  "eligible_questions": 1460,
+  "fixed_eligible_questions": 706,
+  "ranking_and_score_invariant_checks": 9204,
+  "archived_row_replays": 3068,
+  "independent_metric_checks": 120,
+  "archived_aggregate_metric_checks": 48,
+  "bootstrap_intervals_recomputed": 2,
+  "primary_gate_recomputed": true,
+  "privacy_scan": "passed",
+  "primary_success": true,
+  "aggregate_sha256": "7e4ce4b2a92df5e17160bb2429402b66ab7caec521c6e4da9ec90abd108e8fdc",
+  "private_rows_sha256": "99935116001811bef790bf2e916d34f4f40ffecc70322f7b71e28f885d9425ff",
+  "source_commit": "7f5893ac9840ada957680bce7bce183a756ed6ab",
+  "verification_tolerance": "atol=1e-12, rtol=0 (independent sum order)"
+}

@@ -1,6 +1,6 @@
 # P2c-R 恢复实验执行协议：先封闭聚合契约，再恢复一次 Full
 
-> **制定 2026-10-18；状态：新计划，尚未修复代码/运行实验。**
+> **制定 2026-10-18；执行状态更新 2026-10-19：Gate 0 PASS，独立注册的一次 Smoke/Full 完成，H1/H2 PASS。** 结果见 [P2c-R 全量报告](../reports/p2c_r_recovery_20261019_01/README.md)；V01仅进入Values信息风险审计，SQL EX未测。下文保留计分前协议。
 >
 > 历史 P2c [失败报告](../reports/p2c_dual_view_20261018_01/README.md)必须保持 `STOPPED / no scientific result`；其唯一 Full recovery 已耗尽，**禁止在原 run ID / 原注册下做第三次 Full**。本文件提出一个**独立的后续恢复试验登记**，保持原冻结数据、方法与科学成功门完全不变，公开交代为何要再启动。所有 P2c-R 数据在注册和契约测试通过之后才能产生。先看 [源码核对与原因分析](../reports/p2c_execution_review_20261018/README.md)。
 

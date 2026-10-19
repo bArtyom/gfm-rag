@@ -1,6 +1,6 @@
 {
   "experiment_id": "p2c_r_recovery_20261019_01",
-  "status": "preregistered_not_run",
+  "status": "completed_candidate_for_value_risk_audit",
   "repository": "https://github.com/bArtyom/gfm-rag",
   "branch": "main",
   "protocol": "docs/research/text2sql/plans/p2c_r_replay_contract_recovery_20261018.md",
@@ -127,5 +127,65 @@
     "output_tokens": 0,
     "total_tokens": 0,
     "cost_cny": "0.00"
+  },
+  "final_result": {
+    "source_commit": "7f5893ac9840ada957680bce7bce183a756ed6ab",
+    "aggregate_sha256": "7e4ce4b2a92df5e17160bb2429402b66ab7caec521c6e4da9ec90abd108e8fdc",
+    "private_rows_sha256": "99935116001811bef790bf2e916d34f4f40ffecc70322f7b71e28f885d9425ff",
+    "primary_success": true,
+    "primary_gate": {
+      "comparison": "V01_minus_V00 Complete Schema@1024",
+      "all": {
+        "delta_query_macro": 0.1095890410958904,
+        "delta_pp": 10.95890410958904,
+        "database_cluster_bootstrap_95_ci": [
+          0.053668909003327096,
+          0.18698763794460022
+        ],
+        "database_cluster_bootstrap_95_ci_pp": [
+          5.366890900332709,
+          18.69876379446002
+        ],
+        "databases": 11,
+        "questions": 1460,
+        "bootstrap_draws": 10000,
+        "bootstrap_seed": 20261020
+      },
+      "fixed_non_saturated": {
+        "delta_query_macro": 0.0821529745042493,
+        "delta_pp": 8.21529745042493,
+        "database_cluster_bootstrap_95_ci": [
+          0.041116005873715125,
+          0.13119533527696792
+        ],
+        "database_cluster_bootstrap_95_ci_pp": [
+          4.1116005873715125,
+          13.119533527696792
+        ],
+        "databases": 5,
+        "questions": 706,
+        "bootstrap_draws": 10000,
+        "bootstrap_seed": 20261020
+      },
+      "fixed_database_deltas_pp_anonymized": {
+        "db_01": 6.896551724137931,
+        "db_02": 4.571428571428571,
+        "db_05": 2.459016393442623,
+        "db_07": 8.588957055214724,
+        "db_10": 16.9811320754717
+      },
+      "nonnegative_fixed_databases": 5,
+      "positive_fixed_databases": 5,
+      "success": true,
+      "decision": "candidate_for_value_risk_audit"
+    },
+    "full_cpu_seconds": 21.618960915,
+    "full_wall_seconds": 21.962419708259404,
+    "full_peak_rss_gib": 0.9775123596191406,
+    "gate0_smoke_full_cpu_seconds": 45.26483112,
+    "gate0_smoke_full_wall_seconds": 45.76883321721107,
+    "including_original_P2c_cpu_seconds": 119.230041414,
+    "new_run_failures": 0,
+    "verification": "verification_summary.json"
   }
 }

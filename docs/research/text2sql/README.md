@@ -4,7 +4,7 @@
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新决策（2026-10-18，P2c 后续审计）**：P2a.5 诊断完成、P2b Values 消融主成功门 NO-GO；P2c 预检/Smoke 成功，但两次 Full 皆在**聚合契约/字段映射**处停止、未产生正式科学结果，**原注册禁止第三次 Full**。源码还存在整个 Column/预算扁平→嵌套字段适配缺口，并非只修一个 KeyError 即可。**下一步唯一优先任务是 [P2c-R 完整聚合契约回归测试](plans/p2c_r_replay_contract_recovery_20261018.md)**；Gate 通过后，另立保持原科学阈值的独立恢复试验并限额一次 Full。详情见 [最新分析](reports/p2c_execution_review_20261018/README.md)。FK/Role Gate 仍 NO-GO，无 GNN / SQL EX 新成绩。
+> **最新决策（2026-10-19，P2c-R Full）**：完整聚合契约 Gate 0 与独立恢复均完成，H1/H2 PASS。V01 保持 R0 排名，Complete@1024 全体 +10.96pp（95%CI [+5.37,+18.70]），固定困难集 +8.22pp（[+4.11,+13.12]），固定五库全部正向。**仅冻结为进入 Values 信息风险审计的离线候选**；SQL EX、谓词值安全与独立数据库泛化未测。见 [全量报告](reports/p2c_r_recovery_20261019_01/README.md)。原 P2c 停止、P2b NO-GO 和 FK/Role Gate NO-GO 保持。
 
 ## 现有研究文档
 
@@ -27,9 +27,9 @@
 | [P2b R0/R1 Values 消融记录](reports/p2b_values_ablation_20261018_01/README.md) | 预注册、运行状态、匿名结果及下一步决策 | 2026-10-18 完成，匿名聚合已归档 |
 | [P2c 双视图 2×2 实验报告](reports/p2c_dual_view_20261018_01/README.md) | 预注册、smoke 与两次 Full 执行故障、停止决定 | 执行器恢复额度耗尽；未产生 Full 科学结果 |
 | [P2c 最新执行分析（2026-10-18）](reports/p2c_execution_review_20261018/README.md) | Full 两次聚合失败、逐字段源码映射审计、科学结论边界 | **最新复核；无新实验成绩** |
-| [P2c-R 聚合契约恢复（当前下一轮）](plans/p2c_r_replay_contract_recovery_20261018.md) | 48 项源归档字段映射测试、全流程合成/归档回归、新恢复试验 Gate | **当前行动指导；尚未执行** |
+| [P2c-R 聚合契约恢复协议](plans/p2c_r_replay_contract_recovery_20261018.md) | 48 项源归档字段映射测试、全流程合成/归档回归、新恢复试验 Gate | Gate 0 与一次正式恢复已完成 |
 | [P2c-R Gate 0 工程记录](reports/p2c_r_contract_gate_20261019_01/README.md) | 完整字段适配、缺失/非有限值与分母验证、占位臂聚合写盘 | 93 项测试、真实归档 48 指标/4 分母和 JSON 写盘 Gate PASS |
-| [P2c-R 独立恢复登记](reports/p2c_r_recovery_20261019_01/README.md) | Gate 0 后新登记的同四臂、同阈值恢复 | 已预注册一次 Smoke 和一次 Full，尚未执行 |
+| [P2c-R 独立恢复全量结果](reports/p2c_r_recovery_20261019_01/README.md) | Gate 0 后同四臂、同阈值恢复及独立产物复核 | H1/H2 PASS；V01为Values风险审计候选，无SQL EX结论 |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
@@ -55,17 +55,13 @@
 
 在 [2026-10-16 的代码级分析](graph-algorithm-code-review-20261016.md) 中，重点确定了 **Top-1 起始锚点、关系实例/逐边属性未纳入默认消息权重、节点 Top-K 非连通、SQL-aware 监督未落地**等可验证机制。最有潜力的后续方向是 **Query-aware JOIN Edge Gate + 实例感知约束子图解码**；但必须先过 FK/Join 标签 Gate，并与 Graph-Link、GRAST-SL、SchemaGraphSQL 同信息比较。**这不是已有实证收益**。
 
-## 最新行动结果与下一步（2026-10-18，P2c 实验停止后）
+## 最新行动结果与下一步（2026-10-19，P2c-R 完成）
 
-当前归档的最新实验是 [P2c 双视图 2×2](reports/p2c_dual_view_20261018_01/README.md)：preflight/Smoke 通过，两个 Full 都能完成四臂评测与 P2b 逐题 replay，但在**聚合结果结构映射**阶段异常停止，未产生 Full 指标。按冻结规则旧实验已停止，不能私自运行第三次 Full，更不能推测 V01/V10 是否改善 Schema Complete。
+按最新独立恢复协议完成93项相关测试、真实P2b归档48字段/4分母以及JSON写盘Gate，再用同一提交运行一次5题Smoke和一次1534题Full，均通过。V01的全体Complete@1024为67.60%（V00为56.64%），困难集为46.18%（V00为37.96%），两个预注册CI下界都>0，固定5库全部正向。V01/V00排名逐题不变；V00/V11重放P2b归档，独立产物验证通过。详见[全量报告](reports/p2c_r_recovery_20261019_01/README.md)。
 
-[最新源码复核](reports/p2c_execution_review_20261018/README.md)定位 P2b archive 采用平铺列指标 `column_r5_query_macro` 等，而 P2c 本地 summary 采用嵌套 `column_recall_query_macro["5"]`，预算字段还涉及 `budgets[budget]` 与 `gold_schema_recall_query_macro` 等不同层级。**不应只改一个 `KeyError` 再赌 Full。**
+完整性提升伴随162题救回、2题损坏；候选Schema文本减少27.03%，不等于完整SQL Prompt节省同样比例。V01省略了278个候选列的Values字段，在1024预算下平均每题选中12.84个此类列。**下一关键问题是这些被移除的信息是否影响SQL谓词/枚举值判断**，应先做独立、无模型的Values信息风险审计，再设计固定Generator/Selector、数据库级独立验证的SQL EX对照。保持V01为离线候选，不追加截断或拼接规则搜索。
 
-**当前唯一优先方案：[P2c-R 源归档→新汇总完整字段契约回归测试](plans/p2c_r_replay_contract_recovery_20261018.md)。** 先不运行真实交叉臂，对原 P2b 归档和合成测试行完成 2 arms × 2 groups × 12 项 = **48 项**字段对齐及全聚合 JSON 写盘测试；全部通过后再独立登记一次限额的 P2c-R 科学恢复 Full，严格保持原 V00/V01/V10/V11、H1/H2、数据、随机性和门槛，不将恢复看成旧实验规则允许的第三次 Full。
-
-如果 P2c-R 成功：仅把 V01 视为潜在 Schema-token-budgets 工程候选，后续必须单独评估 Values 信息移除风险和固定 SQL Generator/Selector 下的 Set EX；若失败，及时停止此线，优先修 FK/Join Instance 可评性和 GraphReasoner G0 baseline。FK/Role 当前无人工审查标签，不能声称 Edge Gate/JOIN Accuracy 进步。
-
-P1/P1.5 历史严格复现 FAIL、P2a/B 的原 NO-GO 保持不变；BIRD dev 只提供探索性证据。
+原P2c在旧注册下仍为停止/无科学结果；P1/P1.5历史严格复现FAIL、P2a/B原NO-GO、FK/Role Gate NO-GO均保留。当前没有GNN或SQL EX新结果，BIRD dev仅提供探索性证据。
 
 
 ## 从今往后的提交规范

@@ -1,0 +1,100 @@
+{
+  "experiment_id": "p2c_r_recovery_20261019_01",
+  "run_id": "p2c_r_smoke5_20261019_01",
+  "mode": "smoke",
+  "state": "completed",
+  "stage_result": "smoke_passed",
+  "started_at_utc": "2026-10-19T01:02:16Z",
+  "finished_at_utc": "2026-10-19T01:02:28Z",
+  "command": [
+    "/root/miniconda3/envs/think2sql_20260909/bin/python3",
+    "/mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom/scripts/text2sql/run_p2c_r_recovery.py",
+    "--mode",
+    "smoke",
+    "--run-id",
+    "p2c_r_smoke5_20261019_01",
+    "--expected-commit",
+    "7f5893ac9840ada957680bce7bce183a756ed6ab",
+    "--output-dir",
+    "/mnt/liansp3/sources/results/gfmrag_p2c_r_recovery_20261019/smoke_5q_20261019_01",
+    "--contract-dir",
+    "/mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom/ai_temp_code/p2c_r_contract_20261019_01",
+    "--p1-6-run-dir",
+    "/mnt/liansp3/sources/results/gfmrag_p1_6_rebaseline_20261016/full_1534_20261018_01",
+    "--legacy-root",
+    "/mnt/liansp3/sources/projects/quadrag",
+    "--dataset-root",
+    "/mnt/liansp3/sources/datasets/bird/dev",
+    "--model-path",
+    "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+    "--previous-run-dir",
+    "/mnt/liansp3/sources/results/quadrag_p1_dimension_20261014/gfmrag_official_full1534_20261014_01",
+    "--p1-5-run-dir",
+    "/mnt/liansp3/sources/results/gfmrag_p1_5_diagnosis_20261016/full_03",
+    "--p2b-run-dir",
+    "/mnt/liansp3/sources/results/gfmrag_p2b_values_ablation_20261018/full_1534_20261018_01"
+  ],
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.2.6",
+    "transformers": "4.57.1",
+    "tokenizers": "0.22.1"
+  },
+  "source": {
+    "published_commit": "7f5893ac9840ada957680bce7bce183a756ed6ab",
+    "script_sha256": "3fde48dc7a296608dbe74f4f8464174daf790d7adfe1cbfaefae437117db9e41",
+    "shared_runner_sha256": "350393789c13f8b90920c4110519352321670b9c7c9a955cc524dd1db5c72512",
+    "config_sha256": "1e29750bc5bd047ec009d182b2861b4a95a74ecfcf5d886f784aa338c8320707",
+    "protocol_sha256": "baeb0a82b3fb54cd0d3e93a45df53f3c9e8d693a9ddd71d243b47e57a5dcfdf9",
+    "executed_sources_sha256": {
+      "scripts/text2sql/run_p2c_r_recovery.py": "3fde48dc7a296608dbe74f4f8464174daf790d7adfe1cbfaefae437117db9e41",
+      "scripts/text2sql/run_p2c_dual_view_factorial.py": "350393789c13f8b90920c4110519352321670b9c7c9a955cc524dd1db5c72512",
+      "scripts/text2sql/run_p1_6_rebaseline.py": "ac9331611c3563388b19fca6fdd65dd9a7cad0454045d1a6554c4039f8cbbbb0",
+      "scripts/text2sql/run_p2a_similarity.py": "8b8758c01c9f7df83c572c649bb6852e5a0580d856dc778449862048ea2d8e6d",
+      "scripts/text2sql/run_p2b_values_ablation.py": "0ecdd00e72f2a01bed4dc755d73e0145f677c7ae521af1a44b3845b3c9ce265f",
+      "scripts/text2sql/run_p1_5_diagnostics.py": "af59d01d22a6b5d5538231b38c2bf52e0355a9193a5773f40b14d29470ec40cf",
+      "docs/research/text2sql/reports/gfmrag_p1_official_20261014/scripts/gfmrag_p1_common.py": "54fadef342ba6eb5e19d16f2121d9e078b258de909a1c9ed1a52b32a1b2c26de"
+    },
+    "local_commit": "a6a1b83138a0430120447b0e180693eae0a9fae8",
+    "tree_sha": "fc306b1e20660aa46223e763e31c7b540fd25b52",
+    "branch": "main",
+    "worktree_status": "clean"
+  },
+  "input_hashes": {
+    "cpu_cache_sha256": "63f0accdd1dee9d3e7ca2f0c93004f3c5a4201cac573d2a748a9d3f3bf613ba8",
+    "private_rows_sha256": "261128481b8c1eb35fa5a7f9674cf663f247a900eac9070e16f290f16bff6005",
+    "public_aggregate_sha256": "c537b5b1b67fdb59ffa859ece7a463174419db23c500cd0e47dfbcf67dfc6d37",
+    "p1_6_cache_sha256": "c7bb9ed942aa793e34e1253a5d1d8f8d8d871c95bdfdc33718dde7396d345250",
+    "input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a"
+  },
+  "api_calls": 0,
+  "model_forwards": 0,
+  "model_weights_loaded": false,
+  "gpu_seconds": 0,
+  "sql_executions": 0,
+  "aggregate_summary_sha256": "29fb8eb4ee2645ccf02ef6715b7e8c151047061106baf7229c7d63a6d7efe986",
+  "aggregate_roundtrip_verified": true,
+  "cpu_seconds": 11.264175343,
+  "wall_seconds": 11.158932274207473,
+  "peak_rss_gib": 0.8604240417480469,
+  "resource_limits": {
+    "cpu_seconds": 1800,
+    "threads": 8,
+    "rss_gib": 16,
+    "gpu_seconds": 0
+  },
+  "hardware_observation": {
+    "host_cpu_threads": 192,
+    "host_ram_gib": 503,
+    "available_ram_gib": 444,
+    "available_disk_tib": 115,
+    "gpu_devices_observed": "4 x RTX 4090; not used"
+  },
+  "launch_environment": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "OMP_NUM_THREADS": "8",
+    "MKL_NUM_THREADS": "8",
+    "OPENBLAS_NUM_THREADS": "8",
+    "NUMEXPR_NUM_THREADS": "8"
+  }
+}
