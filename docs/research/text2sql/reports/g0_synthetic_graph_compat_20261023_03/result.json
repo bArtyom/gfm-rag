@@ -1,0 +1,60 @@
+{
+  "experiment_id": "g0_synthetic_graph_compat_20261023_03",
+  "status": "PASS_INTERFACE_METADATA_IGNORED",
+  "seed": 20261023,
+  "python": "3.12.15",
+  "torch": "2.8.0+cu128",
+  "torch_cuda_runtime": "12.8",
+  "torch_geometric": "2.6.1",
+  "visible_device": "NVIDIA GeForce RTX 4090",
+  "checkpoint_model_class": "gfmrag.models.gfm_reasoner.model.GraphReasoner",
+  "checkpoint_parameter_count": 34640897,
+  "checkpoint_feature_dim": 1024,
+  "checkpoint_input_dim": 1024,
+  "checkpoint_model_sha256": "2f2a1a2d2f5725133428941b785f3898255666b06041b58420f75e60599d387d",
+  "checkpoint_config_sha256": "75d14b97d6a077ebc17b09a21170a3ad9272251db59f7ac8cc853165efb2efd5",
+  "fixture": {
+    "num_nodes": 5,
+    "num_edges": 8,
+    "num_relations": 6,
+    "node_feature_shape": [
+      5,
+      1024
+    ],
+    "relation_feature_shape": [
+      6,
+      1024
+    ],
+    "edge_feature_shape": [
+      8,
+      1024
+    ],
+    "parallel_role_edge_types": [
+      0,
+      1
+    ],
+    "composite_fk_direct_component_indices": [
+      0,
+      1
+    ],
+    "composite_fk_direct_component_counts": [
+      2,
+      2
+    ],
+    "inverse_edge_pairing_passed": true
+  },
+  "fixture_tensor_bundle_sha256": "0ffaa88fbe41a4026bbc8b7263cbbdee1b432c9651a6bc3824a705890bd593f2",
+  "metadata_roundtrip_passed": true,
+  "output_shape": [
+    1,
+    5
+  ],
+  "output_finite": true,
+  "metadata_perturbation_max_abs_delta": 0.0,
+  "metadata_perturbation_exactly_equal": true,
+  "metadata_perturbation_ignored_within_tolerance": true,
+  "metadata_delta_tolerance": 1e-06,
+  "source_runner_sha256": "2e70a4bf97a762d1a386a26cd28c12260455c572a3297eaf1e0d7808e5f44f0d",
+  "elapsed_seconds": 56.3941,
+  "interpretation": "Interface forward succeeded; the current checkpoint path ignores edge_attr and custom FK-instance metadata. No JOIN accuracy was measured."
+}

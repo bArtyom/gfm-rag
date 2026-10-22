@@ -69,5 +69,44 @@
     "result": "/mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom-local-results/g0_synthetic_graph_compat_20261023_03",
     "log": "/mnt/liansp3/logs/gfmrag_g0_synthetic_graph_compat_20261023_03",
     "resource_alias": "/mnt/liansp3/sources/results/gfmrag_g0_synthetic_graph_compat_20261023_03"
-  }
+  },
+  "execution": {
+    "result_status": "PASS_INTERFACE_METADATA_IGNORED",
+    "run_observed_start": "2026-10-23T00:23:15+08:00 (first runner output timestamp)",
+    "result_file_written_at": "2026-10-23T00:24:13.825987170+08:00",
+    "elapsed_seconds": 56.3941,
+    "process_exit_code": null,
+    "process_exit_code_note": "The execution session closed after emitting the completed result; the broker did not retain its final return code. The result JSON was written and stdout contains the completed report without a traceback; no rerun was made.",
+    "launch_command": "CUDA_VISIBLE_DEVICES=2 /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output python /mnt/liansp3/ai_temp_code/gfmrag_g0_synthetic_graph_compat_20261023_03.py --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --output /mnt/liansp3/sources/results/gfmrag_g0_synthetic_graph_compat_20261023_03/g0_result.json --device cuda",
+    "working_directory": "/mnt/liansp3",
+    "device": "NVIDIA GeForce RTX 4090",
+    "run_result_sha256": "0c608813b2cf2ce6630d662b96e1404c9158f72109dd75034818bfb5186380ae",
+    "stdout_sha256": "439f4e1191dd006366c45de56717b0883ae00207d441a7a90f09fcf2e6e33c4b",
+    "stderr_sha256": "3158ca2397ebc2305ec287a310aaefc28c36d3150d3146579aadb4b630d0c869",
+    "stderr_note": "Only a non-fatal PyTorch warning that TORCH_CUDA_ARCH_LIST was unset; the visible RTX 4090 architecture was compiled.",
+    "dependency_changes": false,
+    "model_api_calls": 0,
+    "training": false,
+    "sql_or_database_execution": false
+  },
+  "observed_results": {
+    "G0_A_checkpoint_and_forward": "PASS",
+    "G0_B_metadata_roundtrip": "PASS",
+    "G0_C_metadata_sensitivity": "PASS_METADATA_IGNORED",
+    "parameter_count": 34640897,
+    "input_feature_dim": 1024,
+    "output_shape": [
+      1,
+      5
+    ],
+    "output_finite": true,
+    "metadata_perturbation_max_abs_delta": 0.0,
+    "metadata_perturbation_exactly_equal": true,
+    "metadata_delta_tolerance": 1e-06,
+    "fixture_tensor_bundle_sha256": "0ffaa88fbe41a4026bbc8b7263cbbdee1b432c9651a6bc3824a705890bd593f2",
+    "runner_sha256": "2e70a4bf97a762d1a386a26cd28c12260455c572a3297eaf1e0d7808e5f44f0d",
+    "public_result_file": "docs/research/text2sql/reports/g0_synthetic_graph_compat_20261023_03/result.json",
+    "public_result_sha256": "0c608813b2cf2ce6630d662b96e1404c9158f72109dd75034818bfb5186380ae"
+  },
+  "status": "completed"
 }

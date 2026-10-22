@@ -1,6 +1,6 @@
 # G0 synthetic graph compatibility — attempt 03
 
-Status: preregistered; execution pending.
+Status: executed once; report and result archived. No further launch is authorized under this recovery sequence.
 
 ## Why this attempt has a new ID
 
@@ -50,3 +50,10 @@ The output path and runner path both include attempt 03. The exact command, pref
 ## Interpretation boundary
 
 Synthetic outputs are not rankings or quality scores. A finite forward pass does not show that the checkpoint uses FK-instance metadata. The report will separate load/interface gates from metadata sensitivity and state that no JOIN or SQL metric was measured.
+
+
+## Observed outcome (2026-10-23)
+
+The fixed checkpoint loaded and completed both forwards in 56.3941 seconds. G0-A and G0-B passed: the output shape was `[1,5]`, all values were finite, and the tested graph metadata survived device transfer. For G0-C, the metadata-only perturbation produced a maximum absolute delta of `0.0` and exactly equal outputs. Thus this checkpoint path ignores the tested `edge_attr` and custom FK-instance fields. The result artifact and full interpretation are in [attempt 03 report](../reports/g0_synthetic_graph_compat_20261023_03/README.md) and [`result.json`](../reports/g0_synthetic_graph_compat_20261023_03/result.json).
+
+The CUDA extension compiled with one non-fatal `TORCH_CUDA_ARCH_LIST` warning. The completed result was written; the execution broker did not retain the final shell return code, so that field is explicitly unverified. No retry was made. This is partial interface feasibility only; it does not pass the FK/Role Gold Gate or establish JOIN/SQL quality.
