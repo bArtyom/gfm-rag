@@ -4,7 +4,7 @@
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新决策（2026-10-22，P2d SQL Pilot完成）**：[新报告](reports/p2d_sql_utility_20261022_01/README.md)已完成本地Qwen2.5-Coder-7B三臂30题配对生成与只读SQL评测（19优先+11严格匹配对照）。E0/E1/E2确认Set及Bag正确为8/30、7/30、8/30，未知11/12/10；4题参考SQL被保守时间函数策略拦截。**没有显示V01提高SQL正确率，不默认替换；人工必要性审核仍0、semantic status=unverified。** 本轮102次真实请求全部入账，单次Pilot后停止扩展，转入误差/评测边界分析。历史P2c-R覆盖PASS不等于SQL收益；FK/Role Gate仍NO-GO、G0未运行。
+> **最新决策（2026-10-22，P2d 7B SQL Pilot结果复核）**：P2d已实测30题×3臂，确认 Set/Bag 正确为 E0/E1/E2 **8/7/8**，未知 **11/12/10**；目前 **V01 无被证实的 SQL EX 增益，不默认替换 V00**。E1 总生成器输入 tokens 反比 E0 多 1.47%，E2 固定原节点后减短 Values 节约 30.27%；四条参考 SQL 被保守时间函数策略拒绝、其余多条预测本身不可执行。**唯一优先下一轮：[P2d.1 冻结预测/评测可判定性与失败归因](plans/p2d_1_frozen_prediction_eval_audit_20261022.md)**；先测试安全评测器 v2，不重新请求模型或覆盖原8/7/8；另行人工Values语义复核。原 P2c-R 节点覆盖 PASS 保持，FK/Role Gate NO-GO、G0尚未运行。
 
 ## 现有研究文档
 
@@ -35,6 +35,8 @@
 | [P2c-R + Values 最新实验复核（当前）](reports/p2c_r_latest_review_20261019/README.md) | 四臂 PASS、407题风险线索、19题绑定结果和局限 | 2026-10-19 分析，非新实验 |
 | [P2d 语义必要性与 SQL EX 配对 Pilot（上位指导）](plans/p2d_value_utility_and_sql_pilot_20261019.md) | 原19题和匹配对照，固定 Generator/Selector/SQL evaluator，E0/E1/E2 与 Go/No-go | 工程/SQL Pilot已按2026-10-22独立登记完成；人工审核未完成 |
 | [P2d 2026-10-22 SQL实验报告](reports/p2d_sql_utility_20261022_01/README.md) | 固定本地7B、19优先+11严格对照、三臂一次生成与只读SQLite评测 | Gate A/Smoke/30题Full完成；8/7/8确认正确，语义标签unverified |
+| [P2d 最新SQL Pilot复核（当前）](reports/p2d_latest_review_20261022/README.md) | 30题三臂可判/不可判、Token机制、时间函数策略与研究主线 | **2026-10-22分析；非新实验** |
+| [P2d.1 评测覆盖和失败归因（当前下一轮）](plans/p2d_1_frozen_prediction_eval_audit_20261022.md) | 封存SQL复核、safe temporal evaluator v2测试、19题语义审核与Go/No-go | **下一轮已登记，尚未执行** |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
@@ -60,13 +62,17 @@
 
 在 [2026-10-16 的代码级分析](graph-algorithm-code-review-20261016.md) 中，重点确定了 **Top-1 起始锚点、关系实例/逐边属性未纳入默认消息权重、节点 Top-K 非连通、SQL-aware 监督未落地**等可验证机制。最有潜力的后续方向是 **Query-aware JOIN Edge Gate + 实例感知约束子图解码**；但必须先过 FK/Join 标签 Gate，并与 Graph-Link、GRAST-SL、SchemaGraphSQL 同信息比较。**这不是已有实证收益**。
 
-## 最新行动结果与下一步（2026-10-22，P2d完成）
+## 最新行动结果与下一步（2026-10-22，P2d结果复核）
 
-[P2d本轮实验报告](reports/p2d_sql_utility_20261022_01/README.md)为首轮实际SQL生成/执行证据：普通本地7B、selector=none，30题×3臂；确认Set/Bag正确E0=8、E1=7、E2=8。未知分别11、12、10，包括4题参考被时间函数的保守评测限制拦截。配对E0/E1共同可判17题：各自独有正确各1，双方正确6、双方错误9；其余13题至少一侧未知。因此确认正确率差异不是已证实的总体退化或Values必要性结论。
+[P2d真实SQL Pilot](reports/p2d_sql_utility_20261022_01/README.md)是固定Qwen2.5-Coder-7B-Instruct在BIRD dev 30道有偏诊断题、5DB上的首次生成/执行结果。E0=V00原节点+完整Values，E1=V01新增节点+精简文本，E2=E0原节点+精简文本，**确认正确 Set/Bag = 8/7/8（各30分母）**、未知=11/12/10。E0/E1 共同可判17题，各仅1题独有正确，远远不足以判定Values缺失对总体EX的方向。原19题未做人类语义必要性审查、严格匹配控制仅11题，不得将本次当作独立分布估计或官方BIRD分数。
 
-决定：V01保持离线候选，不默认替换；本轮有界Pilot停止，进入保存结果的误差分析和评测覆盖审查，不自动扩大到1534题、加模型或调Prompt。下一份指导需明确是否先修复保守时间函数评测覆盖并另行登记；不能改写本轮冻结指标。人工必要性19题仍未审核，语义Gold分母0；G0未运行。
+**新增重要机制：** 全30题模型输入 tokens：E0 **35074**、E1 **35591（+1.47%）**、E2 **24458（−30.27%）**。在固定1024 Schema budget下，双视图召回更多节点实际上使Generator上下文总长度未下降，而固定原节点的短文本大幅节省tokens；E0/E2虽然各有8道正确但并非相同题，不能宣称省略Values语义无损。历史[P2c-R](reports/p2c_r_recovery_20261019_01/README.md)离线Complete@1024 +10.96pp PASS仍成立，但没有被此小样本证明为SQL EX收益。
 
-历史[P2c-R](reports/p2c_r_recovery_20261019_01/README.md)覆盖H1/H2 PASS与[Values绑定19题](reports/p2c_value_binding_20261019_01/README.md)9支持/8不一致/2未知均保留，但不当作SQL成绩。P2b NO-GO、旧P2c执行故障与FK/Role NO-GO同样保留；BIRD dev反复使用和小样本选择限制仍成立。
+另有 **4/30参考SQL被保守时间函数“非字面量参数”规则阻止**，其他各7/8/6预测在参考可执行时本身不可执行；需区分评测覆盖缺口与生成器错误，不修改历史P2d数据。本轮新分析见[P2d复核](reports/p2d_latest_review_20261022/README.md)。
+
+**唯一近期新实验：[P2d.1 冻结预测评测器可判定性/失败归因](plans/p2d_1_frozen_prediction_eval_audit_20261022.md)**。先用合成正反例确保“时间函数安全扩展”仍完全禁止真实时钟和写操作，原26道Gold可执行结果完全回放一致后，才对旧封存90条预测在新结果目录中另行CPU-only复算；不能以多执行请求增加样本或静默更改8/7/8。细化7/8/6失败类别、原19条人工Values语义审核状态、Generator真实token开销构成。Gate不通过就只报告失败原因。**此工作尚未执行**。
+
+下一科研方法仅条件式提出：在P2d.1后如有足够可信的生成器错误模式，另立 `P2e` 在相同真实Generator-token预算下测试有选择的Schema Context Packing，避免简单扩大候选；要使用新冻结样本、真实SQL EX而不是事后优化开发集。并行推进真实G-reasoner→Schema graph G0兼容性测试及FK/JoinInstance标签质量，**G0尚未运行，FK/Role Gate NO-GO**。所有旧P1/P2负结论照实保留。
 
 
 ## 从今往后的提交规范
