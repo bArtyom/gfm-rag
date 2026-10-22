@@ -1,0 +1,55 @@
+{
+  "experiment_id": "p2d_1_eval_audit_20261022_01",
+  "status": "preregistered_not_run",
+  "guidance_commit": "854cfea553359f20ceaa597ed57f096a82d20bbf",
+  "review_commit": "a97496a",
+  "protocol": "docs/research/text2sql/plans/p2d_1_frozen_prediction_eval_audit_20261022.md",
+  "protocol_sha256": "9e5b0b8c01a39b2b77afc8596ec7e25fed234e2e",
+  "core_hypothesis": "Runtime-checked wrappers can safely evaluate a subset of stored-column date/time expressions without real clock or timezone access while preserving all previously evaluable P2d reference and prediction results.",
+  "layer": "exploratory_evaluator_coverage_and_failure_audit",
+  "mainline_confirmatory_evidence": false,
+  "data": {
+    "dataset": "BIRD dev frozen P2d cases",
+    "full_cases": 30,
+    "database_count": 5,
+    "priority_cases": 19,
+    "matched_controls": 11,
+    "unmatched_priority": 8,
+    "sealed_predictions": 90,
+    "prediction_seal_sha256": "f6ae031ec83e12da36bb27f55f1f8461298b340ef251a51cb1d280a43f2ddde3",
+    "original_full_aggregate_sha256": "091b3b68b2a24a693c8e12a2783d9630d6f467c521616a0b366bc81c41fea1f2"
+  },
+  "original_v1_primary_result_frozen": {
+    "confirmed_set_bag_correct_E0_E1_E2": [8, 7, 8],
+    "unknown_E0_E1_E2": [11, 12, 10],
+    "denominator_each_arm": 30
+  },
+  "budget": {
+    "new_llm_calls": 0,
+    "gpu_seconds": 0,
+    "paid_api_calls": 0,
+    "cpu_threads_max": 8,
+    "process_cpu_seconds_max": 600,
+    "rss_bytes_max": 4294967296,
+    "sql_timeout_seconds": 10,
+    "sql_row_limit": 50000,
+    "sql_result_bytes_limit": 67108864,
+    "sqlite_heap_bytes_limit": 268435456,
+    "automatic_retries": 0
+  },
+  "evaluation": {
+    "gate1_old_comparable_gold_references": 26,
+    "gate1_old_executable_predictions": 57,
+    "gate2_gold_references": 30,
+    "gate2_predictions": 90,
+    "v1_result_must_be_retained": true,
+    "v2_is_supplementary": true
+  },
+  "semantic_review": {
+    "status": "unverified",
+    "human_reviewers": 0,
+    "llm_as_human_gold": false
+  },
+  "result_root": "/mnt/liansp3/sources/results/gfmrag_p2d_1_eval_audit_20261022_01",
+  "log_root": "/mnt/liansp3/logs/gfmrag_p2d_1_20261022_01"
+}
