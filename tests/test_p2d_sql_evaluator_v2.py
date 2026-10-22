@@ -8,6 +8,7 @@ from scripts.text2sql.p2d_v2_saved_replay import (
     compare_executions,
     funnel_category,
     result_signature,
+    verify_cache_membership,
 )
 
 
@@ -81,6 +82,7 @@ def test_timediff_accepts_static_time_values(temporal_db):
         "SELECT date(stamp) FROM records WHERE id=3",
         "SELECT date(stamp) FROM records WHERE id=4",
         "SELECT datetime('2021-01-31', modifier) FROM records WHERE id=2",
+        "SELECT datetime('2021-01-31', 'lo' || 'cal' || 'time')",
         "SELECT date(lower(stamp)) FROM records WHERE id=2",
         "SELECT CURRENT_TIMESTAMP",
         "SELECT date()",
@@ -162,6 +164,15 @@ def test_saved_replay_signature_preserves_columns_types_and_unordered_bag():
     assert result_signature(first) == result_signature(reordered)
     assert result_signature(first) != result_signature(changed_type)
     assert result_signature(first) != result_signature(changed_projection)
+
+
+def test_gate2_cache_rejects_unmanifested_results(tmp_path):
+    cache = tmp_path / "private_results"
+    cache.mkdir()
+    (cache / "listed.pickle").write_bytes(b"listed")
+    (cache / "stale.pickle").write_bytes(b"stale")
+    with pytest.raises(RuntimeError, match="unmanifested"):
+        verify_cache_membership(cache, {"listed.pickle"})
 
 
 def test_saved_replay_funnel_keeps_reference_failures_separate():

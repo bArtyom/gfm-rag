@@ -31,6 +31,7 @@ from scripts.text2sql.p2d_sql_evaluator_v2 import execute_readonly as execute_v2
 
 EXPECTED_PREDICTIONS_SHA256 = "f6ae031ec83e12da36bb27f55f1f8461298b340ef251a51cb1d280a43f2ddde3"
 EXPECTED_AGGREGATE_SHA256 = "091b3b68b2a24a693c8e12a2783d9630d6f467c521616a0b366bc81c41fea1f2"
+EXPECTED_EVALUATION_SHA256 = "bbd53dcf5c3c97890269b2f74e03e9551d1970b0e84ae6e0f08585655f97f809"
 ARMS = ("E0", "E1", "E2")
 CPU_SECONDS_MAX = 600
 RSS_BYTES_MAX = 4 * 1024 * 1024 * 1024
@@ -89,6 +90,9 @@ def load_inputs(prepared_root: Path, full_root: Path):
                  for item in seal["cases"] if item.get("cohort") != "smoke"]
     if len(case_rows) != 30:
         raise RuntimeError("frozen case count mismatch")
+    evaluation_path = full_root / "evaluation_private.json"
+    if sha(evaluation_path) != EXPECTED_EVALUATION_SHA256:
+        raise RuntimeError("frozen evaluation hash mismatch")
     evaluation = json.loads((prepared_root / "evaluation_private.json").read_text(encoding="utf-8"))
     predictions_path = full_root / "predictions_private.json"
     prediction_seal = json.loads((full_root / "prediction_seal.json").read_text(encoding="utf-8"))
@@ -220,6 +224,16 @@ def private_result_manifest(output_root: Path, parity_details):
     return manifest_path
 
 
+def verify_cache_membership(results_dir: Path, expected_names):
+    if results_dir.is_symlink() or not results_dir.is_dir():
+        raise RuntimeError("Gate 1 cache directory is missing or unsafe")
+    entries = list(results_dir.iterdir())
+    if any(path.is_symlink() or not path.is_file() for path in entries):
+        raise RuntimeError("Gate 1 cache contains a non-file or symlink")
+    if {path.name for path in entries} != set(expected_names):
+        raise RuntimeError("Gate 1 cache contains missing or unmanifested files")
+
+
 def verify_gate1_private_artifacts(output_root: Path, receipt: dict, source_commit: str):
     gate1 = output_root / "gate1"
     test_receipt_path = gate1 / "synthetic_test_receipt.json"
@@ -246,6 +260,8 @@ def verify_gate1_private_artifacts(output_root: Path, receipt: dict, source_comm
         expected[name] = detail
     if set(expected) != set(manifest["results"]):
         raise RuntimeError("Gate 1 cache membership mismatch")
+    results_dir = output_root / "private_results"
+    verify_cache_membership(results_dir, manifest["results"])
     for name, entry in manifest["results"].items():
         if Path(name).name != name or entry.get("case_id") + "-" + entry.get("arm") + ".pickle" != name:
             raise RuntimeError("Gate 1 cache path mismatch")
@@ -435,7 +451,7 @@ def phase_gate2(args, prepared_root: Path, full_root: Path, output_root: Path, s
         gold = evaluation[case_id]
         db_path = gold["database_path"]
         reference_path = private_v2_file(output_root, case_id, "reference")
-        if reference_path.is_file():
+        if reference_path.name in manifest["results"]:
             reference = load_pickle(reference_path)
         else:
             reference = execute_v2(db_path, gold["reference_sql"], timeout=10, row_limit=50000,
@@ -446,7 +462,7 @@ def phase_gate2(args, prepared_root: Path, full_root: Path, output_root: Path, s
         old_reference = load_pickle(execution_file(full_root, case_id, "reference"))
         for arm in ARMS:
             prediction_path = private_v2_file(output_root, case_id, arm)
-            if prediction_path.is_file():
+            if prediction_path.name in manifest["results"]:
                 prediction = load_pickle(prediction_path)
             else:
                 sql = prediction_map[(case_id, arm)]["sql"]
