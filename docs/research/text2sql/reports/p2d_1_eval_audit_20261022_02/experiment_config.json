@@ -1,83 +1,25 @@
 {
   "experiment_id": "p2d_1_eval_audit_20261022_02",
-  "status": "preregistered_not_run",
+  "status": "completed",
+  "project_repository": "https://github.com/bArtyom/gfm-rag",
+  "branch": "research/p2d1-eval-v2-20261022",
   "guidance_commit": "854cfea553359f20ceaa597ed57f096a82d20bbf",
-  "review_commit": "a97496a",
-  "protocol": "docs/research/text2sql/plans/p2d_1_frozen_prediction_eval_audit_20261022.md",
+  "preregistration_commit": "46e3cfe742454734c5196e8a71355efab02d14dc",
+  "execution_commit": "46e3cfe742454734c5196e8a71355efab02d14dc",
+  "source_tree": "65f46b71071817390eff2e803c10a89566088687",
+  "protocol_path": "docs/research/text2sql/plans/p2d_1_frozen_prediction_eval_audit_20261022.md",
   "protocol_sha256": "96773cc235f932b416c2a461017314d93aa5cf9654ae41800bc3e564de415a89",
-  "core_hypothesis": "Runtime-checked wrappers can safely evaluate a subset of stored-column date/time expressions without real clock or timezone access while preserving all previously evaluable P2d reference and prediction results.",
+  "protocol_hash_correction": "The incorrect registered hash was corrected before Gate 1; the protocol bytes and scientific criteria were unchanged.",
+  "core_hypothesis": "A runtime-checked read-only evaluator can safely compare a bounded set of stored-column temporal expressions without real clock/timezone access while preserving all results previously comparable under v1.",
   "layer": "exploratory_evaluator_coverage_and_failure_audit",
   "mainline_confirmatory_evidence": false,
-  "data": {
-    "dataset": "BIRD dev frozen P2d cases",
-    "full_cases": 30,
-    "database_count": 5,
-    "priority_cases": 19,
-    "matched_controls": 11,
-    "unmatched_priority": 8,
-    "sealed_predictions": 90,
-    "prediction_seal_sha256": "f6ae031ec83e12da36bb27f55f1f8461298b340ef251a51cb1d280a43f2ddde3",
-    "original_full_aggregate_sha256": "091b3b68b2a24a693c8e12a2783d9630d6f467c521616a0b366bc81c41fea1f2",
-    "predictions_json_sha256": "e88bf42f22a73b6b56af96a5d3ea88d69252c33509bb72da5b8cfde2f7474ea5"
-  },
-  "original_v1_primary_result_frozen": {
-    "confirmed_set_bag_correct_E0_E1_E2": [
-      8,
-      7,
-      8
-    ],
-    "unknown_E0_E1_E2": [
-      11,
-      12,
-      10
-    ],
-    "denominator_each_arm": 30
-  },
-  "budget": {
-    "new_llm_calls": 0,
-    "gpu_seconds": 0,
-    "paid_api_calls": 0,
-    "cpu_threads_max": 8,
-    "process_cpu_seconds_max": 600,
-    "rss_bytes_max": 4294967296,
-    "sql_timeout_seconds": 10,
-    "sql_row_limit": 50000,
-    "sql_result_bytes_limit": 67108864,
-    "sqlite_heap_bytes_limit": 268435456,
-    "automatic_retries": 0
-  },
-  "evaluation": {
-    "gate1_old_comparable_gold_references": 26,
-    "gate1_old_executable_predictions": 57,
-    "gate2_gold_references": 30,
-    "gate2_predictions": 90,
-    "v1_result_must_be_retained": true,
-    "v2_is_supplementary": true
-  },
-  "semantic_review": {
-    "status": "unverified",
-    "human_reviewers": 0,
-    "llm_as_human_gold": false
-  },
-  "result_root": "/mnt/liansp3/sources/results/gfmrag_p2d_1_eval_audit_20261022_02",
-  "log_root": "/mnt/liansp3/logs/gfmrag_p2d_1_20261022_02",
-  "pre_execution_amendments": [
-    {
-      "corrected_at_utc": "2026-10-22 06:46:06 UTC",
-      "field": "protocol_sha256",
-      "previous_registered_value": "9e5b0b8c01a39b2b77afc8596ec7e25fed234e2e",
-      "verified_value": "96773cc235f932b416c2a461017314d93aa5cf9654ae41800bc3e564de415a89",
-      "verification": "The protocol bytes at guidance_commit 854cfea553359f20ceaa597ed57f096a82d20bbf and source commit 8cd8752491efe46afa3371c109d23792bf70e617 are identical; both hash to the verified value.",
-      "reason": "The preregistered SHA-256 field did not match the unchanged protocol file. This clerical correction was made before Gate 1 and before observing any v2 metric; no hypothesis, budget, endpoint, or success/stop criterion changed."
-    }
-  ],
-  "source_code_commit": "40245f0745f04ae2d90c271c491e89d63f00a71d",
-  "recovery": {
-    "prior_attempt_id": "p2d_1_eval_audit_20261022_01",
-    "reason": "The prior attempt stopped at frozen-input hash validation before any saved SQL ran; the seal-file and payload hashes are now validated separately with a regression test.",
-    "same_protocol_and_budget": true,
-    "new_output_root": true,
-    "retries_under_prior_run_id": 0,
-    "preregistered_before_execution": true
-  }
+  "data": {"dataset": "BIRD dev frozen diagnostic subset", "cases": 30, "databases": 5, "priority_cases": 19, "matched_controls": 11, "sealed_predictions": 90, "independent_test_set": false},
+  "model_and_calls": {"generation_model_calls": 0, "api_calls": 0, "paid_api_calls": 0, "gpu_seconds": 0, "tokenizer_use": "local offline token accounting only"},
+  "environment": {"conda_environment": "think2sql_20260909", "python": "3.12.14", "sqlite": "3.53.2", "sqlglot": "28.0.0", "execution": "CPU-only"},
+  "budget": {"max_cpu_threads": 8, "max_process_cpu_seconds": 600, "max_rss_bytes": 4294967296, "sql_timeout_seconds": 10, "sql_row_limit": 50000, "sql_result_bytes_limit": 67108864, "sqlite_heap_bytes_limit": 268435456, "automatic_retries": 0},
+  "criteria": {"synthetic_suite": "all preregistered safety cases pass", "gate1": "exact parity for old v1-comparable SQL and unchanged database hashes", "gate2": "run once after Gate 1 PASS on the fixed 30 x 3 sealed predictions", "stop": "preserve and stop on seal, parity, safety, or resource failure"},
+  "run_summary": {"synthetic_tests_passed": 137, "synthetic_tests_skipped": 0, "gate1_parity_failures": 0, "references_v1_to_v2_blocked_to_ok": 4, "gate2_predictions": 90, "confirmed_correct_E0_E1_E2": [8, 7, 8], "unknown_E0_E1_E2": [10, 10, 8], "non_executable_predictions": 28, "database_hashes_unchanged": true},
+  "semantic_review": {"status": "unverified", "human_reviewers": 0, "llm_as_human_gold": false},
+  "result_storage": "Raw SQL, question text, case-level outcomes, and database artifacts remain private local artifacts; public files contain aggregate counts and hashes only.",
+  "recovery": {"prior_attempt_id": "p2d_1_eval_audit_20261022_01", "prior_failure": "Stopped at input validation before SQL; no evaluator outcome was produced.", "new_run_id_and_output_root": true}
 }

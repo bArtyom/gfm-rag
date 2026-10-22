@@ -23,3 +23,5 @@ The fix separates these two checks and adds a synthetic regression test. It is p
 ## Interpretation and recovery
 
 This attempt provides no v2 score and no evidence for or against the evaluator hypothesis. The original P2d v1 results remain unchanged at E0/E1/E2 confirmed Set/Bag **8/7/8 of 30**, with **11/12/10 unknown**. The recovery is separately preregistered as [p2d_1_eval_audit_20261022_02](../p2d_1_eval_audit_20261022_02/experiment_config.json), on a new output root and under the same protocol and budgets. This failed attempt's output and log remain preserved; its run ID will not be reused.
+
+The recovery completed successfully. See the [full recovery report](../p2d_1_eval_audit_20261022_02/README.md) for Gate 1 parity, Gate 2 metrics, failure categories, and limits. The two run IDs remain separate; this failed attempt was not overwritten.
