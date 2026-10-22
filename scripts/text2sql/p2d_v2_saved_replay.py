@@ -29,7 +29,8 @@ from scripts.text2sql.p2d_sql_evaluator import execute_readonly as execute_v1  #
 from scripts.text2sql.p2d_sql_evaluator_v2 import compare_rows as compare_v2  # noqa: E402
 from scripts.text2sql.p2d_sql_evaluator_v2 import execute_readonly as execute_v2  # noqa: E402
 
-EXPECTED_PREDICTIONS_SHA256 = "f6ae031ec83e12da36bb27f55f1f8461298b340ef251a51cb1d280a43f2ddde3"
+EXPECTED_PREDICTIONS_SHA256 = "e88bf42f22a73b6b56af96a5d3ea88d69252c33509bb72da5b8cfde2f7474ea5"
+EXPECTED_PREDICTION_SEAL_SHA256 = "f6ae031ec83e12da36bb27f55f1f8461298b340ef251a51cb1d280a43f2ddde3"
 EXPECTED_AGGREGATE_SHA256 = "091b3b68b2a24a693c8e12a2783d9630d6f467c521616a0b366bc81c41fea1f2"
 EXPECTED_EVALUATION_SHA256 = "bbd53dcf5c3c97890269b2f74e03e9551d1970b0e84ae6e0f08585655f97f809"
 EXPECTED_PREPARE_SEAL_SHA256 = "334e388af338c7f20575aa81a86ff7184e526716b251cd1b48955b4134172aaa"
@@ -97,17 +98,9 @@ def load_inputs(prepared_root: Path, full_root: Path):
     if sha(evaluation_path) != EXPECTED_EVALUATION_SHA256:
         raise RuntimeError("frozen evaluation hash mismatch")
     evaluation = json.loads((prepared_root / "evaluation_private.json").read_text(encoding="utf-8"))
-    predictions_path = full_root / "predictions_private.json"
-    prediction_seal = json.loads((full_root / "prediction_seal.json").read_text(encoding="utf-8"))
-    if sha(predictions_path) != EXPECTED_PREDICTIONS_SHA256:
-        raise RuntimeError("frozen prediction hash mismatch")
+    predictions, prediction_seal = load_prediction_bundle(full_root)
     if sha(full_root / "aggregate_summary.json") != EXPECTED_AGGREGATE_SHA256:
         raise RuntimeError("frozen aggregate hash mismatch")
-    if prediction_seal.get("predictions_sha256") != EXPECTED_PREDICTIONS_SHA256:
-        raise RuntimeError("prediction seal mismatch")
-    if prediction_seal.get("prepare_seal_sha256") != EXPECTED_PREPARE_SEAL_SHA256:
-        raise RuntimeError("prediction preparation seal mismatch")
-    predictions = json.loads(predictions_path.read_text(encoding="utf-8"))
     if len(predictions) != 90:
         raise RuntimeError("frozen prediction count mismatch")
     prediction_map = {(item["case_id"], item["arm"]): item for item in predictions}
@@ -129,6 +122,22 @@ def verify_runtime(expected_commit: str):
     if head != expected_commit or dirty:
         raise RuntimeError("source must be clean at the published commit")
     return head
+
+
+def load_prediction_bundle(full_root: Path):
+    predictions_path = full_root / "predictions_private.json"
+    seal_path = full_root / "prediction_seal.json"
+    if sha(predictions_path) != EXPECTED_PREDICTIONS_SHA256:
+        raise RuntimeError("frozen prediction hash mismatch")
+    if sha(seal_path) != EXPECTED_PREDICTION_SEAL_SHA256:
+        raise RuntimeError("prediction seal file hash mismatch")
+    prediction_seal = json.loads(seal_path.read_text(encoding="utf-8"))
+    if prediction_seal.get("predictions_sha256") != EXPECTED_PREDICTIONS_SHA256:
+        raise RuntimeError("prediction seal mismatch")
+    if prediction_seal.get("prepare_seal_sha256") != EXPECTED_PREPARE_SEAL_SHA256:
+        raise RuntimeError("prediction preparation seal mismatch")
+    predictions = json.loads(predictions_path.read_text(encoding="utf-8"))
+    return predictions, prediction_seal
 
 
 def execution_file(full_root: Path, case_id: str, arm: str) -> Path:
@@ -170,6 +179,7 @@ def tested_file_hashes():
         "tests/test_p2d_sql_evaluator_v2.py",
         "tests/test_p2d_inputs.py",
         "tests/test_p2d_pipeline.py",
+        "tests/test_p2d_v2_saved_replay.py",
     )
     return {name: sha(ROOT / name) for name in paths}
 
@@ -183,6 +193,7 @@ def run_synthetic_tests(out: Path, source_commit: str, start_cpu: float):
         "tests/test_p2d_sql_evaluator.py",
         "tests/test_p2d_inputs.py",
         "tests/test_p2d_pipeline.py",
+        "tests/test_p2d_v2_saved_replay.py",
         "-q",
     ]
     completed = subprocess.run(command, cwd=ROOT, check=False, capture_output=True, text=True, timeout=180)
