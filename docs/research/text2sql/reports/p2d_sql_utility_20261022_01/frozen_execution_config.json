@@ -1,0 +1,105 @@
+{
+  "experiment_id": "p2d_sql_utility_20261022_01",
+  "status": "preregistered_not_run",
+  "guidance_commit": "d262043fbec5723d7bed7433d87bc556a753bc83",
+  "protocol": "docs/research/text2sql/plans/p2d_value_utility_and_sql_pilot_20261019.md",
+  "execution_protocol": "docs/research/text2sql/plans/p2d_sql_execution_20261022.md",
+  "core_question": "Does omission of Values change generated predicate values and read-only SQL execution correctness under one fixed local generator?",
+  "layer": "exploratory_minimal_paired_SQL_pilot",
+  "mainline_confirmatory_evidence": false,
+  "private_result_root": "/mnt/liansp3/sources/results/gfmrag_p2d_sql_utility_20261022_01",
+  "prepare_seal_sha256": "334e388af338c7f20575aa81a86ff7184e526716b251cd1b48955b4134172aaa",
+  "run_ids": {
+    "gate-a": "p2d_gate_a_20261022_01",
+    "smoke": "p2d_smoke3_20261022_01",
+    "full": "p2d_full30_20261022_01"
+  },
+  "stage_dirs": {
+    "gate-a": "gate_a_01",
+    "smoke": "smoke_3q_01",
+    "full": "full_01"
+  },
+  "sample": {
+    "priority": 19,
+    "controls": 11,
+    "unmatched_priority": 8,
+    "full": 30,
+    "private_smoke": 3,
+    "synthetic_gate_a": 3,
+    "seed": 20261021
+  },
+  "semantic_review_status": "unverified",
+  "human_reviews": 0,
+  "semantic_necessity_denominator": 0,
+  "pilot_without_semantic_gold": true,
+  "model": {
+    "served_model": "Qwen2.5-Coder-7B-Instruct",
+    "backend": "existing_local_shared_vllm",
+    "max_model_len": 32768,
+    "selector": "none",
+    "model_files_sha256": {
+      "config.json": "c0242402ad6a13b331ea320feea8c7e3776ffb7a4eff0757b9cd667e116d9a28",
+      "tokenizer_config.json": "959e7f1d9a1b7641a6d6ce05ca97b75c7894fcb66cbe5a040406458fb1128ee4",
+      "tokenizer.json": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "generation_config.json": "1a628a5775bc69cde01c6749a531150ca4d3189652c618a174f7077923acf3b1",
+      "model.safetensors.index.json": "998a078123ffc97763690de7f2a677eb89168af5eaf8a5e12e6bc24d18e25bdb",
+      "model-00001-of-00004.safetensors": "0b6f069918b07c064cbba8ae4f00f529aa9bbf84b7cdfcb7fc2694a40f6aa8ef",
+      "model-00002-of-00004.safetensors": "c3d46733e7aa054ea7b063fbccd0a5a08446e7bd1814bef26936c5aa1331da62",
+      "model-00003-of-00004.safetensors": "9fe45dacee087385b3d2d6dd27a7413a8a56d95f145772facc148fa86fc73446",
+      "model-00004-of-00004.safetensors": "5aa6e5cbe642377fd441fb4e60e83cca96b2bcd9820e245b9ea06d94653f17f2"
+    }
+  },
+  "generation": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": -1,
+    "repetition_penalty": 1.0,
+    "seed": 20261021,
+    "max_tokens": 1024
+  },
+  "budget": {
+    "max_total_model_calls": 102,
+    "input_tokens": 1000000,
+    "output_tokens": 104448,
+    "total_wall_seconds": 5400,
+    "request_timeout_seconds": 120,
+    "concurrency": 1,
+    "automatic_retries": 0,
+    "new_GPU_allocations": 0,
+    "paid_API_requests": 0,
+    "unknown_usage_requests_before_stop": 1
+  },
+  "sql": {
+    "timeout_seconds": 10,
+    "row_limit": 50000,
+    "byte_limit": 67108864,
+    "sqlite_memory_limit": 268435456,
+    "comparison": "unordered Set primary/Bag secondary; fixed projection order; int comparisons exact incl mixed int/float, float-only isclose rel1e-6 abs1e-8",
+    "nonexact_comparison_row_limit": 500,
+    "unknown_reference_policy": "retain all selected denominators and report unknowns; no correctness claim for unavailable comparisons"
+  },
+  "arms": {
+    "E0": "V00 selected node IDs/R0 texts",
+    "E1": "V01 selected IDs/R1 texts",
+    "E2": "V00 selected IDs/R1 texts"
+  },
+  "constraints_policy": "Exactly archived selected node texts in order; ownership in node text; no FK or other constraints added since original texts contain none and FK gate unresolved",
+  "stage_success": {
+    "gate-a": "3 synthetic local generations pass Set and Bag against synthetic DB references; references never in generation messages",
+    "smoke": "9 successful metered attempts; >=6/9 predictions executable and at least one executable in each arm; no EX-quality threshold or tuning",
+    "full": "exactly 3*N predictions sealed before reference evaluation; fixed all-sample and strata metrics, failures and unknowns retained"
+  },
+  "stop_conditions": [
+    "Input/code/backend drift, possible overwrite, safety or resource cap violation",
+    "Any transport/usage failure; no retry or paid fallback",
+    "Synthetic Gate A or private smoke fails",
+    "After one registered Full regardless result; no automatic expansion"
+  ],
+  "cost_policy": {
+    "external_API_cost_CNY": "0.00",
+    "local_shared_GPU_compute_seconds": null,
+    "local_GPU_monetary_cost": "unpriced",
+    "actual_request_usage_ledger": true,
+    "request_wall_time_is_not_exact_GPU_compute_time": true
+  }
+}

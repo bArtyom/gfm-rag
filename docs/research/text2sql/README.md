@@ -4,7 +4,7 @@
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新决策（2026-10-19，P2c-R 与两轮 Values 风险审计后）**：P2c-R H1/H2 **PASS**，V01 vs V00 的 Complete@1024 全体 +10.96 pp、困难 706 题 +8.22 pp，排名逐题不变。Values 词面风险 Full 与冻结 19 题 AST 绑定审计均完成：19 题中 9 直接绑定支持、8 直接绑定不一致、2 unknown。**人工必要性判断与 SQL EX 仍为 0；V01 仅是离线候选。** 最新唯一研究优先级为 [P2d Values 语义审查 + 固定生成器三臂 SQL EX Pilot](plans/p2d_value_utility_and_sql_pilot_20261019.md)，需先通过生成器和只读评测环境 Gate；目前 P2d 尚未运行。FK/Role Gate 仍 NO-GO，未有新 GNN 性能。
+> **最新决策（2026-10-22，P2d SQL Pilot完成）**：[新报告](reports/p2d_sql_utility_20261022_01/README.md)已完成本地Qwen2.5-Coder-7B三臂30题配对生成与只读SQL评测（19优先+11严格匹配对照）。E0/E1/E2确认Set及Bag正确为8/30、7/30、8/30，未知11/12/10；4题参考SQL被保守时间函数策略拦截。**没有显示V01提高SQL正确率，不默认替换；人工必要性审核仍0、semantic status=unverified。** 本轮102次真实请求全部入账，单次Pilot后停止扩展，转入误差/评测边界分析。历史P2c-R覆盖PASS不等于SQL收益；FK/Role Gate仍NO-GO、G0未运行。
 
 ## 现有研究文档
 
@@ -33,8 +33,8 @@
 | [Values 词面信息风险审计](reports/p2c_values_risk_20261019_01/README.md) | 冻结1024预算下的参考谓词常量可见性，CPU一次有界扫描 | 完成；407/1460题有线索，19题优先复核；非语义安全门 |
 | [Values 直接列值绑定核验](reports/p2c_value_binding_20261019_01/README.md) | 冻结19题/21个输入不可见常量的AST源列绑定 | 完成；9题绑定支持/8题不一致/2题未知，仍无语义必要性结论 |
 | [P2c-R + Values 最新实验复核（当前）](reports/p2c_r_latest_review_20261019/README.md) | 四臂 PASS、407题风险线索、19题绑定结果和局限 | 2026-10-19 分析，非新实验 |
-| [P2d 语义必要性与 SQL EX 配对 Pilot（当前下一轮）](plans/p2d_value_utility_and_sql_pilot_20261019.md) | 原19题和匹配对照，固定 Generator/Selector/SQL evaluator，E0/E1/E2 与 Go/No-go | 计划已提交；未运行 |
-| [P2d 2026-10-22执行登记](reports/p2d_sql_utility_20261022_01/README.md) | 固定本地7B、19优先+11严格对照、三臂一次生成与只读SQLite评测 | 已准备并冻结，待Gate A/Smoke/Full；语义标签unverified |
+| [P2d 语义必要性与 SQL EX 配对 Pilot（上位指导）](plans/p2d_value_utility_and_sql_pilot_20261019.md) | 原19题和匹配对照，固定 Generator/Selector/SQL evaluator，E0/E1/E2 与 Go/No-go | 工程/SQL Pilot已按2026-10-22独立登记完成；人工审核未完成 |
+| [P2d 2026-10-22 SQL实验报告](reports/p2d_sql_utility_20261022_01/README.md) | 固定本地7B、19优先+11严格对照、三臂一次生成与只读SQLite评测 | Gate A/Smoke/30题Full完成；8/7/8确认正确，语义标签unverified |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
@@ -60,15 +60,13 @@
 
 在 [2026-10-16 的代码级分析](graph-algorithm-code-review-20261016.md) 中，重点确定了 **Top-1 起始锚点、关系实例/逐边属性未纳入默认消息权重、节点 Top-K 非连通、SQL-aware 监督未落地**等可验证机制。最有潜力的后续方向是 **Query-aware JOIN Edge Gate + 实例感知约束子图解码**；但必须先过 FK/Join 标签 Gate，并与 Graph-Link、GRAST-SL、SchemaGraphSQL 同信息比较。**这不是已有实证收益**。
 
-## 最新行动结果与下一步（2026-10-19，P2c-R + Values审计完成）
+## 最新行动结果与下一步（2026-10-22，P2d完成）
 
-[P2c-R](reports/p2c_r_recovery_20261019_01/README.md) 四臂全量 H1/H2 PASS：V01 与 V00 的 Column@10 完全相同（67.99%），Complete Schema@1024 全体 **56.64→67.60%（+10.96 pp）**、困难 706 题 **37.96→46.18%（+8.22 pp）**；全体 162 题救回/2 题损坏。只是 BIRD dev 的 Schema 节点覆盖指标，不是 SQL EX。
+[P2d本轮实验报告](reports/p2d_sql_utility_20261022_01/README.md)为首轮实际SQL生成/执行证据：普通本地7B、selector=none，30题×3臂；确认Set/Bag正确E0=8、E1=7、E2=8。未知分别11、12、10，包括4题参考被时间函数的保守评测限制拦截。配对E0/E1共同可判17题：各自独有正确各1，双方正确6、双方错误9；其余13题至少一侧未知。因此确认正确率差异不是已证实的总体退化或Values必要性结论。
 
-[Values 词面风险 Full](reports/p2c_values_risk_20261019_01/README.md) 在1460题中识别407题词面线索，19题至少一个线索未出现于问题/evidence；[冻结19题的直接列值绑定](reports/p2c_value_binding_20261019_01/README.md)进一步得到9题 supported、8题 mismatch、2题 unknown。**这些不是 SQL 生成失败题数、不是 Value 必要性 Gold，人工复核仍0、SQL EX仍未运行**；19题高风险筛选集不可当作总体风险率。
+决定：V01保持离线候选，不默认替换；本轮有界Pilot停止，进入保存结果的误差分析和评测覆盖审查，不自动扩大到1534题、加模型或调Prompt。下一份指导需明确是否先修复保守时间函数评测覆盖并另行登记；不能改写本轮冻结指标。人工必要性19题仍未审核，语义Gold分母0；G0未运行。
 
-**当前唯一优先的下一轮研究工作：[P2d Values 语义必要性审核与固定 Generator 三臂 SQL Execution Pilot](plans/p2d_value_utility_and_sql_pilot_20261019.md)。** 审核原19题、预先冻结至多19题对照，检查本地已有生成器/选择器及只读 BIRD SQL evaluator；工程 Gate 通过后，使用相同 Prompt/Generator/预算比较 E0=V00节点+完整文本、E1=V01节点+紧凑文本、E2=V00原节点+紧凑文本，明确 Set EX/Bag EX、谓词值正确性及真实模型成本。**当前仅制定协议，尚未产生 P2d SQL 结果**，无固定生成器或只读 SQL evaluator 时必须 BLOCKED，不启动付费 API。
-
-图研究并行任务独立保留：先提升 FK/JoinInstance 可信标签并建立 GraphReasoner Schema Graph G0 兼容性基线；原 FK/Role Gate 仍 NO-GO，不能声称 Query-aware Edge Gate 有效。P2b 预注册 NO-GO、旧 P2c 停止、历史 P1/P1.5 严格复现失败记录均保留。BIRD dev 属于反复使用的探索集合，论文结论需要数据库级独立验证。
+历史[P2c-R](reports/p2c_r_recovery_20261019_01/README.md)覆盖H1/H2 PASS与[Values绑定19题](reports/p2c_value_binding_20261019_01/README.md)9支持/8不一致/2未知均保留，但不当作SQL成绩。P2b NO-GO、旧P2c执行故障与FK/Role NO-GO同样保留；BIRD dev反复使用和小样本选择限制仍成立。
 
 
 ## 从今往后的提交规范

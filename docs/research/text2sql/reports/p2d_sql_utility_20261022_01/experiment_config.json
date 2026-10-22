@@ -1,6 +1,6 @@
 {
   "experiment_id": "p2d_sql_utility_20261022_01",
-  "status": "preregistered_not_run",
+  "status": "completed_exploratory_pilot",
   "guidance_commit": "d262043fbec5723d7bed7433d87bc556a753bc83",
   "protocol": "docs/research/text2sql/plans/p2d_value_utility_and_sql_pilot_20261019.md",
   "execution_protocol": "docs/research/text2sql/plans/p2d_sql_execution_20261022.md",
@@ -101,5 +101,10 @@
     "local_GPU_monetary_cost": "unpriced",
     "actual_request_usage_ledger": true,
     "request_wall_time_is_not_exact_GPU_compute_time": true
-  }
+  },
+  "execution_source_commit": "33c6a216a5a3b70d61b52badb529ba9f86ebcad7",
+  "frozen_execution_config": "frozen_execution_config.json",
+  "full_result": "full_summary.json",
+  "decision": "no_default_replacement_no_automatic_expansion",
+  "physical_calls_completed": 102
 }

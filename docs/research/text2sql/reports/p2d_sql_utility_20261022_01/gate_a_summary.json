@@ -1,0 +1,39 @@
+{
+  "stage": "gate-a",
+  "status": "completed",
+  "synthetic_cases": 3,
+  "synthetic_passed": 3,
+  "semantic_review_status": "unverified",
+  "human_reviews": 0,
+  "engineering_gate": "PASS",
+  "records": [
+    {
+      "status": "ok",
+      "set_correct": true,
+      "bag_correct": true,
+      "comparison_status": "ok"
+    },
+    {
+      "status": "ok",
+      "set_correct": true,
+      "bag_correct": true,
+      "comparison_status": "ok"
+    },
+    {
+      "status": "ok",
+      "set_correct": true,
+      "bag_correct": true,
+      "comparison_status": "ok"
+    }
+  ],
+  "physical_requests_this_stage": 3,
+  "api_usage_cumulative_experiment": {
+    "input_tokens": 337,
+    "output_tokens": 34,
+    "requests": 3,
+    "external_api_cost_CNY": "0.00",
+    "shared_gpu_compute_seconds": null,
+    "local_compute_cost": "unpriced",
+    "request_wall_seconds": 1.0576642658561468
+  }
+}

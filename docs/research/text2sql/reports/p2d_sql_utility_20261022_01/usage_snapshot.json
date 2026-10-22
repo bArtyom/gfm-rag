@@ -1,0 +1,78 @@
+{
+  "snapshot_scope": "shared ledger registered calls only; snapshot after Full, concurrent projects may change later",
+  "experiment": {
+    "project": "gfm-rag-p2d",
+    "runs": [
+      {
+        "project": "gfm-rag-p2d",
+        "run_id": "p2d_full30_20261022_01",
+        "requests": 90,
+        "reported_input_tokens": 95123,
+        "reported_output_tokens": 5516,
+        "reported_total_tokens": 100639,
+        "requests_without_usage": 0,
+        "estimated_CNY_from_reported_usage": "0",
+        "priced_usage_requests": 0,
+        "unpriced_reported_usage_requests": 90,
+        "verified_billed_CNY": null,
+        "billed_cost_verified": false,
+        "cost_basis": "uncached list price estimate; unknown usage/discounts/billing excluded"
+      },
+      {
+        "project": "gfm-rag-p2d",
+        "run_id": "p2d_gate_a_20261022_01",
+        "requests": 3,
+        "reported_input_tokens": 337,
+        "reported_output_tokens": 34,
+        "reported_total_tokens": 371,
+        "requests_without_usage": 0,
+        "estimated_CNY_from_reported_usage": "0",
+        "priced_usage_requests": 0,
+        "unpriced_reported_usage_requests": 3,
+        "verified_billed_CNY": null,
+        "billed_cost_verified": false,
+        "cost_basis": "uncached list price estimate; unknown usage/discounts/billing excluded"
+      },
+      {
+        "project": "gfm-rag-p2d",
+        "run_id": "p2d_smoke3_20261022_01",
+        "requests": 9,
+        "reported_input_tokens": 8302,
+        "reported_output_tokens": 643,
+        "reported_total_tokens": 8945,
+        "requests_without_usage": 0,
+        "estimated_CNY_from_reported_usage": "0",
+        "priced_usage_requests": 0,
+        "unpriced_reported_usage_requests": 9,
+        "verified_billed_CNY": null,
+        "billed_cost_verified": false,
+        "cost_basis": "uncached list price estimate; unknown usage/discounts/billing excluded"
+      }
+    ],
+    "input_tokens": 103762,
+    "output_tokens": 6193,
+    "total_tokens": 109955,
+    "requests": 102,
+    "requests_without_usage": 0,
+    "external_api_cost_CNY": "0.00",
+    "local_compute_cost": "unpriced",
+    "billed_cost_verified": false
+  },
+  "cross_project_snapshot": {
+    "requests": 33256,
+    "requests_with_usage": 33211,
+    "reported_input_tokens": 150438723,
+    "reported_output_tokens": 23737372,
+    "reported_total_tokens": 174176095,
+    "requests_without_usage": 45,
+    "auth_rejected_without_usage": 10,
+    "other_requests_without_usage": 35,
+    "estimated_CNY_from_reported_usage": "23.6301330",
+    "priced_usage_requests": 277,
+    "unpriced_reported_usage_requests": 32934,
+    "verified_billed_CNY": null,
+    "billed_cost_verified": false,
+    "cost_basis": "uncached list price estimate; unknown usage/discounts/billing excluded",
+    "scope": "logged model API calls only; unknown usage excluded from confirmed totals"
+  }
+}

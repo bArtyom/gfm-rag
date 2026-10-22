@@ -1,0 +1,40 @@
+{
+  "experiment_id": "p2d_sql_utility_20261022_01",
+  "run_id": "p2d_full30_20261022_01",
+  "stage": "full",
+  "state": "completed",
+  "started_at_utc": "2026-10-22T02:50:32.478535+00:00",
+  "source": {
+    "published_commit": "33c6a216a5a3b70d61b52badb529ba9f86ebcad7",
+    "config_sha256": "6ae873a216932a6f34ad6b24748fb8230ce7e2dadb6cdb7818676908afb9a0e1",
+    "sources_sha256": {
+      "scripts/text2sql/p2d_inputs.py": "e54cca0e904a8ce6b7ba0a6201e56c264fcc12bcccfd88f2795bb0cfe53b5b2d",
+      "scripts/text2sql/p2d_sql_evaluator.py": "e08beefbe2e71e152e8cf85ec3c8f0165d4a64c939730857370ecb1399e2f334",
+      "scripts/text2sql/p2d_sql_context_eval.py": "dc421bcafae6d811e22ca14961c4ec3c4c46a2f97e4d08bcdb077126cb018773",
+      "scripts/text2sql/predicate_value_binding.py": "2b9c6f95e307674e7083854151fd49d73d19809e861111daf6e3baa8df5fda50",
+      "scripts/text2sql/audit_p2c_values_risk.py": "bc593c9ad902e4f25c4b90c1802e03212fc2790bab43121f7c95b6222af7e61b",
+      "scripts/text2sql/run_p2c_dual_view_factorial.py": "350393789c13f8b90920c4110519352321670b9c7c9a955cc524dd1db5c72512"
+    },
+    "dependencies": {
+      "sqlglot": "28.0.0",
+      "transformers": "4.57.1",
+      "tokenizers": "0.22.1"
+    }
+  },
+  "command": [
+    "scripts/text2sql/p2d_sql_context_eval.py",
+    "--stage",
+    "full",
+    "--expected-commit",
+    "33c6a216a5a3b70d61b52badb529ba9f86ebcad7",
+    "--result-root",
+    "/mnt/liansp3/sources/results/gfmrag_p2d_sql_utility_20261022_01"
+  ],
+  "semantic_review_status": "unverified",
+  "human_reviews": 0,
+  "experiment_start_epoch": 1792637351.247645,
+  "aggregate_sha256": "091b3b68b2a24a693c8e12a2783d9630d6f467c521616a0b366bc81c41fea1f2",
+  "cpu_seconds": 10.59332528,
+  "wall_seconds": 130.40530005283654,
+  "finished_at_utc": "2026-10-22T02:52:42.884792+00:00"
+}

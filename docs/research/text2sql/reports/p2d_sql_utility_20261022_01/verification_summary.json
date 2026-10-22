@@ -1,0 +1,44 @@
+{
+  "status": "verified",
+  "full_cases": 30,
+  "full_predictions": 90,
+  "physical_requests": 102,
+  "physical_usage_and_ledger_exact": true,
+  "confirmed_usage": {
+    "input_tokens": 103762,
+    "output_tokens": 6193,
+    "total_tokens": 109955
+  },
+  "requests_without_usage": 0,
+  "prompt_tokenizer_count_mismatches": 0,
+  "same_code_config_all_stages": true,
+  "prediction_seal_and_source_hashes_verified": true,
+  "database_hashes_unchanged": true,
+  "metrics_recomputed_from_private_result_rows": true,
+  "paired_set_outcomes": {
+    "E0_vs_E1": {
+      "unknown": 13,
+      "both_wrong": 9,
+      "both_correct": 6,
+      "E0_only": 1,
+      "E1_only": 1
+    },
+    "E0_vs_E2": {
+      "unknown": 11,
+      "both_wrong": 10,
+      "both_correct": 7,
+      "E0_only": 1,
+      "E2_only": 1
+    },
+    "E1_vs_E2": {
+      "unknown": 12,
+      "both_wrong": 11,
+      "both_correct": 7
+    }
+  },
+  "public_privacy_scan_passed": true,
+  "semantic_review_performed": false,
+  "full_aggregate_sha256": "091b3b68b2a24a693c8e12a2783d9630d6f467c521616a0b366bc81c41fea1f2",
+  "prediction_seal_sha256": "f6ae031ec83e12da36bb27f55f1f8461298b340ef251a51cb1d280a43f2ddde3",
+  "evaluation_private_sha256": "bbd53dcf5c3c97890269b2f74e03e9551d1970b0e84ae6e0f08585655f97f809"
+}

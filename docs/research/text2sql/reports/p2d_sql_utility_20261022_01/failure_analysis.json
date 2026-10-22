@@ -1,0 +1,30 @@
+{
+  "reference_statuses": {
+    "ok:none": 26,
+    "blocked:unsafe_sql": 4
+  },
+  "arms": {
+    "E0": {
+      "prediction_only_unavailable": 7,
+      "confirmed_incorrect": 11,
+      "both_execution_unavailable": 4,
+      "confirmed_correct": 8
+    },
+    "E1": {
+      "prediction_only_unavailable": 8,
+      "confirmed_incorrect": 11,
+      "both_execution_unavailable": 4,
+      "confirmed_correct": 7
+    },
+    "E2": {
+      "prediction_only_unavailable": 6,
+      "confirmed_incorrect": 12,
+      "both_execution_unavailable": 4,
+      "confirmed_correct": 8
+    }
+  },
+  "scope": "saved results only; no re-execution or model calls",
+  "blocked_reference_AST_reasons": {
+    "temporal_function_nonliteral_argument": 4
+  }
+}
