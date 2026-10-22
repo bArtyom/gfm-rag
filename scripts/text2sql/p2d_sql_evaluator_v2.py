@@ -102,9 +102,14 @@ def _time_sensitive_arguments(name, arguments):
     return arguments
 
 
-def _runtime_clock_argument(name, arguments):
+def _runtime_unsafe_argument(name, arguments):
     for value in _time_sensitive_arguments(name, arguments):
-        if isinstance(value, str) and value.strip().casefold() in _CLOCK_WORDS:
+        # SQLite coerces BLOBs to text for date functions; CAST(BLOB('now'))
+        # can therefore read the wall clock. Embedded NUL can truncate a text
+        # value in SQLite's C parser, so reject it conservatively as well.
+        if isinstance(value, bytes) or isinstance(value, str) and (
+            "\x00" in value or value.strip().casefold() in _CLOCK_WORDS
+        ):
             return True
     return False
 
@@ -112,7 +117,7 @@ def _runtime_clock_argument(name, arguments):
 def _temporal_wrapper(name, helper_connection, unsafe_seen):
     """Evaluate SQLite's built-in date function on bound values only."""
     def wrapped(*arguments):
-        if _runtime_clock_argument(name, arguments):
+        if _runtime_unsafe_argument(name, arguments):
             unsafe_seen.append(name)
             # The parent result maps this private control-flow exception to
             # blocked/unknown; no clock-aware SQLite date function is invoked.
@@ -128,6 +133,8 @@ def _sqlite_error_category(error):
     message = str(error).casefold()
     if "unsafe use of" in message:
         return "unsafe_schema_function"
+    if "on clause references tables to its right" in message:
+        return "bad_join"
     if "no such table:" in message:
         return "missing_table"
     if "ambiguous column name:" in message:
@@ -223,7 +230,7 @@ def _worker(db_path, sql, row_limit, byte_limit, sqlite_memory_limit, output_pat
         result = {"status": "memory_limit", "error_type": "sqlite_memory_limit"}
     except sqlite3.Error as exc:
         if unsafe_temporal:
-            result = {"status": "blocked", "error_type": "temporal_runtime_clock"}
+            result = {"status": "blocked", "error_type": "temporal_runtime_unsafe_argument"}
         elif getattr(exc, "sqlite_errorcode", None) == sqlite3.SQLITE_NOMEM:
             result = {"status": "memory_limit", "error_type": "sqlite_memory_limit"}
         elif getattr(exc, "sqlite_errorcode", None) == sqlite3.SQLITE_TOOBIG:

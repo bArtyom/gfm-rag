@@ -14,6 +14,7 @@ import hashlib
 import json
 from pathlib import Path
 import pickle
+import re
 import resource
 import subprocess
 import sys
@@ -147,6 +148,120 @@ def resource_snapshot(start_cpu: float):
     return cpu_seconds, peak_rss_bytes
 
 
+def write_json(path: Path, value):
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def tested_file_hashes():
+    paths = (
+        "scripts/text2sql/p2d_sql_evaluator.py",
+        "scripts/text2sql/p2d_sql_evaluator_v2.py",
+        "scripts/text2sql/p2d_v2_saved_replay.py",
+        "tests/test_p2d_sql_evaluator.py",
+        "tests/test_p2d_sql_evaluator_v2.py",
+        "tests/test_p2d_inputs.py",
+        "tests/test_p2d_pipeline.py",
+    )
+    return {name: sha(ROOT / name) for name in paths}
+
+
+def run_synthetic_tests(out: Path, source_commit: str, start_cpu: float):
+    command = [
+        sys.executable,
+        "-m",
+        "pytest",
+        "tests/test_p2d_sql_evaluator_v2.py",
+        "tests/test_p2d_sql_evaluator.py",
+        "tests/test_p2d_inputs.py",
+        "tests/test_p2d_pipeline.py",
+        "-q",
+    ]
+    completed = subprocess.run(command, cwd=ROOT, check=False, capture_output=True, text=True, timeout=180)
+    resource_snapshot(start_cpu)
+    log = completed.stdout + completed.stderr
+    log_path = out / "synthetic_test_log.txt"
+    log_path.write_text(log, encoding="utf-8")
+    match = re.search(r"(\d+) passed(?:, (\d+) skipped)?", log)
+    passed = int(match.group(1)) if match else 0
+    skipped = int(match.group(2) or 0) if match else 0
+    result = {
+        "status": "PASS" if completed.returncode == 0 and passed > 0 else "FAIL",
+        "source_commit": source_commit,
+        "command": command,
+        "return_code": completed.returncode,
+        "passed": passed,
+        "skipped": skipped,
+        "failed": 0 if completed.returncode == 0 else 1,
+        "tested_files_sha256": tested_file_hashes(),
+        "test_log_sha256": sha(log_path),
+        "model_calls": 0,
+        "api_calls": 0,
+    }
+    write_json(out / "synthetic_test_receipt.json", result)
+    return result
+
+
+def private_result_manifest(output_root: Path, parity_details):
+    results_dir = output_root / "private_results"
+    result_entries = {}
+    for detail in parity_details:
+        case_id, arm = detail["case_id"], detail["arm"]
+        name = f"{case_id}-{arm}.pickle"
+        path = results_dir / name
+        result = load_pickle(path)
+        result_entries[name] = {
+            "sha256": sha(path),
+            "signature": result_signature(result),
+            "case_id": case_id,
+            "arm": arm,
+        }
+    manifest_path = output_root / "gate1" / "private_result_manifest.json"
+    write_json(manifest_path, {"result_count": len(result_entries), "results": result_entries})
+    return manifest_path
+
+
+def verify_gate1_private_artifacts(output_root: Path, receipt: dict, source_commit: str):
+    gate1 = output_root / "gate1"
+    test_receipt_path = gate1 / "synthetic_test_receipt.json"
+    parity_path = gate1 / "private_parity.json"
+    manifest_path = gate1 / "private_result_manifest.json"
+    if sha(test_receipt_path) != receipt.get("synthetic_test_receipt_sha256"):
+        raise RuntimeError("synthetic test receipt changed")
+    test_receipt = json.loads(test_receipt_path.read_text(encoding="utf-8"))
+    if (test_receipt.get("status") != "PASS" or test_receipt.get("source_commit") != source_commit
+            or test_receipt.get("tested_files_sha256") != tested_file_hashes()
+            or sha(gate1 / "synthetic_test_log.txt") != test_receipt.get("test_log_sha256")):
+        raise RuntimeError("synthetic safety test evidence is incomplete")
+    if sha(parity_path) != receipt.get("private_parity_sha256"):
+        raise RuntimeError("Gate 1 parity details changed")
+    if sha(manifest_path) != receipt.get("private_result_manifest_sha256"):
+        raise RuntimeError("Gate 1 cached-result manifest changed")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    parity = json.loads(parity_path.read_text(encoding="utf-8"))
+    if manifest.get("result_count") != 83 or len(manifest.get("results", {})) != 83 or len(parity) != 83:
+        raise RuntimeError("Gate 1 cache manifest count mismatch")
+    expected = {}
+    for detail in parity:
+        name = f"{detail['case_id']}-{detail['arm']}.pickle"
+        expected[name] = detail
+    if set(expected) != set(manifest["results"]):
+        raise RuntimeError("Gate 1 cache membership mismatch")
+    for name, entry in manifest["results"].items():
+        if Path(name).name != name or entry.get("case_id") + "-" + entry.get("arm") + ".pickle" != name:
+            raise RuntimeError("Gate 1 cache path mismatch")
+        path = output_root / "private_results" / name
+        if sha(path) != entry.get("sha256"):
+            raise RuntimeError("Gate 1 cached result changed")
+        if result_signature(load_pickle(path)) != entry.get("signature"):
+            raise RuntimeError("Gate 1 cached result signature changed")
+        parity_row = expected[name]
+        if not parity_row.get("result_parity") or parity_row.get("comparison_parity") is False:
+            raise RuntimeError("Gate 1 cached result does not satisfy parity")
+        if result_signature(load_pickle(path)) != parity_row.get("replayed_v2"):
+            raise RuntimeError("Gate 1 cached result differs from its parity evidence")
+    return manifest
+
+
 def compare_executions(prediction, reference, compare_rows):
     if prediction.get("status") != "ok" or reference.get("status") != "ok":
         return {"set_correct": None, "bag_correct": None, "comparison_status": "execution_unavailable"}
@@ -160,11 +275,32 @@ def phase_gate1(args, prepared_root: Path, full_root: Path, output_root: Path, s
     out.mkdir(exist_ok=False)
     start_cpu = time.process_time()
     verify_database_hashes(prepared_root)
+    synthetic_tests = run_synthetic_tests(out, source_commit, start_cpu)
+    if synthetic_tests["status"] != "PASS":
+        test_receipt_path = out / "synthetic_test_receipt.json"
+        receipt = {
+            "phase": "gate1",
+            "status": "FAIL",
+            "source_commit": source_commit,
+            "synthetic_tests": "FAIL",
+            "synthetic_test_receipt_sha256": sha(test_receipt_path),
+            "reference_v1_successes_replayed": 0,
+            "prediction_v1_successes_replayed": 0,
+            "paired_sql_replays_v1_and_v2": 0,
+            "real_saved_sql_executed": 0,
+            "new_model_calls": 0,
+            "new_api_calls": 0,
+            "gpu_seconds": 0,
+        }
+        write_json(out / "receipt.json", receipt)
+        print(json.dumps(receipt))
+        return 2
     _, case_map, evaluation, prediction_map, recorded_evaluation = load_inputs(prepared_root, full_root)
     details = []
     reused = {}
     parity_failures = 0
     reference_successes = prediction_successes = 0
+    successes_by_arm = Counter()
 
     for case_id in sorted(case_map):
         gold = evaluation[case_id]
@@ -179,6 +315,7 @@ def phase_gate1(args, prepared_root: Path, full_root: Path, output_root: Path, s
             else:
                 sql = prediction_map[(case_id, arm)]["sql"]
                 prediction_successes += 1
+                successes_by_arm[arm] += 1
             v1_result = execute_v1(db_path, sql, timeout=10, row_limit=50000,
                                    byte_limit=64 * 1024 * 1024, sqlite_memory_limit=256 * 1024 * 1024)
             resource_snapshot(start_cpu)
@@ -214,13 +351,16 @@ def phase_gate1(args, prepared_root: Path, full_root: Path, output_root: Path, s
                 "comparison_parity": comparison_parity,
             })
 
-    if reference_successes != 26 or prediction_successes != 57 or len(details) != 83:
+    if (reference_successes != 26 or prediction_successes != 57 or len(details) != 83
+            or dict(successes_by_arm) != {"E0": 19, "E1": 18, "E2": 20}):
         parity_failures += 1
     verify_database_hashes(prepared_root)
     cpu_seconds, peak_rss_bytes = resource_snapshot(start_cpu)
     status = "PASS" if parity_failures == 0 else "FAIL"
     private_path = out / "private_parity.json"
-    private_path.write_text(json.dumps(details, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_json(private_path, details)
+    manifest_path = private_result_manifest(output_root, details)
+    test_receipt_path = out / "synthetic_test_receipt.json"
     receipt = {
         "phase": "gate1",
         "status": status,
@@ -229,9 +369,15 @@ def phase_gate1(args, prepared_root: Path, full_root: Path, output_root: Path, s
         "aggregate_sha256": EXPECTED_AGGREGATE_SHA256,
         "reference_v1_successes_replayed": reference_successes,
         "prediction_v1_successes_replayed": prediction_successes,
+        "prediction_v1_successes_by_arm": dict(successes_by_arm),
         "paired_sql_replays_v1_and_v2": len(details),
         "output_and_comparison_parity_failures": parity_failures,
+        "synthetic_tests": synthetic_tests["status"],
+        "synthetic_test_count_passed": synthetic_tests["passed"],
+        "synthetic_test_count_skipped": synthetic_tests["skipped"],
+        "synthetic_test_receipt_sha256": sha(test_receipt_path),
         "private_parity_sha256": sha(private_path),
+        "private_result_manifest_sha256": sha(manifest_path),
         "database_hashes_unchanged": True,
         "process_cpu_seconds": round(cpu_seconds, 3),
         "peak_rss_bytes": peak_rss_bytes,
@@ -239,7 +385,7 @@ def phase_gate1(args, prepared_root: Path, full_root: Path, output_root: Path, s
         "new_api_calls": 0,
         "gpu_seconds": 0,
     }
-    (out / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+    write_json(out / "receipt.json", receipt)
     print(json.dumps({key: value for key, value in receipt.items() if key != "private_parity_sha256"}))
     return 0 if status == "PASS" else 2
 
@@ -256,7 +402,7 @@ def funnel_category(reference, prediction, comparison):
             return "row_bytes_heap"
         if error == "sql_parse_error":
             return "prediction_parse"
-        if error in {"unsafe_sql", "sqlite_authorizer_denied", "temporal_runtime_clock"}:
+        if error in {"unsafe_sql", "sqlite_authorizer_denied", "temporal_runtime_unsafe_argument"}:
             return "prediction_ast_policy"
         if error == "sqlite_error":
             return "prediction_sqlite"
@@ -276,11 +422,12 @@ def phase_gate2(args, prepared_root: Path, full_root: Path, output_root: Path, s
         raise RuntimeError("Gate 1 must pass at the same source commit")
     if sha(gate1_receipt_path) != args.gate1_receipt_sha256:
         raise RuntimeError("Gate 1 receipt changed after it passed")
+    manifest = verify_gate1_private_artifacts(output_root, gate1_receipt, source_commit)
     out = output_root / "gate2"
     out.mkdir(exist_ok=False)
     start_cpu = time.process_time()
     verify_database_hashes(prepared_root)
-    _, case_map, evaluation, prediction_map, _ = load_inputs(prepared_root, full_root)
+    _, case_map, evaluation, prediction_map, recorded_evaluation = load_inputs(prepared_root, full_root)
     details = []
     executions = 0
 
@@ -311,6 +458,7 @@ def phase_gate2(args, prepared_root: Path, full_root: Path, output_root: Path, s
             old_prediction = load_pickle(execution_file(full_root, case_id, arm))
             comparison = compare_executions(prediction, reference, compare_v2)
             category = funnel_category(reference, prediction, comparison)
+            recorded = recorded_evaluation[(case_id, arm)]
             details.append({
                 "case_id": case_id,
                 "arm": arm,
@@ -319,6 +467,9 @@ def phase_gate2(args, prepared_root: Path, full_root: Path, output_root: Path, s
                 "v2_reference_status": reference.get("status"),
                 "v1_prediction_status": old_prediction.get("status"),
                 "v2_prediction_status": prediction.get("status"),
+                "v1_set_correct": recorded.get("set_correct"),
+                "v1_bag_correct": recorded.get("bag_correct"),
+                "v1_comparison_status": recorded.get("comparison_status"),
                 "v2_prediction_error_type": prediction.get("error_type"),
                 "v2_prediction_error_category": prediction.get("error_category"),
                 "v2_set_correct": comparison["set_correct"],
@@ -338,14 +489,15 @@ def phase_gate2(args, prepared_root: Path, full_root: Path, output_root: Path, s
     paired = {}
     indexed = {(row["case_id"], row["arm"]): row for row in details}
     for left, right in (("E0", "E1"), ("E0", "E2"), ("E1", "E2")):
-        outcomes = Counter()
-        for case_id in case_map:
-            a = indexed[(case_id, left)]["v2_set_correct"]
-            b = indexed[(case_id, right)]["v2_set_correct"]
-            outcomes["unknown" if a is None or b is None else
-                     "both_correct" if a and b else left + "_only" if a else
-                     right + "_only" if b else "both_wrong"] += 1
-        paired[f"{left}_vs_{right}"] = outcomes
+        for version, field in (("v1", "v1_set_correct"), ("v2", "v2_set_correct")):
+            outcomes = Counter()
+            for case_id in case_map:
+                a = indexed[(case_id, left)][field]
+                b = indexed[(case_id, right)][field]
+                outcomes["unknown" if a is None or b is None else
+                         "both_correct" if a and b else left + "_only" if a else
+                         right + "_only" if b else "both_wrong"] += 1
+            paired[f"{version}_{left}_vs_{right}"] = outcomes
     private_path = out / "private_case_outcomes.json"
     private_path.write_text(json.dumps(details, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     receipt = {
@@ -359,6 +511,7 @@ def phase_gate2(args, prepared_root: Path, full_root: Path, output_root: Path, s
         "v2_sql_executions_in_gate2": executions,
         "v2_sql_executions_reused_from_gate1": 83,
         "v2_sql_executions_total": executions + 83,
+        "gate1_cached_results_verified": len(manifest["results"]),
         "funnel_by_arm": {arm: dict(counts[arm]) for arm in ARMS},
         "prediction_failure_categories_by_arm": {arm: dict(prediction_errors[arm]) for arm in ARMS},
         "paired_set_outcomes": {key: dict(value) for key, value in paired.items()},
@@ -370,7 +523,7 @@ def phase_gate2(args, prepared_root: Path, full_root: Path, output_root: Path, s
         "new_api_calls": 0,
         "gpu_seconds": 0,
     }
-    (out / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+    write_json(out / "receipt.json", receipt)
     print(json.dumps(receipt))
     return 0
 
@@ -388,6 +541,10 @@ def main():
                                               (args.prepared_root, args.full_root, args.output_root))
     if any(ROOT == path or ROOT in path.parents for path in (prepared_root, full_root, output_root)):
         parser.error("private roots must remain outside the repository")
+    for index, left in enumerate((prepared_root, full_root, output_root)):
+        for right in (prepared_root, full_root, output_root)[index + 1:]:
+            if left == right or left in right.parents or right in left.parents:
+                parser.error("prepared, frozen-full, and output roots must not overlap")
     if args.phase == "gate2" and not args.gate1_receipt_sha256:
         parser.error("gate2 requires the frozen Gate 1 receipt SHA256")
     source_commit = verify_runtime(args.expected_commit)

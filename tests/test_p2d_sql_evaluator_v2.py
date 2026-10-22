@@ -3,7 +3,7 @@ import sqlite3
 
 import pytest
 
-from scripts.text2sql.p2d_sql_evaluator_v2 import execute_readonly
+from scripts.text2sql.p2d_sql_evaluator_v2 import _sqlite_error_category, execute_readonly
 from scripts.text2sql.p2d_v2_saved_replay import (
     compare_executions,
     funnel_category,
@@ -92,7 +92,29 @@ def test_timediff_accepts_static_time_values(temporal_db):
 def test_runtime_clock_and_timezone_sources_are_blocked(temporal_db, sql):
     result = execute_readonly(temporal_db, sql)
     assert result["status"] == "blocked"
-    assert result["error_type"] in {"temporal_runtime_clock", "unsafe_sql"}
+    assert result["error_type"] in {"temporal_runtime_unsafe_argument", "unsafe_sql"}
+
+
+def test_blob_text_cannot_smuggle_the_now_time_value(temporal_db):
+    with sqlite3.connect(temporal_db) as connection:
+        connection.execute("CREATE TABLE binary_clock(value BLOB)")
+        connection.execute("INSERT INTO binary_clock VALUES (CAST('now' AS BLOB))")
+    result = execute_readonly(temporal_db, "SELECT date(value) FROM binary_clock")
+    assert result["status"] == "blocked"
+    assert result["error_type"] == "temporal_runtime_unsafe_argument"
+
+
+def test_embedded_nul_cannot_truncate_a_temporal_value_to_now(temporal_db):
+    result = execute_readonly(
+        temporal_db,
+        "SELECT date(CAST(x'6e6f7700666f6f' AS TEXT))",
+    )
+    assert result["status"] == "blocked"
+
+
+def test_sqlite_join_order_error_gets_specific_private_triage():
+    error = sqlite3.OperationalError("ON clause references tables to its right")
+    assert _sqlite_error_category(error) == "bad_join"
 
 
 def test_strftime_format_is_not_misclassified_as_a_time_value(temporal_db):
@@ -146,7 +168,11 @@ def test_saved_replay_funnel_keeps_reference_failures_separate():
     ok = {"status": "ok"}
     assert funnel_category({"status": "error"}, ok, {}) == "reference_unavailable"
     assert funnel_category(ok, {"status": "error", "error_type": "sql_parse_error"}, {}) == "prediction_parse"
-    assert funnel_category(ok, {"status": "blocked", "error_type": "temporal_runtime_clock"}, {}) == "prediction_ast_policy"
+    assert funnel_category(
+        ok,
+        {"status": "blocked", "error_type": "temporal_runtime_unsafe_argument"},
+        {},
+    ) == "prediction_ast_policy"
     assert funnel_category(ok, {"status": "error", "error_type": "sqlite_error"}, {}) == "prediction_sqlite"
 
 
