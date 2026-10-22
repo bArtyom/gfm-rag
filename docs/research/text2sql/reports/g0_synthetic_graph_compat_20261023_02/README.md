@@ -1,6 +1,6 @@
 # G0 synthetic graph compatibility — recovery attempt 02
 
-**Status: preregistered; execution pending.** This is one bounded recovery run after attempt 01 failed before message passing.
+**Status: failed launch; no model result.** Attempt 02 did not execute the preregistered runner.
 
 The [recovery protocol](../../plans/g0_synthetic_graph_compatibility_recovery_20261023_02.md) keeps the checkpoint, synthetic fixture, seed, gates, and compute budget fixed. It changes only the launch method to activate the existing Conda environment, where Ninja is already installed. No dependencies are changed.
 
@@ -11,12 +11,12 @@ The [recovery protocol](../../plans/g0_synthetic_graph_compatibility_recovery_20
 - One GPU, seed 20261023, one baseline forward and one metadata-perturbed paired forward.
 - No BIRD, Gold labels, SQL, training, model API, tuning, or retries.
 
-## Results
+## Launch outcome
 
-Pending the single preregistered recovery run. No measurements are reported yet.
+The process exited with code 2 in under one second because the actual command named the nonexistent temporary script gfmrag_greasoner_dummy.py instead of the preregistered gfmrag_g0_synthetic_graph_compat_20261023_02.py. The shell stopped before loading the runner, checkpoint, or synthetic fixture.
 
-## Interpretation boundary
+This is an operator command-path error. It is not evidence about the model or graph interface. No GPU computation, dependency change, model API request, training, or SQL execution occurred. The pre-registered command and the actual failed command are recorded separately in the local launch manifest and failure record.
 
-Only input compatibility, tensor shape/finiteness, metadata round-trip, and metadata sensitivity are measured. A successful forward pass does not establish FK-role reasoning, JOIN accuracy, or downstream SQL improvement.
+No retry was made under attempt 02. A corrected execution requires a separately registered attempt 03, with its exact command reviewed before launch.
 
-Attempt 01 and its launch failure are reported separately at [attempt 01](../g0_synthetic_graph_compat_20261023_01/README.md).
+Attempt 01 and its independent RSPMM/Ninja activation failure are reported at [attempt 01](../g0_synthetic_graph_compat_20261023_01/README.md).

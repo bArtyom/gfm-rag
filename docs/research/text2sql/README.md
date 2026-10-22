@@ -40,8 +40,10 @@
 | [P2d.1 attempt 01 故障记录](reports/p2d_1_eval_audit_20261022_01/README.md) | 输入seal校验缺陷；SQL执行前停止 | 失败运行保留，未生成实验分数 |
 | [P2d.1 recovery 02 完整报告](reports/p2d_1_eval_audit_20261022_02/README.md) | 安全门、v1/v2精确复现、30题指标、失败分类与Token核对 | Gate 1/2完成；无确认正确数增加；exploratory |
 | [G0 synthetic compatibility attempt 01](reports/g0_synthetic_graph_compat_20261023_01/README.md) | 官方checkpoint与synthetic图检查；RSPMM编译启动失败 | 环境调用问题；模型前向未完成，不产生G0结果 |
-| [G0 recovery attempt 02 计划](plans/g0_synthetic_graph_compatibility_recovery_20261023_02.md) | 固定同一synthetic gate，仅修正Conda环境调用方式 | 已预注册；等待单次恢复运行 |
-| [G0 recovery attempt 02 报告](reports/g0_synthetic_graph_compat_20261023_02/README.md) | 相同checkpoint、fixture、seed与预算 | 待运行 |
+| [G0 recovery attempt 02 计划](plans/g0_synthetic_graph_compatibility_recovery_20261023_02.md) | 固定同一synthetic gate，仅修正Conda环境调用方式 | 失败启动：实际命令指向不存在的脚本，未加载模型 |
+| [G0 recovery attempt 02 报告](reports/g0_synthetic_graph_compat_20261023_02/README.md) | 相同checkpoint、fixture、seed与预算 | 启动失败；无模型结果 |
+| [G0 attempt 03 计划](plans/g0_synthetic_graph_compatibility_attempt_20261023_03.md) | 固定synthetic gate；显式核对runner、输出路径和Conda调用 | 已单独预注册；等待一次运行 |
+| [G0 attempt 03 报告](reports/g0_synthetic_graph_compat_20261023_03/README.md) | 官方checkpoint与synthetic图接口/元数据敏感性 | 待运行 |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
@@ -83,7 +85,9 @@
 
 **G0 attempt 01（2026-10-23）失败记录：** 官方 checkpoint 已加载，1024维配置、fixture结构及FK元数据在设备传输后均通过检查；真正前向时，RSPMM JIT loader 找不到 Ninja。Ninja 1.11.1.4 实际已安装在专用Conda环境中，失败原因是直接调用环境 Python 没有激活环境、PATH未包含环境的bin目录。没有产生模型输出；该运行不算 G0 通过。详情见 [run 01报告](reports/g0_synthetic_graph_compat_20261023_01/README.md)。
 
-**G0 recovery attempt 02（2026-10-23）已预注册：** 保持checkpoint、synthetic fixture、seed、预算和判据不变，只使用 conda run 激活同一环境；没有安装或升级依赖。计划见 [recovery计划](plans/g0_synthetic_graph_compatibility_recovery_20261023_02.md)，结果目录 [run 02](reports/g0_synthetic_graph_compat_20261023_02/README.md)。FK/Role Gold Gate仍NO-GO。
+**G0 recovery attempt 02（2026-10-23）失败启动：** 实际命令误指向不存在的脚本路径，exit code 2；runner与模型均未加载。按协议保留，不在run 02下重试。详情见 [run 02报告](reports/g0_synthetic_graph_compat_20261023_02/README.md)。
+
+**G0 attempt 03（2026-10-23）已单独预注册：** 假设、checkpoint、fixture、seed和两次前向预算不变；运行前逐字核对runner路径、输出路径和完整命令，并通过 conda run 激活同一环境。一次运行后停止，不继续增加启动尝试。计划见 [attempt 03计划](plans/g0_synthetic_graph_compatibility_attempt_20261023_03.md)，报告目录为 [run 03](reports/g0_synthetic_graph_compat_20261023_03/README.md)。FK/Role Gold Gate仍NO-GO。
 
 
 ## 从今往后的提交规范

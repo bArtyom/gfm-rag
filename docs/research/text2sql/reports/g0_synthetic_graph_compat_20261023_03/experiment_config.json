@@ -1,0 +1,73 @@
+{
+  "experiment_id": "g0_synthetic_graph_compat_20261023_03",
+  "status_at_preregistration": "pending",
+  "experiment_date": "2026-10-23",
+  "run_type": "final bounded synthetic G0 attempt after two documented launch failures",
+  "predecessors": [
+    {
+      "experiment_id": "g0_synthetic_graph_compat_20261023_01",
+      "status": "FAILED_LAUNCH_NO_MODEL_FORWARD_RESULT",
+      "cause": "Direct Python invocation omitted the Conda environment bin directory from PATH; Ninja was installed but not discoverable."
+    },
+    {
+      "experiment_id": "g0_synthetic_graph_compat_20261023_02",
+      "status": "FAILED_LAUNCH_SCRIPT_NOT_FOUND",
+      "cause": "Actual command referenced a nonexistent temporary script path."
+    }
+  ],
+  "hypothesis": "The pinned official G-reasoner-34M checkpoint accepts the fixed five-node synthetic graph at 1024 dimensions and produces finite per-node outputs; source inspection predicts the tested FK-instance metadata is ignored.",
+  "layer": "bounded synthetic/interface feasibility",
+  "only_execution_policy": "Review exact registered runner path and output path before launch; use conda run to activate the unchanged environment.",
+  "budget": {
+    "synthetic_nodes": 5,
+    "direct_relation_types": 3,
+    "total_relation_types_with_inverse": 6,
+    "direct_fk_edges": 4,
+    "directed_edges_with_inverse": 8,
+    "model_loads": 1,
+    "forward_passes": 2,
+    "gpu_count": 1,
+    "seed": 20261023,
+    "wall_time_limit_minutes": 15,
+    "training": false,
+    "model_api_calls": 0,
+    "bird_or_gold_data": false,
+    "sql_or_database_execution": false,
+    "dependency_changes": 0,
+    "retries_under_this_id": 0
+  },
+  "success_criteria": {
+    "G0_A": "Pinned checkpoint loads with input/feature dimensions 1024 and 34640897 parameters; output shape [1,5] and all values finite.",
+    "G0_B": "Device transfer preserves eight directed edges, parallel relations, inverse pairing, and ordered composite-FK fields.",
+    "G0_C": "Report exact equality and maximum absolute output delta after changing only edge_attr and custom FK metadata; delta <= 1e-6 counts as unchanged.",
+    "stop": "One attempt only. Preserve any launch/build/runtime failure and stop."
+  },
+  "provenance": {
+    "owned_repository": "https://github.com/bArtyom/gfm-rag",
+    "branch": "research/g0-synthetic-compat-20261023",
+    "preregistration_parent": "b2fdfba90f4b62b33ef8540fd1e02aee5e64936c",
+    "official_source_repository": "https://github.com/RManLuo/gfm-rag",
+    "official_source_commit": "b3e43219c49929da505244df4f0ba54c0947e4c4",
+    "checkpoint": "rmanluo/G-reasoner-34M",
+    "checkpoint_revision": "a3a4ed2c62281e1c3e0551bd42f2072d9204674f",
+    "license": "Apache-2.0"
+  },
+  "environment": {
+    "conda_alias": "/mnt/liansp3/sources/environments/gfmrag_greasoner_20261022",
+    "python": "3.12.15",
+    "pytorch": "2.8.0",
+    "pyg": "2.6.1",
+    "ninja": "1.11.1.4",
+    "activation": "conda run -n gfmrag_greasoner_20261022",
+    "dependency_changes": false
+  },
+  "implementation": {
+    "runner": "scripts/text2sql/g0_synthetic_graph_compat_20261023_03.py",
+    "difference_from_attempt_02": "Only the experiment_id literal differs."
+  },
+  "private_artifacts": {
+    "result": "/mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom-local-results/g0_synthetic_graph_compat_20261023_03",
+    "log": "/mnt/liansp3/logs/gfmrag_g0_synthetic_graph_compat_20261023_03",
+    "resource_alias": "/mnt/liansp3/sources/results/gfmrag_g0_synthetic_graph_compat_20261023_03"
+  }
+}
