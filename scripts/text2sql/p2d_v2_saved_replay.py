@@ -32,6 +32,7 @@ from scripts.text2sql.p2d_sql_evaluator_v2 import execute_readonly as execute_v2
 EXPECTED_PREDICTIONS_SHA256 = "f6ae031ec83e12da36bb27f55f1f8461298b340ef251a51cb1d280a43f2ddde3"
 EXPECTED_AGGREGATE_SHA256 = "091b3b68b2a24a693c8e12a2783d9630d6f467c521616a0b366bc81c41fea1f2"
 EXPECTED_EVALUATION_SHA256 = "bbd53dcf5c3c97890269b2f74e03e9551d1970b0e84ae6e0f08585655f97f809"
+EXPECTED_PREPARE_SEAL_SHA256 = "334e388af338c7f20575aa81a86ff7184e526716b251cd1b48955b4134172aaa"
 ARMS = ("E0", "E1", "E2")
 CPU_SECONDS_MAX = 600
 RSS_BYTES_MAX = 4 * 1024 * 1024 * 1024
@@ -82,6 +83,8 @@ def load_pickle(path: Path):
 
 def load_inputs(prepared_root: Path, full_root: Path):
     seal_path = prepared_root / "prepare_seal_private.json"
+    if sha(seal_path) != EXPECTED_PREPARE_SEAL_SHA256:
+        raise RuntimeError("prepared source seal mismatch")
     seal = json.loads(seal_path.read_text(encoding="utf-8"))
     for relative, expected in seal["files"].items():
         if sha(prepared_root / relative) != expected:
@@ -102,6 +105,8 @@ def load_inputs(prepared_root: Path, full_root: Path):
         raise RuntimeError("frozen aggregate hash mismatch")
     if prediction_seal.get("predictions_sha256") != EXPECTED_PREDICTIONS_SHA256:
         raise RuntimeError("prediction seal mismatch")
+    if prediction_seal.get("prepare_seal_sha256") != EXPECTED_PREPARE_SEAL_SHA256:
+        raise RuntimeError("prediction preparation seal mismatch")
     predictions = json.loads(predictions_path.read_text(encoding="utf-8"))
     if len(predictions) != 90:
         raise RuntimeError("frozen prediction count mismatch")
@@ -234,6 +239,16 @@ def verify_cache_membership(results_dir: Path, expected_names):
         raise RuntimeError("Gate 1 cache contains missing or unmanifested files")
 
 
+def initialize_private_results_cache(results_dir: Path):
+    if results_dir.is_symlink():
+        raise RuntimeError("private result cache directory cannot be a symlink")
+    if results_dir.exists():
+        if not results_dir.is_dir() or any(results_dir.iterdir()):
+            raise RuntimeError("private result cache must be an empty directory")
+    else:
+        results_dir.mkdir()
+
+
 def verify_gate1_private_artifacts(output_root: Path, receipt: dict, source_commit: str):
     gate1 = output_root / "gate1"
     test_receipt_path = gate1 / "synthetic_test_receipt.json"
@@ -288,6 +303,7 @@ def compare_executions(prediction, reference, compare_rows):
 
 def phase_gate1(args, prepared_root: Path, full_root: Path, output_root: Path, source_commit: str):
     out = output_root / "gate1"
+    initialize_private_results_cache(output_root / "private_results")
     out.mkdir(exist_ok=False)
     start_cpu = time.process_time()
     verify_database_hashes(prepared_root)

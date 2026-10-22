@@ -7,6 +7,7 @@ from scripts.text2sql.p2d_sql_evaluator_v2 import _sqlite_error_category, execut
 from scripts.text2sql.p2d_v2_saved_replay import (
     compare_executions,
     funnel_category,
+    initialize_private_results_cache,
     result_signature,
     verify_cache_membership,
 )
@@ -173,6 +174,16 @@ def test_gate2_cache_rejects_unmanifested_results(tmp_path):
     (cache / "stale.pickle").write_bytes(b"stale")
     with pytest.raises(RuntimeError, match="unmanifested"):
         verify_cache_membership(cache, {"listed.pickle"})
+
+
+def test_gate1_cache_refuses_preexisting_symlink(tmp_path):
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    cache = tmp_path / "private_results"
+    cache.symlink_to(outside, target_is_directory=True)
+    with pytest.raises(RuntimeError, match="symlink"):
+        initialize_private_results_cache(cache)
+    assert list(outside.iterdir()) == []
 
 
 def test_saved_replay_funnel_keeps_reference_failures_separate():
