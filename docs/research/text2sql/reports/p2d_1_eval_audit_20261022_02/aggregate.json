@@ -1,0 +1,43 @@
+{
+  "status": "completed_exploratory_audit",
+  "denominators": {"cases": 30, "arms": 3, "outcome_rows": 90},
+  "v1_and_v2_outcomes": {
+    "E0": {"v1": {"correct": 8, "unknown": 11, "wrong": 11}, "v2": {"correct": 8, "unknown": 10, "wrong": 12}, "v2_confirmed_correct_over_30": 0.2667, "wilson_95": [0.1418, 0.4445], "comparable_only_accuracy": "8/20 = 0.4000"},
+    "E1": {"v1": {"correct": 7, "unknown": 12, "wrong": 11}, "v2": {"correct": 7, "unknown": 10, "wrong": 13}, "v2_confirmed_correct_over_30": 0.2333, "wilson_95": [0.1179, 0.4093], "comparable_only_accuracy": "7/20 = 0.3500"},
+    "E2": {"v1": {"correct": 8, "unknown": 10, "wrong": 12}, "v2": {"correct": 8, "unknown": 8, "wrong": 14}, "v2_confirmed_correct_over_30": 0.2667, "wilson_95": [0.1418, 0.4445], "comparable_only_accuracy": "8/22 = 0.3636"}
+  },
+  "set_equals_bag": true,
+  "v1_to_v2_transitions": {
+    "E0": {"correct_to_correct": 8, "unknown_to_unknown": 10, "unknown_to_wrong": 1, "wrong_to_wrong": 11},
+    "E1": {"correct_to_correct": 7, "unknown_to_unknown": 10, "unknown_to_wrong": 2, "wrong_to_wrong": 11},
+    "E2": {"correct_to_correct": 8, "unknown_to_unknown": 8, "unknown_to_wrong": 2, "wrong_to_wrong": 12}
+  },
+  "paired_set_outcomes": {
+    "E0_vs_E1": {"v1": {"unknown": 13, "both_wrong": 9, "both_correct": 6, "E0_only": 1, "E1_only": 1}, "v2": {"unknown": 12, "both_wrong": 10, "both_correct": 6, "E0_only": 1, "E1_only": 1}},
+    "E0_vs_E2": {"v1": {"unknown": 11, "both_wrong": 10, "both_correct": 7, "E0_only": 1, "E2_only": 1}, "v2": {"unknown": 10, "both_wrong": 11, "both_correct": 7, "E0_only": 1, "E2_only": 1}},
+    "E1_vs_E2": {"v1": {"unknown": 12, "both_wrong": 11, "both_correct": 7}, "v2": {"unknown": 10, "both_wrong": 13, "both_correct": 7}}
+  },
+  "coverage_strata": {
+    "rescued_cases": 6,
+    "rescued_all_arms_correct_v2": 0,
+    "rescued_cases_with_any_unknown_v1": 4,
+    "rescued_cases_with_any_unknown_v2": 3,
+    "unchanged_cases": 24,
+    "unchanged_stratum_outcomes_unchanged": true
+  },
+  "gate_results": {
+    "synthetic_tests_passed": 137,
+    "synthetic_tests_skipped": 0,
+    "old_successful_reference_sql_replayed": 26,
+    "old_successful_prediction_sql_replayed": 57,
+    "gate1_paired_v1_v2_replays": 83,
+    "gate1_parity_failures": 0,
+    "v1_blocked_references_now_comparable": 4,
+    "gate2_new_sql_executions": 37,
+    "gate2_reused_verified_gate1_results": 83,
+    "gate2_total_v2_sql_executions": 120,
+    "database_hashes_unchanged": true
+  },
+  "cohort_limit": "Selected BIRD dev diagnostic cases; not an independent test set or official benchmark score.",
+  "human_semantic_review": "unverified; zero human reviewers"
+}

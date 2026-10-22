@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "source": "frozen original request usage and prepared message records; this audit made no model request",
+  "prompts": 90,
+  "smoke_cases_excluded": 3,
+  "request_payload_or_message_mismatches": 0,
+  "local_tokenizer_reconciliation_mismatches": 0,
+  "tokenizer": "locally cached Qwen2.5-Coder-7B tokenizer; local chat-template tokenization only",
+  "by_arm": {
+    "E0": {"actual_frozen_prompt_tokens": 35074, "local_chat_template_tokens": 35074, "schema_standalone_tokens": 31182, "question_standalone_tokens": 745, "evidence_standalone_tokens": 870, "template_and_boundary_residual_tokens": 2277, "table_elements": 38, "column_elements": 709},
+    "E1": {"actual_frozen_prompt_tokens": 35591, "local_chat_template_tokens": 35591, "schema_standalone_tokens": 31692, "question_standalone_tokens": 745, "evidence_standalone_tokens": 870, "template_and_boundary_residual_tokens": 2284, "table_elements": 55, "column_elements": 1092},
+    "E2": {"actual_frozen_prompt_tokens": 24458, "local_chat_template_tokens": 24458, "schema_standalone_tokens": 20559, "question_standalone_tokens": 745, "evidence_standalone_tokens": 870, "template_and_boundary_residual_tokens": 2284, "table_elements": 38, "column_elements": 709}
+  },
+  "relative_to_E0": {"E1_tokens": {"difference": 517, "percent": 1.47}, "E2_tokens": {"difference": -10616, "percent": -30.27}},
+  "interpretation": "The component residual reconciles standalone text counts to the full local chat template, including labels, system instructions, template framing, and token-boundary effects. It is not a provider billing partition. Frozen prompt tokens belong to the original P2d generation, not this zero-call audit."
+}

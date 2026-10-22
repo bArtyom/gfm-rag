@@ -1,0 +1,18 @@
+{
+  "project_repository": "https://github.com/bArtyom/gfm-rag",
+  "branch": "research/p2d1-eval-v2-20261022",
+  "execution_commit": "46e3cfe742454734c5196e8a71355efab02d14dc",
+  "source_tree": "65f46b71071817390eff2e803c10a89566088687",
+  "protocol_sha256": "96773cc235f932b416c2a461017314d93aa5cf9654ae41800bc3e564de415a89",
+  "frozen_payload_sha256": "e88bf42f22a73b6b56af96a5d3ea88d69252c33509bb72da5b8cfde2f7474ea5",
+  "prediction_seal_file_sha256": "f6ae031ec83e12da36bb27f55f1f8461298b340ef251a51cb1d280a43f2ddde3",
+  "frozen_full_aggregate_sha256": "091b3b68b2a24a693c8e12a2783d9630d6f467c521616a0b366bc81c41fea1f2",
+  "gate0_reuse_receipt_sha256": "d680e531d8e9cd36cf7ac40f95d2190f19b19730a226546fde2275811d7cc90f",
+  "gate1": {"receipt_sha256": "42239798c3686edf71d60d5c5a30d89d1d8b832949e2d52eddb305053b24f262", "synthetic_test_receipt_sha256": "461406d28370a0ead252ae1ecadf2b7d78628e2ac384c1082f5f25834813aa4d", "private_parity_sha256": "5dcf627604b5367f547b7c7a275883fc5437ecdc17e7f2dbf5f76323f59eb153", "private_result_manifest_sha256": "7f10d04f868afb1ad90ea0d1c1c42615a052a2783c55a928c4209fddc02d695e", "paired_replays": 83, "parity_failures": 0},
+  "gate2": {"receipt_sha256": "50220fff76cce53da16e0c27a06dae7a7778149d6a8c3fb3dbff6c9e8662842f", "private_outcomes_sha256": "9b7fec27ee0d23cddf76b4bf842ddde530a2f1bbb001fa449218d3b049b3711d", "new_sql_executions": 37, "verified_reused_results": 83, "database_hashes_unchanged": true},
+  "postprocess_sha256": "d8091d86dde29aa13c546e5f2d5b72d0cf363f76a601062a6a01f70dfc8ecf56",
+  "token_breakdown_source_sha256": "6cbda702195f5fa9bc9773d5b543631430de103a4cbe03d0ee682665261fa5ca",
+  "privacy_review": {"raw_sql_in_public_files": false, "question_text_in_public_files": false, "case_ids_in_public_files": false, "database_names_or_paths_in_public_files": false, "literal_values_in_public_files": false, "secrets_in_public_files": false},
+  "ledger": {"new_model_api_requests": 0, "new_confirmed_input_tokens": 0, "new_confirmed_output_tokens": 0, "new_confirmed_total_tokens": 0, "new_cost_CNY": "0", "billing_verified": false},
+  "private_result_artifacts": "Retained locally under a new, non-overwriting run ID; not uploaded."
+}

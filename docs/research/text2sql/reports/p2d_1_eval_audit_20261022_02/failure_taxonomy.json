@@ -1,0 +1,25 @@
+{
+  "denominator_predictions": 90,
+  "non_executable_total": 28,
+  "failure_counts": {
+    "E0": {"sql_parse_error": 4, "sqlite_missing_column": 6, "non_executable_total": 10},
+    "E1": {"sql_parse_error": 2, "sqlite_missing_column": 8, "non_executable_total": 10},
+    "E2": {"sql_parse_error": 4, "sqlite_missing_column": 4, "non_executable_total": 8}
+  },
+  "successfully_executed_but_wrong_ast_proxies": {
+    "E0": {"n": 12, "ast_parsed": 12, "table_set_exact": 10, "join_count_equal": 11, "join_signature_exact": 6, "projection_count_equal": 10, "predicate_kind_set_exact": 11, "direct_literal_set_exact": {"true": 7, "false": 5, "unresolved": 0}, "direct_column_literal_pair_exact": {"true": 3, "false": 6, "unresolved": 3}},
+    "E1": {"n": 13, "ast_parsed": 13, "table_set_exact": 10, "join_count_equal": 12, "join_signature_exact": 4, "projection_count_equal": 10, "predicate_kind_set_exact": 12, "direct_literal_set_exact": {"true": 6, "false": 7, "unresolved": 0}, "direct_column_literal_pair_exact": {"true": 4, "false": 5, "unresolved": 4}},
+    "E2": {"n": 14, "ast_parsed": 14, "table_set_exact": 9, "join_count_equal": 11, "join_signature_exact": 3, "projection_count_equal": 11, "predicate_kind_set_exact": 12, "direct_literal_set_exact": {"true": 7, "false": 7, "unresolved": 0}, "direct_column_literal_pair_exact": {"true": 4, "false": 6, "unresolved": 4}}
+  },
+  "reference_node_coverage_proxy_on_wrong_successful_predictions": {
+    "E0": {"wrong_predictions": 12, "reference_table_mentions": 20, "table_mentions_found_in_context": 10, "reference_column_mentions": 59, "column_mentions_found_in_context": 39},
+    "E1": {"wrong_predictions": 13, "reference_table_mentions": 25, "table_mentions_found_in_context": 20, "reference_column_mentions": 68, "column_mentions_found_in_context": 55},
+    "E2": {"wrong_predictions": 14, "reference_table_mentions": 26, "table_mentions_found_in_context": 13, "reference_column_mentions": 71, "column_mentions_found_in_context": 49}
+  },
+  "interpretation_limits": [
+    "AST and SQLite error categories are automated diagnostics, not human semantic labels.",
+    "Context coverage is SQLGlot name matching against frozen text and can be uncertain for aliases, CTEs, and equivalent expressions.",
+    "No case IDs, SQL, schema identifiers, literal values, or database names are included."
+  ],
+  "human_semantic_review": {"status": "unverified", "reviewers": 0}
+}

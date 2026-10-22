@@ -1,10 +1,10 @@
 {
   "experiment_id": "p2d_1_eval_audit_20261022_01",
-  "status": "preregistered_not_run",
+  "status": "failed_before_saved_sql_replay",
   "guidance_commit": "854cfea553359f20ceaa597ed57f096a82d20bbf",
   "review_commit": "a97496a",
   "protocol": "docs/research/text2sql/plans/p2d_1_frozen_prediction_eval_audit_20261022.md",
-  "protocol_sha256": "9e5b0b8c01a39b2b77afc8596ec7e25fed234e2e",
+  "protocol_sha256": "96773cc235f932b416c2a461017314d93aa5cf9654ae41800bc3e564de415a89",
   "core_hypothesis": "Runtime-checked wrappers can safely evaluate a subset of stored-column date/time expressions without real clock or timezone access while preserving all previously evaluable P2d reference and prediction results.",
   "layer": "exploratory_evaluator_coverage_and_failure_audit",
   "mainline_confirmatory_evidence": false,
@@ -17,11 +17,20 @@
     "unmatched_priority": 8,
     "sealed_predictions": 90,
     "prediction_seal_sha256": "f6ae031ec83e12da36bb27f55f1f8461298b340ef251a51cb1d280a43f2ddde3",
-    "original_full_aggregate_sha256": "091b3b68b2a24a693c8e12a2783d9630d6f467c521616a0b366bc81c41fea1f2"
+    "original_full_aggregate_sha256": "091b3b68b2a24a693c8e12a2783d9630d6f467c521616a0b366bc81c41fea1f2",
+    "predictions_json_sha256": "e88bf42f22a73b6b56af96a5d3ea88d69252c33509bb72da5b8cfde2f7474ea5"
   },
   "original_v1_primary_result_frozen": {
-    "confirmed_set_bag_correct_E0_E1_E2": [8, 7, 8],
-    "unknown_E0_E1_E2": [11, 12, 10],
+    "confirmed_set_bag_correct_E0_E1_E2": [
+      8,
+      7,
+      8
+    ],
+    "unknown_E0_E1_E2": [
+      11,
+      12,
+      10
+    ],
     "denominator_each_arm": 30
   },
   "budget": {
@@ -51,5 +60,39 @@
     "llm_as_human_gold": false
   },
   "result_root": "/mnt/liansp3/sources/results/gfmrag_p2d_1_eval_audit_20261022_01",
-  "log_root": "/mnt/liansp3/logs/gfmrag_p2d_1_20261022_01"
+  "log_root": "/mnt/liansp3/logs/gfmrag_p2d_1_20261022_01",
+  "pre_execution_amendments": [
+    {
+      "corrected_at_utc": "2026-10-22 06:46:06 UTC",
+      "field": "protocol_sha256",
+      "previous_registered_value": "9e5b0b8c01a39b2b77afc8596ec7e25fed234e2e",
+      "verified_value": "96773cc235f932b416c2a461017314d93aa5cf9654ae41800bc3e564de415a89",
+      "verification": "The protocol bytes at guidance_commit 854cfea553359f20ceaa597ed57f096a82d20bbf and source commit 8cd8752491efe46afa3371c109d23792bf70e617 are identical; both hash to the verified value.",
+      "reason": "The preregistered SHA-256 field did not match the unchanged protocol file. This clerical correction was made before Gate 1 and before observing any v2 metric; no hypothesis, budget, endpoint, or success/stop criterion changed."
+    }
+  ],
+  "run_attempt": {
+    "run_id": "p2d_1_eval_audit_20261022_01",
+    "started_utc": "2026-10-22 06:46:29 UTC",
+    "source_commit": "3b979b4ce69aa088297b2f9ca20a87fbc3364391",
+    "synthetic_tests": {
+      "status": "PASS",
+      "passed": 136,
+      "skipped": 0
+    },
+    "status": "stopped_during_frozen_input_validation",
+    "real_saved_sql_executed": 0,
+    "new_model_calls": 0,
+    "new_api_calls": 0,
+    "gpu_seconds": 0,
+    "diagnosed_root_cause": {
+      "stage": "load_inputs",
+      "expected_prediction_seal_file_sha256": "f6ae031ec83e12da36bb27f55f1f8461298b340ef251a51cb1d280a43f2ddde3",
+      "actual_predictions_payload_sha256": "e88bf42f22a73b6b56af96a5d3ea88d69252c33509bb72da5b8cfde2f7474ea5",
+      "error": "The runner used the seal-file digest as the expected digest for the distinct predictions payload file.",
+      "sql_results_created": false
+    },
+    "recovery_record": "docs/research/text2sql/reports/p2d_1_eval_audit_20261022_02/experiment_config.json"
+  },
+  "report": "docs/research/text2sql/reports/p2d_1_eval_audit_20261022_01/README.md"
 }
