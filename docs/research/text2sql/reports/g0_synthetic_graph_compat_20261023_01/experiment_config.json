@@ -1,0 +1,71 @@
+{
+  "experiment_id": "g0_synthetic_graph_compat_20261023_01",
+  "status_at_preregistration": "pending",
+  "date_utc": "2026-10-23",
+  "classification": "exploratory engineering/interface feasibility; not SQL or JOIN accuracy evidence",
+  "question": "Can the pinned official G-reasoner-34M execute a small synthetic schema-like graph with 1024-dimensional features, and does it consume FK-instance/composite-key metadata?",
+  "hypothesis": "The model will accept a five-node synthetic graph and return finite per-node scores; source inspection predicts custom FK-instance metadata and edge_attr do not affect the model output.",
+  "layer": "standalone synthetic/interface feasibility gate",
+  "budget": {
+    "synthetic_nodes": 5,
+    "direct_relation_types": 3,
+    "total_relation_types_with_inverse": 6,
+    "direct_fk_edges": 4,
+    "directed_edges_with_inverse": 8,
+    "model_loads": 1,
+    "forward_passes": 2,
+    "gpu_count": 1,
+    "seed": 20261023,
+    "wall_time_limit_minutes": 15,
+    "training": false,
+    "model_api_calls": 0,
+    "bird_or_gold_data": false,
+    "sql_or_database_execution": false,
+    "retries": 0
+  },
+  "success_criteria": {
+    "G0_A": "Pinned checkpoint loads with feature/input dimensions 1024 and 34640897 parameters; output shape is [1,5] and all values are finite.",
+    "G0_B": "PyG transfer retains all 8 directed edges, parallel relation roles, and ordered two-component composite-FK instance metadata.",
+    "G0_C": "Record exact equality and max absolute output delta after changing only edge_attr and custom FK metadata; delta <= 1e-6 counts as unchanged to allow minor floating-point reduction noise.",
+    "stop": "Stop after the single paired run; preserve and report any failure without fixture repair or retry."
+  },
+  "guidance": {
+    "owned_repository": "https://github.com/bArtyom/gfm-rag",
+    "guidance_base_commit": "aa2d21ac710edfe098ac752970571c084ad84731",
+    "required_docs_read": [
+      "README.md",
+      "docs/research/text2sql/README.md",
+      "docs/research/text2sql/experiment-roadmap.md",
+      "docs/research/text2sql/reproducibility-contract.md",
+      "docs/research/text2sql/plans/p2d_1_frozen_prediction_eval_audit_20261022.md"
+    ],
+    "official_source_repository": "https://github.com/RManLuo/gfm-rag",
+    "official_source_commit": "b3e43219c49929da505244df4f0ba54c0947e4c4",
+    "official_checkpoint": "rmanluo/G-reasoner-34M",
+    "checkpoint_revision": "a3a4ed2c62281e1c3e0551bd42f2072d9204674f",
+    "model_license": "Apache-2.0"
+  },
+  "environment": {
+    "conda_alias": "/mnt/liansp3/sources/environments/gfmrag_greasoner_20261022",
+    "python": "3.12.15",
+    "pytorch": "2.8.0",
+    "pyg": "2.6.1",
+    "cuda_toolkit": "12.6.3",
+    "selection_policy": "Recheck nvidia-smi immediately before launch; select one sufficiently free RTX 4090."
+  },
+  "implementation": {
+    "public_runner": "scripts/text2sql/g0_synthetic_graph_compat_20261023.py",
+    "source_model_files": [
+      "gfmrag/models/gfm_reasoner/model.py",
+      "gfmrag/models/ultra/models.py",
+      "gfmrag/models/ultra/base_nbfnet.py",
+      "gfmrag/models/ultra/layers.py"
+    ],
+    "code_changes": "Add a standalone synthetic experiment runner; do not modify upstream model code."
+  },
+  "private_artifacts": {
+    "result": "/mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom-local-results/g0_synthetic_graph_compat_20261023_01",
+    "log": "/mnt/liansp3/logs/gfmrag_g0_synthetic_graph_compat_20261023_01",
+    "resource_alias": "/mnt/liansp3/sources/results/gfmrag_g0_synthetic_graph_compat_20261023_01"
+  }
+}

@@ -76,7 +76,9 @@
 
 **下一步指导：** 不在同一30题上继续调prompt、候选packing或换模型；不能把“评测覆盖更多”说成“方法变好”。P2d线先等待有界的人类Values语义审核，或在新样本可冻结前对已有输出做一次独立、仅本地的生成错误深挖。主图方法线可以另立 **G0接口/张量可行性门**：只用synthetic fixture核对原始G-reasoner输入格式、1024维兼容性、FK实例ID及复合键保真；不引入BIRD Gold、不训练、不调用API，也不报告JOIN准确率。当前FK/Role Gold Gate仍NO-GO。G0应先单独登记预算、判据与结果目录，再执行并单独报告。
 
-**G0资源预检（2026-10-22，尚未启动实验）：** 已检查统一资源索引、本地模型目录与Hugging Face缓存，未发现已登记或缓存的 `rmanluo/G-reasoner-34M` / `GFM-RAG-8M` 权重；当前Text2SQL实验环境也没有 `torch-geometric`。因此没有启动模型、下载权重或安装依赖。后续开始G0前，先单独登记官方checkpoint来源/版本、专用环境和资源预算；不得把预训练权重缺失时的随机初始化当成预训练模型结果。
+**G0资源预检与登记（2026-10-23）：** 2026-10-22 已按上游 lockfile 单独配置 G-reasoner 环境，并下载校验官方 rmanluo/G-reasoner-34M 固定 revision；统一入口、真实路径与版本见本机 /mnt/liansp3/sources.md。本轮已预注册一次 bounded synthetic/interface-only gate，计划记录在 [G0兼容性计划](plans/g0_synthetic_graph_compatibility_20261023.md)，公开 runner 为 scripts/text2sql/g0_synthetic_graph_compat_20261023.py。实验协议提交并经远端核对前不启动；即使前向成功，也不代表 checkpoint 使用 FK 实例字段或具备 JOIN 角色准确率。
+
+**G0执行状态（2026-10-23）：** 预注册报告目录为 [run 01](reports/g0_synthetic_graph_compat_20261023_01/README.md)；结果待单次运行后更新。FK/Role Gold Gate 保持 NO-GO。
 
 
 ## 从今往后的提交规范
