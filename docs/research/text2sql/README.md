@@ -39,6 +39,9 @@
 | [P2d.1 冻结预测复评方案](plans/p2d_1_frozen_prediction_eval_audit_20261022.md) | 安全时间函数评测器与固定预测的Gate 1/2协议 | 已按原预算完成；协议保留不改 |
 | [P2d.1 attempt 01 故障记录](reports/p2d_1_eval_audit_20261022_01/README.md) | 输入seal校验缺陷；SQL执行前停止 | 失败运行保留，未生成实验分数 |
 | [P2d.1 recovery 02 完整报告](reports/p2d_1_eval_audit_20261022_02/README.md) | 安全门、v1/v2精确复现、30题指标、失败分类与Token核对 | Gate 1/2完成；无确认正确数增加；exploratory |
+| [G0 synthetic compatibility attempt 01](reports/g0_synthetic_graph_compat_20261023_01/README.md) | 官方checkpoint与synthetic图检查；RSPMM编译启动失败 | 环境调用问题；模型前向未完成，不产生G0结果 |
+| [G0 recovery attempt 02 计划](plans/g0_synthetic_graph_compatibility_recovery_20261023_02.md) | 固定同一synthetic gate，仅修正Conda环境调用方式 | 已预注册；等待单次恢复运行 |
+| [G0 recovery attempt 02 报告](reports/g0_synthetic_graph_compat_20261023_02/README.md) | 相同checkpoint、fixture、seed与预算 | 待运行 |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
@@ -76,9 +79,11 @@
 
 **下一步指导：** 不在同一30题上继续调prompt、候选packing或换模型；不能把“评测覆盖更多”说成“方法变好”。P2d线先等待有界的人类Values语义审核，或在新样本可冻结前对已有输出做一次独立、仅本地的生成错误深挖。主图方法线可以另立 **G0接口/张量可行性门**：只用synthetic fixture核对原始G-reasoner输入格式、1024维兼容性、FK实例ID及复合键保真；不引入BIRD Gold、不训练、不调用API，也不报告JOIN准确率。当前FK/Role Gold Gate仍NO-GO。G0应先单独登记预算、判据与结果目录，再执行并单独报告。
 
-**G0资源预检与登记（2026-10-23）：** 2026-10-22 已按上游 lockfile 单独配置 G-reasoner 环境，并下载校验官方 rmanluo/G-reasoner-34M 固定 revision；统一入口、真实路径与版本见本机 /mnt/liansp3/sources.md。本轮已预注册一次 bounded synthetic/interface-only gate，计划记录在 [G0兼容性计划](plans/g0_synthetic_graph_compatibility_20261023.md)，公开 runner 为 scripts/text2sql/g0_synthetic_graph_compat_20261023.py。实验协议提交并经远端核对前不启动；即使前向成功，也不代表 checkpoint 使用 FK 实例字段或具备 JOIN 角色准确率。
+**G0资源预检与登记（2026-10-23）：** 2026-10-22 已按上游 lockfile 单独配置 G-reasoner 环境，并下载校验官方 rmanluo/G-reasoner-34M 固定 revision；统一入口、真实路径与版本见本机 /mnt/liansp3/sources.md。预注册协议在 [G0兼容性计划](plans/g0_synthetic_graph_compatibility_20261023.md)，公开 runner 为 scripts/text2sql/g0_synthetic_graph_compat_20261023.py。此接口实验即使前向成功，也不代表 checkpoint 使用 FK 实例字段或具备 JOIN 角色准确率。
 
-**G0执行状态（2026-10-23）：** 预注册报告目录为 [run 01](reports/g0_synthetic_graph_compat_20261023_01/README.md)；结果待单次运行后更新。FK/Role Gold Gate 保持 NO-GO。
+**G0 attempt 01（2026-10-23）失败记录：** 官方 checkpoint 已加载，1024维配置、fixture结构及FK元数据在设备传输后均通过检查；真正前向时，RSPMM JIT loader 找不到 Ninja。Ninja 1.11.1.4 实际已安装在专用Conda环境中，失败原因是直接调用环境 Python 没有激活环境、PATH未包含环境的bin目录。没有产生模型输出；该运行不算 G0 通过。详情见 [run 01报告](reports/g0_synthetic_graph_compat_20261023_01/README.md)。
+
+**G0 recovery attempt 02（2026-10-23）已预注册：** 保持checkpoint、synthetic fixture、seed、预算和判据不变，只使用 conda run 激活同一环境；没有安装或升级依赖。计划见 [recovery计划](plans/g0_synthetic_graph_compatibility_recovery_20261023_02.md)，结果目录 [run 02](reports/g0_synthetic_graph_compat_20261023_02/README.md)。FK/Role Gold Gate仍NO-GO。
 
 
 ## 从今往后的提交规范

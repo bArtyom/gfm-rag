@@ -1,0 +1,64 @@
+{
+  "experiment_id": "g0_synthetic_graph_compat_20261023_02",
+  "status_at_preregistration": "pending",
+  "run_type": "single recovery attempt after attempt 01 launcher failure",
+  "experiment_date": "2026-10-23",
+  "classification": "exploratory engineering/interface feasibility; not SQL or JOIN accuracy evidence",
+  "predecessor": {
+    "experiment_id": "g0_synthetic_graph_compat_20261023_01",
+    "status": "FAILED_LAUNCH_NO_MODEL_FORWARD_RESULT",
+    "root_cause": "Direct Python invocation did not activate the Conda environment, so PATH omitted its installed Ninja binary."
+  },
+  "fixed_hypothesis": "The pinned official G-reasoner-34M checkpoint accepts the same five-node synthetic graph and returns finite per-node scores; source inspection predicts custom FK metadata is ignored.",
+  "only_change_from_attempt_01": "Use conda run to activate the already configured environment and expose the already installed Ninja executable. No package or model changes.",
+  "budget": {
+    "synthetic_nodes": 5,
+    "direct_relation_types": 3,
+    "total_relation_types_with_inverse": 6,
+    "direct_fk_edges": 4,
+    "directed_edges_with_inverse": 8,
+    "model_loads": 1,
+    "forward_passes": 2,
+    "gpu_count": 1,
+    "seed": 20261023,
+    "wall_time_limit_minutes": 15,
+    "training": false,
+    "model_api_calls": 0,
+    "bird_or_gold_data": false,
+    "sql_or_database_execution": false,
+    "retries": 0,
+    "dependency_changes": 0
+  },
+  "success_criteria": {
+    "G0_A": "Pinned checkpoint loads with feature/input dimensions 1024 and 34640897 parameters; output shape is [1,5] and all values are finite.",
+    "G0_B": "PyG transfer retains all 8 directed edges, parallel relation roles, inverse pairing, and ordered two-component composite-FK metadata.",
+    "G0_C": "Record exact equality and maximum absolute output delta after changing only edge_attr and custom FK metadata; delta <= 1e-6 counts as unchanged.",
+    "stop": "Stop after this single recovery run; preserve any failure without retry under attempt 02."
+  },
+  "source_and_model": {
+    "owned_repository": "https://github.com/bArtyom/gfm-rag",
+    "official_source_repository": "https://github.com/RManLuo/gfm-rag",
+    "official_source_commit": "b3e43219c49929da505244df4f0ba54c0947e4c4",
+    "checkpoint": "rmanluo/G-reasoner-34M",
+    "checkpoint_revision": "a3a4ed2c62281e1c3e0551bd42f2072d9204674f",
+    "license": "Apache-2.0"
+  },
+  "environment": {
+    "conda_alias": "/mnt/liansp3/sources/environments/gfmrag_greasoner_20261022",
+    "python": "3.12.15",
+    "pytorch": "2.8.0",
+    "pyg": "2.6.1",
+    "ninja": "1.11.1.4",
+    "activation": "conda run -n gfmrag_greasoner_20261022",
+    "dependency_changes": false
+  },
+  "implementation": {
+    "runner": "scripts/text2sql/g0_synthetic_graph_compat_20261023_02.py",
+    "difference_from_attempt_01": "Only the experiment_id literal differs; the fixture and computation are unchanged."
+  },
+  "private_artifacts": {
+    "result": "/mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom-local-results/g0_synthetic_graph_compat_20261023_02",
+    "log": "/mnt/liansp3/logs/gfmrag_g0_synthetic_graph_compat_20261023_02",
+    "resource_alias": "/mnt/liansp3/sources/results/gfmrag_g0_synthetic_graph_compat_20261023_02"
+  }
+}
