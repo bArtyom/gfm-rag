@@ -1,0 +1,52 @@
+{
+  "status": "prepared_not_run",
+  "priority_cases": 19,
+  "control_cases": 11,
+  "unmatched_priority_cases": 8,
+  "full_cases": 30,
+  "private_smoke_cases": 3,
+  "selection_seed": 20261021,
+  "matching": "exact DB, predicate kind set, gold table and column counts, V00 complete; without replacement; no EX",
+  "priority_binding_counts": {
+    "mismatch": 8,
+    "supported": 9,
+    "unresolved": 2
+  },
+  "per_database_alias": {
+    "db_01": 15,
+    "db_06": 3,
+    "db_02": 5,
+    "db_05": 2,
+    "db_10": 5
+  },
+  "priority_ids_sha256": "592ebc6a695679886cd4296a5cf852bf692a55007a4bbe8fd70619fe6e1df0b3",
+  "control_ids_sha256": "5062437e13283ba513cc6f031feabf107f079c96324607b7f267ad934014a494",
+  "smoke_ids_sha256": "29c1e865b77e13d960381c9051fd57a042178d9b19942a6deea161937b5d356c",
+  "prepare_seal_sha256": "334e388af338c7f20575aa81a86ff7184e526716b251cd1b48955b4134172aaa",
+  "model_files_sha256": {
+    "config.json": "c0242402ad6a13b331ea320feea8c7e3776ffb7a4eff0757b9cd667e116d9a28",
+    "tokenizer_config.json": "959e7f1d9a1b7641a6d6ce05ca97b75c7894fcb66cbe5a040406458fb1128ee4",
+    "tokenizer.json": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+    "generation_config.json": "1a628a5775bc69cde01c6749a531150ca4d3189652c618a174f7077923acf3b1",
+    "model.safetensors.index.json": "998a078123ffc97763690de7f2a677eb89168af5eaf8a5e12e6bc24d18e25bdb",
+    "model-00001-of-00004.safetensors": "0b6f069918b07c064cbba8ae4f00f529aa9bbf84b7cdfcb7fc2694a40f6aa8ef",
+    "model-00002-of-00004.safetensors": "c3d46733e7aa054ea7b063fbccd0a5a08446e7bd1814bef26936c5aa1331da62",
+    "model-00003-of-00004.safetensors": "9fe45dacee087385b3d2d6dd27a7413a8a56d95f145772facc148fa86fc73446",
+    "model-00004-of-00004.safetensors": "5aa6e5cbe642377fd441fb4e60e83cca96b2bcd9820e245b9ea06d94653f17f2"
+  },
+  "prompt_template_sha256": "96bc5f35fb75173b47277f4b0db5dcef5cd2bf3a1196335058da8843a9f3ea63",
+  "input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a",
+  "source_artifact_sha256": {
+    "p2c_aggregate": "7e4ce4b2a92df5e17160bb2429402b66ab7caec521c6e4da9ec90abd108e8fdc",
+    "p2c_rows": "99935116001811bef790bf2e916d34f4f40ffecc70322f7b71e28f885d9425ff",
+    "binding_rows": "9af35480aa5804edba6ea8d772431fc90af96aa91e9771e479ad18f2ec5ffae1",
+    "query_json": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "schema_json": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97"
+  },
+  "context_policy": "Exactly archived selected node texts in order; ownership in node text; no FK or other constraints added since original texts contain none and FK gate unresolved",
+  "semantic_review_status": "unverified",
+  "human_reviews": 0,
+  "max_total_model_calls": 102,
+  "tokens_local_full_plus_smoke": 103425,
+  "prepared_wall_seconds": 62.598366959020495
+}
