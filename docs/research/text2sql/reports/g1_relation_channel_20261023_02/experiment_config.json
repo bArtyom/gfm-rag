@@ -130,5 +130,17 @@
     "result_json_sha256": "ce55d5a84fbae298bc19f608f65f072cd505db2025a97246e9195743a762f691",
     "log_sha256": "8d442e3c383c9596c519e1baa8d0c0a5231c1de730b6edc34d05920db5fafb98"
   },
+  "real_fk_label_gate": {
+    "new_cpu_replay_in_this_turn": false,
+    "historical_source_report": "docs/research/text2sql/reports/p2a_5_error_audit_20261018_01/README.md",
+    "historical_sqlite_fk_instances": 103,
+    "historical_valid_invalid_fk_instances": [100, 3],
+    "historical_join_on_clauses": 1428,
+    "historical_unique_fk_matches_ambiguous_unmatched": [1199, 25, 204],
+    "historical_multi_fk_candidate_queries": 197,
+    "human_review_count": 0,
+    "trusted_role_label_count": 0,
+    "interpretation": "Historical structural matching counts only; not trusted business-role gold and not new G1 model evidence."
+  },
   "forbidden_scope": ["training", "BIRD", "Gold SQL", "SQL execution", "model API", "new model download", "dependency installation"]
 }
