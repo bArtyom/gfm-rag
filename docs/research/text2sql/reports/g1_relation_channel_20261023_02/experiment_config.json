@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "experiment_id": "g1_relation_channel_20261023_02",
-  "status": "PREREGISTERED_NOT_RUN",
+  "status": "G1_A_NO_GO_NO_RELATION_CHANNEL_SENSITIVITY",
   "created_utc": "2026-10-23",
   "branch": "research/g1-relation-channel-20261023",
   "preregistration_parent_commit": "2fba950459ef833c2def4d48f199b8e6c69c71fe",
@@ -74,7 +74,8 @@
   "environment": {
     "conda_environment": "gfmrag_greasoner_20261022",
     "python": "3.12.15",
-    "torch": "2.8.0",
+    "torch": "2.8.0+cu128",
+    "torch_cuda_runtime": "12.8",
     "torch_geometric": "2.6.1",
     "ninja": "1.11.1.4",
     "rspmm_extension_cache": "/root/.cache/torch_extensions/py312_cu128/rspmm/rspmm.so",
@@ -101,6 +102,33 @@
     "targeted_unittest_status": "PASS",
     "regression_test": "verified forward graph stays on requested device after roundtrip validation, without mutating source graph",
     "launch_preflight": "PASS: CLI --help checked; checkpoint not loaded and no model forward executed"
+  },
+  "execution": {
+    "preregistration_commit": "17ac0d021b7297a55210d5016fd1a22d078a8833",
+    "runner_blob_sha": "9b63db0c5d1886841413c035ee74d66eee6b191d",
+    "runner_sha256": "684c1fc727b51e9b5bee1e84340dfd9c3bff217286526a0def9cac57e803042e",
+    "checkpoint_loads": 1,
+    "completed_forwards": 8,
+    "outputs_finite": true,
+    "output_shape": [1, 5],
+    "fixture_sha256_match": true,
+    "device_roundtrip_passed_all_cases": true,
+    "c0_repeat_max_abs_delta": 0.0,
+    "epsilon": 1e-06,
+    "case_deltas_max_abs_mean_abs_top1_same": {
+      "C1": [0.0, 0.0, true],
+      "C2": [0.0, 0.0, true],
+      "C3": [0.0, 0.0, true],
+      "C4": [0.0, 0.0, true],
+      "C5": [30.975284576416016, 9.959518432617188, true],
+      "C6": [8.307731628417969, 5.366384029388428, false]
+    },
+    "gate_decision": "G1_A_NO_GO_NO_RELATION_CHANNEL_SENSITIVITY",
+    "interpretation_limit": "C2/C3 are uninformative for general relation-channel sensitivity because their role labels/features are permuted across structurally identical parallel edges and the model uses permutation-invariant aggregation.",
+    "script_elapsed_seconds_including_load_and_forwards": 1.7147,
+    "peak_gpu_memory": "not measured",
+    "result_json_sha256": "ce55d5a84fbae298bc19f608f65f072cd505db2025a97246e9195743a762f691",
+    "log_sha256": "8d442e3c383c9596c519e1baa8d0c0a5231c1de730b6edc34d05920db5fafb98"
   },
   "forbidden_scope": ["training", "BIRD", "Gold SQL", "SQL execution", "model API", "new model download", "dependency installation"]
 }

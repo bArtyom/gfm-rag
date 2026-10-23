@@ -4,7 +4,7 @@
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新决策（2026-10-23：发现两条研究分支的新实验）**：P2d.1 v2 frozen SQL审计在 `research/p2d1-eval-v2-20261022` 通过137项合成测试、83/83旧结果parity，4条旧Gold参考变为可比；**E0/E1/E2确认Set/Bag正确仍是8/7/8（每臂30题）**，unknown降为10/10/8，28条预测不可执行（10 parse、18 missing-column）。G0第三次合成图实验在 `research/g0-synthetic-compat-20261023` 通过官方34M checkpoint的1024D前向（输出[1,5]有限）；**只扰动edge_attr/custom FK字段，输出差异0.0**，这些元数据未被模型有效使用；不能说模型完全不使用`edge_type/rel_attr`。**唯一优先新实验：[G1可消费关系通道敏感性与FK实例保真门](plans/g1_relation_channel_and_fk_instance_gate_20261023.md)**；未执行。两分支成果**尚未合并main**，本入口链接其证据，历史P2d实验及FK/Role NO-GO不改。
+> **最新决策（2026-10-23：P2d.1、G0、G1 研究分支结果）**：P2d.1 frozen SQL审计仍为8/7/8；G0发现 `edge_attr`/自定义FK字段扰动无效。G1 run_002 的8次合成前向满足C1/C4不变，但C2/C3也完全不变，因此预注册G1-A为 **NO-GO**；由于角色对照是在端点相同的平行边间置换、模型采用置换不变聚合，此结果不能证明关系通道全局无效。C5起点变化和C6查询变化均改变输出。**暂停G1后续训练/GPU实验**，先做只读源码与破对称性fixture设计审计。G1 run_001的设备错误失败也已单独归档。相关三条研究分支**尚未合并main**；以本分支各报告为证据，历史P2d及FK/Role NO-GO不改。
 
 ## 现有研究文档
 
@@ -39,7 +39,7 @@
 | [P2d.1 评测覆盖和失败归因（当前下一轮）](plans/p2d_1_frozen_prediction_eval_audit_20261022.md) | 封存SQL复核、safe temporal evaluator v2测试、19题语义审核与Go/No-go | **下一轮已登记，尚未执行** |
 | [P2d.1 执行登记](reports/p2d_1_eval_audit_20261022_01/README.md) | 零模型、合成时间函数安全门与冻结预测复评 | **预注册；Gate 0/1/2均待运行** |
 | [2026-10-23 P2d.1 + G0 跨分支复核（当前）](reports/p2d1_g0_cross_branch_review_20261023/README.md) | 读取分支的真实结果，区分 evaluator v2、元数据未被模型读取及方法结论边界 | 已完成静态分析；非新实验 |
-| [G1关系通道×FK Instance保真（当前下一轮）](plans/g1_relation_channel_and_fk_instance_gate_20261023.md) | 8次合成前向/多种edge_type/rel_attr对照、同义重标记不变性、FK Role Label Gate及Go/No-go | 已预注册指导；G1未运行 |
+| [G1关系通道×FK Instance保真（run 001/002）](reports/g1_relation_channel_20261023_02/README.md) | 8次合成前向、关系通道敏感性、query/anchor指纹与局部对称性分析 | run_001设备错误；run_002已完成，G1-A NO-GO；暂停后续GPU门 |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
@@ -65,15 +65,17 @@
 
 在 [2026-10-16 的代码级分析](graph-algorithm-code-review-20261016.md) 中，重点确定了 **Top-1 起始锚点、关系实例/逐边属性未纳入默认消息权重、节点 Top-K 非连通、SQL-aware 监督未落地**等可验证机制。最有潜力的后续方向是 **Query-aware JOIN Edge Gate + 实例感知约束子图解码**；但必须先过 FK/Join 标签 Gate，并与 Graph-Link、GRAST-SL、SchemaGraphSQL 同信息比较。**这不是已有实证收益**。
 
-## 最新行动结果与下一步（2026-10-23：P2d.1 + G0 两条研究分支）
+## 最新行动结果与下一步（2026-10-23：P2d.1、G0、G1 研究分支）
 
-**位置注意**：本仓库 `main` 的最新已运行结果源头仍是2026-10-22前的Pilot；新实验分别存在 `research/p2d1-eval-v2-20261022`（tip `aa2d21a`）和 `research/g0-synthetic-compat-20261023`（tip `7152ab2`）。[新跨分支实证复核](reports/p2d1_g0_cross_branch_review_20261023/README.md)提供结果和链接；**尚未把这些分支的代码/实验产物合并main**，不要按main旧报告声称它们没有运行。
+**位置注意**：本仓库 `main` 尚未合入这些新实验；P2d.1、G0、G1分别保存在 `research/p2d1-eval-v2-20261022`、`research/g0-synthetic-compat-20261023` 和 `research/g1-relation-channel-20261023`。G1运行与分析见[run 002报告](reports/g1_relation_channel_20261023_02/README.md)，其代码、配置、失败和成功运行记录均留在该研究分支。
 
 **P2d.1评测结果**：[recovery 02报告](https://github.com/bArtyom/gfm-rag/blob/research/p2d1-eval-v2-20261022/docs/research/text2sql/reports/p2d_1_eval_audit_20261022_02/README.md)的Gate 1/2完成，137项安全合成测试PASS、83条旧可执行SQL无差异、另外4条Gold reference可比；模型0新调用。全30题 E0/E1/E2确认正确仍 **8/7/8**（Set=Bag），unknown **10/10/8**，可判增加的所有预测均为错误。28/90预测仍不可执行，其中10条parse错误、18条missing-column。P2c-R原Schema Complete@1024 +10.96pp没有在这次P2d SQL Pilot得到EX增益，**不能称新方法效果成功**。
 
 **G0图结果**：[attempt 03报告](https://github.com/bArtyom/gfm-rag/blob/research/g0-synthetic-compat-20261023/docs/research/text2sql/reports/g0_synthetic_graph_compat_20261023_03/README.md)加载官方G-reasoner-34M、1024维、5节点/8有向边合成图，前向`[1,5]`有限；FK edge_attr/自定义instance metadata扰动只产生 **0.0** 的输出差异。这些被测试字段**不在有效消息传播输入路径内**；仍需测试 `edge_type`、`rel_attr` 和Query条件敏感性，不能把此负控误解为模型完全不敏感于关系。
 
-**下轮唯一主实验：[G1 Relation Channel & FK Instance Gate](plans/g1_relation_channel_and_fk_instance_gate_20261023.md)**：复用G0固定checkpoint及synthetic fixture，用8次已冻结前向对照（元数据负控、edge_type角色交换、rel_attr角色变化、关系ID一致重命名、起点/问题敏感性）检验模型真正消费哪些通道，保证两个parallel role和复合FK实例/逆边结构一致；同时CPU审计真实FK Instance ID并准备最多20例本地人工Role审阅。**G1尚未运行、未训练，不含新的SQL EX或GNN效果指标**。只有关系通道作用经检验且可靠Role标签形成之后，才能提出真正的query-conditioned edge gate/instance-aware path实验。
+**G1结果与决定**：[run 001失败记录](reports/g1_relation_channel_20261023_01/README.md)保留了第一次C0设备不匹配、0个有效输出；独立run 002按修复后的代码完成8次前向。C0重复差为0、`epsilon=1e-6`；C1/C4差为0，C2/C3差也为0，故正式门为 **G1-A NO-GO**。C5起点变更最大差30.9753，C6查询变更最大差8.3077且top-1翻转。源码审计确认GraphReasoner将`rel_attr`投影后交给QueryNBFNet，再由`edge_type`索引关系表示；当前合成图的同端点平行边使C2/C3只改变消息顺序/分配，置换不变的聚合保留相同消息多重集。因此G1不能支持“关系通道整体无效”的结论。无SQL、真实schema、训练或role label指标。
+
+**下一步**：依照G1计划，暂停该fixture上的额外GPU和训练。先做只读源码/对照设计审计，提出能打破该图对称性的合成干预，同时保留FK实例、复合组件和逆边合同；只有形成明确可证伪协议后，才单独预注册新run。真实FK Instance人工标签门尚未执行，可信人工role标签仍为0。历史P2b/P2c/P2d及FK/Role NO-GO保持不变。
 
 P2d.1已经完成，不再在同30题上调Prompt或换模型；Values语义必要性审核仍0，FK/Role Gold Gate仍NO-GO。历史P2b NO-GO和原P2c失败回执均保留。GitHub公开只写匿名聚合、合成fixture/代码和哈希，不上传BIRD原题/Gold/业务数据。
 

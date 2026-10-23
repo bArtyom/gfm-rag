@@ -1,0 +1,168 @@
+{
+  "experiment_id": "g1_relation_channel_20261023_02",
+  "status": "G1_A_NO_GO_NO_RELATION_CHANNEL_SENSITIVITY",
+  "seed": 20261023,
+  "forward_count": 8,
+  "training_epochs": 0,
+  "python": "3.12.15",
+  "torch": "2.8.0+cu128",
+  "torch_cuda_runtime": "12.8",
+  "torch_geometric": "2.6.1",
+  "device": "NVIDIA GeForce RTX 4090",
+  "checkpoint_path": "/mnt/liansp3/\u8d44\u6e90\u6a21\u578b/G-reasoner-34M-a3a4ed2c62281e1c3e0551bd42f2072d9204674f",
+  "checkpoint_parameter_count": 34640897,
+  "checkpoint_feature_dim": 1024,
+  "checkpoint_input_dim": 1024,
+  "checkpoint_model_sha256": "2f2a1a2d2f5725133428941b785f3898255666b06041b58420f75e60599d387d",
+  "checkpoint_config_sha256": "75d14b97d6a077ebc17b09a21170a3ad9272251db59f7ac8cc853165efb2efd5",
+  "fixture": {
+    "num_nodes": 5,
+    "num_edges": 8,
+    "num_relations": 6,
+    "parallel_direct_roles": [
+      [
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        1,
+        1
+      ]
+    ],
+    "fk_instance_count": 3,
+    "composite_component_order": "0,1",
+    "inverse_pairs_valid": true
+  },
+  "fixture_tensor_bundle_sha256": "0ffaa88fbe41a4026bbc8b7263cbbdee1b432c9651a6bc3824a705890bd593f2",
+  "g0_fixture_sha256_match": true,
+  "device_roundtrip_passed_by_case": {
+    "C0": true,
+    "C0_repeat": true,
+    "C1": true,
+    "C2": true,
+    "C3": true,
+    "C4": true,
+    "C5": true,
+    "C6": true
+  },
+  "c0_repeat_max_abs_delta": 0.0,
+  "epsilon": 1e-06,
+  "deltas_vs_c0": {
+    "C1": {
+      "max_abs": 0.0,
+      "mean_abs": 0.0,
+      "top1_same": true
+    },
+    "C2": {
+      "max_abs": 0.0,
+      "mean_abs": 0.0,
+      "top1_same": true
+    },
+    "C3": {
+      "max_abs": 0.0,
+      "mean_abs": 0.0,
+      "top1_same": true
+    },
+    "C4": {
+      "max_abs": 0.0,
+      "mean_abs": 0.0,
+      "top1_same": true
+    },
+    "C5": {
+      "max_abs": 30.975284576416016,
+      "mean_abs": 9.959518432617188,
+      "top1_same": true
+    },
+    "C6": {
+      "max_abs": 8.307731628417969,
+      "mean_abs": 5.366384029388428,
+      "top1_same": false
+    }
+  },
+  "outputs": {
+    "C0": [
+      [
+        -34.900142669677734,
+        -23.339080810546875,
+        -14.504008293151855,
+        -46.83816909790039,
+        -15.894805908203125
+      ]
+    ],
+    "C0_repeat": [
+      [
+        -34.900142669677734,
+        -23.339080810546875,
+        -14.504008293151855,
+        -46.83816909790039,
+        -15.894805908203125
+      ]
+    ],
+    "C1": [
+      [
+        -34.900142669677734,
+        -23.339080810546875,
+        -14.504008293151855,
+        -46.83816909790039,
+        -15.894805908203125
+      ]
+    ],
+    "C2": [
+      [
+        -34.900142669677734,
+        -23.339080810546875,
+        -14.504008293151855,
+        -46.83816909790039,
+        -15.894805908203125
+      ]
+    ],
+    "C3": [
+      [
+        -34.900142669677734,
+        -23.339080810546875,
+        -14.504008293151855,
+        -46.83816909790039,
+        -15.894805908203125
+      ]
+    ],
+    "C4": [
+      [
+        -34.900142669677734,
+        -23.339080810546875,
+        -14.504008293151855,
+        -46.83816909790039,
+        -15.894805908203125
+      ]
+    ],
+    "C5": [
+      [
+        -65.87542724609375,
+        -18.457683563232422,
+        -6.432049751281738,
+        -40.96921920776367,
+        -15.894805908203125
+      ]
+    ],
+    "C6": [
+      [
+        -39.78668212890625,
+        -17.18963623046875,
+        -11.600764274597168,
+        -38.53043746948242,
+        -11.309845924377441
+      ]
+    ]
+  },
+  "gate": {
+    "c1_negative_control_within_epsilon": true,
+    "c4_consistent_relabel_within_epsilon": true,
+    "c2_or_c3_relation_channel_sensitive": false,
+    "c5_anchor_sensitive": true,
+    "c6_query_sensitive": true
+  },
+  "source_runner_sha256": "684c1fc727b51e9b5bee1e84340dfd9c3bff217286526a0def9cac57e803042e",
+  "elapsed_seconds": 1.7147,
+  "interpretation_limit": "Synthetic mechanism fingerprint only; no SQL accuracy, role accuracy, training, or real-schema quality was measured."
+}
