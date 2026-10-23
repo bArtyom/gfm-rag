@@ -74,15 +74,15 @@
     "clean_launch": "clear inherited CONDA_PREFIX/CONDA_DEFAULT_ENV/CONDA_SHLVL/CONDA_PREFIX_1 and set PATH=/usr/bin:/bin before conda run; otherwise inherited python39 precedes target environment"
   },
   "resource_snapshot": {
-    "captured_utc": "2026-10-23 14:33 UTC",
+    "captured_utc": "2026-10-23 14:40 UTC",
     "gpu_1_utilization_percent": 0,
     "gpu_1_memory_used_mib": 2167,
     "gpu_1_memory_total_mib": 24564,
     "gpu_1_memory_available_mib": 22397,
-    "ram_available_gib": 429,
+    "ram_available_gib": 432,
     "cpu_cores": 192
   },
-  "launch_command": "timeout --signal=INT --kill-after=10s 900s env -u CONDA_PREFIX -u CONDA_DEFAULT_ENV -u CONDA_SHLVL -u CONDA_PREFIX_1 PATH=/usr/bin:/bin CUDA_VISIBLE_DEVICES=1 /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 python scripts/text2sql/g1_relation_channel_probe.py --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --device cuda:0 --run-id g1_relation_channel_20261023_01 --output /mnt/liansp3/sources/results/gfmrag_g1_relation_channel_20261023_01/run_001/result.json",
+  "launch_command": "timeout --signal=INT --kill-after=10s 900s env -u CONDA_PREFIX -u CONDA_DEFAULT_ENV -u CONDA_SHLVL -u CONDA_PREFIX_1 PATH=/usr/bin:/bin CUDA_VISIBLE_DEVICES=1 /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 python scripts/text2sql/g1_relation_channel_probe.py --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --device cuda:0 --run-id g1_relation_channel_20261023_01 --output /mnt/liansp3/sources/results/gfmrag_g1_relation_channel_20261023_01/run_001/result.json > /mnt/liansp3/logs/gfmrag_g1_relation_channel_20261023_01/run_001/run.log 2>&1",
   "local_artifacts": {
     "result_json": "/mnt/liansp3/sources/results/gfmrag_g1_relation_channel_20261023_01/run_001/result.json",
     "log": "/mnt/liansp3/logs/gfmrag_g1_relation_channel_20261023_01/run_001/run.log"
@@ -90,7 +90,7 @@
   "pre_run_validation": {
     "targeted_unittest_cases": 8,
     "targeted_unittest_status": "PASS",
-    "launch_preflight": "CLI --help to be checked after preregistration commit; it does not load the checkpoint or execute model forwards"
+    "launch_preflight": "PASS: CLI --help checked after preregistration commit; checkpoint was not loaded and no model forward was executed"
   },
   "forbidden_scope": ["training", "BIRD", "Gold SQL", "SQL execution", "model API", "new model download", "dependency installation"]
 }

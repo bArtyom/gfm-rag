@@ -38,7 +38,7 @@ The primary gate passes only when C1 (metadata negative control) and C4 (consist
 
 ## Environment, hardware and command
 
-Use the existing `gfmrag_greasoner_20261022` Conda environment (Python 3.12.15, PyTorch 2.8.0, PyG 2.6.1, Ninja 1.11.1.4), the existing RSPMM extension cache `/root/.cache/torch_extensions/py312_cu128/rspmm/rspmm.so`, local checkpoint alias `/mnt/liansp3/sources/models/g-reasoner-34m`, and physical GPU 1. At preflight, GPU 1 had 0% utilization and 22,397 MiB available. A stale inherited Python 3.9 path was found before the successful test run; no package was installed or changed. Eight focused CPU contract tests pass, including fixture SHA, all cases, inverse/composite structure, negative and role controls, query/anchor isolation, and copy/device round-trip. The execution command clears that inherited path before activating the registered environment:
+Use the existing `gfmrag_greasoner_20261022` Conda environment (Python 3.12.15, PyTorch 2.8.0, PyG 2.6.1, Ninja 1.11.1.4), the existing RSPMM extension cache `/root/.cache/torch_extensions/py312_cu128/rspmm/rspmm.so`, local checkpoint alias `/mnt/liansp3/sources/models/g-reasoner-34m`, and physical GPU 1. At the 2026-10-23 14:40 UTC preflight, GPU 1 had 0% utilization and 22,397 MiB available; system RAM available was 432 GiB and 192 CPU cores were visible. A stale inherited Python 3.9 path was found before the successful test run; no package was installed or changed. Eight focused CPU contract tests pass, including fixture SHA, all cases, inverse/composite structure, negative and role controls, query/anchor isolation, and copy/device round-trip. The execution command clears that inherited path before activating the registered environment:
 
 ```bash
 timeout --signal=INT --kill-after=10s 900s \
@@ -48,10 +48,11 @@ timeout --signal=INT --kill-after=10s 900s \
   python scripts/text2sql/g1_relation_channel_probe.py \
     --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m \
     --device cuda:0 --run-id g1_relation_channel_20261023_01 \
-    --output /mnt/liansp3/sources/results/gfmrag_g1_relation_channel_20261023_01/run_001/result.json
+    --output /mnt/liansp3/sources/results/gfmrag_g1_relation_channel_20261023_01/run_001/result.json \
+    > /mnt/liansp3/logs/gfmrag_g1_relation_channel_20261023_01/run_001/run.log 2>&1
 ```
 
-Targeted structure tests: `python -m unittest discover -s tests -p 'test_g1_relation_channel_probe.py' -v` in the same cleaned Conda environment. Result JSON and execution log are kept at the local paths in `experiment_config.json`; only synthetic outputs and aggregate runtime metadata are published.
+Targeted structure tests: `python -m unittest discover -s tests -p 'test_g1_relation_channel_probe.py' -v` in the same cleaned Conda environment. All eight focused tests passed, and the CLI `--help` check passed after preregistration without loading the checkpoint or executing a model forward. Result JSON and execution log are kept at the local paths in `experiment_config.json`; only synthetic outputs and aggregate runtime metadata are published.
 
 ## Results
 
