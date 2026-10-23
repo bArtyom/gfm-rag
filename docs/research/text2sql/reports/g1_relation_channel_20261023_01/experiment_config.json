@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "experiment_id": "g1_relation_channel_20261023_01",
-  "status": "PREREGISTERED_NOT_RUN",
+  "status": "FAILED_RUNTIME_DEVICE_MISMATCH",
   "created_utc": "2026-10-23",
   "branch": "research/g1-relation-channel-20261023",
   "base_commit": "33e040327fe13df2703c1c96211b87e83250f1be",
@@ -74,7 +74,7 @@
     "clean_launch": "clear inherited CONDA_PREFIX/CONDA_DEFAULT_ENV/CONDA_SHLVL/CONDA_PREFIX_1 and set PATH=/usr/bin:/bin before conda run; otherwise inherited python39 precedes target environment"
   },
   "resource_snapshot": {
-    "captured_utc": "2026-10-23 14:40 UTC",
+    "captured_utc": "2026-10-23 06:40 UTC (nvidia-smi displays local UTC+08)",
     "gpu_1_utilization_percent": 0,
     "gpu_1_memory_used_mib": 2167,
     "gpu_1_memory_total_mib": 24564,
@@ -91,6 +91,19 @@
     "targeted_unittest_cases": 8,
     "targeted_unittest_status": "PASS",
     "launch_preflight": "PASS: CLI --help checked after preregistration commit; checkpoint was not loaded and no model forward was executed"
+  },
+  "execution": {
+    "preregistered_commit": "2fba950459ef833c2def4d48f199b8e6c69c71fe",
+    "runner_blob_sha": "4e32ae9c5b561d24c9641e29e4a972dabaaf2898",
+    "runner_sha256": "7f4fb14244a2878f950bd4d5143ecc153f5ccedcba64f9a62df9e717ec2389b5",
+    "checkpoint_load_completed": true,
+    "case_at_failure": "C0",
+    "forward_attempted": 1,
+    "successful_forward_outputs": 0,
+    "error_type": "RuntimeError",
+    "error_message": "Expected all tensors to be on the same device, but got mat1 is on cpu, different from other tensors on cuda:0",
+    "gate_decision": "NONE_NO_VALID_MODEL_OUTPUT",
+    "retry_policy": "terminal under run_001; separate run_002 preregistered for the code fix"
   },
   "forbidden_scope": ["training", "BIRD", "Gold SQL", "SQL execution", "model API", "new model download", "dependency installation"]
 }

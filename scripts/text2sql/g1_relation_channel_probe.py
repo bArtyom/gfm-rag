@@ -255,6 +255,22 @@ def build_probe_cases() -> dict[str, ProbeCase]:
     }
 
 
+def move_graph_for_forward(graph: Data, device: torch.device | str) -> tuple[Data, bool]:
+    """Move a copy for inference and validate on a second copy.
+
+    PyG ``Data.to`` and ``Data.cpu`` mutate the receiving Data object through
+    ``apply``. Keeping the round-trip on a clone prevents validation from
+    moving the model input back to CPU.
+    """
+    moved = graph.clone().to(device)
+    roundtrip = moved.clone().cpu()
+    roundtrip_ok = all(
+        torch.equal(getattr(roundtrip, name), getattr(graph, name))
+        for name in TENSOR_FIELDS
+    )
+    return moved, roundtrip_ok
+
+
 def sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -299,16 +315,10 @@ def run(args: argparse.Namespace) -> dict:
     device_roundtrip: dict[str, bool] = {}
     with torch.inference_mode():
         for case_name, case in cases.items():
-            graph = case.graph.to(device)
-            roundtrip = graph.cpu()
-            roundtrip_ok = all(
-                torch.equal(getattr(roundtrip, name), getattr(case.graph, name))
-                for name in TENSOR_FIELDS
-            )
+            graph, roundtrip_ok = move_graph_for_forward(case.graph, device)
             if not roundtrip_ok:
                 raise RuntimeError(f"Graph tensor fields changed during device transfer for {case_name}")
             device_roundtrip[case_name] = roundtrip_ok
-            del roundtrip
             batch = {
                 "question_embeddings": case.question_embeddings.to(device),
                 "start_nodes_mask": case.start_nodes_mask.to(device),

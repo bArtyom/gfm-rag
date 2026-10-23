@@ -1,6 +1,6 @@
 # G1 Relation Channel and FK Instance Contract Gate
 
-> **Status: PREREGISTERED — NOT RUN.** This is a synthetic mechanism and compatibility gate, not a SQL accuracy experiment. No G1 model outputs are included yet.
+> **Status: FAILED BEFORE A VALID OUTPUT.** Run `g1_relation_channel_20261023_01` is terminal. The checkpoint loaded, but the first C0 model call raised a CPU/CUDA device mismatch. No model output, epsilon, or G1-A decision was produced. This software failure is not evidence for or against the research hypothesis.
 
 ## Research question and hypothesis
 
@@ -38,7 +38,7 @@ The primary gate passes only when C1 (metadata negative control) and C4 (consist
 
 ## Environment, hardware and command
 
-Use the existing `gfmrag_greasoner_20261022` Conda environment (Python 3.12.15, PyTorch 2.8.0, PyG 2.6.1, Ninja 1.11.1.4), the existing RSPMM extension cache `/root/.cache/torch_extensions/py312_cu128/rspmm/rspmm.so`, local checkpoint alias `/mnt/liansp3/sources/models/g-reasoner-34m`, and physical GPU 1. At the 2026-10-23 14:40 UTC preflight, GPU 1 had 0% utilization and 22,397 MiB available; system RAM available was 432 GiB and 192 CPU cores were visible. A stale inherited Python 3.9 path was found before the successful test run; no package was installed or changed. Eight focused CPU contract tests pass, including fixture SHA, all cases, inverse/composite structure, negative and role controls, query/anchor isolation, and copy/device round-trip. The execution command clears that inherited path before activating the registered environment:
+Use the existing `gfmrag_greasoner_20261022` Conda environment (Python 3.12.15, PyTorch 2.8.0, PyG 2.6.1, Ninja 1.11.1.4), the existing RSPMM extension cache `/root/.cache/torch_extensions/py312_cu128/rspmm/rspmm.so`, local checkpoint alias `/mnt/liansp3/sources/models/g-reasoner-34m`, and physical GPU 1. At the 2026-10-23 06:40 UTC preflight (the `nvidia-smi` timestamp is host-local UTC+08), GPU 1 had 0% utilization and 22,397 MiB available; system RAM available was 432 GiB and 192 CPU cores were visible. A stale inherited Python 3.9 path was found before the successful test run; no package was installed or changed. Eight focused CPU contract tests pass, including fixture SHA, all cases, inverse/composite structure, negative and role controls, query/anchor isolation, and copy/device round-trip. The execution command clears that inherited path before activating the registered environment:
 
 ```bash
 timeout --signal=INT --kill-after=10s 900s \
@@ -54,6 +54,8 @@ timeout --signal=INT --kill-after=10s 900s \
 
 Targeted structure tests: `python -m unittest discover -s tests -p 'test_g1_relation_channel_probe.py' -v` in the same cleaned Conda environment. All eight focused tests passed, and the CLI `--help` check passed after preregistration without loading the checkpoint or executing a model forward. Result JSON and execution log are kept at the local paths in `experiment_config.json`; only synthetic outputs and aggregate runtime metadata are published.
 
-## Results
+## Run 001 outcome
 
-**NOT RUN.** This section will be replaced only after the single preregistered execution. No result or model sensitivity claim is available at preregistration time.
+The run attempted one forward (C0) and completed zero valid outputs. The error was `Expected all tensors to be on the same device, but got mat1 is on cpu, different from other tensors on cuda:0`. PyG's `Data.to()` and `Data.cpu()` mutate the receiving graph with `apply(...)`; the initial device round-trip check moved the same graph back to CPU before inference. The exact local traceback is preserved in `/mnt/liansp3/logs/gfmrag_g1_relation_channel_20261023_01/run_001/run.log`; the public result record is [`result.json`](result.json).
+
+This run ID is terminal and was not retried. A separately preregistered recovery run, `g1_relation_channel_20261023_02`, uses a minimal clone-based transfer check and retains the same fixture, seed, model, cases, budget, and decision criteria. No sensitivity or SQL-accuracy claim is available from run 001.

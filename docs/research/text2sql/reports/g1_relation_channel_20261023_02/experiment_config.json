@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "experiment_id": "g1_relation_channel_20261023_02",
+  "status": "PREREGISTERED_NOT_RUN",
+  "created_utc": "2026-10-23",
+  "branch": "research/g1-relation-channel-20261023",
+  "preregistration_parent_commit": "2fba950459ef833c2def4d48f199b8e6c69c71fe",
+  "guidance_main_commit": "33e040327fe13df2703c1c96211b87e83250f1be",
+  "research_question": "Does the frozen official G-reasoner checkpoint respond to relation fields it consumes, while preserving consistent relation-ID relabel invariance and the FK graph structure contract?",
+  "experiment_tier": "synthetic mechanism and compatibility gate; exploratory, not downstream SQL main-line evidence",
+  "predecessor_failed_run": {
+    "experiment_id": "g1_relation_channel_20261023_01",
+    "report": "../g1_relation_channel_20261023_01/README.md",
+    "status": "FAILED_RUNTIME_DEVICE_MISMATCH",
+    "forward_attempted": 1,
+    "successful_forward_outputs": 0,
+    "failure_case": "C0",
+    "root_cause": "PyG Data.to()/Data.cpu() mutate the same Data object; run_001's round-trip validation moved the inference graph back to CPU.",
+    "runner_sha256": "7f4fb14244a2878f950bd4d5143ecc153f5ccedcba64f9a62df9e717ec2389b5"
+  },
+  "recovery_change": "Clone the graph before moving it to the device; use a second clone for CPU round-trip verification so the graph passed to the model remains on the target device.",
+  "hypotheses": {
+    "negative_control_C1": "Changing only edge_attr/custom FK metadata with a bijective instance-ID relabel leaves output within epsilon.",
+    "relation_channel_C2_or_C3": "At least one of edge_type or rel_attr perturbations changes output by more than epsilon.",
+    "semantic_relabel_C4": "Consistent relation-ID and rel_attr-row relabeling leaves output within epsilon.",
+    "epsilon": "max(1e-6, 10 * max_abs_delta(C0, C0_repeat))"
+  },
+  "decision_rule": {
+    "pass": "C1 <= epsilon AND C4 <= epsilon AND (C2 > epsilon OR C3 > epsilon)",
+    "no_go": "C1 <= epsilon AND C4 <= epsilon AND C2,C3 <= epsilon",
+    "stop": "C4 > epsilon, invalid structure/shape/non-finite output/checkpoint mismatch, resource overrun, or execution failure",
+    "c5_c6": "report anchor/query sensitivity as mechanism fingerprints only; not a SQL-aware method result"
+  },
+  "budget": {
+    "model_loads": 1,
+    "forward_passes": 8,
+    "gpu_count": 1,
+    "gpu_model": "NVIDIA GeForce RTX 4090",
+    "wall_minutes_max": 15,
+    "seed": 20261023,
+    "training_epochs": 0,
+    "retry_under_run_id": false
+  },
+  "cases": [
+    {"id": "C0", "change": "frozen synthetic fixture, query and anchor"},
+    {"id": "C0_repeat", "change": "exact repeat to measure numerical noise"},
+    {"id": "C1", "change": "edge_attr plus bijective FK-instance relabel; consumed model inputs unchanged"},
+    {"id": "C2", "change": "swap paired forward/inverse edge_type role IDs; rel_attr fixed"},
+    {"id": "C3", "change": "permute paired relation-feature rows; edge_type fixed"},
+    {"id": "C4", "change": "consistent relation-ID and relation-feature permutation"},
+    {"id": "C5", "change": "change only start-node mask"},
+    {"id": "C6", "change": "change only normalized query embedding"}
+  ],
+  "reference": {
+    "owned_project_repository": "https://github.com/bArtyom/gfm-rag",
+    "source_repository": "https://github.com/RManLuo/gfm-rag",
+    "source_commit": "b3e43219c49929da505244df4f0ba54c0947e4c4",
+    "source_license": "Apache-2.0",
+    "source_checkpoint": "rmanluo/G-reasoner-34M@a3a4ed2c62281e1c3e0551bd42f2072d9204674f",
+    "checkpoint_sha256": "2f2a1a2d2f5725133428941b785f3898255666b06041b58420f75e60599d387d",
+    "checkpoint_config_sha256": "75d14b97d6a077ebc17b09a21170a3ad9272251db59f7ac8cc853165efb2efd5",
+    "g0_branch": "research/g0-synthetic-compat-20261023",
+    "g0_commit": "7152ab2a75e1bada1bc4d8280728878cbaf73726",
+    "fixture_tensor_bundle_sha256": "0ffaa88fbe41a4026bbc8b7263cbbdee1b432c9651a6bc3824a705890bd593f2"
+  },
+  "data": {
+    "kind": "synthetic only",
+    "nodes": 5,
+    "directed_edges": 8,
+    "relation_ids": 6,
+    "external_datasets": false,
+    "BIRD_or_Gold_SQL": false
+  },
+  "environment": {
+    "conda_environment": "gfmrag_greasoner_20261022",
+    "python": "3.12.15",
+    "torch": "2.8.0",
+    "torch_geometric": "2.6.1",
+    "ninja": "1.11.1.4",
+    "rspmm_extension_cache": "/root/.cache/torch_extensions/py312_cu128/rspmm/rspmm.so",
+    "device_binding": "CUDA_VISIBLE_DEVICES=1 (physical GPU 1; process sees cuda:0)",
+    "packages_installed_or_changed": false,
+    "clean_launch": "clear inherited CONDA_PREFIX/CONDA_DEFAULT_ENV/CONDA_SHLVL/CONDA_PREFIX_1 and set PATH=/usr/bin:/bin before conda run"
+  },
+  "resource_snapshot": {
+    "captured_utc": "2026-10-23 06:44 UTC (nvidia-smi displays local UTC+08)",
+    "gpu_1_utilization_percent": 0,
+    "gpu_1_memory_used_mib": 2167,
+    "gpu_1_memory_total_mib": 24564,
+    "gpu_1_memory_available_mib": 22397,
+    "ram_available_gib": 432,
+    "cpu_cores": 192
+  },
+  "launch_command": "timeout --signal=INT --kill-after=10s 900s env -u CONDA_PREFIX -u CONDA_DEFAULT_ENV -u CONDA_SHLVL -u CONDA_PREFIX_1 PATH=/usr/bin:/bin CUDA_VISIBLE_DEVICES=1 /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 python scripts/text2sql/g1_relation_channel_probe.py --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --device cuda:0 --run-id g1_relation_channel_20261023_02 --output /mnt/liansp3/sources/results/gfmrag_g1_relation_channel_20261023_01/run_002/result.json > /mnt/liansp3/logs/gfmrag_g1_relation_channel_20261023_01/run_002/run.log 2>&1",
+  "local_artifacts": {
+    "result_json": "/mnt/liansp3/sources/results/gfmrag_g1_relation_channel_20261023_01/run_002/result.json",
+    "log": "/mnt/liansp3/logs/gfmrag_g1_relation_channel_20261023_01/run_002/run.log"
+  },
+  "pre_run_validation": {
+    "targeted_unittest_cases": 9,
+    "targeted_unittest_status": "PASS",
+    "regression_test": "verified forward graph stays on requested device after roundtrip validation, without mutating source graph",
+    "launch_preflight": "PASS: CLI --help checked; checkpoint not loaded and no model forward executed"
+  },
+  "forbidden_scope": ["training", "BIRD", "Gold SQL", "SQL execution", "model API", "new model download", "dependency installation"]
+}

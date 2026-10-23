@@ -58,6 +58,35 @@ class G1ProbeContractTests(unittest.TestCase):
         for name in graph_fields(graph):
             self.assertTrue(torch.equal(getattr(graph, name), getattr(copied, name)), name)
 
+    def test_forward_graph_stays_on_target_device_after_roundtrip_validation(self):
+        probe = load_probe()
+        source = probe.build_probe_cases()["C0"].graph
+
+        class DeviceTrackingGraph:
+            def __init__(self, wrapped, device="cpu"):
+                self.wrapped = wrapped
+                self.device = device
+
+            def __getattr__(self, name):
+                return getattr(self.wrapped, name)
+
+            def clone(self):
+                return DeviceTrackingGraph(self.wrapped.clone(), self.device)
+
+            def to(self, device):
+                self.device = str(device)
+                return self
+
+            def cpu(self):
+                self.device = "cpu"
+                return self
+
+        graph = DeviceTrackingGraph(source)
+        forward_graph, roundtrip_ok = probe.move_graph_for_forward(graph, "cuda:0")
+        self.assertTrue(roundtrip_ok)
+        self.assertEqual(forward_graph.device, "cuda:0")
+        self.assertEqual(graph.device, "cpu")
+
     def test_all_conditions_preserve_parallel_roles_composite_fk_and_inverse_pairs(self):
         probe = load_probe()
         cases = probe.build_probe_cases()

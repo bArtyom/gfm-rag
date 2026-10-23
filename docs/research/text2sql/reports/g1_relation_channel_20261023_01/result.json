@@ -1,0 +1,22 @@
+{
+  "experiment_id": "g1_relation_channel_20261023_01",
+  "status": "FAILED_RUNTIME_DEVICE_MISMATCH",
+  "preregistered_commit": "2fba950459ef833c2def4d48f199b8e6c69c71fe",
+  "runner_blob_sha": "4e32ae9c5b561d24c9641e29e4a972dabaaf2898",
+  "runner_sha256": "7f4fb14244a2878f950bd4d5143ecc153f5ccedcba64f9a62df9e717ec2389b5",
+  "checkpoint_load_completed": true,
+  "case_at_failure": "C0",
+  "forward_attempted": 1,
+  "successful_forward_outputs": 0,
+  "output_shape": null,
+  "epsilon": null,
+  "gate_decision": "NONE_NO_VALID_MODEL_OUTPUT",
+  "error_type": "RuntimeError",
+  "error_message": "Expected all tensors to be on the same device, but got mat1 is on cpu, different from other tensors on cuda:0",
+  "root_cause": "PyG Data.to() and Data.cpu() mutate their receiving graph. The initial round-trip check moved the same graph used for inference back to CPU after it had been moved to CUDA.",
+  "fix_policy": "Keep the inference graph on device and validate the CPU round-trip using a separate clone.",
+  "run_id_policy": "run_001 is terminal. Any recovery uses a new ID and is independently preregistered.",
+  "training_epochs": 0,
+  "sql_or_gold_access": false,
+  "result_log_local": "/mnt/liansp3/logs/gfmrag_g1_relation_channel_20261023_01/run_001/run.log"
+}
