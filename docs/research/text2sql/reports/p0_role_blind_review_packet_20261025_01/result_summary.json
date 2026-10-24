@@ -1,0 +1,47 @@
+{
+  "experiment_id": "p0_role_blind_review_packet_20261025_01",
+  "run_id": "p0_role_blind_review_packet_20261025_01_packet_001",
+  "status": "PREPARATION_GATE_STOP",
+  "smoke": {
+    "run_id": "p0_role_blind_review_packet_20261025_01_smoke_001",
+    "status": "SMOKE_PASS",
+    "records_examined": 5,
+    "process_wall_seconds": 0.033625,
+    "process_cpu_seconds": 0.025906,
+    "peak_rss_gib": 0.021973
+  },
+  "input_hashes_match": true,
+  "expected_counts": {
+    "question_count": 1534,
+    "parse_ok": 1534,
+    "join_on_queries": 1140,
+    "fk_matched_queries": 956,
+    "multi_fk_candidate_queries": 174
+  },
+  "observed_counts": {
+    "question_count": 1534,
+    "parse_ok": 1534,
+    "join_on_queries": 1140,
+    "fk_matched_queries": 1043,
+    "multi_fk_candidate_queries": 176
+  },
+  "full_outer_wall_seconds": 2.666824,
+  "full_process_cpu_seconds": null,
+  "full_peak_rss_gib": null,
+  "review_packet_generated": false,
+  "human_review_completed": false,
+  "trusted_role_label_count": 0,
+  "gpu_count": 0,
+  "local_model_calls": 0,
+  "external_api_calls": 0,
+  "sql_execution": 0,
+  "training_steps": 0,
+  "external_api_tokens": {
+    "input": 0,
+    "output": 0,
+    "total": 0
+  },
+  "external_api_cost_cny": 0,
+  "local_model_input_tokens": 0,
+  "local_model_output_tokens": 0
+}
