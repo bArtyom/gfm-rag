@@ -11,6 +11,7 @@ from scripts.text2sql.fk_instance_quality_audit import (
     build_bidirectional_edges,
     canonicalize_fk_rows,
     identity_collision_count,
+    run_audit,
     scan_database,
 )
 
@@ -89,6 +90,28 @@ class FKInstanceIdentityTests(unittest.TestCase):
 
 
 class SQLiteSchemaScanTests(unittest.TestCase):
+    def test_smoke_discovers_sqlite_database_nested_under_its_dataset_folder(self):
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            dataset_root = Path(temporary_directory) / "dev_databases"
+            nested_directory = dataset_root / "sample_db"
+            nested_directory.mkdir(parents=True)
+            database_path = nested_directory / "sample_db.sqlite"
+            connection = sqlite3.connect(database_path)
+            connection.executescript(
+                "CREATE TABLE parent (id INTEGER PRIMARY KEY);"
+                "CREATE TABLE child (parent_id INTEGER, FOREIGN KEY(parent_id) REFERENCES parent(id));"
+            )
+            connection.close()
+            output_path = Path(temporary_directory) / "smoke_result.json"
+
+            try:
+                result = run_audit(dataset_root, "smoke", "nested-smoke-test", output_path)
+            except FileNotFoundError as error:
+                self.fail(f"smoke failed to discover a nested SQLite database: {error}")
+
+        self.assertEqual(result["status"], "SMOKE_PASS")
+        self.assertEqual(result["input"]["database_count"], 1)
+
     def test_read_only_scan_preserves_two_same_endpoint_instances_and_composite_fk(self):
         with tempfile.TemporaryDirectory() as temporary_directory:
             database_path = Path(temporary_directory) / "fixture.sqlite"

@@ -61,12 +61,13 @@
     "dependencies": "Python standard library only; no installation"
   },
   "implementation": {
-    "commit_before_smoke": "4175c36670c0dccba57e2f84e43cb5b366946831",
+    "commit_before_smoke": "pending_prelaunch_code_correction_commit",
     "runner_path": "scripts/text2sql/fk_instance_quality_audit.py",
-    "runner_sha256": "e0f7ad805f141994cb5ecf9341f777d6e629f6ad71ea8368f71daaa0e1f07dd1",
+    "runner_sha256": "a2ff6a331bad4c74fd4cffd7bd5df0295e15f2ba1ab87d5f1e4d641489f5b5b5",
     "contract_test_path": "tests/test_fk_instance_quality_audit.py",
-    "contract_test_sha256": "83f3176df4cccf875f37a6181295f83ae94c6eb6b345f0087a4bb10268cb6ca0",
-    "contract_test_result": "8 passed; implementation gate only, not a BIRD experiment result"
+    "contract_test_sha256": "3ee2b161cfcc565909721300da8ac2356219677c29f38447765f4160ad1e4e4d",
+    "contract_test_result": "9 passed; implementation gate only, not a BIRD experiment result",
+    "prelaunch_correction": "A targeted test caught top-level-only SQLite discovery before any BIRD data run; runner now recursively discovers dev database files."
   },
   "outputs": {
     "public_report_directory": "docs/research/text2sql/reports/g2_fk_instance_quality_20261024_01/",

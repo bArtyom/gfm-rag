@@ -593,7 +593,7 @@ def _write_reservation(path: Path, state: dict[str, Any], exclusive: bool) -> No
 
 
 def run_audit(dataset_root: Path, mode: str, run_id: str, output_path: Path) -> dict[str, Any]:
-    database_paths = sorted(dataset_root.glob("*.sqlite"), key=lambda path: path.name.casefold())
+    database_paths = sorted(dataset_root.rglob("*.sqlite"), key=lambda path: path.name.casefold())
     if mode == "smoke":
         database_paths = database_paths[:1]
     if not database_paths:
