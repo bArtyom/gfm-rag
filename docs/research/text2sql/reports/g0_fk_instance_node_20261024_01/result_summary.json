@@ -3,6 +3,14 @@
   "status": "IMPLEMENTATION_FAILURE",
   "category": "exploratory synthetic engineering and identifiability probe",
   "scientific_gate_evaluated": false,
+  "project_code": {
+    "repository": "https://github.com/bArtyom/gfm-rag",
+    "branch": "research/g0-fk-instance-node-20261024",
+    "smoke_launch_commit": "c93b58f1d2dd5cffb65ef91b4b2816a835da4351",
+    "full_launch_commit": "26158d1850164a7c6c9cdfda6fde0b36349f5213",
+    "script_path": "scripts/text2sql/g0_fk_instance_node_probe.py",
+    "script_git_blob": "212624c8204328d30b78b0a2da66572430bf1ef4"
+  },
   "runs": [
     {
       "run_id": "g0_fk_instance_node_20261024_01_smoke_001",
