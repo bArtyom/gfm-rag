@@ -857,6 +857,9 @@ def run(args: argparse.Namespace, journal: RunJournal | None = None) -> dict[str
         torch.cuda.manual_seed_all(SEED)
     device = torch.device(args.device)
     if device.type == "cuda":
+        # reset_peak_memory_stats requires an initialized CUDA context.
+        torch.cuda.init()
+        torch.cuda.set_device(device)
         torch.cuda.reset_peak_memory_stats(device)
     if journal is not None:
         journal.set_phase("CHECKPOINT_LOAD")

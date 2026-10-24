@@ -4,9 +4,10 @@ import importlib.util
 import json
 import sys
 import tempfile
+import types
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, call, patch
 
 import torch
 
@@ -223,6 +224,46 @@ class G2ProbeContractTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "CPU preflight failed"):
                 probe.run(args)
         self.assertEqual(build.call_count, 1)
+
+    def test_run_initializes_cuda_context_before_resetting_peak_memory_stats(self):
+        probe = load_probe()
+        args = type("Args", (), {
+            "checkpoint": Path("/unused/checkpoint"),
+            "device": "cuda:0",
+            "run_id": "g2-test-cuda-context-init",
+        })()
+        events = Mock()
+        fake_gfmrag = types.ModuleType("gfmrag")
+        fake_gfmrag.__path__ = []
+        fake_utils = types.ModuleType("gfmrag.utils")
+        fake_utils.__path__ = []
+        fake_util = types.ModuleType("gfmrag.utils.util")
+        fake_util.load_model_from_pretrained = Mock(side_effect=RuntimeError("stop before model load"))
+        with patch.object(probe.torch.cuda, "is_available", return_value=True), \
+             patch.object(probe.torch.cuda, "manual_seed_all") as seed, \
+             patch.object(probe.torch.cuda, "init") as initialize, \
+             patch.object(probe.torch.cuda, "set_device") as set_device, \
+             patch.object(probe.torch.cuda, "reset_peak_memory_stats") as reset_stats, \
+             patch.object(probe, "sha256_file", return_value="test-hash"), \
+             patch.object(probe, "validate_checkpoint_hashes", return_value={"matches": True}), \
+             patch.dict(sys.modules, {
+                 "gfmrag": fake_gfmrag,
+                 "gfmrag.utils": fake_utils,
+                 "gfmrag.utils.util": fake_util,
+             }):
+            events.attach_mock(initialize, "initialize")
+            events.attach_mock(set_device, "set_device")
+            events.attach_mock(reset_stats, "reset_stats")
+            with self.assertRaisesRegex(RuntimeError, "stop before model load"):
+                probe.run(args)
+        self.assertEqual(
+            events.mock_calls,
+            [
+                call.initialize(),
+                call.set_device(torch.device("cuda:0")),
+                call.reset_stats(torch.device("cuda:0")),
+            ],
+        )
 
     def test_run_journal_reserves_id_and_finalizes_abnormal_exit_with_counters(self):
         probe = load_probe()
