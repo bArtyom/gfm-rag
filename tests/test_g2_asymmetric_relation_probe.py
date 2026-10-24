@@ -6,6 +6,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import torch
 
@@ -171,6 +172,248 @@ class G2ProbeContractTests(unittest.TestCase):
                 expected_model_sha256="model-sha",
                 expected_config_sha256="config-sha",
             )
+
+    def test_cpu_gate_rejects_frozen_fixture_hash_drift(self):
+        probe = load_probe()
+        cases = probe.build_probe_cases()
+        cases["A0"].graph.x[0, 0] += 0.01
+        receipt = probe.cpu_preflight(cases)
+        self.assertFalse(receipt["passed"])
+        self.assertFalse(receipt["gates"]["frozen_fixture_tensor_bundle_hash_matches"])
+
+    def test_cpu_gate_rejects_query_or_mask_contamination_in_conditions(self):
+        probe = load_probe()
+        mutations = (
+            ("A2", "question_embeddings"),
+            ("A0_repeat", "start_nodes_mask"),
+            ("A5", "question_embeddings"),
+            ("A6", "start_nodes_mask"),
+        )
+        for case_name, field in mutations:
+            with self.subTest(case=case_name, field=field):
+                cases = probe.build_probe_cases()
+                value = getattr(cases[case_name], field)
+                value.flatten()[0] += 0.25
+                receipt = probe.cpu_preflight(cases)
+                self.assertFalse(receipt["passed"])
+                self.assertFalse(receipt["gates"]["case_intervention_isolation_valid"])
+
+    def test_cpu_gate_rejects_missing_or_extra_condition(self):
+        probe = load_probe()
+        missing = probe.build_probe_cases()
+        missing.pop("A6")
+        extra = probe.build_probe_cases()
+        extra["A7"] = extra["A0"]
+        for cases in (missing, extra, {}):
+            with self.subTest(case_names=tuple(cases)):
+                receipt = probe.cpu_preflight(cases)
+                self.assertFalse(receipt["passed"])
+                self.assertFalse(receipt["gates"]["exact_condition_set"])
+
+    def test_run_reuses_the_audited_cases_and_stops_before_loader_on_fixture_drift(self):
+        probe = load_probe()
+        cases = probe.build_probe_cases()
+        cases["A0"].graph.x[0, 0] += 0.01
+        args = type("Args", (), {
+            "checkpoint": Path("/does/not/need/to/exist"),
+            "device": "cpu",
+            "run_id": "g2-test-fixture-drift",
+        })()
+        with patch.object(probe, "build_probe_cases", return_value=cases) as build:
+            with self.assertRaisesRegex(RuntimeError, "CPU preflight failed"):
+                probe.run(args)
+        self.assertEqual(build.call_count, 1)
+
+    def test_run_journal_reserves_id_and_finalizes_abnormal_exit_with_counters(self):
+        probe = load_probe()
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "result.json"
+            journal = probe.RunJournal(output, "g2-test-interrupted")
+            journal.reserve()
+            journal.set_phase("CHECKPOINT_LOAD")
+            journal.mark_model_load_attempted()
+            duplicate_active = probe.RunJournal(output, "g2-test-interrupted")
+            with self.assertRaisesRegex(FileExistsError, "already reserved"):
+                duplicate_active.reserve()
+            for case_name in probe.EXPECTED_CASE_ORDER:
+                journal.begin_forward(case_name)
+                journal.complete_forward(case_name)
+            probe.finalize_supervisor_run(
+                output,
+                "g2-test-interrupted",
+                reason="supervisor timeout",
+                exit_code=124,
+            )
+            receipt = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(receipt["status"], "STOP-INVALID")
+            self.assertEqual(receipt["model_load_attempted"], True)
+            self.assertEqual(receipt["forward_attempted_count"], 8)
+            self.assertEqual(receipt["successful_output_count"], 8)
+            self.assertEqual(receipt["completed_cases"], list(probe.EXPECTED_CASE_ORDER))
+            self.assertEqual(receipt["supervisor_exit_code"], 124)
+            duplicate = probe.RunJournal(output, "g2-test-interrupted")
+            with self.assertRaisesRegex(FileExistsError, "already reserved"):
+                duplicate.reserve()
+
+    def test_run_journal_captures_attempted_load_without_completed_load(self):
+        probe = load_probe()
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "result.json"
+            journal = probe.RunJournal(output, "g2-test-load-failure")
+            journal.reserve()
+            journal.set_phase("CHECKPOINT_LOAD")
+            journal.mark_model_load_attempted()
+            probe.finalize_supervisor_run(
+                output,
+                "g2-test-load-failure",
+                reason="loader raised",
+                exit_code=1,
+            )
+            receipt = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(receipt["model_load_attempted"], True)
+            self.assertEqual(receipt["model_loaded"], False)
+            self.assertEqual(receipt["forward_attempted_count"], 0)
+
+    def test_abnormal_exit_after_successful_result_writes_authoritative_stop_companion(self):
+        probe = load_probe()
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "result.json"
+            journal = probe.RunJournal(output, "g2-test-post-result-timeout")
+            journal.reserve()
+            journal.set_phase("COMPLETED", status="G2_A_PASS")
+            worker_result = {
+                "experiment_id": "g2-test-post-result-timeout",
+                "status": "G2_A_PASS",
+                "forward_count": 8,
+            }
+            probe.write_result(output, worker_result)
+            stopped = probe.finalize_supervisor_run(
+                output,
+                "g2-test-post-result-timeout",
+                reason="supervisor timeout after worker receipt publication",
+                exit_code=124,
+            )
+            self.assertEqual(stopped["status"], "STOP-INVALID")
+            self.assertEqual(stopped["worker_result_status"], "G2_A_PASS")
+            self.assertEqual(json.loads(output.read_text(encoding="utf-8")), worker_result)
+            companion = output.with_name("result.supervisor.json")
+            self.assertEqual(
+                json.loads(companion.read_text(encoding="utf-8"))["status"],
+                "STOP-INVALID",
+            )
+            final_journal = json.loads(
+                Path(f"{output}.reservation.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(final_journal["status"], "STOP-INVALID")
+
+    def test_clean_supervisor_exit_writes_completed_receipt(self):
+        probe = load_probe()
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "result.json"
+            journal = probe.RunJournal(output, "g2-test-clean-supervisor")
+            journal.reserve()
+            journal.mark_model_load_attempted()
+            journal.mark_model_loaded()
+            for case_name in probe.EXPECTED_CASE_ORDER:
+                journal.begin_forward(case_name)
+                journal.complete_forward(case_name)
+            result = {
+                "experiment_id": "g2-test-clean-supervisor",
+                "status": "G2_A_NO_GO",
+                "forward_count": 8,
+                "model_load_attempted": True,
+                "model_loaded": True,
+            }
+            journal.set_phase("COMPLETED", status=result["status"])
+            probe.write_result(output, result)
+            receipt = probe.finalize_supervisor_run(
+                output,
+                "g2-test-clean-supervisor",
+                reason="worker exited cleanly",
+                exit_code=0,
+            )
+            self.assertEqual(receipt["status"], "COMPLETED")
+            self.assertEqual(receipt["worker_result_status"], "G2_A_NO_GO")
+            self.assertEqual(receipt["supervisor_exit_code"], 0)
+            self.assertEqual(receipt["successful_output_count"], 8)
+            self.assertEqual(
+                json.loads(output.read_text(encoding="utf-8"))["status"],
+                "G2_A_NO_GO",
+            )
+            self.assertEqual(
+                json.loads(output.with_name("result.supervisor.json").read_text(encoding="utf-8"))["status"],
+                "COMPLETED",
+            )
+
+    def test_supervisor_clean_exit_rejects_inconsistent_or_missing_receipts(self):
+        probe = load_probe()
+        variants = ("generic_pass", "wrong_run_id", "wrong_worker_count", "wrong_journal_count", "missing_journal")
+        for variant in variants:
+            with self.subTest(variant=variant), tempfile.TemporaryDirectory() as directory:
+                output = Path(directory) / "result.json"
+                run_id = f"g2-test-invalid-completion-{variant}"
+                result = {
+                    "experiment_id": run_id,
+                    "status": "G2_A_NO_GO",
+                    "forward_count": 8,
+                    "model_load_attempted": True,
+                    "model_loaded": True,
+                }
+                if variant != "missing_journal":
+                    journal = probe.RunJournal(output, run_id)
+                    journal.reserve()
+                    journal.mark_model_load_attempted()
+                    journal.mark_model_loaded()
+                    for case_name in probe.EXPECTED_CASE_ORDER:
+                        journal.begin_forward(case_name)
+                        journal.complete_forward(case_name)
+                    journal.set_phase("COMPLETED", status="G2_A_NO_GO")
+
+                if variant == "generic_pass":
+                    result["status"] = "PASS"
+                elif variant == "wrong_run_id":
+                    result["experiment_id"] = "g2-test-other-run"
+                elif variant == "wrong_worker_count":
+                    result["forward_count"] = 7
+                elif variant == "wrong_journal_count":
+                    journal.update(successful_output_count=7)
+                probe.write_result(output, result)
+
+                receipt = probe.finalize_supervisor_run(
+                    output,
+                    run_id,
+                    reason="worker exited cleanly",
+                    exit_code=0,
+                )
+                self.assertEqual(receipt["status"], "STOP-INVALID")
+                self.assertTrue(receipt["completion_validation_errors"])
+                self.assertEqual(json.loads(output.read_text(encoding="utf-8")), result)
+
+    def test_main_catches_interrupt_and_writes_durable_stop_receipt(self):
+        probe = load_probe()
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "interrupted.json"
+            argv = [
+                "g2_asymmetric_relation_probe.py",
+                "--checkpoint",
+                "/unused/checkpoint",
+                "--output",
+                str(output),
+                "--run-id",
+                "g2-test-keyboard-interrupt",
+                "--device",
+                "cpu",
+            ]
+            with patch.object(sys, "argv", argv), patch.object(
+                probe, "run", side_effect=KeyboardInterrupt()
+            ):
+                with self.assertRaises(KeyboardInterrupt):
+                    probe.main()
+            receipt = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(receipt["status"], "STOP-INVALID")
+            self.assertEqual(receipt["error_type"], "KeyboardInterrupt")
+            self.assertEqual(receipt["forward_attempted_count"], 0)
+            self.assertTrue(Path(f"{output}.reservation.json").is_file())
 
 
 if __name__ == "__main__":

@@ -6,9 +6,11 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import platform
 import random
 import time
+import uuid
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -27,6 +29,8 @@ MAX_CPU_THREADS = 8
 EXPECTED_PARAMETER_COUNT = 34_640_897
 EXPECTED_MODEL_SHA256 = "2f2a1a2d2f5725133428941b785f3898255666b06041b58420f75e60599d387d"
 EXPECTED_CONFIG_SHA256 = "75d14b97d6a077ebc17b09a21170a3ad9272251db59f7ac8cc853165efb2efd5"
+EXPECTED_FIXTURE_TENSOR_BUNDLE_SHA256 = "3a36bd4656bed2ddeaa803a2fac5ea0bae6fb2635cdb2fa3a72b3f63b99f02f8"
+EXPECTED_CASE_ORDER = ("A0", "A0_repeat", "A1", "A2", "A3", "A4", "A5", "A6")
 TENSOR_FIELDS = (
     "x",
     "edge_index",
@@ -73,6 +77,235 @@ class ProbeForwardError(RuntimeError):
         self.error_type = type(cause).__name__
         self.error_message = str(cause)
         super().__init__(f"G2 case {failed_case} failed: {self.error_type}: {self.error_message}")
+
+
+class RunJournal:
+    """Durable exclusive reservation and progress journal for one run ID."""
+
+    def __init__(self, output: Path, run_id: str) -> None:
+        self.output = output
+        self.reservation_path = Path(f"{output}.reservation.json")
+        self.run_id = run_id
+        self.state: dict[str, Any] = {
+            "experiment_id": run_id,
+            "status": "RUNNING",
+            "phase": "RESERVED",
+            "model_load_attempted": False,
+            "model_loaded": False,
+            "forward_attempted_count": 0,
+            "successful_output_count": 0,
+            "completed_cases": [],
+            "current_case": None,
+        }
+
+    def reserve(self) -> None:
+        self.output.parent.mkdir(parents=True, exist_ok=True)
+        if self.reservation_path.exists():
+            raise FileExistsError(f"run ID already reserved; refusing to restart: {self.run_id}")
+        if self.output.exists():
+            raise FileExistsError(f"result already exists; refusing to restart: {self.output}")
+        payload = json.dumps(self.state, indent=2, sort_keys=True) + "\n"
+        temporary = self.reservation_path.with_name(
+            f"{self.reservation_path.name}.{os.getpid()}.{uuid.uuid4().hex}.tmp"
+        )
+        descriptor = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        try:
+            with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+                handle.write(payload)
+                handle.flush()
+                os.fsync(handle.fileno())
+            os.link(temporary, self.reservation_path)
+            _fsync_directory(self.reservation_path.parent)
+        finally:
+            if temporary.exists():
+                temporary.unlink()
+
+    def update(self, **changes: Any) -> None:
+        self.state.update(changes)
+        self._persist()
+
+    def set_phase(self, phase: str, **changes: Any) -> None:
+        self.update(phase=phase, **changes)
+
+    def mark_model_load_attempted(self) -> None:
+        self.update(model_load_attempted=True)
+
+    def mark_model_loaded(self) -> None:
+        self.update(model_loaded=True)
+
+    def begin_forward(self, case_name: str) -> None:
+        self.update(
+            forward_attempted_count=int(self.state["forward_attempted_count"]) + 1,
+            current_case=case_name,
+            phase="MODEL_FORWARD",
+        )
+
+    def complete_forward(self, case_name: str) -> None:
+        completed = list(self.state["completed_cases"])
+        completed.append(case_name)
+        self.update(
+            completed_cases=completed,
+            successful_output_count=len(completed),
+            current_case=None,
+        )
+
+    def _persist(self) -> None:
+        self.output.parent.mkdir(parents=True, exist_ok=True)
+        temporary = self.reservation_path.with_name(
+            f"{self.reservation_path.name}.{os.getpid()}.{uuid.uuid4().hex}.tmp"
+        )
+        payload = json.dumps(self.state, indent=2, sort_keys=True) + "\n"
+        descriptor = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        try:
+            with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+                handle.write(payload)
+                handle.flush()
+                os.fsync(handle.fileno())
+            os.replace(temporary, self.reservation_path)
+            _fsync_directory(self.reservation_path.parent)
+        finally:
+            if temporary.exists():
+                temporary.unlink()
+
+
+def _fsync_directory(path: Path) -> None:
+    descriptor = os.open(path, os.O_RDONLY)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+def _load_run_journal(output: Path, run_id: str) -> RunJournal:
+    journal = RunJournal(output, run_id)
+    if not journal.reservation_path.exists():
+        journal.reserve()
+        return journal
+    state = json.loads(journal.reservation_path.read_text(encoding="utf-8"))
+    if state.get("experiment_id") != run_id:
+        raise ValueError("run reservation ID does not match the requested run ID")
+    journal.state = state
+    return journal
+
+
+def finalize_supervisor_run(
+    output: Path,
+    run_id: str,
+    reason: str,
+    exit_code: int,
+) -> dict[str, Any]:
+    """Persist the authoritative supervisor outcome for every worker exit."""
+    companion = output.with_name(f"{output.stem}.supervisor{output.suffix}")
+    if companion.exists():
+        existing = json.loads(companion.read_text(encoding="utf-8"))
+        if existing.get("experiment_id") != run_id or existing.get("supervisor_exit_code") != int(exit_code):
+            raise FileExistsError("a different supervisor receipt already exists; refusing to overwrite")
+        return existing
+
+    reservation_path = Path(f"{output}.reservation.json")
+    journal = None
+    journal_error = None
+    if reservation_path.exists():
+        try:
+            journal = _load_run_journal(output, run_id)
+        except Exception as exc:
+            journal_error = f"{type(exc).__name__}: {exc}"
+    state = journal.state if journal is not None else {}
+    if output.exists():
+        worker_result = json.loads(output.read_text(encoding="utf-8"))
+    else:
+        worker_result = {
+            "experiment_id": run_id,
+            "status": "STOP-INVALID",
+            "phase": state.get("phase", "SUPERVISOR_FINALIZATION"),
+            "model_load_attempted": bool(state.get("model_load_attempted", False)),
+            "model_loaded": bool(state.get("model_loaded", False)),
+            "forward_attempted_count": int(state.get("forward_attempted_count", 0)),
+            "successful_output_count": int(state.get("successful_output_count", 0)),
+            "completed_cases": list(state.get("completed_cases", [])),
+            "current_case": state.get("current_case"),
+            "supervisor_exit_code": int(exit_code),
+            "error_type": "MissingWorkerResult",
+            "error": reason,
+        }
+        write_result(output, worker_result)
+
+    worker_status = worker_result.get("status")
+    validation_errors = []
+    if int(exit_code) != 0:
+        validation_errors.append(f"worker exit code was {int(exit_code)}")
+    if worker_result.get("experiment_id") != run_id:
+        validation_errors.append("worker result run ID does not match the requested run ID")
+    if worker_status not in ("G2_A_PASS", "G2_A_NO_GO"):
+        validation_errors.append("worker result status is not a completed G2 outcome")
+    if journal is None:
+        validation_errors.append("valid durable run journal is missing" if journal_error is None else journal_error)
+    if journal is not None:
+        if state.get("experiment_id") != run_id:
+            validation_errors.append("journal run ID does not match the requested run ID")
+        if state.get("phase") != "COMPLETED" or state.get("status") != worker_status:
+            validation_errors.append("journal completion state does not match the worker result")
+        if not state.get("model_load_attempted") or not state.get("model_loaded"):
+            validation_errors.append("journal does not record a successful checkpoint load")
+        if int(state.get("forward_attempted_count", 0)) != len(EXPECTED_CASE_ORDER):
+            validation_errors.append("journal forward-attempt count is not exactly eight")
+        if int(state.get("successful_output_count", 0)) != len(EXPECTED_CASE_ORDER):
+            validation_errors.append("journal successful-output count is not exactly eight")
+        if list(state.get("completed_cases", [])) != list(EXPECTED_CASE_ORDER):
+            validation_errors.append("journal completed conditions do not match the frozen order")
+        if state.get("current_case") is not None:
+            validation_errors.append("journal still records an in-progress condition")
+    if not worker_result.get("model_load_attempted") or not worker_result.get("model_loaded"):
+        validation_errors.append("worker result does not record a successful checkpoint load")
+    if int(worker_result.get("forward_count", 0)) != len(EXPECTED_CASE_ORDER):
+        validation_errors.append("worker result forward count is not exactly eight")
+    clean_exit = not validation_errors
+    supervisor_status = "COMPLETED" if clean_exit else "STOP-INVALID"
+    if clean_exit:
+        supervisor_error_type = None
+        supervisor_error = None
+    elif int(exit_code) == 0:
+        supervisor_error_type = "SupervisorReceiptValidationError"
+        supervisor_error = "; ".join(validation_errors)
+    else:
+        supervisor_error_type = "AbnormalProcessExit"
+        supervisor_error = reason
+    receipt = {
+        "experiment_id": run_id,
+        "status": supervisor_status,
+        "phase": "SUPERVISOR_COMPLETION" if clean_exit else "SUPERVISOR_STOP",
+        "worker_result_path": str(output.resolve()),
+        "worker_result_status": worker_status,
+        "worker_result_sha256": sha256_file(output),
+        "model_load_attempted": bool(
+            state.get("model_load_attempted", worker_result.get("model_load_attempted", False))
+        ),
+        "model_loaded": bool(state.get("model_loaded", worker_result.get("model_loaded", False))),
+        "forward_attempted_count": int(
+            state.get("forward_attempted_count", worker_result.get("forward_count", 0))
+        ),
+        "successful_output_count": int(
+            state.get("successful_output_count", worker_result.get("forward_count", 0))
+        ),
+        "completed_cases": list(
+            state.get("completed_cases", worker_result.get("completed_cases", []))
+        ),
+        "supervisor_exit_code": int(exit_code),
+        "worker_result_error_type": worker_result.get("error_type"),
+        "worker_result_error": worker_result.get("error"),
+        "completion_validation_errors": validation_errors,
+        "error_type": supervisor_error_type,
+        "error": supervisor_error,
+    }
+    write_result(companion, receipt)
+    if journal is not None:
+        journal.set_phase(
+            receipt["phase"],
+            status=supervisor_status,
+            supervisor_exit_code=int(exit_code),
+            worker_result_status=worker_status,
+        )
+    return receipt
 
 
 def _row_sha256(tensor: torch.Tensor) -> str:
@@ -374,10 +607,101 @@ def audit_legacy_g1_symmetry() -> dict[str, Any]:
     }
 
 
+def _changed_graph_fields(reference: Data, candidate: Data) -> set[str]:
+    return {
+        name
+        for name in TENSOR_FIELDS
+        if not torch.equal(getattr(reference, name), getattr(candidate, name))
+    }
+
+
+def intervention_isolation_valid(cases: dict[str, ProbeCase]) -> bool:
+    """Enforce the preregistered one-factor change for every G2 condition."""
+    if tuple(cases) != EXPECTED_CASE_ORDER:
+        return False
+    base = cases["A0"]
+    graph = base.graph
+    expected_start0 = torch.tensor([[1, 0, 0, 0, 0]], dtype=torch.float32)
+    expected_start2 = torch.tensor([[0, 0, 1, 0, 0]], dtype=torch.float32)
+    if not torch.equal(base.start_nodes_mask, expected_start0):
+        return False
+    if not torch.isclose(base.question_embeddings.norm(dim=-1), torch.ones(1), atol=1e-6, rtol=0).all():
+        return False
+
+    expected_graph_changes = {
+        "A0_repeat": set(),
+        "A1": {"edge_attr", "edge_fk_instance_id"},
+        "A2": {"edge_type"},
+        "A3": {"rel_attr"},
+        "A4": {"edge_type", "rel_attr"},
+        "A5": set(),
+        "A6": set(),
+    }
+    for case_name, allowed_changes in expected_graph_changes.items():
+        case = cases[case_name]
+        if _changed_graph_fields(graph, case.graph) != allowed_changes:
+            return False
+        if not torch.isfinite(case.question_embeddings).all().item():
+            return False
+        if tuple(case.question_embeddings.shape) != (1, FEATURE_DIM):
+            return False
+        if not torch.isfinite(case.start_nodes_mask).all().item():
+            return False
+        if tuple(case.start_nodes_mask.shape) != (1, NUM_NODES):
+            return False
+
+    for case_name in ("A0_repeat", "A1", "A2", "A3", "A4", "A5"):
+        if not torch.equal(cases[case_name].question_embeddings, base.question_embeddings):
+            return False
+    for case_name in ("A0_repeat", "A1", "A2", "A3", "A4", "A6"):
+        if not torch.equal(cases[case_name].start_nodes_mask, expected_start0):
+            return False
+    if not torch.equal(cases["A5"].start_nodes_mask, expected_start2):
+        return False
+    if torch.equal(cases["A6"].question_embeddings, base.question_embeddings):
+        return False
+    if not torch.isclose(
+        cases["A6"].question_embeddings.norm(dim=-1), torch.ones(1), atol=1e-6, rtol=0
+    ).all():
+        return False
+
+    if not torch.equal(cases["A1"].graph.edge_fk_instance_id,
+                       torch.tensor([10, 20, 30, 30, 10, 20, 30, 30], dtype=torch.long)):
+        return False
+    if not torch.equal(cases["A2"].graph.edge_type, RELABEL[graph.edge_type]):
+        return False
+    if not torch.equal(cases["A3"].graph.rel_attr[0], torch.roll(graph.rel_attr[0], shifts=1, dims=0)):
+        return False
+    if not torch.equal(cases["A3"].graph.rel_attr[3], torch.roll(graph.rel_attr[3], shifts=1, dims=0)):
+        return False
+    if changed_relation_rows(graph, cases["A3"].graph) != [0, 3]:
+        return False
+    if not torch.equal(cases["A4"].graph.edge_type, RELABEL[graph.edge_type]):
+        return False
+    if not torch.equal(cases["A4"].graph.rel_attr, graph.rel_attr[RELABEL]):
+        return False
+    return True
+
+
 def cpu_preflight(cases: dict[str, ProbeCase] | None = None) -> dict[str, Any]:
     if torch.get_num_threads() > MAX_CPU_THREADS:
         torch.set_num_threads(MAX_CPU_THREADS)
-    cases = cases or build_probe_cases()
+    if cases is None:
+        cases = build_probe_cases()
+    exact_condition_set = tuple(cases) == EXPECTED_CASE_ORDER
+    if not exact_condition_set:
+        return {
+            "status": "STOP-INVALID",
+            "passed": False,
+            "cpu_thread_count": torch.get_num_threads(),
+            "gates": {
+                "exact_condition_set": False,
+                "case_intervention_isolation_valid": False,
+                "frozen_fixture_tensor_bundle_hash_matches": False,
+            },
+            "condition_names": list(cases),
+            "expected_condition_names": list(EXPECTED_CASE_ORDER),
+        }
     for case in cases.values():
         validate_graph_contract(case.graph)
         if tuple(case.question_embeddings.shape) != (1, FEATURE_DIM):
@@ -415,7 +739,15 @@ def cpu_preflight(cases: dict[str, ProbeCase] | None = None) -> dict[str, Any]:
     )
     reachable = reachable_nodes(a0.graph, a0.start_nodes_mask)
     legacy = audit_legacy_g1_symmetry()
+    fixture_hash = tensor_bundle_sha256(
+        {name: getattr(a0.graph, name) for name in TENSOR_FIELDS}
+    )
     gates = {
+        "exact_condition_set": exact_condition_set,
+        "case_intervention_isolation_valid": intervention_isolation_valid(cases),
+        "frozen_fixture_tensor_bundle_hash_matches": (
+            fixture_hash == EXPECTED_FIXTURE_TENSOR_BUNDLE_SHA256
+        ),
         "fixture_contract_valid_all_cases": True,
         "A0_repeat_input_multisets_unchanged": not changed_targets(a0_signature, signatures["A0_repeat"]),
         "A1_consumed_fields_unchanged": a1_model_inputs_unchanged,
@@ -437,9 +769,8 @@ def cpu_preflight(cases: dict[str, ProbeCase] | None = None) -> dict[str, Any]:
         "reachable_targets_from_anchor": reachable,
         "changed_targets": {"A2": a2_changed, "A3": a3_changed, "A4": a4_changed},
         "fixture_contract": validate_graph_contract(a0.graph),
-        "fixture_tensor_bundle_sha256": tensor_bundle_sha256(
-            {name: getattr(a0.graph, name) for name in TENSOR_FIELDS}
-        ),
+        "fixture_tensor_bundle_sha256": fixture_hash,
+        "expected_fixture_tensor_bundle_sha256": EXPECTED_FIXTURE_TENSOR_BUNDLE_SHA256,
         "per_case_message_multiset_sha256": {
             name: {str(target): signature for target, signature in value.items()}
             for name, value in signatures.items()
@@ -493,14 +824,21 @@ def _delta(reference: torch.Tensor, candidate: torch.Tensor) -> dict[str, Any]:
     }
 
 
-def run(args: argparse.Namespace) -> dict[str, Any]:
+def run(args: argparse.Namespace, journal: RunJournal | None = None) -> dict[str, Any]:
     started = time.perf_counter()
-    cpu_gate = cpu_preflight()
+    cases = build_probe_cases()
+    if journal is not None:
+        journal.set_phase("CPU_PREFLIGHT")
+    cpu_gate = cpu_preflight(cases)
+    if journal is not None:
+        journal.update(cpu_preflight=cpu_gate)
     if not cpu_gate["passed"]:
         raise RuntimeError(f"CPU preflight failed; GPU launch forbidden: {cpu_gate['gates']}")
     if args.device.startswith("cuda") and not torch.cuda.is_available():
         raise RuntimeError("CUDA was requested but is unavailable")
 
+    if journal is not None:
+        journal.set_phase("CHECKPOINT_HASH")
     checkpoint_hashes = validate_checkpoint_hashes(
         actual_model_sha256=sha256_file(args.checkpoint / "model.pth"),
         actual_config_sha256=sha256_file(args.checkpoint / "config.json"),
@@ -509,6 +847,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     )
 
     # Import the official loader only after every CPU input gate has passed.
+    if journal is not None:
+        journal.set_phase("MODEL_IMPORT")
     from gfmrag.utils.util import load_model_from_pretrained
 
     random.seed(SEED)
@@ -518,7 +858,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     device = torch.device(args.device)
     if device.type == "cuda":
         torch.cuda.reset_peak_memory_stats(device)
+    if journal is not None:
+        journal.set_phase("CHECKPOINT_LOAD")
+        journal.mark_model_load_attempted()
     model, config = load_model_from_pretrained(str(args.checkpoint))
+    if journal is not None:
+        journal.mark_model_loaded()
     parameter_count = sum(parameter.numel() for parameter in model.parameters())
     model_config = config["model_config"]
     input_dim = int(model_config["entity_model"]["input_dim"])
@@ -529,7 +874,6 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError(f"Checkpoint dimensions are {input_dim}/{feature_dim}, expected {FEATURE_DIM}")
     model.eval().to(device)
 
-    cases = build_probe_cases()
     outputs: dict[str, torch.Tensor] = {}
     device_roundtrip: dict[str, bool] = {}
     forward_times: dict[str, float] = {}
@@ -547,6 +891,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 }
                 case_started = time.perf_counter()
                 forward_call_started = True
+                if journal is not None:
+                    journal.begin_forward(case_name)
                 output = model(graph, batch)
                 if device.type == "cuda":
                     torch.cuda.synchronize(device)
@@ -554,6 +900,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 if tuple(output.shape) != (1, NUM_NODES) or not torch.isfinite(output).all().item():
                     raise RuntimeError(f"Invalid model output for {case_name}: shape={tuple(output.shape)}")
                 outputs[case_name] = output.detach().float().cpu()
+                if journal is not None:
+                    journal.complete_forward(case_name)
             except Exception as exc:
                 raise ProbeForwardError(
                     failed_case=case_name,
@@ -598,6 +946,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "checkpoint_model_sha256": checkpoint_hashes["model_sha256"],
         "checkpoint_config_sha256": checkpoint_hashes["config_sha256"],
         "checkpoint_hashes_match_preregistered": checkpoint_hashes["matches"],
+        "model_load_attempted": True,
+        "model_loaded": True,
         "cpu_preflight": cpu_gate,
         "device_roundtrip_passed_by_case": device_roundtrip,
         "repeat_max_abs_delta": repeat_delta["max_abs"],
@@ -625,8 +975,18 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
 def write_result(output: Path, result: dict[str, Any]) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     serialized = json.dumps(result, indent=2, sort_keys=True) + "\n"
-    with output.open("x", encoding="utf-8") as handle:
-        handle.write(serialized)
+    temporary = output.with_name(f".{output.name}.{os.getpid()}.{uuid.uuid4().hex}.tmp")
+    descriptor = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+            handle.write(serialized)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.link(temporary, output)
+        _fsync_directory(output.parent)
+    finally:
+        if temporary.exists():
+            temporary.unlink()
 
 
 def main() -> None:
@@ -636,57 +996,75 @@ def main() -> None:
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--run-id", default="g2_asymmetric_relation_20261024_01")
     parser.add_argument("--cpu-preflight-only", action="store_true")
+    parser.add_argument("--finalize-supervisor", "--finalize-abnormal", dest="finalize_supervisor", action="store_true")
+    parser.add_argument("--exit-code", type=int, default=1)
+    parser.add_argument("--reason", default="supervisor observed abnormal process exit")
     args = parser.parse_args()
-    if args.output.exists():
-        parser.error(f"output already exists; refusing to overwrite: {args.output}")
+    if args.finalize_supervisor:
+        result = finalize_supervisor_run(
+            args.output,
+            args.run_id,
+            reason=args.reason,
+            exit_code=args.exit_code,
+        )
+        print(json.dumps(result, indent=2, sort_keys=True))
+        return
+    if not args.cpu_preflight_only and args.checkpoint is None:
+        parser.error("--checkpoint is required unless --cpu-preflight-only is set")
 
+    journal = RunJournal(args.output, args.run_id)
+    reserved = False
     try:
+        journal.reserve()
+        reserved = True
         if args.cpu_preflight_only:
+            journal.set_phase("CPU_PREFLIGHT")
+            cases = build_probe_cases()
+            cpu_gate = cpu_preflight(cases)
+            journal.update(cpu_preflight=cpu_gate)
             result = {
                 "experiment_id": args.run_id,
                 "phase": "CPU_PRECHECK_ONLY",
-                "cpu_preflight": cpu_preflight(),
+                "cpu_preflight": cpu_gate,
                 "model_loaded": False,
+                "model_load_attempted": False,
                 "forward_count": 0,
             }
-            result["status"] = result["cpu_preflight"]["status"]
-            if not result["cpu_preflight"]["passed"]:
-                write_result(args.output, result)
+            result["status"] = cpu_gate["status"]
+            if not cpu_gate["passed"]:
                 raise RuntimeError("CPU preflight gate failed; no GPU work was started")
         else:
-            if args.checkpoint is None:
-                parser.error("--checkpoint is required unless --cpu-preflight-only is set")
-            result = run(args)
+            result = run(args, journal=journal)
         write_result(args.output, result)
+        journal.set_phase("COMPLETED", status=result["status"])
         print(json.dumps(result, indent=2, sort_keys=True))
-    except ProbeForwardError as exc:
+    except BaseException as exc:
+        if not reserved:
+            raise
+        state = journal.state
         failure = {
             "experiment_id": args.run_id,
             "status": "STOP-INVALID",
-            "phase": "MODEL_FORWARD",
-            "successful_output_count": exc.successful_output_count,
-            "forward_attempted_count": exc.forward_attempted_count,
-            "completed_cases": list(exc.completed_outputs),
-            "failed_case": exc.failed_case,
-            "partial_outputs": {name: value.tolist() for name, value in exc.completed_outputs.items()},
-            "error_type": exc.error_type,
-            "error": exc.error_message,
-        }
-        if not args.output.exists():
-            write_result(args.output, failure)
-        print(json.dumps(failure, indent=2, sort_keys=True))
-        raise
-    except Exception as exc:
-        failure = {
-            "experiment_id": args.run_id,
-            "status": "STOP-INVALID",
-            "phase": "CPU_PRECHECK" if args.cpu_preflight_only else "MODEL_RUN",
+            "phase": state.get("phase", "UNKNOWN"),
+            "model_load_attempted": bool(state.get("model_load_attempted", False)),
+            "model_loaded": bool(state.get("model_loaded", False)),
+            "successful_output_count": int(state.get("successful_output_count", 0)),
+            "forward_attempted_count": int(state.get("forward_attempted_count", 0)),
+            "completed_cases": list(state.get("completed_cases", [])),
+            "current_case": state.get("current_case"),
             "error_type": type(exc).__name__,
-            "error": str(exc),
-            "forward_count": 0,
+            "error": str(exc) or type(exc).__name__,
         }
-        if not args.output.exists():
+        if isinstance(exc, ProbeForwardError):
+            failure.update(
+                failed_case=exc.failed_case,
+                partial_outputs={name: value.tolist() for name, value in exc.completed_outputs.items()},
+            )
+        if "cpu_preflight" in state:
+            failure["cpu_preflight"] = state["cpu_preflight"]
+        if journal.reservation_path.exists() and not args.output.exists():
             write_result(args.output, failure)
+            journal.set_phase("FINALIZED", status="STOP-INVALID")
         print(json.dumps(failure, indent=2, sort_keys=True))
         raise
 
