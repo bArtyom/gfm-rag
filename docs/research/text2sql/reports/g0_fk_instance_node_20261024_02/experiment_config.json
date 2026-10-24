@@ -1,6 +1,6 @@
 {
   "experiment_id": "g0_fk_instance_node_20261024_02",
-  "status": "smoke_pass_full_pending",
+  "status": "smoke_pass_full_launch_ready",
   "smoke_execution": {
     "run_id": "g0_fk_instance_node_20261024_02_smoke_001",
     "status": "SMOKE_PASS",
@@ -34,8 +34,22 @@
   },
   "full_execution": {
     "run_id": "g0_fk_instance_node_20261024_02_full_001",
-    "status": "pending",
-    "result_path": "/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_02/full_001/result.json"
+    "status": "launch_ready",
+    "result_path": "/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_02/full_001/result.json",
+    "preflight_checked_utc": "2026-10-24T13:01:36Z",
+    "physical_gpu": 2,
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "gpu_memory_used_mib": 5213,
+    "gpu_memory_free_mib": 19351,
+    "gpu_memory_total_mib": 24564,
+    "gpu_utilization_percent": 0,
+    "ram_available_gib": 423,
+    "cpu_count": 192,
+    "disk_available_tib": 114,
+    "gpu3_not_selected": "15203 MiB used, 91% utilization",
+    "model_symlinks_valid": true,
+    "output_directory_absent_before_launch": true,
+    "same_experiment_process_active": false
   },
   "experiment_date": "2026-10-24",
   "category": "exploratory synthetic engineering and identifiability recovery",
