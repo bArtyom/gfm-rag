@@ -1,0 +1,115 @@
+{
+  "experiment_id": "g0_fk_instance_node_20261024_02",
+  "status": "registered_not_run",
+  "experiment_date": "2026-10-24",
+  "category": "exploratory synthetic engineering and identifiability recovery",
+  "previous_experiment": {
+    "id": "g0_fk_instance_node_20261024_01",
+    "status": "IMPLEMENTATION_FAILURE",
+    "report_commit": "737d22ff989bff5818f64f476abb788797fdcd7a",
+    "root_cause": "PyG Data.to() mutated the original graph; permutation indexed CUDA edges with CPU inverse indices",
+    "no_metrics_reused": true
+  },
+  "hypothesis": "One stable reified node per unique ordered FK mapping, with duplicate declaration multiplicity metadata, exposes separate stable G-reasoner scores and may yield a synthetic query-conditioned signal beyond dense cosine.",
+  "code_change": "move_graph() clones the PyG Data object before calling Data.to(device); experiment ID and all artifact paths are new",
+  "fixture": {
+    "source": "synthetic fixture committed in scripts/text2sql/g0_fk_instance_node_probe.py",
+    "tables": 2,
+    "unique_fk_mappings": 2,
+    "declarations": 3,
+    "declaration_multiplicity": {"billing_map": 2, "shipping_map": 1},
+    "query_count_full": 4,
+    "query_count_smoke": 1,
+    "seed": 20261024,
+    "trusted_real_role_labels": 0
+  },
+  "success_criteria": {
+    "mapping_identity": "3 declarations derive 2 stable IDs by SHA-256 of the ordered source/target table/column tuple with multiplicities 2/1; reverse declaration order preserves IDs/counts",
+    "model_output": "direct graph [1,2], reified graph [1,4], all finite",
+    "permutation": "mapping-only max absolute score delta <= 1e-5 and same mapping top-1 set after stable-ID remap",
+    "synthetic_signal": "GFM top-1 correct on at least 3/4 queries, strictly more than dense cosine, and positive mean score margins for both billing and shipping groups",
+    "overall_status": "G0_SYNTHETIC_PASS only if every registered gate passes; execution failure is IMPLEMENTATION_FAILURE; no post-result threshold changes"
+  },
+  "budget": {
+    "qwen_encoder_loads_total_max": 2,
+    "g_reasoner_checkpoint_loads_total_max": 2,
+    "g_reasoner_forward_passes_total_max": 7,
+    "smoke_forward_passes": 1,
+    "full_forward_passes": 6,
+    "gpu_count": 1,
+    "wall_time_limit_minutes_per_run": 20,
+    "cpu_seconds_per_run_max": 300,
+    "rss_gib_max": 8,
+    "training_epochs": 0,
+    "external_model_api_calls": 0,
+    "sql_or_database_execution": false,
+    "bird_or_gold_data": false,
+    "new_downloads": 0,
+    "dependency_changes": 0,
+    "run_attempts_max": 2,
+    "wall_timeout_seconds_per_run": 1200,
+    "wall_timeout_signal": "TERM with 15-second KILL escalation"
+  },
+  "model": {
+    "gfm_source": "https://github.com/RManLuo/gfm-rag",
+    "gfm_source_commit": "b3e43219c49929da505244df4f0ba54c0947e4c4",
+    "gfm_license": "Apache-2.0",
+    "checkpoint_revision": "a3a4ed2c62281e1c3e0551bd42f2072d9204674f",
+    "gfm_weights_sha256": "2f2a1a2d2f5725133428941b785f3898255666b06041b58420f75e60599d387d",
+    "gfm_config_sha256": "75d14b97d6a077ebc17b09a21170a3ad9272251db59f7ac8cc853165efb2efd5",
+    "gfm_parameter_count": 34640897,
+    "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
+    "embedding_license": "Apache-2.0",
+    "embedding_weights_sha256": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd",
+    "embedding_config_sha256": "b5bf1f51fc45be473a54718cef92448d90a1be001bf9b9a44b8c7f10a19feaa9",
+    "embedding_tokenizer_sha256": "def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8f4b50a",
+    "embedding_sentence_transformers_config_sha256": "10667c72ddb772627bf1780cb7f86af8e2ae0032b8c243c731172064105c6961",
+    "embedding_tokenizer_config_sha256": "253153d0738ceb4c668d2eff957714dd2bea0b56de772a9fdccd96cbf517e6a0",
+    "embedding_pooling_config_sha256": "37bf193fa101f19101bfad9c31d3eb0f786e247b7b1e5cb7f007d730eed1ddbd",
+    "embedding_modules_sha256": "84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf",
+    "feature_dimension": 1024,
+    "normalization": "explicit L2"
+  },
+  "environment": {
+    "conda_environment": "gfmrag_greasoner_20261022",
+    "python": "3.12.15",
+    "torch": "2.8.0+cu128",
+    "torch_geometric": "2.6.1",
+    "transformers": "4.56.1",
+    "sentence_transformers": "5.1.1",
+    "offline_only": true,
+    "dependency_changes": 0,
+    "python_entrypoint": "/root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3"
+  },
+  "resource_selection_at_preregistration": {
+    "checked_utc": "2026-10-24T12:53:42Z",
+    "physical_gpu": 2,
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "gpu_memory_used_mib": 5600,
+    "gpu_memory_free_mib": 18964,
+    "gpu_memory_total_mib": 24564,
+    "gpu_utilization_percent": 0,
+    "ram_available_gib": 423,
+    "cpu_count": 192,
+    "disk_available_tib": 114,
+    "process_device": "cuda:0",
+    "launch_recheck_required": true
+  },
+  "run_ids": {
+    "smoke": "g0_fk_instance_node_20261024_02_smoke_001",
+    "full": "g0_fk_instance_node_20261024_02_full_001"
+  },
+  "private_outputs": {
+    "root": "/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_02",
+    "logs": "/mnt/liansp3/logs/g0_fk_instance_node_20261024_02"
+  },
+  "public_outputs": {
+    "report": "docs/research/text2sql/reports/g0_fk_instance_node_20261024_02/README.md",
+    "aggregate_json": "docs/research/text2sql/reports/g0_fk_instance_node_20261024_02/result_summary.json"
+  },
+  "commands": {
+    "smoke": "env CUDA_VISIBLE_DEVICES=2 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 timeout --signal=TERM --kill-after=15s 1200s /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output /root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode smoke --run-id g0_fk_instance_node_20261024_02_smoke_001 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_02/smoke_001/result.json",
+    "full": "env CUDA_VISIBLE_DEVICES=2 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 timeout --signal=TERM --kill-after=15s 1200s /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output /root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode full --run-id g0_fk_instance_node_20261024_02_full_001 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_02/full_001/result.json"
+  },
+  "source_protocol": "docs/research/text2sql/plans/g0_fk_instance_node_recovery_20261024.md"
+}

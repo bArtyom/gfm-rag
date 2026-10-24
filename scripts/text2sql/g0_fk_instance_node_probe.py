@@ -23,7 +23,7 @@ from typing import Any
 os.environ["HF_HUB_OFFLINE"] = "1"
 os.environ["TRANSFORMERS_OFFLINE"] = "1"
 
-EXPERIMENT_ID = "g0_fk_instance_node_20261024_01"
+EXPERIMENT_ID = "g0_fk_instance_node_20261024_02"
 SEED = 20261024
 DIM = 1024
 EXPECTED_PARAMETER_COUNT = 34_640_897
@@ -461,7 +461,9 @@ def permute_reified_graph(graph: Data) -> tuple[Data, torch.Tensor, dict[int, in
 
 
 def move_graph(graph: Data, device: torch.device) -> Data:
-    moved = graph.to(device)
+    # PyG Data.to() mutates the Data instance through Data.apply(); clone first
+    # so repeated forwards do not change the source graph's device.
+    moved = graph.clone().to(device)
     for key in ("x", "edge_index", "edge_type", "rel_attr", "edge_fk_instance_id"):
         if not torch.equal(getattr(moved, key).cpu(), getattr(graph, key).cpu()):
             raise ValueError(f"Graph field changed during device transfer: {key}")
