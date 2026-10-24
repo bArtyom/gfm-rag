@@ -1,0 +1,84 @@
+{
+  "experiment_id": "g2_fk_instance_quality_20261024_01",
+  "status_at_registration": "registered_before_execution",
+  "layer": "CPU FK Instance structural serialization quality gate",
+  "research_question": "Can BIRD dev SQLite foreign key constraints be encoded as deterministic FK Join-Instance identities while preserving ordered composite column pairs, same-instance inverse edges, and distinct mappings between the same table endpoints?",
+  "core_hypothesis": "A versioned canonical identity over dataset/database identity, source table, target table, and ordered source-to-target column pairs is independent of PRAGMA group IDs and input enumeration order, while remaining sensitive to component order.",
+  "scope_limits": [
+    "Structure serialization only; no natural-language role semantics or query-conditioned selection claim.",
+    "No Role F1, Join Path accuracy, SQL EX, or G-reasoner model claim.",
+    "BIRD dev is historical development data, not an independent test set.",
+    "No human review; trusted_role_label_n=0."
+  ],
+  "data": {
+    "dataset": "BIRD dev SQLite schema only",
+    "unified_input_path": "/mnt/liansp3/sources/datasets/bird/dev/dev_databases",
+    "expected_database_count": 11,
+    "historical_fk_reference": {
+      "raw_instances": 103,
+      "valid_instances": 100,
+      "invalid_instances": 3,
+      "source": "P2a.5 error attribution and FK Gate report, 2026-10-18; comparison only, no threshold retuning"
+    },
+    "excluded_inputs": ["dev.json", "dev.sql", "business table rows", "Gold SQL", "model caches", "training labels"],
+    "reads": ["sqlite_master", "PRAGMA table_info", "PRAGMA foreign_key_list"],
+    "dev_tables_sha256_observed_before_registration": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97"
+  },
+  "success_criteria": [
+    "Discover 11 SQLite schemas and reproduce the historical 103 raw / 100 valid / 3 invalid FK counts; a mismatch is INCONCLUSIVE and stops expansion.",
+    "Every valid FK has a deterministic nonempty ID; IDs are unique across valid instances and no different mappings are merged.",
+    "IDs remain unchanged under database/FK row enumeration permutations and PRAGMA constraint group ID renumbering.",
+    "Changing the ordered component sequence of a composite FK changes its ID.",
+    "Each valid FK emits exactly two directed edges that share the same FK instance ID, with reversed ordered column pairs.",
+    "Composite components remain one FK instance; different column mappings between the same endpoint tables stay distinct."
+  ],
+  "stop_conditions": [
+    "Fewer or more than 11 SQLite files are present.",
+    "Read-only schema access fails, required schema fields are absent, or a smoke invariant fails.",
+    "Historical denominator mismatch; retain output as INCONCLUSIVE and do not tune the protocol.",
+    "CPU time exceeds 1,800 seconds, peak RSS exceeds 16 GiB, or CPU threads exceed 8."
+  ],
+  "budget": {
+    "cpu_seconds_max": 1800,
+    "process_rss_gib_max": 16,
+    "cpu_threads_max": 8,
+    "gpu_seconds_max": 0,
+    "external_api_requests": 0,
+    "model_loads": 0,
+    "model_forward_calls": 0,
+    "sql_execution": 0,
+    "dependency_installations": 0,
+    "human_review": 0
+  },
+  "runs": [
+    {"run_id": "g2_fk_instance_quality_20261024_01_smoke_001", "mode": "smoke", "database_limit": 1, "status": "registered_not_run"},
+    {"run_id": "g2_fk_instance_quality_20261024_01_full_001", "mode": "full", "database_limit": null, "status": "registered_not_run"}
+  ],
+  "environment": {
+    "conda_environment": "precisiongate_bird",
+    "python_executable": "/root/miniconda3/envs/precisiongate_bird/bin/python3.10",
+    "python_version_target": "3.10",
+    "dependencies": "Python standard library only; no installation"
+  },
+  "outputs": {
+    "public_report_directory": "docs/research/text2sql/reports/g2_fk_instance_quality_20261024_01/",
+    "private_result_root": "/mnt/liansp3/sources/results/gfmrag_g2_fk_instance_quality_20261024_01/",
+    "log_directory": "/mnt/liansp3/logs/g2_fk_instance_quality_20261024_01/",
+    "publication_boundary": "Public: protocol, runner/tests, aggregate counts and hashes. Private: database names/paths, DDL, per-FK identities, any query/Gold SQL, and raw logs."
+  },
+  "references": {
+    "project_repository": "https://github.com/bArtyom/gfm-rag",
+    "branch": "research/g2-asymmetric-relation-20261024",
+    "registration_base_commit": "d234507c9c5678943e2c31fd22a6f3be86a2973f",
+    "parent_protocol": "docs/research/text2sql/plans/g2_asymmetric_relation_channel_identifiability_20261024.md",
+    "historical_fk_report": "docs/research/text2sql/reports/p2a_5_error_audit_20261018_01/README.md"
+  },
+  "api_usage": {
+    "external_api_requests": 0,
+    "confirmed_input_tokens": 0,
+    "confirmed_output_tokens": 0,
+    "confirmed_total_tokens": 0,
+    "unknown_usage_requests_this_experiment": 0,
+    "api_cost_cny": "0.00"
+  }
+}

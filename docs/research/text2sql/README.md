@@ -4,7 +4,7 @@
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新决策（2026-10-24，G1 Run002 完成后）**：跨 `main` 与 `research/g1-relation-channel-20261023` 审计确认G1八次前向全部成功、按预注册**G1-A NO-GO**：C1/C2/C3/C4输出delta=0，C5 anchor=30.9753，C6 query=8.3077。C2/C3是同端点平行边角色/向量交换，入边消息多重集合不变，因此**NO-GO不能解释为G-reasoner忽略edge_type/rel_attr**。P2c-R的Complete@1024 +10.96pp只是离线Schema覆盖，P2d/P2d.1 SQL正确仍E0/E1/E2=8/7/8、P2d.1 v2有28条预测不可执行（10 parse+18 missing-column），不能宣称SQL增益。**下一轮唯一优先实验：[G2非对称关系通道可辨识性Gate](plans/g2_asymmetric_relation_channel_identifiability_20261024.md)**，先CPU验证入边消息集合实际变化，再限额8次合成图前向；FK Instance人工标签治理另行并行。G2 **未运行**，已运行的G1/实验代码仍在研究分支，暂未合并`main`；FK/Role Gold Gate仍NO-GO。
+> **最新决策（2026-10-24，G2完成后）**：G1 Run002仍按预注册为**G1-A NO-GO**；其同端点边交换不改变入边消息多重集合，不能解释为模型全局忽略`edge_type/rel_attr`。G2新非对称合成图已在分支 `research/g2-asymmetric-relation-20261024@d234507` 完成，按预注册**G2-A PASS**：A2/A3相对A0的max abs分别为0.75878/3.78130，A1/A4为0，epsilon=1e-6；所有条件top-1未变。该结果只支持特定合成图上的分数敏感性，不证明同端点FK业务角色准确率、SQL EX或真实Schema收益。首次CUDA初始化失败（0次加载/前向）与修复、修订结果均见[G2报告](reports/g2_asymmetric_relation_20261024_01/README.md)。**下一步按预注册路线做Relation-typed G0工程基线及FK Instance稳定编码审计**；新实验需独立登记。P2c-R的Complete@1024 +10.96pp仍只是离线Schema覆盖，P2d/P2d.1 SQL正确仍E0/E1/E2=8/7/8，不能宣称SQL增益。G2分支暂未合并`main`；FK/Role Gold Gate仍无可信人工标签。
 
 ## 现有研究文档
 
@@ -39,9 +39,11 @@
 | [P2d.1 评测覆盖和失败归因（当前下一轮）](plans/p2d_1_frozen_prediction_eval_audit_20261022.md) | 封存SQL复核、safe temporal evaluator v2测试、19题语义审核与Go/No-go | **下一轮已登记，尚未执行** |
 | [P2d.1 执行登记](reports/p2d_1_eval_audit_20261022_01/README.md) | 零模型、合成时间函数安全门与冻结预测复评 | **预注册；Gate 0/1/2均待运行** |
 | [2026-10-23 P2d.1 + G0 跨分支复核（当前）](reports/p2d1_g0_cross_branch_review_20261023/README.md) | 读取分支的真实结果，区分 evaluator v2、元数据未被模型读取及方法结论边界 | 已完成静态分析；非新实验 |
-| [G1关系通道×FK Instance保真（当前下一轮）](plans/g1_relation_channel_and_fk_instance_gate_20261023.md) | 8次合成前向/多种edge_type/rel_attr对照、同义重标记不变性、FK Role Label Gate及Go/No-go | 已预注册指导；G1未运行 |
-| [2026-10-24全局实验复核与G1结构对称性分析](reports/current_results_review_20261024/README.md) | 从P1/P2到G1真实结果、对应失败机制、最新Go/No-go | **已完成静态复核；非新实验** |
-| [G2非对称关系通道识别实验（当前下一轮）](plans/g2_asymmetric_relation_channel_identifiability_20261024.md) | 新synthetic fixture、CPU多重集合强Gate、8次前向、FK Instance质量工作包 | **已预注册；未运行** |
+| [G1关系通道×FK Instance保真](plans/g1_relation_channel_and_fk_instance_gate_20261023.md) | 8次合成前向/多种edge_type/rel_attr对照、同义重标记不变性、FK Role Label Gate及Go/No-go | 2026-10-23完成；按原门槛 G1-A NO-GO，见G1报告 |
+| [2026-10-24全局实验复核与G1结构对称性分析](reports/current_results_review_20261024/README.md) | 从P1/P2到G1真实结果、对应失败机制、Go/No-go | **静态复核；G2结果另见G2报告** |
+| [G2非对称关系通道识别实验](plans/g2_asymmetric_relation_channel_identifiability_20261024.md) | 新synthetic fixture、CPU多重集合强Gate、8次前向、FK Instance质量工作包 | **2026-10-24完成；G2-A PASS；报告在研究分支** |
+| [G2非对称关系通道实验报告](reports/g2_asymmetric_relation_20261024_01/README.md) | 预注册、CUDA首次启动故障与修复、CPU Gate、8条件结果与结论边界 | **G2-A PASS；branch commit `d234507`** |
+| [G2 FK Instance稳定编码质量Gate](reports/g2_fk_instance_quality_20261024_01/README.md) | BIRD dev SQLite schema的FK实例标识、复合列与双向边结构复核；不含Gold语义判断 | **已预注册；CPU smoke/full待运行** |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
@@ -67,19 +69,21 @@
 
 在 [2026-10-16 的代码级分析](graph-algorithm-code-review-20261016.md) 中，重点确定了 **Top-1 起始锚点、关系实例/逐边属性未纳入默认消息权重、节点 Top-K 非连通、SQL-aware 监督未落地**等可验证机制。最有潜力的后续方向是 **Query-aware JOIN Edge Gate + 实例感知约束子图解码**；但必须先过 FK/Join 标签 Gate，并与 Graph-Link、GRAST-SL、SchemaGraphSQL 同信息比较。**这不是已有实证收益**。
 
-## 最新行动结果与下一步（2026-10-24，G1实验完成后）
+## 最新行动结果与下一步（2026-10-24，G2实验完成后）
 
-**分支与证据**：`main`当轮起点`33e0403`；G1真实运行及源码在`research/g1-relation-channel-20261023@8353892`，历史G0在`research/g0-synthetic-compat-20261023@7152ab2`，P2d.1 v2在`research/p2d1-eval-v2-20261022@aa2d21a`。分支最新实验尚未合并main。请看[完整实验复核](reports/current_results_review_20261024/README.md)和原[G1 Run002](https://github.com/bArtyom/gfm-rag/blob/research/g1-relation-channel-20261023/docs/research/text2sql/reports/g1_relation_channel_20261023_02/README.md)。
+**分支与证据**：G2报告与代码在`research/g2-asymmetric-relation-20261024@d234507c9c5678943e2c31fd22a6f3be86a2973f`；G1真实运行及源码在`research/g1-relation-channel-20261023@8353892d68de152f0c1500ac49d9f6c7c6585ab2`，历史G0在`research/g0-synthetic-compat-20261023@7152ab2a75e1bada1bc4d8280728878cbaf73726`，P2d.1 v2在`research/p2d1-eval-v2-20261022@aa2d21a`。研究分支结果尚未合并main。G2配置、Gate回执、修复代码和测试已在远端逐文件核对哈希。
 
 **G1实测**：8次官方G-reasoner-34M 1024D合成图前向PASS，负控及关系交换C1/C2/C3/C4 max abs delta均0，起点C5=30.9753、Query C6=8.3077。原预注册`G1-A NO-GO`保持。经代码核对，C2/C3交换的两条relation边同起点/终点，交换后节点的消息多重集合不变；所以这个zero delta不证明模型全局忽略relation type/embedding。这是一项**实验设计可辨识性不足**，不是模型没有使用关系的因果结论；原G0只证明非模型消费的自定义FK字段不影响推理。
 
+**G2实测**：Gate `_012` 14/14硬门、23/23定向合约测试通过。首次GPU启动在`MODEL_IMPORT`因CUDA context未初始化而停止，未加载checkpoint、未前向；增加显式CUDA初始化后使用新run ID完成1次加载和8/8前向。固定官方34M checkpoint hash一致；A0重复噪声0、epsilon=1e-6；A1/A4 max abs=0；A2=0.758783、A3=3.781296，按冻结条件判为`G2_A_PASS`。所有输出finite `[1,5]`、所有条件top-1相同；总加载+前向6.3151秒。结论限于**该5节点非对称合成fixture的关系通道分数敏感性**，不代表同端点多FK角色能力、SQL EX或真实Schema收益。
+
 **其他重要结果**：P2c-R在1460可评题上Schema Complete@1024从56.64%至67.60%（+10.96pp），只是离线结构节点覆盖；P2d的有偏30题7B Pilot E0/E1/E2确认SQL Set/Bag正确数仍8/7/8，P2d.1 v2已通过137合成安全测试和83/83历史SQL replay，仍8/7/8，28条预测不可执行（10 parse+18 missing-column）。不要用Schema覆盖代替SQL EX，不用该30题调Prompt来追分。
 
-**当前唯一优先科研实验：[G2非对称消息关系通道Gate](plans/g2_asymmetric_relation_channel_identifiability_20261024.md)**。构造新的固定合成图：将原同端点并行角色改为从0分别指向1和4，并相应成对修改逆边，保留复合FK约束/关系ID/固定node features；**先CPU验证关系交换/单一relation embedding干预确实改变目标节点入边消息多重集合**，再允许一次GPU load、8次forward。负控与ID-embedding同步重标仍需不变，至少一种真正非等价的关系干预应改变分数才算G2-A PASS。无论PASS还是NO-GO都只是机制，不报告Role F1、SQL EX或新图方法提升。**当前G2尚未执行。**
+**下一步：先完成CPU FK Instance稳定编码质量Gate，再按结果单独登记Relation-typed G0工程基线**。前者复核BIRD dev SQLite schema中的FK实例主键、ordered composite pairs、同实例逆向边、同表对多FK区分和输入枚举顺序不变性；不读取题目/Gold SQL、不做人工语义标签、不报Role/Join Path准确率。后者才使用官方G-reasoner模型前向，必须与简单FK路径及无关系baseline同信息同预算；不使用Gold标签训练、不报SQL EX。详细协议与预算见新实验登记。
 
 **并行FK Instance质量Gate**：用历史103 SQLite raw FK（100有效/3无效）、1428 JOIN ON（1199唯一匹配/25歧义/204非匹配）、197题多FK候选，冻结最多20条复杂FK私有人工审阅队列。保真复合键多列顺序、inverse边实例ID、同表多个FK；真正人类role标签目前0，不能开始正式supervised query-aware edge gate。具体准备流程见G2方案。暂不在原30题继续SQL调参、换模型或自动扩样，避免多因素且重复使用开发集。
 
-此处只提交全局审计和G2预注册指导，原分支已运行成果没有被假装合并main；所有原实验结论和失败回执照实保留。
+此分支提交了G2完成结果与下一步决策；G2不替代G0/G1历史结果，也没有把研究分支成果假装合并main。Relation-typed G0工作须独立预注册，资源/停止条件和报告提交前不得启动。
 
 
 ## 从今往后的提交规范

@@ -1,6 +1,6 @@
 # 2026-10-24 Text2SQL × G-reasoner 当前实验全局复核与 G2 研究决策
 
-> **性质：已有仓库结果审计 + 下一阶段决定；不是新实验。** 核对时间：2026-10-24。权威仓库 `bArtyom/gfm-rag`。审阅前 `main=33e040327fe13df2703c1c96211b87e83250f1be`，G1分支 `research/g1-relation-channel-20261023=8353892d68de152f0c1500ac49d9f6c7c6585ab2`。Git refs共 main、G0、G1、P2d1 四分支。**没有发现已经运行的G2或G1后继新报告。** 不要将研究分支产物冒充已经合并main。
+> **性质：已有仓库结果审计 + 下一阶段决定；不是新实验。** 初始核对时间：2026-10-24，截止于G2首次启动前；当时没有G2报告。随后G2已在独立分支完成，追加结果见本文件第5节和[G2运行报告](../g2_asymmetric_relation_20261024_01/README.md)。权威仓库 `bArtyom/gfm-rag`；G2结果仍在 `research/g2-asymmetric-relation-20261024@d234507c9c5678943e2c31fd22a6f3be86a2973f`，尚未合并`main`。不要把研究分支产物冒充已合并`main`。
 >
 > 原始证据：[P2b](../p2b_values_ablation_20261018_01/README.md)、[P2c-R](../p2c_r_recovery_20261019_01/README.md)、[P2d Pilot](../p2d_sql_utility_20261022_01/README.md)、[P2d.1分支recovery02](https://github.com/bArtyom/gfm-rag/blob/research/p2d1-eval-v2-20261022/docs/research/text2sql/reports/p2d_1_eval_audit_20261022_02/README.md)、[G0分支attempt03](https://github.com/bArtyom/gfm-rag/blob/research/g0-synthetic-compat-20261023/docs/research/text2sql/reports/g0_synthetic_graph_compat_20261023_03/README.md)、[G1分支run002](https://github.com/bArtyom/gfm-rag/blob/research/g1-relation-channel-20261023/docs/research/text2sql/reports/g1_relation_channel_20261023_02/README.md) / [数值JSON](https://github.com/bArtyom/gfm-rag/blob/research/g1-relation-channel-20261023/docs/research/text2sql/reports/g1_relation_channel_20261023_02/result.json)。
 
@@ -16,6 +16,7 @@
 | P2d.1 evaluator-v2 | 137合成安全测试PASS，83/83旧可执行SQL replay PASS；4条旧blocked参考可评；E0/E1/E2正确仍8/7/8，unknown10/10/8；90条预测中10 parse+18 missing-column | v2改善测量覆盖，但新增可判全wrong，不是生成方法变好；19题人类Values必要性标签仍0 |
 | G0官方GraphReasoner-34M | 1024D、5节点/8有向边，前向输出[1,5]有限；扰动edge_attr/custom FK属性delta=0 | 工程接口成功；**自定义逐边元数据没有被当前forward消费** |
 | G1 GraphReasoner关系通道 | Run001设备转移错误，Run002修复后8次forward成功；C1/C2/C3/C4 delta=0，C5=30.9753，C6=8.3077（C6 top1改变） | **按原预注册G1-A NO-GO**，但C2/C3零差异是对称聚合下未辨识干预，并不证实模型忽略`edge_type/rel_attr` |
+| G2 非对称关系通道（后续实测） | 官方34M、1024D、5节点/8边；1次加载、8/8前向；A2/A3分数delta 0.75878/3.78130，A1/A4=0，epsilon=1e-6 | **G2-A PASS**：非对称合成图上的关系通道分数敏感性；无top-1变化，不支持业务FK角色或SQL效果 |
 
 补充资源/可靠性：G1 Run002 9/9聚焦结构测试，固定官方checkpoint，seed20261023，8次forward约1.7147秒（含模型载入）；无训练、无BIRD/Gold/SQL/API。G0原前两次工程失败保留。原实验结果及缺陷都已独立登记，不在新阶段改写。
 
@@ -49,3 +50,11 @@ G1 C5 anchor和C6 query都有变化，只表示在单个合成图上模型路径
 **论文创新主张边界**：G2是判别G-reasoner接口的科学测量前置；真正新意可能是**Query-conditioned FK Instance scorer + typed/reified relation graph + constrained JOIN subgraph decoding**。等可信Gold和独立SQL集后，至少与Dense、relation-typed G0、简单FK path heuristic和官方G-reasoner对照，固定生成器与token预算。
 
 **决策：** 暂停继续在旧30题上调Prompt/SQL，优先执行G2合成机制Gate+可信FK Instance结构审计，条件满足再进入Graph Relation编码与真实角色检索。
+
+## 5. G2 实测补充与后续决策（2026-10-24）
+
+G2使用预注册fixture和成功门，CPU Gate `_012` 14/14硬门通过，定向合约测试23/23通过。首次运行在CUDA context初始化前调用峰值显存重置而停止；模型未加载、前向0。显式初始化CUDA context并固定当前设备后，新run `g2_asymmetric_relation_20261024_01_amended_01` 完成：checkpoint加载1次、前向8/8、耗时6.3151秒。重复噪声为0；A2 relation-ID成对交换max abs delta=`0.758783`，A3 relation-row坐标变换=`3.781296`，A1 metadata-only与A4同步语义重标均为0；故冻结门槛下判为`G2_A_PASS`。所有输出finite `[1,5]`，各条件top-1均相同。
+
+结果仅表明**这个非对称合成fixture上的关系输入能影响节点原始分数**。G0 attempt03仍只证明官方路径忽略测试的`edge_attr`和自定义FK metadata；G1原`NO-GO`仍是对称拓扑下不可辨识的结果。三者不互相覆盖，亦不支持真实JOIN角色准确率、Query-aware EdgeGate或SQL EX。完整参数、错误现场、GPU资源与匿名聚合结果见[G2报告](../g2_asymmetric_relation_20261024_01/README.md)，已提交至G2研究分支。
+
+按G2预注册后续路线，先做独立的[CPU FK Instance稳定编码质量Gate](../g2_fk_instance_quality_20261024_01/README.md)，再视结构Gate结果单独登记**Relation-typed G0工程基线**。CPU Gate只检查BIRD dev SQLite schema的有序复合列对、FK实例主键、双向边同ID配对、同表对多FK区分和顺序稳定性；不读取题目/Gold SQL，也不报Role/Join Path准确率。G0模型前向阶段须使用匿名结构、冻结关系文本/向量生成方式，并和简单FK path及无关系baseline比较；不训练、不把自动匹配称为Role Gold。G2的8次前向预算已用完，不追加同一合成实验扫描。可信人工Role标签仍为0，因此不开始Query-conditioned Role监督或报告SQL EX。
