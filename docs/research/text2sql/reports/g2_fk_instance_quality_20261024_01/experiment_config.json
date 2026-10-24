@@ -61,7 +61,7 @@
     "dependencies": "Python standard library only; no installation"
   },
   "implementation": {
-    "commit_before_smoke": "pending_prelaunch_code_correction_commit",
+    "commit_before_smoke": "b2129583bb14687bd661e1fc90352e571a106d54",
     "runner_path": "scripts/text2sql/fk_instance_quality_audit.py",
     "runner_sha256": "a2ff6a331bad4c74fd4cffd7bd5df0295e15f2ba1ab87d5f1e4d641489f5b5b5",
     "contract_test_path": "tests/test_fk_instance_quality_audit.py",
