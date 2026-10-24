@@ -1,0 +1,99 @@
+{
+  "experiment_id": "g0_fk_instance_node_20261024_01",
+  "status_at_preregistration": "registered_not_run",
+  "experiment_date": "2026-10-24",
+  "category": "exploratory synthetic engineering and identifiability probe",
+  "hypothesis": "Mapping-level FK identity with declaration multiplicity metadata can be represented by one reified node per unique Join mapping, allowing the frozen official G-reasoner to emit a separate stable node score for same-endpoint FK candidates; a small synthetic query set may reveal an initial signal.",
+  "predecessors": {
+    "g2_commit": "d234507c9c5678943e2c31fd22a6f3be86a2973f",
+    "fk_instance_gate": "NO_GO",
+    "duplicate_identity_policy": "EXPLORATORY_COMPLETE; mapping identity 99 unique mappings, 198 directed edges, multiplicity metadata retained",
+    "identity_policy_commit": "0bf7dc357bdcfdb86895d8e3c83518542a634ebf"
+  },
+  "fixture": {
+    "source": "synthetic fixture committed in scripts/text2sql/g0_fk_instance_node_probe.py",
+    "tables": 2,
+    "unique_fk_mappings": 2,
+    "declarations": 3,
+    "declaration_multiplicity": {"billing_map": 2, "shipping_map": 1},
+    "query_count_full": 4,
+    "query_count_smoke": 1,
+    "seed": 20261024,
+    "trusted_real_role_labels": 0
+  },
+  "methods": [
+    "local Qwen3-Embedding-0.6B dense cosine over mapping descriptions",
+    "direct typed multi-edge table graph; node-level output only",
+    "reified relation-typed graph with one node per unique mapping",
+    "simple FK path baseline, expected tie on the shared one-hop endpoint path"
+  ],
+  "success_criteria": {
+    "mapping_identity": "3 declarations produce 2 unique mapping IDs with counts billing=2 and shipping=1; duplicate declarations do not create duplicate graph edges",
+    "model_output": "direct graph output [1,2], reified output [1,4], all finite",
+    "permutation": "reified scores remain attached to stable mapping IDs after node and edge order permutation; max absolute delta <= 1e-5 and top-1 unchanged",
+    "synthetic_signal": "reified GFM top-1 correct on at least 3/4 fixed queries and mean score margin is positive for both billing and shipping queries",
+    "overall_status": "G0_SYNTHETIC_PASS only if interface, permutation, and synthetic signal criteria all pass; otherwise G0_SYNTHETIC_NO_GO or implementation failure"
+  },
+  "budget": {
+    "qwen_encoder_loads_total_max": 2,
+    "g_reasoner_checkpoint_loads_total_max": 2,
+    "g_reasoner_forward_passes_total_max": 7,
+    "smoke_forward_passes": 1,
+    "full_forward_passes": 6,
+    "gpu_count": 1,
+    "wall_time_limit_minutes_per_run": 20,
+    "cpu_seconds_per_run_max": 300,
+    "rss_gib_max": 2,
+    "training_epochs": 0,
+    "external_model_api_calls": 0,
+    "sql_or_database_execution": false,
+    "bird_or_gold_data": false,
+    "new_downloads": 0,
+    "dependency_changes": 0,
+    "retries_under_run_id": 0
+  },
+  "model": {
+    "gfm_source": "https://github.com/RManLuo/gfm-rag",
+    "gfm_source_commit": "b3e43219c49929da505244df4f0ba54c0947e4c4",
+    "gfm_license": "Apache-2.0",
+    "checkpoint": "rmanluo/G-reasoner-34M",
+    "checkpoint_revision": "a3a4ed2c62281e1c3e0551bd42f2072d9204674f",
+    "gfm_weights_sha256": "2f2a1a2d2f5725133428941b785f3898255666b06041b58420f75e60599d387d",
+    "gfm_config_sha256": "75d14b97d6a077ebc17b09a21170a3ad9272251db59f7ac8cc853165efb2efd5",
+    "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
+    "embedding_license": "Apache-2.0",
+    "embedding_weights_sha256": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd",
+    "embedding_config_sha256": "b5bf1f51fc45be473a54718cef92448d90a1be001bf9b9a44b8c7f10a19feaa9",
+    "embedding_tokenizer_sha256": "def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a",
+    "feature_dimension": 1024,
+    "normalization": "explicit L2"
+  },
+  "environment": {
+    "conda_environment": "gfmrag_greasoner_20261022",
+    "python": "3.12.15",
+    "torch": "2.8.0",
+    "torch_geometric": "2.6.1",
+    "transformers": "4.56.1",
+    "sentence_transformers": "5.1.1",
+    "dependency_changes": 0,
+    "offline_only": true
+  },
+  "run_ids": {
+    "smoke": "g0_fk_instance_node_20261024_01_smoke_001",
+    "full": "g0_fk_instance_node_20261024_01_full_001"
+  },
+  "private_outputs": {
+    "root": "/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01",
+    "logs": "/mnt/liansp3/logs/g0_fk_instance_node_20261024_01"
+  },
+  "public_outputs": {
+    "report": "docs/research/text2sql/reports/g0_fk_instance_node_20261024_01/README.md",
+    "aggregate_json": "docs/research/text2sql/reports/g0_fk_instance_node_20261024_01/result_summary.json"
+  },
+  "commands": {
+    "smoke": "CUDA_VISIBLE_DEVICES=3 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode smoke --run-id g0_fk_instance_node_20261024_01_smoke_001 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/smoke_001/result.json",
+    "full": "CUDA_VISIBLE_DEVICES=3 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode full --run-id g0_fk_instance_node_20261024_01_full_001 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/full_001/result.json"
+  },
+  "source_protocol": "docs/research/text2sql/plans/g0_fk_instance_node_20261024.md",
+  "status": "registered_not_run"
+}
