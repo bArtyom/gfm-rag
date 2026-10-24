@@ -4,7 +4,7 @@
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新决策（2026-10-24，G2与FK Instance Gate后）**：G1 Run002仍为**G1-A NO-GO**，其对称边交换不能判断模型是否使用关系特征。G2非对称合成图按预注册**G2-A PASS**，但只证明该fixture上的分数敏感性，不证明真实FK角色或SQL收益。BIRD dev结构Gate复现11库、103/100/3计数，但一对不同PRAGMA约束组具有完全相同的规范化FK映射，导致身份碰撞和反向边配对失败；全量也没有复合FK，复合顺序敏感性未得真实数据验证。因此原Gate仍为**NO_GO**，不作回溯性改写。后续有界CPU探索已完成：mapping identity为99个不同有效映射/198条边，并保留1个重复声明重数；declaration multiset为100个ID/200条边，组号—出现序号绑定在重编号后变化2项。G0-01已按预注册记为实现失败：smoke运行门通过，但Full图重排控制受到PyG图对象原地设备迁移影响，完整科学门未评估。新登记G0-02恢复探针仅修复图对象迁移，核心假设、查询、对照和阈值保持不变，尚未运行。见[G0-01失败报告](reports/g0_fk_instance_node_20261024_01/README.md)、[G0-02预注册](plans/g0_fk_instance_node_recovery_20261024.md)和[旧G0预注册](plans/g0_fk_instance_node_20261024.md)。P2c-R +10.96pp仍只是Schema覆盖，P2d/P2d.1 SQL正确仍E0/E1/E2=8/7/8；G2分支尚未合并`main`，FK/Role Gold仍无可信人工标签。
+> **最新决策（2026-10-24，G2与FK Instance Gate后）**：G1 Run002仍为**G1-A NO-GO**，其对称边交换不能判断模型是否使用关系特征。G2非对称合成图按预注册**G2-A PASS**，但只证明该fixture上的分数敏感性，不证明真实FK角色或SQL收益。BIRD dev结构Gate复现11库、103/100/3计数，但一对不同PRAGMA约束组具有完全相同的规范化FK映射，导致身份碰撞和反向边配对失败；全量也没有复合FK，复合顺序敏感性未得真实数据验证。因此原Gate仍为**NO_GO**，不作回溯性改写。后续有界CPU探索已完成：mapping identity为99个不同有效映射/198条边，并保留1个重复声明重数；declaration multiset为100个ID/200条边，组号—出现序号绑定在重编号后变化2项。G0-01已按预注册记为实现失败：smoke运行门通过，但Full图重排控制受到PyG图对象原地设备迁移影响，完整科学门未评估。G0-02按原方案和独立ID恢复，smoke运行门通过；单个合成billing题上GFM选错、dense cosine选对，样本太少不计科学门，Full待运行。见[G0-01失败报告](reports/g0_fk_instance_node_20261024_01/README.md)、[G0-02预注册](plans/g0_fk_instance_node_recovery_20261024.md)和[G0-02恢复报告](reports/g0_fk_instance_node_20261024_02/README.md)。P2c-R +10.96pp仍只是Schema覆盖，P2d/P2d.1 SQL正确仍E0/E1/E2=8/7/8；G2分支尚未合并`main`，FK/Role Gold仍无可信人工标签。
 
 ## 现有研究文档
 
@@ -48,8 +48,8 @@
 | [FK重复声明身份策略报告](reports/g2_fk_duplicate_identity_policy_20261024_01/README.md) | smoke/full结果、ID集合与组号关联不变性、重复边处理风险 | **EXPLORATORY_COMPLETE；G0-01实现失败，G0-02恢复版已独立预注册** |
 | [G0 FK实例节点预注册](plans/g0_fk_instance_node_20261024.md) | 两个同端点FK映射的重化节点表示、冻结G-reasoner、Qwen稠密基线和合成查询翻转门 | **已运行；Full因图重排设备错误按协议停止** |
 | [G0 FK实例节点实验](reports/g0_fk_instance_node_20261024_01/README.md) | 合成同端点多FK图中实例级输出与映射身份稳定性 | **实现失败；无全量科学结论，待独立恢复版预注册** |
-| [G0-02图设备迁移恢复预注册](plans/g0_fk_instance_node_recovery_20261024.md) | 仅修复 PyG `Data.to()` 原地改变图对象的问题，重复冻结的同一合成查询与评分门 | **已预注册；smoke/full尚未运行** |
-| [G0-02恢复实验报告](reports/g0_fk_instance_node_20261024_02/README.md) | G0-01 Full 图重排实现失败后的独立、有界恢复执行 | **已登记；尚无结果** |
+| [G0-02图设备迁移恢复预注册](plans/g0_fk_instance_node_recovery_20261024.md) | 仅修复 PyG `Data.to()` 原地改变图对象的问题，重复冻结的同一合成查询与评分门 | **已预注册；smoke通过，Full待运行** |
+| [G0-02恢复实验报告](reports/g0_fk_instance_node_20261024_02/README.md) | G0-01 Full 图重排实现失败后的独立、有界恢复执行 | **Smoke通过；四题科学门未评估** |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
@@ -77,7 +77,7 @@
 
 ## 最新行动结果与下一步（2026-10-24，G2与FK Instance Gate后）
 
-**分支与证据**：G2、FK Instance Gate及重复声明身份策略结果在`research/g2-asymmetric-relation-20261024`；G0-01 `IMPLEMENTATION_FAILURE`与G0-02恢复预注册在`research/g0-fk-instance-node-20261024`。G0-02尚未运行。研究分支结果尚未合并`main`。公开报告、配置和代码在运行前后均按GitHub blob逐文件校验。
+**分支与证据**：G2、FK Instance Gate及重复声明身份策略结果在`research/g2-asymmetric-relation-20261024`；G0-01 `IMPLEMENTATION_FAILURE`与G0-02恢复实验在`research/g0-fk-instance-node-20261024`。G0-02 smoke运行门通过，Full待运行。研究分支结果尚未合并`main`。公开报告、配置和代码在运行前后均按GitHub blob逐文件校验。
 
 **G1实测**：8次官方G-reasoner-34M 1024D合成图前向PASS，负控及关系交换C1/C2/C3/C4 max abs delta均0，起点C5=30.9753、Query C6=8.3077。原预注册`G1-A NO-GO`保持。经代码核对，C2/C3交换的两条relation边同起点/终点，交换后节点的消息多重集合不变；所以这个zero delta不证明模型全局忽略relation type/embedding。这是一项**实验设计可辨识性不足**，不是模型没有使用关系的因果结论；原G0只证明非模型消费的自定义FK字段不影响推理。
 

@@ -1,6 +1,6 @@
 # G0-02 FK instance-node scoring recovery probe
 
-**Status: pre-registered; not run.** Experiment ID: `g0_fk_instance_node_20261024_02`. No model result exists yet.
+**Status: `SMOKE_PASS`; Full pending.** Experiment ID: `g0_fk_instance_node_20261024_02`. The operational smoke gate passed; the four-query scientific gate has not been evaluated.
 
 ## Why this is separate from G0-01
 
@@ -20,4 +20,13 @@ The only intended code correction is to clone `Data` before device transfer. The
 
 ## Execution and results
 
-Pending smoke. Full can start only if smoke passes. Every run will use a fresh immutable result path under `/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_02/`; logs are under `/mnt/liansp3/logs/g0_fk_instance_node_20261024_02/`. Public artifacts will contain synthetic aggregate metrics and reproducibility metadata only.
+### Smoke (`g0_fk_instance_node_20261024_02_smoke_001`)
+
+- **Outcome:** `SMOKE_PASS` for the operational gate. The identity contract passed and the single reified output was finite. Smoke is excluded from the four-query scientific denominator; direct-graph shape and permutation gates remain for Full.
+- **Observed one-query result:** on synthetic `q_billing_1`, GFM ranked `shipping_map` above the gold `billing_map`; local dense cosine ranked `billing_map` first. This single smoke query is a warning to inspect, not a scientific signal conclusion or a change to the frozen thresholds.
+- **Timing and resources:** wall 8.801792 s; Qwen load 1.722135 s and encode 0.447934 s; G-reasoner load 0.363488 s and forward 0.665833 s; process CPU 33.129145 s; peak RSS 4.136650 GiB; peak GPU allocation 2,477,169,152 bytes. One Qwen load and one G-reasoner load; one forward; no training.
+- **Local embedding usage:** 242 input tokens (28 query + 214 passages), 13 sequences/vectors; generated-text output tokens do not apply. No external API requests or cost.
+- **Reproducibility:** launched 2026-10-24 12:56:59 UTC from public preregistration commit `dcf5bcf7569ebe4dac8cb046cf9b894538fc762a`; local checkout commit `722b463aefd5dec801fd5134970c1e4460754332`; runner blob `a30cfc7c143a4c96cd4bca55e1ad02e129fdc9f8`. Frozen environment and models are in [configuration](experiment_config.json). Exact command is the `smoke` entry there.
+- **Artifacts:** private result `/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_02/smoke_001/result.json` (SHA-256 `cf7aa2c48616dbd4b169218eef1dd0ecc4f822e5691f7086844fe3d2223d4517`); log `/mnt/liansp3/logs/g0_fk_instance_node_20261024_02/smoke_001.log`; launch manifest `/mnt/liansp3/logs/g0_fk_instance_node_20261024_02/smoke_001_launch.json`.
+
+The smoke gate is satisfied, so the single preregistered Full attempt is eligible to start after its required fresh resource check. Full will use its own immutable path `/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_02/full_001/result.json`; logs and launch manifests remain under `/mnt/liansp3/logs/g0_fk_instance_node_20261024_02/`. Full is still pending at this checkpoint. Public artifacts contain synthetic results and reproducibility metadata only.
