@@ -1,7 +1,7 @@
 {
   "experiment_id": "g0_fk_instance_node_20261024_02",
-  "status": "SMOKE_PASS_FULL_PENDING",
-  "scientific_gate_status": "NOT_EVALUATED",
+  "status": "G0_SYNTHETIC_NO_GO",
+  "scientific_gate_status": "G0_SYNTHETIC_NO_GO",
   "smoke": {
     "run_id": "g0_fk_instance_node_20261024_02_smoke_001",
     "status": "SMOKE_PASS",
@@ -26,9 +26,39 @@
   },
   "full": {
     "run_id": "g0_fk_instance_node_20261024_02_full_001",
-    "status": "PENDING",
-    "planned_queries": 4,
-    "planned_g_reasoner_forward_passes": 6
+    "status": "G0_SYNTHETIC_NO_GO",
+    "result_sha256": "37eba3591792a6d62e1a4fa3747e21665bc8312de32df1aa6c4aad532373f9fc",
+    "synthetic_query_count": 4,
+    "identity_contract_passed": true,
+    "direct_output_shape": [1, 2],
+    "direct_output_finite": true,
+    "reified_mapping_scores_finite": true,
+    "permutation_max_abs_score_delta": 0,
+    "permutation_top1_same": true,
+    "gfm_top1_correct": 2,
+    "dense_cosine_top1_correct": 4,
+    "gfm_required_correct": 3,
+    "gfm_strictly_better_than_dense": false,
+    "billing_mean_score_margin": 0.05707359313964844,
+    "shipping_mean_score_margin": 0.06980228424072266,
+    "gfm_errors_per_role_group": {"billing": 1, "shipping": 1},
+    "simple_path_baseline": "tie on all four queries",
+    "elapsed_seconds": 9.133374,
+    "g_reasoner_forward_seconds_total": 0.685558,
+    "g_reasoner_forward_passes": 6,
+    "local_qwen_input_tokens": 325,
+    "local_qwen_generated_text_output_tokens": null,
+    "peak_gpu_allocated_bytes": 2477169152,
+    "cpu_process_seconds": 35.414223,
+    "peak_rss_gib": 4.1236,
+    "external_model_api_requests": 0
   },
-  "interpretation": "The single smoke query selects the wrong mapping for GFM while dense cosine selects the gold mapping. Smoke is an operational gate only and is excluded from the frozen four-query signal criterion; no scientific conclusion is available until Full completes."
+  "combined_local_embedding_usage": {
+    "smoke_and_full_input_tokens": 567,
+    "smoke_and_full_vectors": 29,
+    "generated_text_output_tokens": null,
+    "external_model_api_requests": 0,
+    "external_model_api_cost_cny": "0"
+  },
+  "interpretation": "Structural identity and permutation stability passed, but GFM was correct on 2/4 queries versus 4/4 for local dense cosine. The frozen synthetic signal gate failed. This does not establish real-world role accuracy or SQL impact; stop this experiment without another run."
 }

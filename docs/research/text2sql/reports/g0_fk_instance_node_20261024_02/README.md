@@ -1,6 +1,6 @@
 # G0-02 FK instance-node scoring recovery probe
 
-**Status: `SMOKE_PASS`; Full pending.** Experiment ID: `g0_fk_instance_node_20261024_02`. The operational smoke gate passed; the four-query scientific gate has not been evaluated.
+**Status: `G0_SYNTHETIC_NO_GO`.** Experiment ID: `g0_fk_instance_node_20261024_02`. The recovery fixed the execution issue and passed structural/permutation gates, but the frozen synthetic signal criterion failed.
 
 ## Why this is separate from G0-01
 
@@ -33,4 +33,26 @@ The only intended code correction is to clone `Data` before device transfer. The
 
 At 2026-10-24 13:01:36 UTC, the required launch recheck passed: selected physical GPU 2 (RTX 4090) had 5,213/24,564 MiB used, 19,351 MiB free, and 0% utilization; RAM available was 423 GiB, CPU count 192, and disk available 114 TiB. GPU 3 was busy at 91% utilization and was not selected. Model symlinks resolved to the preregistered checkpoint and encoder; the Full output directory was absent, and no G0 probe process was active. Exact preflight values are in [configuration](experiment_config.json).
 
-The single preregistered Full attempt is now launch-ready and will use its own immutable path `/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_02/full_001/result.json`; logs and launch manifests remain under `/mnt/liansp3/logs/g0_fk_instance_node_20261024_02/`. Public artifacts contain synthetic results and reproducibility metadata only.
+The preregistered Full attempt ran on 2026-10-24 13:03 UTC from the same code tree as registration (`dcf5bcf7569ebe4dac8cb046cf9b894538fc762a`); the launch archive/report head was `0c8d40124650cba097da2655c8294ae49ede76c3`. It completed six forwards in 9.133374 s with no execution error.
+
+| Frozen gate | Result | Decision |
+|---|---|---|
+| Mapping identity and duplicate multiplicity | 3 declarations → 2 stable mapping IDs; multiplicities 2/1; order invariant | Pass |
+| Direct graph output | finite `[1,2]` table-node scores; mapping-level scores are not identifiable from this output | Pass for registered shape; mapping comparison unavailable by design |
+| Reified mapping output | finite candidate scores produced | Pass |
+| Mapping-only permutation | maximum remapped score delta `0`; same top-ranked mapping set | Pass (`<=1e-5`) |
+| GFM synthetic top-1 | 2/4 correct; one miss in each role group | Fail (required at least 3/4) |
+| Dense cosine comparison | 4/4 correct | Fail (GFM did not strictly exceed dense cosine) |
+| Mean score margin | billing `+0.057074`; shipping `+0.069802` | Pass for both groups |
+
+**Overall:** `G0_SYNTHETIC_NO_GO`. The positive group-average margins and exact permutation invariance show that the reified scoring path emits separate, stable scores on this fixture. They do not offset 2/4 GFM accuracy versus 4/4 dense cosine, so the preregistered signal claim is not supported. The two GFM errors occur once in billing and once in shipping; the simple one-hop path baseline ties both mappings on all four queries.
+
+- **Full runtime/resources:** Qwen load 2.187793 s and encode 0.352361 s; G-reasoner load 0.336024 s and forward total 0.685558 s; process CPU 35.414223 s; peak RSS 4.123600 GiB; peak GPU allocation 2,477,169,152 bytes. One Qwen load, one G-reasoner load, six forwards; no training. Within every registered limit.
+- **Local embedding usage:** 325 input tokens (111 query + 214 passages), 16 sequences/vectors. Across Smoke and Full: 567 local input tokens and 29 vectors; generated-text output tokens do not apply. External model API requests and cost: 0 and 0 CNY.
+- **Artifacts:** private result `/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_02/full_001/result.json` (SHA-256 `37eba3591792a6d62e1a4fa3747e21665bc8312de32df1aa6c4aad532373f9fc`); log `/mnt/liansp3/logs/g0_fk_instance_node_20261024_02/full_001.log`; launch manifest `/mnt/liansp3/logs/g0_fk_instance_node_20261024_02/full_001_launch.json`.
+
+## Conclusion and stop
+
+The engineering recovery succeeded: cloning the PyG graph before device transfer allowed all six registered forwards and the permutation control to finish, with stable mapping identity and exactly invariant scores under mapping-node reorder. The scientific result is a no-go for this frozen synthetic probe: the pretrained checkpoint did not beat the local dense baseline, despite positive group-average score margins. This result does not establish real-world FK-role accuracy, failure on BIRD, or SQL execution impact; the fixture uses explicit billing/shipping column names and has no trusted real-role labels.
+
+The G0-02 budget is exhausted and its stopping rule says to stop on any frozen gate failure. Do not repeat this fixture, tune thresholds, or expand synthetic prompts under this experiment ID. Public artifacts contain only aggregate synthetic metrics and reproducibility metadata; no private dataset or raw model files are included.
