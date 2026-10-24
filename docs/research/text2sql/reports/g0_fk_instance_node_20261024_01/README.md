@@ -1,6 +1,6 @@
 # G0 FK instance-node scoring probe
 
-**Status: launcher attempt 001 failed before model initialization; smoke_002 passed the operational gate.** Full is eligible under the frozen protocol, but no full scientific result exists yet.
+**Status: `IMPLEMENTATION_FAILURE`.** Launcher attempt 001 failed before model initialization; smoke_002 passed its operational gate; full_001 failed in the permutation-control implementation. No full scientific result was produced, and the registered experiment is stopped.
 
 ## Experiment question
 
@@ -36,6 +36,17 @@ After choosing mapping-level FK identity with repeated declaration counts stored
 
 ### Corrected launch registered before retry
 
-The corrected attempt used the target environment's absolute Python executable inside `conda run`. All scientific inputs and criteria remain frozen. Smoke_002 passed, so the single registered Full run may proceed; any Full failure or timeout stops the experiment. Its output uses a separate immutable path under `/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/`, with logs under `/mnt/liansp3/logs/g0_fk_instance_node_20261024_01/`. Public artifacts will be limited to synthetic aggregate scores and reproduction metadata.
+The corrected attempt used the target environment's absolute Python executable inside `conda run`. All scientific inputs and criteria remained frozen. Smoke_002 passed, so full_001 was started. Any Full failure or timeout stops this experiment.
 
 - **GPU selection:** at the 2026-10-24 12:44 UTC pre-launch check, GPU 3 had 12,805/24,564 MiB used and 100% utilization; GPU 2 had 5,211/24,564 MiB used and 0% utilization. The corrected run selects physical GPU 2 (`CUDA_VISIBLE_DEVICES=2`, visible as `cuda:0`) with one GPU only.
+
+### `full_001` — implementation failure; experiment stopped
+
+- **Outcome:** `FAILED`, started at 2026-10-24 12:48:58 UTC and failed at 12:49:11 UTC (about 13.16 seconds). Exception in `permute_reified_graph`: `indices should be either on cpu or on the same device as the indexed tensor (cpu)`.
+- **Root cause:** `move_graph()` called PyG 2.6.1 `Data.to(device)` on the original graph. In this version, `Data.to()` delegates to `apply()`, which mutates the same `Data` object. After the reified and direct graph forwards, the source reified graph's tensors were on CUDA. The permutation routine then indexed that CUDA edge tensor with a CPU inverse-index tensor, causing the device mismatch.
+- **Work completed before failure:** four reified query forwards and one direct table-graph forward completed (5/6 Full forwards); the crash happened before the permutation-control forward. Including smoke_002, 6 G-reasoner forwards ran. Qwen and G-reasoner each loaded once in smoke_002 and once in full_001, within the registered totals. No final Full JSON was written; only the immutable attempt and failure sidecar exist.
+- **Scientific status:** no complete Full score table or permutation result was saved, so the G0 synthetic signal gate is **not evaluated**. The smoke's one incorrect GFM top-1 remains operational-only and cannot substitute for Full. This is an implementation failure, not a G0 PASS or NO-GO.
+- **Artifacts:** `/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/full_001/result.json.attempt.json` and `result.json.failure.json`; log `/mnt/liansp3/logs/g0_fk_instance_node_20261024_01/full_001.log`; launch record `/mnt/liansp3/logs/g0_fk_instance_node_20261024_01/full_001_launch.json`.
+- **Resource record:** attempt duration was about 13.16 seconds; runtime did not write peak RSS, peak GPU allocation, or CPU-process seconds because it failed before result serialization. No training, SQL/database execution, Gold data, downloads, or API calls occurred.
+
+The original `g0_fk_instance_node_20261024_01` is closed as an implementation failure. Any corrected execution is a separate, pre-registered experiment with its own code version, run IDs, result directory, and budget; no output from this experiment will be overwritten.

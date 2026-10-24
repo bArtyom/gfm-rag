@@ -1,0 +1,62 @@
+{
+  "experiment_id": "g0_fk_instance_node_20261024_01",
+  "status": "IMPLEMENTATION_FAILURE",
+  "category": "exploratory synthetic engineering and identifiability probe",
+  "scientific_gate_evaluated": false,
+  "runs": [
+    {
+      "run_id": "g0_fk_instance_node_20261024_01_smoke_001",
+      "status": "FAILED_PRE_MODEL_STARTUP",
+      "reason": "conda run selected Python 3.9.20 from an unrelated environment; sentence_transformers was missing",
+      "qwen_loads": 0,
+      "g_reasoner_loads": 0,
+      "forward_passes": 0
+    },
+    {
+      "run_id": "g0_fk_instance_node_20261024_01_smoke_002",
+      "status": "SMOKE_PASS",
+      "query_count": 1,
+      "gfm_top1_correct": false,
+      "dense_cosine_top1_correct": true,
+      "gfm_candidate_scores": {
+        "billing": -14.220245361328125,
+        "shipping": -14.047930717468262
+      },
+      "dense_cosine_candidate_scores": {
+        "billing": 0.45985788106918335,
+        "shipping": 0.40535351634025574
+      },
+      "qwen_input_tokens": 242,
+      "qwen_loads": 1,
+      "g_reasoner_loads": 1,
+      "g_reasoner_forward_passes": 1,
+      "wall_seconds": 8.657052,
+      "result_sha256": "60aa0005e27a422bdd9bb7d942bcda75258b83d453e9c5db34c045f56ca6cbda",
+      "interpretation": "Operational smoke only; not part of the Full signal claim."
+    },
+    {
+      "run_id": "g0_fk_instance_node_20261024_01_full_001",
+      "status": "IMPLEMENTATION_FAILURE",
+      "full_forward_passes_completed": 5,
+      "permutation_forward_completed": false,
+      "exception_type": "RuntimeError",
+      "exception_message": "indices should be either on cpu or on the same device as the indexed tensor (cpu)",
+      "failure_location": "permute_reified_graph while building the node/edge-order control",
+      "root_cause": "PyG Data.to() mutates the original graph object; the permutation inverse index remained on CPU while the graph edge index had been moved to CUDA.",
+      "result_json_written": false,
+      "wall_seconds": 13.160483
+    }
+  ],
+  "observed_totals": {
+    "qwen_encoder_loads": 2,
+    "g_reasoner_checkpoint_loads": 2,
+    "g_reasoner_forward_passes_including_smoke": 6,
+    "local_qwen_input_tokens": 242,
+    "local_qwen_output_tokens": null,
+    "external_api_requests": 0,
+    "external_api_cost_cny": 0,
+    "local_gpu": "NVIDIA GeForce RTX 4090, physical GPU 2 for smoke_002 and full_001"
+  },
+  "conclusion": "The registered four-query signal and permutation criteria were not evaluated because the Full run failed before the permutation forward and did not serialize its in-memory metrics. This is an implementation failure, not PASS or scientific NO-GO.",
+  "no_unregistered_retry": true
+}
