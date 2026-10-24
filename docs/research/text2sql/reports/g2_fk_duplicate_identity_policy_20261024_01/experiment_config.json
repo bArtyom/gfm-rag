@@ -1,0 +1,103 @@
+{
+  "experiment_id": "g2_fk_duplicate_identity_policy_20261024_01",
+  "status_at_registration": "registered_before_execution",
+  "classification": "exploratory_cpu_representation_audit",
+  "layer": "resolve one falsifying edge case in the FK Instance prerequisite before any G0 model run",
+  "research_question": "Can mapping-level identity and declaration-multiset identity represent exact duplicate SQLite FK declarations reproducibly, and can duplicate occurrence ordinals be stably attached to individual PRAGMA groups?",
+  "core_hypothesis": "Both policies can produce stable identity sets under FK row order and PRAGMA group-ID permutations. Mapping identity merges only exact structural duplicates while preserving multiplicity as separate metadata. Declaration multiset identity creates unique IDs for every valid declaration but cannot guarantee stable group-to-ordinal association for structurally indistinguishable duplicates.",
+  "scope_limits": [
+    "Does not modify or reverse the original FK Instance Gate NO_GO.",
+    "Does not select a production identity policy automatically.",
+    "Does not authorize Relation-typed G0, model evaluation, or SQL evaluation.",
+    "No natural-language role labels, query text, Gold SQL, business-table rows, or human review."
+  ],
+  "data": {
+    "dataset": "BIRD dev SQLite schema only",
+    "unified_input_path": "/mnt/liansp3/sources/datasets/bird/dev/dev_databases",
+    "expected_database_count": 11,
+    "historical_reference": {
+      "raw_fk_declarations": 103,
+      "valid_fk_declarations": 100,
+      "invalid_fk_declarations": 3,
+      "exact_duplicate_valid_mapping_groups": 1,
+      "source": "g2_fk_instance_quality_20261024_01 full_001 private audit; public aggregate in its report"
+    },
+    "dev_tables_sha256_expected": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "schema_manifest_sha256_expected": "89765355de0a75d03a547afa5bf04eed21857f28d393aeb4e94c20e18212c74e",
+    "reads": ["sqlite_master", "PRAGMA table_info", "PRAGMA foreign_key_list"],
+    "excluded_inputs": ["dev.json", "dev.sql", "business table rows", "Gold SQL", "model caches", "training labels"]
+  },
+  "policies": {
+    "mapping_identity": "Canonical structure hash; exact valid duplicates share one mapping ID and one forward/inverse edge pair; declaration multiplicity is reported separately.",
+    "declaration_multiset_identity": "Canonical structure hash plus occurrence ordinal; every valid declaration has one unique ID and edge pair; duplicate group-to-ordinal association is measured but not claimed stable."
+  },
+  "success_criteria": [
+    "Full discovers 11 schemas and reproduces 103 raw / 100 valid / 3 invalid declarations; the frozen dev_tables and schema manifest hashes match.",
+    "Full rediscovers one exact duplicate valid mapping group with one excess declaration.",
+    "Mapping policy merges only exact structural duplicates, keeps distinct mappings separate, records multiplicity, and has unique mapping IDs with paired edges.",
+    "Declaration-multiset policy gives 100 distinct valid IDs, paired edges, and ID sets invariant to FK row order and PRAGMA group-ID renumbering.",
+    "The analysis explicitly measures whether the declaration ID assigned to an individual indistinguishable PRAGMA group changes under group renumbering."
+  ],
+  "stop_conditions": [
+    "Synthetic duplicate/mapping/composite fixture smoke fails.",
+    "Schema read fails, dataset count or FK denominators differ, or frozen input hashes change.",
+    "CPU time exceeds 300 seconds or peak RSS exceeds 2 GiB.",
+    "Any output path already exists; retain existing data and use a new run ID for any separately registered retry."
+  ],
+  "budget": {
+    "cpu_seconds_max": 300,
+    "process_rss_gib_max": 2,
+    "cpu_threads_max": 1,
+    "gpu_seconds_max": 0,
+    "external_api_requests": 0,
+    "model_loads": 0,
+    "model_forward_calls": 0,
+    "sql_execution": 0,
+    "human_review": 0,
+    "dependency_installations": 0
+  },
+  "runs": [
+    {"run_id": "g2_fk_duplicate_identity_policy_20261024_01_smoke_001", "mode": "smoke", "database_limit": 1, "status": "registered_not_run"},
+    {"run_id": "g2_fk_duplicate_identity_policy_20261024_01_full_001", "mode": "full", "database_limit": 11, "status": "registered_not_run"}
+  ],
+  "run_commands": {
+    "smoke_001": "/usr/bin/timeout 300s conda run -n precisiongate_bird /root/miniconda3/envs/precisiongate_bird/bin/python3.10 scripts/text2sql/fk_duplicate_identity_policy_audit.py --dataset-root /mnt/liansp3/sources/datasets/bird/dev/dev_databases --mode smoke --run-id g2_fk_duplicate_identity_policy_20261024_01_smoke_001 --output /mnt/liansp3/logs/g2_fk_duplicate_identity_policy_20261024_01/smoke_001/result.json",
+    "full_001": "/usr/bin/timeout 300s conda run -n precisiongate_bird /root/miniconda3/envs/precisiongate_bird/bin/python3.10 scripts/text2sql/fk_duplicate_identity_policy_audit.py --dataset-root /mnt/liansp3/sources/datasets/bird/dev/dev_databases --mode full --run-id g2_fk_duplicate_identity_policy_20261024_01_full_001 --output /mnt/liansp3/sources/results/gfmrag_g2_fk_duplicate_identity_policy_20261024_01/full_001/result.json",
+    "smoke_log": "/mnt/liansp3/logs/g2_fk_duplicate_identity_policy_20261024_01/smoke_001.log",
+    "full_log": "/mnt/liansp3/logs/g2_fk_duplicate_identity_policy_20261024_01/full_001.log"
+  },
+  "environment": {
+    "conda_environment": "precisiongate_bird",
+    "python_executable": "/root/miniconda3/envs/precisiongate_bird/bin/python3.10",
+    "python_version": "3.10.21",
+    "dependencies": "Python standard library plus pinned local FK audit helper; no installation"
+  },
+  "implementation": {
+    "base_fk_audit_helper": "scripts/text2sql/fk_instance_quality_audit.py",
+    "base_fk_audit_helper_sha256": "a2ff6a331bad4c74fd4cffd7bd5df0295e15f2ba1ab87d5f1e4d641489f5b5b5",
+    "runner": "scripts/text2sql/fk_duplicate_identity_policy_audit.py",
+    "runner_sha256": "23f96e1db5bec304bb1b6deeddd9efd1638801ad03cb7c24bfe50f36f89d632d",
+    "synthetic_fixture_checks": "embedded in runner and executed in smoke before BIRD scan"
+  },
+  "outputs": {
+    "public_plan": "docs/research/text2sql/plans/g2_fk_duplicate_identity_policy_20261024.md",
+    "public_report_directory": "docs/research/text2sql/reports/g2_fk_duplicate_identity_policy_20261024_01/",
+    "private_result_root": "/mnt/liansp3/sources/results/gfmrag_g2_fk_duplicate_identity_policy_20261024_01/",
+    "private_log_directory": "/mnt/liansp3/logs/g2_fk_duplicate_identity_policy_20261024_01/",
+    "publication_boundary": "Public: protocol, runner, synthetic checks, anonymous aggregate counts and hashes. Private: database names, DDL, per-instance IDs, and raw logs."
+  },
+  "references": {
+    "project_repository": "https://github.com/bArtyom/gfm-rag",
+    "branch": "research/g2-asymmetric-relation-20261024",
+    "registration_base_commit": "79f2bba7d1065a75c2bf4baf1d905d056ceb3473",
+    "parent_no_go_report": "docs/research/text2sql/reports/g2_fk_instance_quality_20261024_01/README.md"
+  },
+  "api_usage": {
+    "external_api_requests": 0,
+    "confirmed_input_tokens": 0,
+    "confirmed_output_tokens": 0,
+    "confirmed_total_tokens": 0,
+    "unknown_usage_requests": 0,
+    "api_cost_cny": "0.00"
+  }
+}

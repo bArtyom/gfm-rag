@@ -1,6 +1,6 @@
 # 2026-10-24 Text2SQL × G-reasoner 当前实验全局复核与 G2 研究决策
 
-> **性质：已有仓库结果审计 + 下一阶段决定；不是新实验。** 初始核对时间：2026-10-24，截止于G2首次启动前；当时没有G2报告。随后G2已在独立分支完成，追加结果见本文件第5节和[G2运行报告](../g2_asymmetric_relation_20261024_01/README.md)。权威仓库 `bArtyom/gfm-rag`；G2结果仍在 `research/g2-asymmetric-relation-20261024@d234507c9c5678943e2c31fd22a6f3be86a2973f`，尚未合并`main`。不要把研究分支产物冒充已合并`main`。
+> **性质：已有仓库结果审计 + 后续决策；不是新实验。** 初始核对时间：2026-10-24，随后追加G2及FK Instance结构Gate结果，见本文件第5、6节。权威仓库 `bArtyom/gfm-rag`；相关结果在 `research/g2-asymmetric-relation-20261024`，尚未合并`main`。不要把研究分支产物冒充已合并`main`。
 >
 > 原始证据：[P2b](../p2b_values_ablation_20261018_01/README.md)、[P2c-R](../p2c_r_recovery_20261019_01/README.md)、[P2d Pilot](../p2d_sql_utility_20261022_01/README.md)、[P2d.1分支recovery02](https://github.com/bArtyom/gfm-rag/blob/research/p2d1-eval-v2-20261022/docs/research/text2sql/reports/p2d_1_eval_audit_20261022_02/README.md)、[G0分支attempt03](https://github.com/bArtyom/gfm-rag/blob/research/g0-synthetic-compat-20261023/docs/research/text2sql/reports/g0_synthetic_graph_compat_20261023_03/README.md)、[G1分支run002](https://github.com/bArtyom/gfm-rag/blob/research/g1-relation-channel-20261023/docs/research/text2sql/reports/g1_relation_channel_20261023_02/README.md) / [数值JSON](https://github.com/bArtyom/gfm-rag/blob/research/g1-relation-channel-20261023/docs/research/text2sql/reports/g1_relation_channel_20261023_02/result.json)。
 
@@ -58,3 +58,9 @@ G2使用预注册fixture和成功门，CPU Gate `_012` 14/14硬门通过，定�
 结果仅表明**这个非对称合成fixture上的关系输入能影响节点原始分数**。G0 attempt03仍只证明官方路径忽略测试的`edge_attr`和自定义FK metadata；G1原`NO-GO`仍是对称拓扑下不可辨识的结果。三者不互相覆盖，亦不支持真实JOIN角色准确率、Query-aware EdgeGate或SQL EX。完整参数、错误现场、GPU资源与匿名聚合结果见[G2报告](../g2_asymmetric_relation_20261024_01/README.md)，已提交至G2研究分支。
 
 按G2预注册后续路线，先做独立的[CPU FK Instance稳定编码质量Gate](../g2_fk_instance_quality_20261024_01/README.md)，再视结构Gate结果单独登记**Relation-typed G0工程基线**。CPU Gate只检查BIRD dev SQLite schema的有序复合列对、FK实例主键、双向边同ID配对、同表对多FK区分和顺序稳定性；不读取题目/Gold SQL，也不报Role/Join Path准确率。G0模型前向阶段须使用匿名结构、冻结关系文本/向量生成方式，并和简单FK path及无关系baseline比较；不训练、不把自动匹配称为Role Gold。G2的8次前向预算已用完，不追加同一合成实验扫描。可信人工Role标签仍为0，因此不开始Query-conditioned Role监督或报告SQL EX。
+
+## 6. FK Instance Gate结果与下一步（2026-10-24）
+
+[FK Instance全量结构Gate](../g2_fk_instance_quality_20261024_01/README.md)已完成，结果为`NO_GO`：11个SQLite schema、103原始/100有效/3无效约束与历史参照一致；一个有效身份碰撞使双向边按唯一实例配对的门槛失败。只读诊断确认碰撞是两个不同PRAGMA组的约束声明具有完全相同的规范化FK结构，而非哈希随机冲突。全量中复合FK数为0，所以复合组件顺序敏感性没有BIRD实证。**Relation-typed G0暂缓**，不能将结构审计包装成模型或JOIN准确率证据。
+
+为回答“相同结构是一个Join映射还是两个声明实例”这一会改变G0输入语义的问题，已另行预注册[重复FK身份策略CPU探索](../g2_fk_duplicate_identity_policy_20261024_01/README.md)。它比较映射级去重（保留声明重数）和声明multiset出现序号（检验ID集合稳定与组号绑定歧义），只用schema/合成fixture，不读取问题或Gold SQL，也不跑模型。该探索不改写本节`NO_GO`，不自动决定生产策略；结果完成后再决定是否具备恢复G0的前提。
