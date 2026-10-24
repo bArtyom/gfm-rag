@@ -1,6 +1,6 @@
 # G0 FK instance-node scoring probe
 
-**Status: first launch failed before model initialization; one corrected smoke attempt is pre-registered.** No scientific model result exists yet.
+**Status: launcher attempt 001 failed before model initialization; smoke_002 passed the operational gate.** Full is eligible under the frozen protocol, but no full scientific result exists yet.
 
 ## Experiment question
 
@@ -26,8 +26,16 @@ After choosing mapping-level FK identity with repeated declaration counts stored
 - **Preserved artifacts:** `/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/smoke_001/result.json.attempt.json` and `result.json.failure.json`; log `/mnt/liansp3/logs/g0_fk_instance_node_20261024_01/smoke_001.log`.
 - **Resource note:** the immediate post-failure snapshot showed GPU 3 at 17,817 MiB used and 100% utilization while `nvidia-smi` listed no process. A later fresh snapshot returned to 8,665/24,564 MiB and 0% utilization. The failed process did not initialize CUDA; the transient GPU use is not attributed to this experiment.
 
+### `smoke_002` — operational gate passed; no signal claim
+
+- **Outcome:** `SMOKE_PASS`, completed at 2026-10-24 12:46:14 UTC. The CPU identity contract passed: 3 declarations became 2 ordered-mapping IDs with multiplicities 2 and 1, and IDs/counts survived declaration reordering. The local Qwen model hashes matched; output was normalized 1024-D. The frozen G-reasoner checkpoint hash and 34,640,897 parameter count matched; the reified output was finite with the expected `[1,4]` shape.
+- **One smoke query:** `q_billing_1`. GFM scored billing `-14.220245` and shipping `-14.047931`, so its top-1 was the wrong shipping mapping. Dense cosine scored billing `0.459858` and shipping `0.405354`, so its top-1 was billing. The FK-path baseline ties both candidates at `1.0`. This single-query observation is the operational smoke only; it does not determine the frozen 4-query signal criterion.
+- **Resource use:** physical GPU 2 (RTX 4090; visible as `cuda:0`), wall 8.657 s, GFM forward 0.646 s, Qwen load 1.733 s, GFM load 0.334 s, peak allocated GPU memory 2,477,169,152 bytes, peak process RSS 4.137 GiB, process CPU 34.031 s. All are within registered limits.
+- **Local embedding usage:** 13 input sequences / 242 tokens (query 28; passages 214); embedding output is vectors, not generated text tokens. External API requests: 0; external API cost: 0 CNY. Model output is local inference, with GPU time reported separately.
+- **Artifacts:** result `/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/smoke_002/result.json`, SHA-256 `60aa0005e27a422bdd9bb7d942bcda75258b83d453e9c5db34c045f56ca6cbda`; attempt marker is adjacent. Log `/mnt/liansp3/logs/g0_fk_instance_node_20261024_01/smoke_002.log`; launch manifest `/mnt/liansp3/logs/g0_fk_instance_node_20261024_01/smoke_002_launch.json`.
+
 ### Corrected launch registered before retry
 
-One corrected smoke attempt is registered as `g0_fk_instance_node_20261024_01_smoke_002`, using the target environment's absolute Python executable inside `conda run`. All scientific inputs and criteria remain frozen. If this attempt fails or times out, the experiment stops; Full can run only after smoke_002 passes. Its output will use a separate immutable path under `/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/`, with logs under `/mnt/liansp3/logs/g0_fk_instance_node_20261024_01/`. Public artifacts will be limited to synthetic aggregate scores and reproduction metadata.
+The corrected attempt used the target environment's absolute Python executable inside `conda run`. All scientific inputs and criteria remain frozen. Smoke_002 passed, so the single registered Full run may proceed; any Full failure or timeout stops the experiment. Its output uses a separate immutable path under `/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/`, with logs under `/mnt/liansp3/logs/g0_fk_instance_node_20261024_01/`. Public artifacts will be limited to synthetic aggregate scores and reproduction metadata.
 
 - **GPU selection:** at the 2026-10-24 12:44 UTC pre-launch check, GPU 3 had 12,805/24,564 MiB used and 100% utilization; GPU 2 had 5,211/24,564 MiB used and 0% utilization. The corrected run selects physical GPU 2 (`CUDA_VISIBLE_DEVICES=2`, visible as `cuda:0`) with one GPU only.

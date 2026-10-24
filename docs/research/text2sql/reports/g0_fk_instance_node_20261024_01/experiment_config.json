@@ -1,7 +1,7 @@
 {
   "experiment_id": "g0_fk_instance_node_20261024_01",
   "status_at_preregistration": "registered_not_run",
-  "status_current": "launcher_failure_before_model; corrected_smoke_preregistered",
+  "status_current": "smoke_passed; full_eligible_under_preregistered_gate",
   "experiment_date": "2026-10-24",
   "category": "exploratory synthetic engineering and identifiability probe",
   "hypothesis": "Mapping-level FK identity with declaration multiplicity metadata can be represented by one reified node per unique Join mapping, allowing the frozen official G-reasoner to emit a separate stable node score for same-endpoint FK candidates; a small synthetic query set may reveal an initial signal.",
@@ -110,6 +110,19 @@
       "g_reasoner_forward_passes": 0,
       "result_path": "/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/smoke_001/result.json.failure.json",
       "log_path": "/mnt/liansp3/logs/g0_fk_instance_node_20261024_01/smoke_001.log"
+    },
+    {
+      "run_id": "g0_fk_instance_node_20261024_01_smoke_002",
+      "status": "SMOKE_PASS",
+      "completed_utc": "2026-10-24T12:46:14.899826Z",
+      "qwen_loads": 1,
+      "g_reasoner_loads": 1,
+      "g_reasoner_forward_passes": 1,
+      "local_embedding_input_tokens": 242,
+      "gfm_top1_correct": false,
+      "result_sha256": "60aa0005e27a422bdd9bb7d942bcda75258b83d453e9c5db34c045f56ca6cbda",
+      "result_path": "/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/smoke_002/result.json",
+      "log_path": "/mnt/liansp3/logs/g0_fk_instance_node_20261024_01/smoke_002.log"
     }
   ],
   "private_outputs": {
@@ -137,5 +150,5 @@
     "full": "env CUDA_VISIBLE_DEVICES=2 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 timeout --signal=TERM --kill-after=15s 1200s /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output /root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode full --run-id g0_fk_instance_node_20261024_01_full_001 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/full_001/result.json"
   },
   "source_protocol": "docs/research/text2sql/plans/g0_fk_instance_node_20261024.md",
-  "status": "launcher_failure_before_model; corrected_smoke_preregistered"
+  "status": "smoke_passed; full_eligible_under_preregistered_gate"
 }
