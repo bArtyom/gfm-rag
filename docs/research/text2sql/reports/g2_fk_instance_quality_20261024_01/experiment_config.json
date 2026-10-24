@@ -53,7 +53,7 @@
   "runs": [
     {"run_id": "g2_fk_instance_quality_20261024_01_smoke_001", "mode": "smoke", "database_limit": 1, "status": "failed_before_runner", "exit_code": 127, "reason": "The registered host command referenced missing /usr/bin/time; the runner did not start and read no data."},
     {"run_id": "g2_fk_instance_quality_20261024_01_smoke_002", "mode": "smoke", "database_limit": 1, "status": "SMOKE_PASS", "database_count": 1, "raw_instances": 2, "valid_instances": 2, "invalid_instances": 0, "directed_edges": 4, "identity_collisions": 0, "composite_instances": 0, "all_input_order_invariant": true, "all_group_id_renumber_invariant": true, "all_reverse_edge_pairing_pass": true, "wall_seconds": 0.0013896394520998001, "process_cpu_seconds": 0.0012336550000000002, "peak_rss_gib": 0.01904296875, "result_path_private": "/mnt/liansp3/logs/g2_fk_instance_quality_20261024_01/smoke_002/result.json"},
-    {"run_id": "g2_fk_instance_quality_20261024_01_full_001", "mode": "full", "database_limit": null, "status": "registered_not_run"}
+    {"run_id": "g2_fk_instance_quality_20261024_01_full_001", "mode": "full", "database_limit": 11, "status": "NO_GO", "database_count": 11, "raw_instances": 103, "valid_instances": 100, "invalid_instances": 3, "invalid_reason_counts": {"target_table_missing": 3}, "directed_edges": 200, "identity_collisions": 1, "all_input_order_invariant": true, "all_group_id_renumber_invariant": true, "all_reverse_edge_pairing_pass": false, "composite_instances": 0, "composite_order_sensitivity_exercised": false, "multi_fk_endpoint_pair_count": 9, "naive_endpoint_dedup_loss": 30, "schema_manifest_sha256": "89765355de0a75d03a547afa5bf04eed21857f28d393aeb4e94c20e18212c74e", "wall_seconds": 0.01943172700703144, "process_cpu_seconds": 0.014784406999999992, "peak_rss_gib": 0.01904296875, "collision_diagnosis": "Two distinct valid PRAGMA groups share the same complete normalized identity tuple; the ID intentionally excludes PRAGMA group IDs. This causes the inverse-edge pairing failure.", "result_path_private": "/mnt/liansp3/sources/results/gfmrag_g2_fk_instance_quality_20261024_01/full_001/result.json"}
   ],
   "run_commands": {
     "smoke_001_failed_command": "/usr/bin/time -v /usr/bin/timeout 1800s conda run -n precisiongate_bird /root/miniconda3/envs/precisiongate_bird/bin/python3.10 scripts/text2sql/fk_instance_quality_audit.py --dataset-root /mnt/liansp3/sources/datasets/bird/dev/dev_databases --mode smoke --run-id g2_fk_instance_quality_20261024_01_smoke_001 --output /mnt/liansp3/logs/g2_fk_instance_quality_20261024_01/smoke_001/result.json",
@@ -70,7 +70,8 @@
     "dependencies": "Python standard library only; no installation"
   },
   "implementation": {
-    "commit_before_smoke": "b2129583bb14687bd661e1fc90352e571a106d54",
+    "commit_before_smoke": "f1398935c02d8bc680d9f46e364b9d20c9fe1cdd",
+    "commit_before_full": "c905d5f429a1b2ac37bf582c3fb930bb95a99fc0",
     "runner_path": "scripts/text2sql/fk_instance_quality_audit.py",
     "runner_sha256": "a2ff6a331bad4c74fd4cffd7bd5df0295e15f2ba1ab87d5f1e4d641489f5b5b5",
     "contract_test_path": "tests/test_fk_instance_quality_audit.py",

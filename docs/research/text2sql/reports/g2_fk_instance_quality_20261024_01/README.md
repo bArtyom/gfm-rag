@@ -1,6 +1,6 @@
 # G2 FK Instance稳定编码质量Gate
 
-> **状态：SMOKE PASS / FULL PENDING。** Smoke结果已记录；全量结果尚未运行。协议见[实验方案](../../plans/g2_fk_instance_quality_gate_20261024.md)。
+> **状态：FULL NO_GO。** 计数匹配历史参照，但发现1组有效FK身份碰撞，反向边配对门槛失败；Relation-typed G0暂不运行。协议见[实验方案](../../plans/g2_fk_instance_quality_gate_20261024.md)。
 
 ## 研究问题与边界
 
@@ -23,10 +23,20 @@
 
 ### Smoke `g2_fk_instance_quality_20261024_01_smoke_002` — 通过
 
-使用Python 3.10.21及标准库，在CPU上只读1个BIRD dev SQLite schema。结果为`SMOKE_PASS`：原始FK实例2，有效2，无效0；双向有向边4，ID碰撞0，复合FK 0，同端点多FK表对0。输入顺序不变、PRAGMA组号重编号不变、反向边配对检查均通过。该样本没有复合FK，故复合组件顺序敏感性仍由全量中实际出现的复合实例验证。Smoke进程wall 0.00139秒、CPU 0.00123秒、峰值RSS 0.0190 GiB。GPU/API/模型/SQL执行/依赖安装均为0。
+使用Python 3.10.21及标准库，在CPU上只读1个BIRD dev SQLite schema。结果为`SMOKE_PASS`：原始FK实例2，有效2，无效0；双向有向边4，ID碰撞0，复合FK 0，同端点多FK表对0。输入顺序不变、PRAGMA组号重编号不变、反向边配对检查均通过。Smoke进程wall 0.00139秒、CPU 0.00123秒、峰值RSS 0.0190 GiB。GPU/API/模型/SQL执行/依赖安装均为0。
 
 私有JSON结果：`/mnt/liansp3/logs/g2_fk_instance_quality_20261024_01/smoke_002/result.json`；原始日志：`/mnt/liansp3/logs/g2_fk_instance_quality_20261024_01/smoke_002.log`。JSON内逐数据库摘要与日志留在本地，不公开上传。
 
-### Full `g2_fk_instance_quality_20261024_01_full_001` — 待运行
+### Full `g2_fk_instance_quality_20261024_01_full_001` — `NO_GO`
 
-Smoke通过后，按已登记命令扫描11个SQLite schema。预注册门槛仍为103原始/100有效/3无效；分母不符时记为`INCONCLUSIVE`并停止，不调整门槛。全量报告会补充聚合结果、资源使用、失败/异常和保守结论。
+按预注册命令扫描全部11个SQLite schema，读范围严格限于`sqlite_master`、`PRAGMA table_info`和`PRAGMA foreign_key_list`。历史分母完全复现：原始103、有效100、无效3；3个无效实例均为`target_table_missing`。因此数据计数门槛通过。其余聚合结果：有向边200；同端点多FK表对9；按表端点去重会丢失30个有效映射；有效身份碰撞1；反向边配对失败。全量wall 0.01943秒、CPU 0.01478秒、峰值RSS 0.0190 GiB。数据schema清单聚合SHA-256为`89765355de0a75d03a547afa5bf04eed21857f28d393aeb4e94c20e18212c74e`，`dev_tables.json`哈希与预注册相同。没有读取问题、Gold SQL或业务表行。
+
+### 失败原因与结论
+
+本地只读诊断确认碰撞来自两个**不同PRAGMA约束组**，但它们规范化后的数据库/源表/目标表/有序列对完全相同。当前身份键有意排除PRAGMA组号，因此把这两个声明编码成同一ID；随之产生的4条边不能拆成两组各自唯一的正反向边，配对检查失败。这不是SHA-256随机碰撞，而是身份定义无法区分完全相同的约束声明。失败条件是真实数据反例，不能靠重跑或调整阈值消除。
+
+全量没有复合FK（`composite_instance_count=0`），因此程序显示的复合顺序敏感检查为真是空集合上的真值，不构成BIRD实证。原先9项合约测试通过，但没有覆盖这种完全重复的真实约束。
+
+**结论：**预注册的唯一实例ID/双向边门槛未通过，核心假设被精确重复声明反例否定；本Gate为`NO_GO`。后续Relation-typed G0模型前向不启动，以免把不唯一边身份传入模型。需要先决定重复约束应作为一个语义映射去重，还是保留声明重数并另定义稳定的重复项编号，再独立预注册和验证；本报告没有采用任何新规则。BIRD dev为重复使用的开发诊断集，结果不代表独立泛化。
+
+私有全量JSON结果：`/mnt/liansp3/sources/results/gfmrag_g2_fk_instance_quality_20261024_01/full_001/result.json`；原始日志：`/mnt/liansp3/logs/g2_fk_instance_quality_20261024_01/full_001.log`。逐数据库哈希、SQLite名称和schema细节不公开。
