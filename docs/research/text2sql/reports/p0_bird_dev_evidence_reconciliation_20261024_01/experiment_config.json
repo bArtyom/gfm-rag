@@ -1,0 +1,89 @@
+{
+  "experiment_id": "p0_bird_dev_evidence_reconciliation_20261024_01",
+  "status": "registered_not_run",
+  "registered_utc": "2026-10-24T13:11:54Z",
+  "category": "P0 read-only evidence reconciliation; no new model or SQL experiment",
+  "repository": "https://github.com/bArtyom/gfm-rag",
+  "branch": "research/p0-bird-dev-evidence-20261024",
+  "base_commit": "b69e43929bee7e64601222639635e28ebeaa9e87",
+  "protocol": "docs/research/text2sql/plans/p0_bird_dev_evidence_reconciliation_20261024.md",
+  "historical_p0": {
+    "experiment_id": "quadrag_p0_20261014",
+    "source_project": "QuadGraph-Text2SQL-20261014; historical archive only",
+    "upstream_source_commit": "a8f6d1f22c9c683b11639418aa50ac1de0433270",
+    "audit_sha256": "0f3f104638e1a37c579db81c453aa514188e0a40341938b92964db833410ebcf",
+    "encoder_health_sha256": "f0dc51f3fb37668a72a58bf7395b6fe1fce964e734201389e1bc3817698efe4a",
+    "dataset_input_sha256": {
+      "dev.json": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+      "dev_tables.json": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97"
+    },
+    "database_input_count": 86,
+    "database_input_total_bytes": 1493364802
+  },
+  "dataset": {
+    "name": "BIRD dev",
+    "split_role": "development/diagnostic only; not independent test",
+    "questions_total": 1534,
+    "database_count": 11,
+    "table_count": 75,
+    "declared_fk_candidate_query_count": 174,
+    "trusted_blind_dual_review_role_labels": 0
+  },
+  "encoder_snapshot": {
+    "model": "Qwen3-Embedding-0.6B",
+    "path": "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+    "config_sha256": "b5bf1f51fc45be473a54718cef92448d90a1be001bf9b9a44b8c7f10a19feaa9",
+    "weights_sha256": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd",
+    "historical_health_inputs": 5,
+    "historical_output_shape": [5, 1024],
+    "historical_nonfinite_values": 0,
+    "new_encoder_calls": 0
+  },
+  "expected_counts_from_historical_audit": {
+    "sql_parse_ok": 1534,
+    "gold_table_labels": 1534,
+    "gold_resolved_column_queries": 1534,
+    "fully_resolved_column_queries": 1460,
+    "unresolved_column_queries": 74,
+    "join_on_queries": 1140,
+    "declared_fk_instance_matches": 956,
+    "multi_fk_pair_candidate_queries": 174,
+    "schema_json_fk_pairs": 102,
+    "sqlite_fk_instances": 103,
+    "composite_fk_instances": 0,
+    "databases_with_json_sql_fk_differences": 2
+  },
+  "success_criteria": {
+    "verify_two_dataset_json_hashes": true,
+    "verify_all_86_database_input_hashes": true,
+    "verify_two_aggregate_artifact_hashes": true,
+    "verify_model_config_fingerprint": true,
+    "export_raw_questions_gold_or_predictions": false,
+    "role_gate_requires_trusted_dual_review": true
+  },
+  "budget": {
+    "cpu_seconds_max": 300,
+    "peak_rss_gib_max": 4,
+    "database_input_bytes_read_max": 1493364802,
+    "gpu_count": 0,
+    "external_model_api_calls": 0,
+    "local_model_calls": 0,
+    "sql_execution": 0,
+    "training_steps": 0,
+    "downloads": 0,
+    "dependency_changes": 0
+  },
+  "outputs": {
+    "private_result_root": "/mnt/liansp3/sources/results/gfmrag_p0_bird_dev_evidence_reconciliation_20261024_01",
+    "private_logs": "/mnt/liansp3/logs/gfmrag_p0_bird_dev_evidence_reconciliation_20261024_01",
+    "public_report": "docs/research/text2sql/reports/p0_bird_dev_evidence_reconciliation_20261024_01/README.md",
+    "public_aggregate": "docs/research/text2sql/reports/p0_bird_dev_evidence_reconciliation_20261024_01/result_summary.json"
+  },
+  "stop_conditions": [
+    "Any missing input or symlink drift",
+    "Any SHA-256 mismatch",
+    "Any aggregate counter mismatch",
+    "CPU/RSS/read-byte cap exceeded",
+    "No trusted blind dual-review labels: stop Role claims and do not launch Role experiment"
+  ]
+}

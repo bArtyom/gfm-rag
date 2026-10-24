@@ -50,6 +50,8 @@
 | [G0 FK实例节点实验](reports/g0_fk_instance_node_20261024_01/README.md) | 合成同端点多FK图中实例级输出与映射身份稳定性 | **实现失败；无全量科学结论，待独立恢复版预注册** |
 | [G0-02图设备迁移恢复预注册](plans/g0_fk_instance_node_recovery_20261024.md) | 仅修复 PyG `Data.to()` 原地改变图对象的问题，重复冻结的同一合成查询与评分门 | **已执行；科学门 NO_GO** |
 | [G0-02恢复实验报告](reports/g0_fk_instance_node_20261024_02/README.md) | G0-01 Full 图重排实现失败后的独立、有界恢复执行 | **G0_SYNTHETIC_NO_GO；GFM 2/4，dense 4/4** |
+| [P0 BIRD-dev证据复核预注册](plans/p0_bird_dev_evidence_reconciliation_20261024.md) | 只读复核既有P0 v3输入指纹、FK/Role标签覆盖与Qwen健康证据，不重跑模型或SQL | **已预注册；待CPU审计** |
+| [P0 BIRD-dev证据复核报告](reports/p0_bird_dev_evidence_reconciliation_20261024_01/README.md) | 对照当前路线图归档历史P0证据并划定可支持的结论范围 | **待运行；角色标签门默认不通过，除非存在可信盲审证据** |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
