@@ -54,6 +54,12 @@
     {"run_id": "g2_fk_instance_quality_20261024_01_smoke_001", "mode": "smoke", "database_limit": 1, "status": "registered_not_run"},
     {"run_id": "g2_fk_instance_quality_20261024_01_full_001", "mode": "full", "database_limit": null, "status": "registered_not_run"}
   ],
+  "run_commands": {
+    "smoke": "/usr/bin/time -v /usr/bin/timeout 1800s conda run -n precisiongate_bird /root/miniconda3/envs/precisiongate_bird/bin/python3.10 scripts/text2sql/fk_instance_quality_audit.py --dataset-root /mnt/liansp3/sources/datasets/bird/dev/dev_databases --mode smoke --run-id g2_fk_instance_quality_20261024_01_smoke_001 --output /mnt/liansp3/logs/g2_fk_instance_quality_20261024_01/smoke_001/result.json",
+    "full": "/usr/bin/time -v /usr/bin/timeout 1800s conda run -n precisiongate_bird /root/miniconda3/envs/precisiongate_bird/bin/python3.10 scripts/text2sql/fk_instance_quality_audit.py --dataset-root /mnt/liansp3/sources/datasets/bird/dev/dev_databases --mode full --run-id g2_fk_instance_quality_20261024_01_full_001 --output /mnt/liansp3/sources/results/gfmrag_g2_fk_instance_quality_20261024_01/full_001/result.json",
+    "smoke_log": "/mnt/liansp3/logs/g2_fk_instance_quality_20261024_01/smoke_001.log",
+    "full_log": "/mnt/liansp3/logs/g2_fk_instance_quality_20261024_01/full_001.log"
+  },
   "environment": {
     "conda_environment": "precisiongate_bird",
     "python_executable": "/root/miniconda3/envs/precisiongate_bird/bin/python3.10",
