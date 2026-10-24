@@ -4,7 +4,7 @@
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新决策（2026-10-24，G0-02结果后）**：G1 Run002仍为**G1-A NO-GO**；G2非对称合成图按预注册**G2-A PASS**，仅证明该fixture上的关系分数敏感性。BIRD dev结构Gate为**NO_GO**：11库103/100/3计数复现，但有两组不同PRAGMA约束规范化为同一FK映射，且没有复合FK。后续CPU身份策略保留99个有效映射并将重复声明记录为重数。G0-01为实现失败；独立恢复版G0-02完成后为**G0_SYNTHETIC_NO_GO**：身份/结构/置换稳定性通过，但GFM为2/4，低于冻结的3/4门槛，且dense cosine为4/4。该结果只限显式billing/shipping名称的合成查询，不证明真实角色能力或SQL收益。停止该合成GFM扩展；按照路线图，下一步只做零训练、零API的P0证据汇总与缺口审计，未通过P0前不做P1 sweep。见[G0-01失败报告](reports/g0_fk_instance_node_20261024_01/README.md)、[G0-02预注册](plans/g0_fk_instance_node_recovery_20261024.md)、[G0-02最终报告](reports/g0_fk_instance_node_20261024_02/README.md)和[实验路线图](experiment-roadmap.md)。P2c-R +10.96pp仍只是Schema覆盖，P2d/P2d.1 SQL正确仍E0/E1/E2=8/7/8；G2研究分支尚未合并`main`，FK/Role Gold仍无可信人工标签。
+> **最新决策（2026-10-24，P0证据复核后）**：P0只读复核的88/88输入指纹、3/3历史产物/模型配置指纹及聚合计数均通过；结果支持在重复使用的BIRD dev上复现表/列清单。Role Gate仍为**NO-GO**：174个多FK候选未盲审，可信双人标签为0；FK schema来源差异和身份碰撞仍需保留。G0-02仍为**G0_SYNTHETIC_NO_GO**（GFM 2/4、dense 4/4），G2-A PASS仅说明非对称合成fixture上关系输入能改变分数。不得启动P1角色准确率/维度扫描或SQL扩样。下一步需要先建立受控的双人盲审标签；任何后续G0都须基于明确的FK身份策略另行预注册。见[P0复核报告](reports/p0_bird_dev_evidence_reconciliation_20261024_01/README.md)、[G0-02最终报告](reports/g0_fk_instance_node_20261024_02/README.md)和[实验路线图](experiment-roadmap.md)。
 
 ## 现有研究文档
 
@@ -50,8 +50,8 @@
 | [G0 FK实例节点实验](reports/g0_fk_instance_node_20261024_01/README.md) | 合成同端点多FK图中实例级输出与映射身份稳定性 | **实现失败；无全量科学结论，待独立恢复版预注册** |
 | [G0-02图设备迁移恢复预注册](plans/g0_fk_instance_node_recovery_20261024.md) | 仅修复 PyG `Data.to()` 原地改变图对象的问题，重复冻结的同一合成查询与评分门 | **已执行；科学门 NO_GO** |
 | [G0-02恢复实验报告](reports/g0_fk_instance_node_20261024_02/README.md) | G0-01 Full 图重排实现失败后的独立、有界恢复执行 | **G0_SYNTHETIC_NO_GO；GFM 2/4，dense 4/4** |
-| [P0 BIRD-dev证据复核预注册](plans/p0_bird_dev_evidence_reconciliation_20261024.md) | 只读复核既有P0 v3输入指纹、FK/Role标签覆盖与Qwen健康证据，不重跑模型或SQL | **已预注册；预检通过，待CPU审计** |
-| [P0 BIRD-dev证据复核报告](reports/p0_bird_dev_evidence_reconciliation_20261024_01/README.md) | 对照当前路线图归档历史P0证据并划定可支持的结论范围 | **预检通过；结果待运行；角色标签门需可信盲审** |
+| [P0 BIRD-dev证据复核预注册](plans/p0_bird_dev_evidence_reconciliation_20261024.md) | 只读复核既有P0 v3输入指纹、FK/Role标签覆盖与Qwen健康证据，不重跑模型或SQL | **2026-10-24完成；冻结方案保留** |
+| [P0 BIRD-dev证据复核报告](reports/p0_bird_dev_evidence_reconciliation_20261024_01/README.md) | 对照当前路线图归档历史P0证据并划定可支持的结论范围 | **88/88输入及3/3产物指纹通过；表/列证据可复现；Role Gate NO-GO** |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
@@ -77,7 +77,7 @@
 
 在 [2026-10-16 的代码级分析](graph-algorithm-code-review-20261016.md) 中，重点确定了 **Top-1 起始锚点、关系实例/逐边属性未纳入默认消息权重、节点 Top-K 非连通、SQL-aware 监督未落地**等可验证机制。最有潜力的后续方向是 **Query-aware JOIN Edge Gate + 实例感知约束子图解码**；但必须先过 FK/Join 标签 Gate，并与 Graph-Link、GRAST-SL、SchemaGraphSQL 同信息比较。**这不是已有实证收益**。
 
-## 最新行动结果与下一步（2026-10-24，G0-02结束后）
+## 最新行动结果与下一步（2026-10-24，P0证据复核后）
 
 **分支与证据**：G2、FK Instance Gate及重复声明身份策略结果在`research/g2-asymmetric-relation-20261024`；G0-01 `IMPLEMENTATION_FAILURE`与G0-02 `G0_SYNTHETIC_NO_GO`在`research/g0-fk-instance-node-20261024`。G0-02最终报告记录了Smoke和Full结果、代码/模型/环境版本、资源、token和限制。研究分支结果尚未合并`main`。
 
@@ -91,7 +91,7 @@
 
 **后续探索结论**：mapping identity保留所有99个不同有效映射，并将1个完全重复声明作为重数元数据；multiset identity保留100个声明ID，但无法在PRAGMA重编号后稳定绑定到重复组。候选建议为映射级唯一ID，且将声明重数作为元数据；原Gate仍是`NO_GO`，新方案须先独立预注册。人类Role标签仍为0，故不开始query-conditioned Role监督；不在旧30题继续SQL调参、换模型或自动扩样。
 
-G2、FK Gate和后续探索均各自保留版本与运行证据，不覆盖G0/G1历史结果，也不把研究分支成果说成已合并`main`。G0-02的合成查询扩展在此停止。路线图当前唯一优先项为P0数据审计；旧QuadGraph工作区已有P0 v3产物，本仓库下一步应只读盘点并对照当前P0验收表，复用已存在的输入/编码健康结果，仅补齐明确缺失的证据。若Hard Role Set仍没有可盲审且可裁定的真实正负样本，P0按NO-GO记录，不能启动P1角色准确率或维度搜索。
+G2、FK Gate、身份策略、G0及P0复核均各自保留运行ID与结果，不覆盖历史产物，也不把研究分支结果说成已合并`main`。本轮P0审计的91项输入/产物指纹检查均通过，但没有可信Role标签；因此P0结果仅支持表/列证据，整体Role Gate仍为NO-GO。下一步需先取得受控双人盲审标签并明确FK身份策略；在此之前，不启动P1角色准确率、维度扫描、query-conditioned Role监督或新的真实SQL实验。后续G0如仍有清晰问题，必须另行冻结身份表示、对照、成功门、预算和停止条件后再登记。
 
 
 ## 从今往后的提交规范

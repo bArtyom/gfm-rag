@@ -1,0 +1,107 @@
+{
+  "experiment_id": "p0_bird_dev_evidence_reconciliation_20261024_01",
+  "run_id": "p0_bird_dev_evidence_reconciliation_20261024_01_audit_001",
+  "status": "P0_TABLE_COLUMN_ONLY_ROLE_GATE_NO_GO",
+  "registered_utc": "2026-10-24T13:11:54Z",
+  "started_utc": "2026-10-24T13:17:04Z",
+  "completed_utc": "2026-10-24T13:18:33Z",
+  "archive_verification_utc": "2026-10-24T13:25:12Z",
+  "repository": {
+    "url": "https://github.com/bArtyom/gfm-rag",
+    "branch": "research/p0-bird-dev-evidence-20261024",
+    "preregistration_commit": "d4eae8a895cdf15859fbcefe8435bde7d5b52111",
+    "base_commit": "b69e43929bee7e64601222639635e28ebeaa9e87"
+  },
+  "scope": "Read-only CPU evidence reconciliation; no new parsing, encoder inference, retrieval, SQL execution, training, or annotation.",
+  "integrity": {
+    "registered_input_files": 88,
+    "input_hashes_passed": 88,
+    "input_hash_failures": 0,
+    "database_csv_files": 86,
+    "dataset_json_files": 2,
+    "registered_database_csv_bytes": 1493364802,
+    "registered_input_manifest_sha256": "cb5652f7cf071b6d482cca032b987cbe2264e8b5023e2484d7de3f8c07f0fba3",
+    "registered_artifact_files": 3,
+    "artifact_hashes_passed": 3,
+    "artifact_hash_failures": 0,
+    "aggregate_counter_predicates_passed": true,
+    "archive_readback_inputs_passed": 88,
+    "archive_readback_artifacts_passed": 3,
+    "dataset_json_sha256": {
+      "dev.json": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+      "dev_tables.json": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97"
+    },
+    "historical_aggregate_sha256": "0f3f104638e1a37c579db81c453aa514188e0a40341938b92964db833410ebcf",
+    "encoder_health_sha256": "f0dc51f3fb37668a72a58bf7395b6fe1fce964e734201389e1bc3817698efe4a",
+    "qwen_config_sha256": "b5bf1f51fc45be473a54718cef92448d90a1be001bf9b9a44b8c7f10a19feaa9"
+  },
+  "dataset_evidence": {
+    "split": "BIRD dev; repeatedly used development/diagnostic data, not an independent test set",
+    "questions": 1534,
+    "databases": 11,
+    "tables": 75,
+    "sql_parse_successes": 1534,
+    "queries_with_gold_table": 1534,
+    "queries_with_resolved_gold_column": 1534,
+    "fully_resolved_column_queries": 1460,
+    "unresolved_column_queries": 74,
+    "join_on_queries": 1140,
+    "declared_fk_instance_matches": 956,
+    "multi_fk_pair_candidates_unreviewed": 174,
+    "schema_json_fk_pairs": 102,
+    "sqlite_fk_instances": 103,
+    "composite_fk_instances": 0,
+    "databases_with_json_sql_fk_differences": 2,
+    "trusted_blinded_dual_review_role_labels": 0
+  },
+  "historical_encoder_health": {
+    "model": "Qwen3-Embedding-0.6B",
+    "inputs": 5,
+    "output_shape": [5, 1024],
+    "nonfinite_values": 0,
+    "repeat_max_abs_difference": 0,
+    "raw_norm_min_median_max": [87.6761, 115.8207, 118.0208],
+    "repeat_cosine_min_median": [0.99999994, 1.0],
+    "new_encoder_calls": 0,
+    "new_local_model_tokens": 0
+  },
+  "decision": {
+    "integrity_audit": "PASS",
+    "table_column_evidence": "REPRODUCIBLE_ON_DEVELOPMENT_SPLIT",
+    "role_gate": "NO_GO",
+    "role_accuracy_claim_authorized": false,
+    "p1_role_accuracy_or_dimension_sweep_authorized": false
+  },
+  "resources": {
+    "environment": "GNU Bash 5.0.17; GNU coreutils 8.30; jq 1.6",
+    "run_wall_seconds": 10.62,
+    "run_user_cpu_seconds": 6.4,
+    "run_system_cpu_seconds": 0.48,
+    "cpu_seconds_limit": 300,
+    "wall_seconds_limit": 300,
+    "virtual_memory_limit_gib": 4,
+    "peak_rss_gib": null,
+    "peak_rss_note": "Not measured because /usr/bin/time was unavailable; the virtual-memory cap is not an RSS measurement.",
+    "gpu_count": 0,
+    "external_model_api_calls": 0,
+    "local_model_calls": 0,
+    "sql_executions": 0,
+    "training_steps": 0,
+    "downloads": 0,
+    "dependency_changes": 0
+  },
+  "archive_verification": {
+    "utc": "2026-10-24T13:25:12Z",
+    "input_hashes": "88/88 passed",
+    "artifact_hashes": "3/3 passed",
+    "input_wall_seconds": 8.39,
+    "aggregate_counter_predicates": "passed"
+  },
+  "limitations": [
+    "No blinded dual-reviewed Role labels; 174 multi-FK candidates remain unreviewed.",
+    "BIRD dev is not an independent database-level holdout.",
+    "The audit reuses historical parsing and encoder-health outputs; it does not re-run SQL parsing or model inference.",
+    "Schema JSON and SQLite FK counts differ in two databases; no composite FK instances occur in this split.",
+    "Peak RSS was not measured."
+  ]
+}
