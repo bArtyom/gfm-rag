@@ -56,8 +56,18 @@
     "fixture_tensor_bundle_sha256": "3a36bd4656bed2ddeaa803a2fac5ea0bae6fb2635cdb2fa3a72b3f63b99f02f8",
     "external_dataset_used": false,
     "BIRD_or_Gold_SQL_used": false,
-    "cpu_preflight_output_path": "cpu_preflight_bounded_005.json",
-    "cpu_preflight_sha256": "c8030d798a1a9ab26c593e8234e6fd489c44a1c1ed4523f9f35d8a33b2ff6f31",
+    "cpu_preflight_output_path": "cpu_preflight_bounded_011.json",
+    "cpu_preflight_sha256": "e685eb540a60cc616eeda5562c8d47d7287cac380bd730900db59f2e4c6427a3",
+    "superseded_formal_preflight_path": "cpu_preflight_bounded_005.json",
+    "superseded_formal_preflight_note": "Preserved as the earlier implementation's receipt; not used as launch evidence after independent review added hard-gate requirements.",
+    "superseded_intermediate_preflight_path": "cpu_preflight_bounded_006.json",
+    "superseded_intermediate_preflight_note": "Preserved; a final fail-closed edge-case correction followed before launch.",
+    "superseded_final_preflight_path": "cpu_preflight_bounded_009.json",
+    "superseded_final_preflight_note": "Preserved; this receipt predates the always-written supervisor completion receipt and is not the launch-authoritative gate.",
+    "superseded_preflight_008_path": "cpu_preflight_bounded_008.json",
+    "superseded_preflight_008_note": "Preserved; this receipt predates the final supervisor completion contract.",
+    "superseded_preflight_010_path": "cpu_preflight_bounded_010.json",
+    "superseded_preflight_010_note": "Preserved; this receipt predates stricter run-ID and model/journal counter-consistency validation.",
     "preliminary_diagnostic_path": "cpu_preflight.json",
     "preliminary_diagnostic_sha256": "c477128077c4f1dd0944c78b3b08369876980825f44aee2c878b785b6ea2822c",
     "preliminary_diagnostic_note": "A development-only CPU signature run before thread-count enforcement; no model load or GPU forward. Retained separately and excluded from the formal Gate 0 receipt."
@@ -80,39 +90,52 @@
     "cpu_threads": 8,
     "launch_environment_cleanup": "unset inherited CONDA_PREFIX, CONDA_DEFAULT_ENV, CONDA_SHLVL, CONDA_PREFIX_1 and set PATH=/usr/bin:/bin before conda run",
     "test_command": "timeout 90s env -u CONDA_PREFIX -u CONDA_DEFAULT_ENV -u CONDA_SHLVL -u CONDA_PREFIX_1 OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PATH=/usr/bin:/bin /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 python -m unittest tests.test_g2_asymmetric_relation_probe",
-    "targeted_contract_tests": 12,
+    "targeted_contract_tests": 22,
     "targeted_contract_test_status": "PASS",
     "cpu_gate_status": "PASS",
     "cpu_gate_thread_count": 8,
     "checkpoint_sha256_guard_before_model_load": true,
+    "frozen_fixture_sha256_enforced": true,
+    "condition_isolation_enforced": true,
+    "exclusive_run_reservation": true,
+    "durable_progress_journal": true,
+    "timeout_supervisor_finalizer": true,
+    "exclusive_log_creation": true,
+    "supervisor_completion_receipt_authoritative": true,
     "cpu_gate_summary": {
       "A2_changed_targets": [0, 1, 4],
       "A3_changed_targets": [0, 1],
       "A4_changed_targets": [],
       "legacy_G1_C2_C3_message_multisets_unchanged": true
     },
+    "cpu_gate_run_id": "g2_asymmetric_relation_20261024_01_cpu_gate_011",
+    "cpu_gate_execution_command": "timeout 90s env -u CONDA_PREFIX -u CONDA_DEFAULT_ENV -u CONDA_SHLVL -u CONDA_PREFIX_1 OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PATH=/usr/bin:/bin /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 python scripts/text2sql/g2_asymmetric_relation_probe.py --cpu-preflight-only --run-id g2_asymmetric_relation_20261024_01_cpu_gate_011 --output /mnt/liansp3/logs/gfmrag_g2_asymmetric_relation_20261024_01/cpu_preflight_bounded_011.json",
     "model_loaded_before_cpu_gate": false,
     "gpu_forward_before_cpu_gate": false,
     "environment_packages_changed": false
   },
   "code": {
     "runner_path": "scripts/text2sql/g2_asymmetric_relation_probe.py",
-    "runner_sha256": "a0c9c9d42e8c8fab906886001fa12d0c9a5c9c991e0c1210bf19bc98d3a89267",
+    "runner_sha256": "68acb9e49277bdb20ae47c9a49ab2ab451f2e3e2cba31ee108fdb81766f7840e",
     "test_path": "tests/test_g2_asymmetric_relation_probe.py",
-    "test_sha256": "e5b550d309f1b7652a2bf1e12f45b4ef7949e899dd9825ac206744b114f3855e",
-    "pre_run_commit": "pending commit; required to be pushed and read back before GPU launch"
+    "test_sha256": "066ed63b0c3a8a2ee34fbe0b516a2b69a8731361a89ec2a99344d348dba2db0c",
+    "supervisor_path": "scripts/text2sql/run_g2_asymmetric_relation_probe.sh",
+    "supervisor_sha256": "7f43d0acbe9bcb7b4c4918de334ac8af5877f0733a36f29205b80002c484c8d6",
+    "code_commit": "0729aa5f3b29e5bf44f3d93d2b1d41cf4bab79ba"
   },
-  "launch_command": "timeout --signal=INT --kill-after=10s 900s env -u CONDA_PREFIX -u CONDA_DEFAULT_ENV -u CONDA_SHLVL -u CONDA_PREFIX_1 OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PATH=/usr/bin:/bin CUDA_VISIBLE_DEVICES=2 /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 python scripts/text2sql/g2_asymmetric_relation_probe.py --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --device cuda:0 --run-id g2_asymmetric_relation_20261024_01 --output /mnt/liansp3/sources/results/gfmrag_g2_asymmetric_relation_20261024_01/result.json > /mnt/liansp3/logs/gfmrag_g2_asymmetric_relation_20261024_01/run.log 2>&1",
+  "launch_command": "env -u CONDA_PREFIX -u CONDA_DEFAULT_ENV -u CONDA_SHLVL -u CONDA_PREFIX_1 OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PATH=/usr/bin:/bin CUDA_VISIBLE_DEVICES=2 /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 bash scripts/text2sql/run_g2_asymmetric_relation_probe.sh g2_asymmetric_relation_20261024_01 /mnt/liansp3/sources/results/gfmrag_g2_asymmetric_relation_20261024_01/result.json /mnt/liansp3/logs/gfmrag_g2_asymmetric_relation_20261024_01/run.log 900 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --device cuda:0",
   "local_artifacts": {
     "result_json": "/mnt/liansp3/sources/results/gfmrag_g2_asymmetric_relation_20261024_01/result.json",
+    "supervisor_result_json": "/mnt/liansp3/sources/results/gfmrag_g2_asymmetric_relation_20261024_01/result.supervisor.json",
     "log": "/mnt/liansp3/logs/gfmrag_g2_asymmetric_relation_20261024_01/run.log",
-    "cpu_preflight_log": "/mnt/liansp3/logs/gfmrag_g2_asymmetric_relation_20261024_01/cpu_preflight_bounded_005.log"
+    "supervisor_lock": "/mnt/liansp3/sources/results/gfmrag_g2_asymmetric_relation_20261024_01/result.json.supervisor.lock",
+    "cpu_preflight_log": "/mnt/liansp3/logs/gfmrag_g2_asymmetric_relation_20261024_01/cpu_preflight_bounded_011.log"
   },
   "execution": {
     "status": "GPU_PENDING",
     "model_loads": 0,
     "completed_forwards": 0,
-    "launch_snapshot": "pending"
+    "launch_snapshot": "pending immediate pre-launch nvidia-smi/free/nproc capture"
   },
   "interpretation_limit": "A synthetic positive response demonstrates relation-channel sensitivity only on this asymmetric fixture; it does not establish same-endpoint FK-instance role accuracy, Join Path accuracy, or SQL execution improvement."
 }

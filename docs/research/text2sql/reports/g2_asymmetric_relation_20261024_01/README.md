@@ -1,10 +1,11 @@
 # G2 非对称关系通道可辨识性实验
 
 **实验 ID：** `g2_asymmetric_relation_20261024_01`
-**当前状态：** 已预注册；CPU Gate 0 通过；GPU 前向待启动。本文目前不包含模型结果。
+**当前状态：** 已预注册；最终运行门槛复核后 CPU Gate 0 通过；GPU 前向待启动。本文目前不包含模型结果。
 
 **归档仓库：** [`bArtyom/gfm-rag`](https://github.com/bArtyom/gfm-rag)
 **执行分支：** `research/g2-asymmetric-relation-20261024`
+**运行代码冻结 commit：** `0729aa5f3b29e5bf44f3d93d2b1d41cf4bab79ba`
 **所依据的最新指导：** `main` commit `cb6fe5f4f32a011861d9cf91c0497fb3483450ff`，预注册方案位于 [`g2_asymmetric_relation_channel_identifiability_20261024.md`](../../plans/g2_asymmetric_relation_channel_identifiability_20261024.md)。
 
 ## 研究问题与假设
@@ -30,16 +31,18 @@ G2 沿用固定 seed `20261023` 的 5 节点、8 条有向边、6 个关系 ID �
 - A4 的所有目标输入多重集合保持一致；A1 的模型消费字段保持一致。
 - 对旧 G1 对称拓扑纯 CPU 重算，C2 与 C3 的输入多重集合均不变，与 G1 零差异的结构性问题一致。
 - 复合 FK component 顺序、关系逆配对、有限值、张量形状、复制及设备往返契约通过。
-- 新增的 12 项定向 CPU 合约测试通过；CPU Gate 将 PyTorch 线程数限制为 8；checkpoint SHA-256 在加载前强校验；未加载模型、未执行模型前向。结果写入器拒绝覆盖已有回执，前向失败回执保留已完成数与失败条件。
+- Gate 会强制匹配预注册 fixture SHA-256，并校验条件名称、每个干预允许改变的图字段、Query/起点隔离、one-hot 起点和 A3 指定行置换；任一条件混杂均停止。
+- 新增的 22 项定向 CPU 合约测试通过；CPU Gate 将 PyTorch 线程数限制为 8；checkpoint 与 fixture SHA-256 均在模型加载前强校验；未加载模型、未执行模型前向。
+- 运行 ID 在模型加载前以独占 reservation 固定；逐次记录 checkpoint 加载尝试、前向尝试及完成条件。worker 结果与监督进程回执分开保存且均不覆盖；监督回执只有在 worker 正常退出且结果为 PASS/NO-GO 时才标记 `COMPLETED`，超时或异常退出一律标记 `STOP-INVALID`。
 
-正式、限线程的 Gate 0 回执及完整匿名签名见 [`cpu_preflight_bounded_005.json`](cpu_preflight_bounded_005.json)；冻结参数和运行命令见 [`experiment_config.json`](experiment_config.json)。另保留 `cpu_preflight.json` 作为开发期初次诊断，它早于线程数限制，未用于正式 Gate 判定。CPU 多重集合 hash 是图输入层面的必要性审计，不代表模型内部 message activation。
+当前有效的正式 Gate 0 回执及完整匿名签名见 [`cpu_preflight_bounded_011.json`](cpu_preflight_bounded_011.json)（SHA-256：`e685eb540a60cc616eeda5562c8d47d7287cac380bd730900db59f2e4c6427a3`）；冻结参数和完整启动命令见 [`experiment_config.json`](experiment_config.json)。`cpu_preflight_bounded_005.json` 至 `_010.json` 与 `cpu_preflight.json` 均保留为历史记录，不作为本次 GPU 启动依据；早期正式回执所对应的实现已在后续审阅中继续加固。CPU 多重集合 hash 是图输入层面的必要性审计，不代表模型内部 message activation。
 
 ## 运行前结果
 
 | 项目 | 结果 |
 |---|---|
 | CPU Gate 0 | PASS |
-| 定向测试 | 12/12 PASS |
+| 定向测试 | 22/22 PASS |
 | checkpoint 加载 | 0（待运行） |
 | GPU 前向 | 0（待运行） |
 | 训练 / API / 数据集 / SQL | 0 / 0 / 未使用 / 未执行 |
