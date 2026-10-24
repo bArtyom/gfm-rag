@@ -60,6 +60,13 @@
     "python_version_target": "3.10",
     "dependencies": "Python standard library only; no installation"
   },
+  "implementation": {
+    "runner_path": "scripts/text2sql/fk_instance_quality_audit.py",
+    "runner_sha256": "e0f7ad805f141994cb5ecf9341f777d6e629f6ad71ea8368f71daaa0e1f07dd1",
+    "contract_test_path": "tests/test_fk_instance_quality_audit.py",
+    "contract_test_sha256": "83f3176df4cccf875f37a6181295f83ae94c6eb6b345f0087a4bb10268cb6ca0",
+    "contract_test_result": "8 passed; implementation gate only, not a BIRD experiment result"
+  },
   "outputs": {
     "public_report_directory": "docs/research/text2sql/reports/g2_fk_instance_quality_20261024_01/",
     "private_result_root": "/mnt/liansp3/sources/results/gfmrag_g2_fk_instance_quality_20261024_01/",
@@ -70,6 +77,7 @@
     "project_repository": "https://github.com/bArtyom/gfm-rag",
     "branch": "research/g2-asymmetric-relation-20261024",
     "registration_base_commit": "d234507c9c5678943e2c31fd22a6f3be86a2973f",
+    "protocol_commit": "b3c60a2eb773e8904698504853d6fa69d020f0b7",
     "parent_protocol": "docs/research/text2sql/plans/g2_asymmetric_relation_channel_identifiability_20261024.md",
     "historical_fk_report": "docs/research/text2sql/reports/p2a_5_error_audit_20261018_01/README.md"
   },
