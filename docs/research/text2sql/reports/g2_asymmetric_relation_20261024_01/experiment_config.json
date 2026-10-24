@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "experiment_id": "g2_asymmetric_relation_20261024_01",
+  "status": "PRE_REGISTERED_CPU_GATE_PASS_GPU_PENDING",
+  "created_utc": "2026-10-24T10:27:19Z",
+  "owned_repository": "https://github.com/bArtyom/gfm-rag",
+  "execution_branch": "research/g2-asymmetric-relation-20261024",
+  "execution_branch_base_commit": "cb6fe5f4f32a011861d9cf91c0497fb3483450ff",
+  "guidance": {
+    "main_commit": "cb6fe5f4f32a011861d9cf91c0497fb3483450ff",
+    "preregistration_commit": "92c5019b971cd94d720288f9cbb24caed45164be",
+    "plan_path": "docs/research/text2sql/plans/g2_asymmetric_relation_channel_identifiability_20261024.md",
+    "plan_blob_sha": "7b8ccc87713da20f49fd860e12cf3526e4b3183d"
+  },
+  "research_question": "With model, query, start node, and asymmetric topology held fixed, does a relation intervention that changes a reachable target's incoming relation-message input multiset change the official G-reasoner output beyond repeat noise?",
+  "hypothesis": "At least one of A2 (paired relation-ID swap on distinct endpoints) or A3 (equal-norm row transformation for relation rows 0 and 3) changes output by more than epsilon, while metadata-only A1 and semantic ID/row relabel A4 remain within epsilon.",
+  "experiment_tier": "synthetic mechanism-identifiability gate; exploratory and not main-line SQL evidence",
+  "budget": {
+    "checkpoint_loads_max": 1,
+    "model_forwards_max": 8,
+    "training_epochs": 0,
+    "gpu_count": 1,
+    "wall_seconds_max": 900,
+    "cpu_preflight_threads_max": 8,
+    "retry_under_run_id": false,
+    "external_api_calls": 0,
+    "external_datasets": false,
+    "dependency_installation": false
+  },
+  "stopping_rule": {
+    "epsilon": "max(1e-6, 10 * max_abs(A0 - A0_repeat))",
+    "pass": "CPU Gate 0 passes; all 8 outputs are finite with shape [1,5]; A1 and A4 max_abs <= epsilon; A2 or A3 max_abs > epsilon.",
+    "no_go": "All validity and negative-control gates pass, but both A2 and A3 max_abs <= epsilon.",
+    "stop_invalid": "Any CPU preflight failure, failed A4 invariance, changed checkpoint/fixture, non-finite or wrong-shaped output, resource overrun, or execution failure. No retry in this run ID."
+  },
+  "source_and_checkpoint": {
+    "official_source_repository": "https://github.com/RManLuo/gfm-rag",
+    "official_source_commit": "b3e43219c49929da505244df4f0ba54c0947e4c4",
+    "source_license": "Apache-2.0",
+    "pinned_g1_experiment_commit": "8353892d68de152f0c1500ac49d9f6c7c6585ab2",
+    "pinned_g1_runner_blob_sha": "9b63db0c5d1886841413c035ee74d66eee6b191d",
+    "model_id": "rmanluo/G-reasoner-34M",
+    "model_revision": "a3a4ed2c62281e1c3e0551bd42f2072d9204674f",
+    "checkpoint_path": "/mnt/liansp3/sources/models/g-reasoner-34m",
+    "model_sha256": "2f2a1a2d2f5725133428941b785f3898255666b06041b58420f75e60599d387d",
+    "checkpoint_config_sha256": "75d14b97d6a077ebc17b09a21170a3ad9272251db59f7ac8cc853165efb2efd5",
+    "expected_parameters": 34640897,
+    "expected_feature_dimension": 1024
+  },
+  "data": {
+    "kind": "synthetic fixture only",
+    "seed": 20261023,
+    "nodes": 5,
+    "directed_edges": 8,
+    "relation_ids": 6,
+    "fixture_tensor_bundle_sha256": "3a36bd4656bed2ddeaa803a2fac5ea0bae6fb2635cdb2fa3a72b3f63b99f02f8",
+    "external_dataset_used": false,
+    "BIRD_or_Gold_SQL_used": false,
+    "cpu_preflight_output_path": "cpu_preflight_bounded_005.json",
+    "cpu_preflight_sha256": "c8030d798a1a9ab26c593e8234e6fd489c44a1c1ed4523f9f35d8a33b2ff6f31",
+    "preliminary_diagnostic_path": "cpu_preflight.json",
+    "preliminary_diagnostic_sha256": "c477128077c4f1dd0944c78b3b08369876980825f44aee2c878b785b6ea2822c",
+    "preliminary_diagnostic_note": "A development-only CPU signature run before thread-count enforcement; no model load or GPU forward. Retained separately and excluded from the formal Gate 0 receipt."
+  },
+  "conditions": [
+    {"id": "A0", "change": "fixed G2 fixture, fixed normalized query and anchor node 0"},
+    {"id": "A0_repeat", "change": "exact repeat of A0 to estimate numerical noise"},
+    {"id": "A1", "change": "metadata-only FK instance relabel and edge_attr change; model fields held fixed"},
+    {"id": "A2", "change": "swap edge_type 0/1 and paired inverse 3/4; endpoints and rel_attr held fixed"},
+    {"id": "A3", "change": "coordinate-roll relation rows 0 and 3 only; edge_type held fixed and row norms preserved"},
+    {"id": "A4", "change": "consistent bijective relabel of edge relation IDs and rel_attr rows"},
+    {"id": "A5", "change": "change only the start-node mask to node 2; auxiliary fingerprint"},
+    {"id": "A6", "change": "replace only the normalized query vector; auxiliary fingerprint"}
+  ],
+  "preflight": {
+    "python_environment": "gfmrag_greasoner_20261022",
+    "python_version": "3.12.15",
+    "torch_version": "2.8.0+cu128",
+    "torch_geometric_version": "2.6.1",
+    "cpu_threads": 8,
+    "launch_environment_cleanup": "unset inherited CONDA_PREFIX, CONDA_DEFAULT_ENV, CONDA_SHLVL, CONDA_PREFIX_1 and set PATH=/usr/bin:/bin before conda run",
+    "test_command": "timeout 90s env -u CONDA_PREFIX -u CONDA_DEFAULT_ENV -u CONDA_SHLVL -u CONDA_PREFIX_1 OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PATH=/usr/bin:/bin /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 python -m unittest tests.test_g2_asymmetric_relation_probe",
+    "targeted_contract_tests": 12,
+    "targeted_contract_test_status": "PASS",
+    "cpu_gate_status": "PASS",
+    "cpu_gate_thread_count": 8,
+    "checkpoint_sha256_guard_before_model_load": true,
+    "cpu_gate_summary": {
+      "A2_changed_targets": [0, 1, 4],
+      "A3_changed_targets": [0, 1],
+      "A4_changed_targets": [],
+      "legacy_G1_C2_C3_message_multisets_unchanged": true
+    },
+    "model_loaded_before_cpu_gate": false,
+    "gpu_forward_before_cpu_gate": false,
+    "environment_packages_changed": false
+  },
+  "code": {
+    "runner_path": "scripts/text2sql/g2_asymmetric_relation_probe.py",
+    "runner_sha256": "a0c9c9d42e8c8fab906886001fa12d0c9a5c9c991e0c1210bf19bc98d3a89267",
+    "test_path": "tests/test_g2_asymmetric_relation_probe.py",
+    "test_sha256": "e5b550d309f1b7652a2bf1e12f45b4ef7949e899dd9825ac206744b114f3855e",
+    "pre_run_commit": "pending commit; required to be pushed and read back before GPU launch"
+  },
+  "launch_command": "timeout --signal=INT --kill-after=10s 900s env -u CONDA_PREFIX -u CONDA_DEFAULT_ENV -u CONDA_SHLVL -u CONDA_PREFIX_1 OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PATH=/usr/bin:/bin CUDA_VISIBLE_DEVICES=2 /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 python scripts/text2sql/g2_asymmetric_relation_probe.py --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --device cuda:0 --run-id g2_asymmetric_relation_20261024_01 --output /mnt/liansp3/sources/results/gfmrag_g2_asymmetric_relation_20261024_01/result.json > /mnt/liansp3/logs/gfmrag_g2_asymmetric_relation_20261024_01/run.log 2>&1",
+  "local_artifacts": {
+    "result_json": "/mnt/liansp3/sources/results/gfmrag_g2_asymmetric_relation_20261024_01/result.json",
+    "log": "/mnt/liansp3/logs/gfmrag_g2_asymmetric_relation_20261024_01/run.log",
+    "cpu_preflight_log": "/mnt/liansp3/logs/gfmrag_g2_asymmetric_relation_20261024_01/cpu_preflight_bounded_005.log"
+  },
+  "execution": {
+    "status": "GPU_PENDING",
+    "model_loads": 0,
+    "completed_forwards": 0,
+    "launch_snapshot": "pending"
+  },
+  "interpretation_limit": "A synthetic positive response demonstrates relation-channel sensitivity only on this asymmetric fixture; it does not establish same-endpoint FK-instance role accuracy, Join Path accuracy, or SQL execution improvement."
+}
