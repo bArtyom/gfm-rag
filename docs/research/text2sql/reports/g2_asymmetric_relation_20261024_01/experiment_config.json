@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "experiment_id": "g2_asymmetric_relation_20261024_01",
-  "status": "AMENDMENT_01_CPU_GATE_PASS_GPU_PENDING",
+  "status": "G2_A_PASS_AFTER_AMENDMENT_01",
   "created_utc": "2026-10-24T10:27:19Z",
   "owned_repository": "https://github.com/bArtyom/gfm-rag",
   "execution_branch": "research/g2-asymmetric-relation-20261024",
@@ -154,11 +154,46 @@
     ],
     "diagnosis": "The visible CUDA device was valid, but the CUDA context was lazily initialized. reset_peak_memory_stats failed before explicit initialization and passed after current_device/init; importing GFM utilities was incidental.",
     "amended_run_id": "g2_asymmetric_relation_20261024_01_amended_01",
-    "remaining_original_budget": {
+    "allocated_original_budget": {
       "checkpoint_loads_max": 1,
       "model_forwards_max": 8,
       "wall_seconds_max": 900,
       "gpu_count": 1
+    },
+    "amended_run_result": {
+      "run_id": "g2_asymmetric_relation_20261024_01_amended_01",
+      "status": "G2_A_PASS",
+      "completed_cases": ["A0", "A0_repeat", "A1", "A2", "A3", "A4", "A5", "A6"],
+      "checkpoint_loads": 1,
+      "forward_attempted_count": 8,
+      "successful_output_count": 8,
+      "elapsed_seconds_including_load_and_forwards": 6.3151,
+      "output_shape_per_condition": [1, 5],
+      "all_outputs_finite": true,
+      "device_roundtrip_passed_for_all_cases": true,
+      "checkpoint_hashes_match_preregistered": true,
+      "epsilon": 0.000001,
+      "repeat_max_abs_delta": 0.0,
+      "deltas_vs_A0": {
+        "A1": {"max_abs": 0.0, "mean_abs": 0.0, "top1_same": true},
+        "A2": {"max_abs": 0.7587833404541016, "mean_abs": 0.24619217216968536, "top1_same": true},
+        "A3": {"max_abs": 3.7812957763671875, "mean_abs": 1.3837668895721436, "top1_same": true},
+        "A4": {"max_abs": 0.0, "mean_abs": 0.0, "top1_same": true},
+        "A5": {"max_abs": 29.954082489013672, "mean_abs": 9.736613273620605, "top1_same": true},
+        "A6": {"max_abs": 8.307731628417969, "mean_abs": 4.493783473968506, "top1_same": true}
+      },
+      "gate": {
+        "A1_negative_control_within_epsilon": true,
+        "A4_semantic_relabel_within_epsilon": true,
+        "A2_or_A3_relation_channel_sensitive": true
+      },
+      "peak_gpu_memory_allocated_bytes": 148497408,
+      "peak_gpu_memory_reserved_bytes": 161480704,
+      "model_api_calls": 0,
+      "training_epochs": 0,
+      "result_sha256": "8a98e9c4936d13a80b6b68d468284f06948733a630016530a7cdc575f8a9817f",
+      "supervisor_sha256": "c5be59014401c9177fcd2dddcb86721d4359b0c2d42ca1902df95a596c69ea2a",
+      "local_log_sha256_not_published": "1ff77eeb522a32a20775515dcfb36b16567821ebdf9318447ca39673ca2ce3aa"
     }
   },
   "launch_command": "env -u CONDA_PREFIX -u CONDA_DEFAULT_ENV -u CONDA_SHLVL -u CONDA_PREFIX_1 OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 PATH=/usr/bin:/bin CUDA_VISIBLE_DEVICES=2 /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 bash scripts/text2sql/run_g2_asymmetric_relation_probe.sh g2_asymmetric_relation_20261024_01_amended_01 /mnt/liansp3/sources/results/gfmrag_g2_asymmetric_relation_20261024_01_amended_01/result.json /mnt/liansp3/logs/gfmrag_g2_asymmetric_relation_20261024_01_amended_01/run.log 900 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --device cuda:0",
@@ -171,9 +206,9 @@
     "initial_stopped_attempt_copy": "attempts/initial_stop_20261024/ (local only; raw logs are not uploaded)"
   },
   "execution": {
-    "status": "AMENDMENT_01_GPU_PENDING",
-    "model_loads": 0,
-    "completed_forwards": 0,
+    "status": "G2_A_PASS",
+    "model_loads": 1,
+    "completed_forwards": 8,
     "initial_attempt_launch_snapshot": {
       "captured_utc": "2026-10-24T11:01:16Z",
       "gpu_physical_index": 2,

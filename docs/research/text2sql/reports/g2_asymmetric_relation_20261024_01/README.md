@@ -1,7 +1,7 @@
 # G2 非对称关系通道可辨识性实验
 
 **实验 ID：** `g2_asymmetric_relation_20261024_01`
-**当前状态：** 首次 GPU 启动因 CUDA 上下文未初始化而 `STOP-INVALID`（未加载模型、未执行前向）；修复已通过 CPU Gate 和 23 项合约测试。修订运行 `g2_asymmetric_relation_20261024_01_amended_01` 待启动，本报告不包含 G2 模型结果。
+**当前状态：** 修订运行 `g2_asymmetric_relation_20261024_01_amended_01` 完成，判定 `G2_A_PASS`。首次启动因 CUDA context 未初始化而 `STOP-INVALID`，0 次模型加载、0 次前向；修复后 1 次模型加载、8/8 次前向成功。结果仅支持本合成非对称图上的关系通道敏感性。
 
 **归档仓库：** [`bArtyom/gfm-rag`](https://github.com/bArtyom/gfm-rag)
 **执行分支：** `research/g2-asymmetric-relation-20261024`
@@ -46,15 +46,37 @@ G2 沿用固定 seed `20261023` 的 5 节点、8 条有向边、6 个关系 ID �
 
 首次结果与监督回执的 SHA-256 分别为 `f3ba2921843e8f2dfc4499841f7d1427275cdf0332fdb72018ad427fecc4fc45` 和 `333fe4740ee4ba2800d79fdff6b85c5660c34b18b934dab2cd191013263bc5cc`；本地运行日志 SHA-256 为 `2b9ac62eb7883cc3ecf6f11887072d1b9322d09a337f8908f622c4dac74701c4`。原始运行日志与 CUDA 诊断日志按仓库安全约定留在本地，不上传 GitHub。此故障不会覆盖，修订运行使用全新 run ID 和独立产物路径。
 
-## 运行前结果
+## 修订运行结果
 
 | 项目 | 结果 |
 |---|---|
-| 最新 CPU Gate 0（`_012`） | PASS，14/14 硬门 |
+| CPU Gate 0（`_012`） | PASS，14/14 硬门 |
 | 定向合约测试 | 23/23 PASS |
 | 首次启动 | `STOP-INVALID`；0 次 checkpoint 加载，0 次前向 |
-| 修订运行 | 待启动；冻结额度最多 1 次加载、8 次前向、900 秒 |
+| 修订运行 | `G2_A_PASS`；1 次 checkpoint 加载，8/8 次前向成功；总耗时 6.3151 秒 |
+| 节点分数输出 | 8 条件均为 finite `[1,5]`，设备往返检查全部通过 |
 | 训练 / API / 数据集 / SQL | 0 / 0 / 未使用 / 未执行 |
+| 峰值 GPU 显存 | allocated 148,497,408 bytes；reserved 161,480,704 bytes |
 | 修订启动前资源复核 | 2026-10-24 11:14:45 UTC：GPU 2 RTX 4090，21,146 MiB free、0% 利用率且进程表为空；GPU 1 有 2,661 MiB 空闲、未选用；RAM 可用 421 GiB，192 CPU，磁盘可用 114 TB；checkpoint 和 config hash 与冻结值一致 |
 
-修订运行命令、模型/数据版本、环境、资源限制、结果路径和当前 CPU Gate 均记录在 [`experiment_config.json`](experiment_config.json)。GPU 运行结束后追加实际指标、异常、结果哈希、结论和边界；不会覆盖首次停止现场或历史 G1 报告/结果。
+| 条件 | 相对 A0 max abs delta | mean abs delta | top-1 是否相同 |
+|---|---:|---:|---|
+| A0_repeat | 0 | 0 | 是 |
+| A1 metadata-only | 0 | 0 | 是 |
+| A2 relation-ID 成对交换 | 0.75878334 | 0.24619217 | 是 |
+| A3 relation-row 坐标变换 | 3.78129578 | 1.38376689 | 是 |
+| A4 同步语义重标 | 0 | 0 | 是 |
+| A5 起点辅助对照 | 29.95408249 | 9.73661327 | 是 |
+| A6 Query 辅助对照 | 8.30773163 | 4.49378347 | 是 |
+
+重复噪声为 0，故冻结阈值 `epsilon = 1e-6`。A1 与 A4 均在阈值内，A2 与 A3 都超过阈值，判定为 `G2_A_PASS`。虽然原始节点分数出现明显变化，各条件 top-1 节点均未改变；本实验的成功标准是分数响应，不是排序翻转。
+
+worker 结果 SHA-256：`8a98e9c4936d13a80b6b68d468284f06948733a630016530a7cdc575f8a9817f`；监督回执 SHA-256：`c5be59014401c9177fcd2dddcb86721d4359b0c2d42ca1902df95a596c69ea2a`。本地运行日志 SHA-256：`1ff77eeb522a32a20775515dcfb36b16567821ebdf9318447ca39673ca2ce3aa`；原始日志不上传，遵守仓库的数据边界。结果和回执保存在配置记录的独立本地路径；GitHub 归档本报告、匿名指标、配置与 Gate 回执。
+
+## 结论与边界
+
+在固定的 5 节点、8 条有向边、1024 维特征合成图上，官方 G-reasoner-34M 对 A2/A3 关系输入干预的节点原始分数有响应，同时 A1 metadata-only 负控和 A4 语义等价重标保持不变。这支持**该非对称 fixture 上关系通道可影响模型输出**，而不是关系输入被完全忽略。
+
+这不能推出同端点多 FK 的业务角色可辨识、Join Path 准确率或 SQL EX 改善；也没有排序 top-1 翻转。G2 的冻结 8 次前向预算已用完，不追加本实验的 GPU 扫描。后续工作应转向已登记的 FK Instance 标签质量 Gate，先确认真实标签的可裁定性，再决定是否需要新的机制问题与独立预注册。
+
+修订运行命令、模型/数据版本、环境、资源限制、结果路径、首次停止现场与结果指标均记录在 [`experiment_config.json`](experiment_config.json) 和本报告中；首次停止现场与历史 G1 报告/结果均保留。
