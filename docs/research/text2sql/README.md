@@ -4,7 +4,7 @@
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
 >
-> **最新决策（2026-10-23：发现两条研究分支的新实验）**：P2d.1 v2 frozen SQL审计在 `research/p2d1-eval-v2-20261022` 通过137项合成测试、83/83旧结果parity，4条旧Gold参考变为可比；**E0/E1/E2确认Set/Bag正确仍是8/7/8（每臂30题）**，unknown降为10/10/8，28条预测不可执行（10 parse、18 missing-column）。G0第三次合成图实验在 `research/g0-synthetic-compat-20261023` 通过官方34M checkpoint的1024D前向（输出[1,5]有限）；**只扰动edge_attr/custom FK字段，输出差异0.0**，这些元数据未被模型有效使用；不能说模型完全不使用`edge_type/rel_attr`。**唯一优先新实验：[G1可消费关系通道敏感性与FK实例保真门](plans/g1_relation_channel_and_fk_instance_gate_20261023.md)**；未执行。两分支成果**尚未合并main**，本入口链接其证据，历史P2d实验及FK/Role NO-GO不改。
+> **最新决策（2026-10-24，G1 Run002 完成后）**：跨 `main` 与 `research/g1-relation-channel-20261023` 审计确认G1八次前向全部成功、按预注册**G1-A NO-GO**：C1/C2/C3/C4输出delta=0，C5 anchor=30.9753，C6 query=8.3077。C2/C3是同端点平行边角色/向量交换，入边消息多重集合不变，因此**NO-GO不能解释为G-reasoner忽略edge_type/rel_attr**。P2c-R的Complete@1024 +10.96pp只是离线Schema覆盖，P2d/P2d.1 SQL正确仍E0/E1/E2=8/7/8、P2d.1 v2有28条预测不可执行（10 parse+18 missing-column），不能宣称SQL增益。**下一轮唯一优先实验：[G2非对称关系通道可辨识性Gate](plans/g2_asymmetric_relation_channel_identifiability_20261024.md)**，先CPU验证入边消息集合实际变化，再限额8次合成图前向；FK Instance人工标签治理另行并行。G2 **未运行**，已运行的G1/实验代码仍在研究分支，暂未合并`main`；FK/Role Gold Gate仍NO-GO。
 
 ## 现有研究文档
 
@@ -40,6 +40,8 @@
 | [P2d.1 执行登记](reports/p2d_1_eval_audit_20261022_01/README.md) | 零模型、合成时间函数安全门与冻结预测复评 | **预注册；Gate 0/1/2均待运行** |
 | [2026-10-23 P2d.1 + G0 跨分支复核（当前）](reports/p2d1_g0_cross_branch_review_20261023/README.md) | 读取分支的真实结果，区分 evaluator v2、元数据未被模型读取及方法结论边界 | 已完成静态分析；非新实验 |
 | [G1关系通道×FK Instance保真（当前下一轮）](plans/g1_relation_channel_and_fk_instance_gate_20261023.md) | 8次合成前向/多种edge_type/rel_attr对照、同义重标记不变性、FK Role Label Gate及Go/No-go | 已预注册指导；G1未运行 |
+| [2026-10-24全局实验复核与G1结构对称性分析](reports/current_results_review_20261024/README.md) | 从P1/P2到G1真实结果、对应失败机制、最新Go/No-go | **已完成静态复核；非新实验** |
+| [G2非对称关系通道识别实验（当前下一轮）](plans/g2_asymmetric_relation_channel_identifiability_20261024.md) | 新synthetic fixture、CPU多重集合强Gate、8次前向、FK Instance质量工作包 | **已预注册；未运行** |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
@@ -65,17 +67,19 @@
 
 在 [2026-10-16 的代码级分析](graph-algorithm-code-review-20261016.md) 中，重点确定了 **Top-1 起始锚点、关系实例/逐边属性未纳入默认消息权重、节点 Top-K 非连通、SQL-aware 监督未落地**等可验证机制。最有潜力的后续方向是 **Query-aware JOIN Edge Gate + 实例感知约束子图解码**；但必须先过 FK/Join 标签 Gate，并与 Graph-Link、GRAST-SL、SchemaGraphSQL 同信息比较。**这不是已有实证收益**。
 
-## 最新行动结果与下一步（2026-10-23：P2d.1 + G0 两条研究分支）
+## 最新行动结果与下一步（2026-10-24，G1实验完成后）
 
-**位置注意**：本仓库 `main` 的最新已运行结果源头仍是2026-10-22前的Pilot；新实验分别存在 `research/p2d1-eval-v2-20261022`（tip `aa2d21a`）和 `research/g0-synthetic-compat-20261023`（tip `7152ab2`）。[新跨分支实证复核](reports/p2d1_g0_cross_branch_review_20261023/README.md)提供结果和链接；**尚未把这些分支的代码/实验产物合并main**，不要按main旧报告声称它们没有运行。
+**分支与证据**：`main`当轮起点`33e0403`；G1真实运行及源码在`research/g1-relation-channel-20261023@8353892`，历史G0在`research/g0-synthetic-compat-20261023@7152ab2`，P2d.1 v2在`research/p2d1-eval-v2-20261022@aa2d21a`。分支最新实验尚未合并main。请看[完整实验复核](reports/current_results_review_20261024/README.md)和原[G1 Run002](https://github.com/bArtyom/gfm-rag/blob/research/g1-relation-channel-20261023/docs/research/text2sql/reports/g1_relation_channel_20261023_02/README.md)。
 
-**P2d.1评测结果**：[recovery 02报告](https://github.com/bArtyom/gfm-rag/blob/research/p2d1-eval-v2-20261022/docs/research/text2sql/reports/p2d_1_eval_audit_20261022_02/README.md)的Gate 1/2完成，137项安全合成测试PASS、83条旧可执行SQL无差异、另外4条Gold reference可比；模型0新调用。全30题 E0/E1/E2确认正确仍 **8/7/8**（Set=Bag），unknown **10/10/8**，可判增加的所有预测均为错误。28/90预测仍不可执行，其中10条parse错误、18条missing-column。P2c-R原Schema Complete@1024 +10.96pp没有在这次P2d SQL Pilot得到EX增益，**不能称新方法效果成功**。
+**G1实测**：8次官方G-reasoner-34M 1024D合成图前向PASS，负控及关系交换C1/C2/C3/C4 max abs delta均0，起点C5=30.9753、Query C6=8.3077。原预注册`G1-A NO-GO`保持。经代码核对，C2/C3交换的两条relation边同起点/终点，交换后节点的消息多重集合不变；所以这个zero delta不证明模型全局忽略relation type/embedding。这是一项**实验设计可辨识性不足**，不是模型没有使用关系的因果结论；原G0只证明非模型消费的自定义FK字段不影响推理。
 
-**G0图结果**：[attempt 03报告](https://github.com/bArtyom/gfm-rag/blob/research/g0-synthetic-compat-20261023/docs/research/text2sql/reports/g0_synthetic_graph_compat_20261023_03/README.md)加载官方G-reasoner-34M、1024维、5节点/8有向边合成图，前向`[1,5]`有限；FK edge_attr/自定义instance metadata扰动只产生 **0.0** 的输出差异。这些被测试字段**不在有效消息传播输入路径内**；仍需测试 `edge_type`、`rel_attr` 和Query条件敏感性，不能把此负控误解为模型完全不敏感于关系。
+**其他重要结果**：P2c-R在1460可评题上Schema Complete@1024从56.64%至67.60%（+10.96pp），只是离线结构节点覆盖；P2d的有偏30题7B Pilot E0/E1/E2确认SQL Set/Bag正确数仍8/7/8，P2d.1 v2已通过137合成安全测试和83/83历史SQL replay，仍8/7/8，28条预测不可执行（10 parse+18 missing-column）。不要用Schema覆盖代替SQL EX，不用该30题调Prompt来追分。
 
-**下轮唯一主实验：[G1 Relation Channel & FK Instance Gate](plans/g1_relation_channel_and_fk_instance_gate_20261023.md)**：复用G0固定checkpoint及synthetic fixture，用8次已冻结前向对照（元数据负控、edge_type角色交换、rel_attr角色变化、关系ID一致重命名、起点/问题敏感性）检验模型真正消费哪些通道，保证两个parallel role和复合FK实例/逆边结构一致；同时CPU审计真实FK Instance ID并准备最多20例本地人工Role审阅。**G1尚未运行、未训练，不含新的SQL EX或GNN效果指标**。只有关系通道作用经检验且可靠Role标签形成之后，才能提出真正的query-conditioned edge gate/instance-aware path实验。
+**当前唯一优先科研实验：[G2非对称消息关系通道Gate](plans/g2_asymmetric_relation_channel_identifiability_20261024.md)**。构造新的固定合成图：将原同端点并行角色改为从0分别指向1和4，并相应成对修改逆边，保留复合FK约束/关系ID/固定node features；**先CPU验证关系交换/单一relation embedding干预确实改变目标节点入边消息多重集合**，再允许一次GPU load、8次forward。负控与ID-embedding同步重标仍需不变，至少一种真正非等价的关系干预应改变分数才算G2-A PASS。无论PASS还是NO-GO都只是机制，不报告Role F1、SQL EX或新图方法提升。**当前G2尚未执行。**
 
-P2d.1已经完成，不再在同30题上调Prompt或换模型；Values语义必要性审核仍0，FK/Role Gold Gate仍NO-GO。历史P2b NO-GO和原P2c失败回执均保留。GitHub公开只写匿名聚合、合成fixture/代码和哈希，不上传BIRD原题/Gold/业务数据。
+**并行FK Instance质量Gate**：用历史103 SQLite raw FK（100有效/3无效）、1428 JOIN ON（1199唯一匹配/25歧义/204非匹配）、197题多FK候选，冻结最多20条复杂FK私有人工审阅队列。保真复合键多列顺序、inverse边实例ID、同表多个FK；真正人类role标签目前0，不能开始正式supervised query-aware edge gate。具体准备流程见G2方案。暂不在原30题继续SQL调参、换模型或自动扩样，避免多因素且重复使用开发集。
+
+此处只提交全局审计和G2预注册指导，原分支已运行成果没有被假装合并main；所有原实验结论和失败回执照实保留。
 
 
 ## 从今往后的提交规范
