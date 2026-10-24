@@ -52,6 +52,8 @@
 | [G0-02恢复实验报告](reports/g0_fk_instance_node_20261024_02/README.md) | G0-01 Full 图重排实现失败后的独立、有界恢复执行 | **G0_SYNTHETIC_NO_GO；GFM 2/4，dense 4/4** |
 | [P0 BIRD-dev证据复核预注册](plans/p0_bird_dev_evidence_reconciliation_20261024.md) | 只读复核既有P0 v3输入指纹、FK/Role标签覆盖与Qwen健康证据，不重跑模型或SQL | **2026-10-24完成；冻结方案保留** |
 | [P0 BIRD-dev证据复核报告](reports/p0_bird_dev_evidence_reconciliation_20261024_01/README.md) | 对照当前路线图归档历史P0证据并划定可支持的结论范围 | **88/88输入及3/3产物指纹通过；表/列证据可复现；Role Gate NO-GO** |
+| [P0双人盲审候选包准备协议](plans/p0_role_blind_review_packet_20261025.md) | 从冻结的174个多FK候选中分层抽样20题，准备无Gold/模型输出的本地双审材料 | **已预注册；尚未运行，可信Role标签仍为0** |
+| [P0双人盲审候选包准备记录](reports/p0_role_blind_review_packet_20261025_01/README.md) | 数据/计数门、映射身份、隐私与材料生成记录 | **待运行；不是模型实验或Role准确率结果** |
 | [P1.6 最新 Smoke/代码审计](reports/p1_6_smoke_review_20261017/README.md) | 两次 Smoke 失败、manifest 校验问题与源代码检查 | 2026-10-17 静态审计；后续修复和测试见 P1.6 阶段报告 |
 | [P1.6 Smoke 恢复 → P2a 历史执行方案](plans/p1_6_smoke_recovery_then_p2a_20261017.md) | CPU manifest 回归、Smoke/Full Gate、后续 Cosine/BM25/RRF | Smoke 与 Full 已按此计划完成；见 2026-10-18 报告 |
 | [P1.6 冻结基线重建报告](reports/p1_6_rebaseline_20261018_01/README.md) | 修复后 Smoke 与 1,534 题 Full；新 1024-D Dense 基线及 Gate | 2026-10-18 完成；Full Gate PASS，encoder 跨前向浮点差异已披露 |
@@ -78,6 +80,10 @@
 在 [2026-10-16 的代码级分析](graph-algorithm-code-review-20261016.md) 中，重点确定了 **Top-1 起始锚点、关系实例/逐边属性未纳入默认消息权重、节点 Top-K 非连通、SQL-aware 监督未落地**等可验证机制。最有潜力的后续方向是 **Query-aware JOIN Edge Gate + 实例感知约束子图解码**；但必须先过 FK/Join 标签 Gate，并与 Graph-Link、GRAST-SL、SchemaGraphSQL 同信息比较。**这不是已有实证收益**。
 
 ## 最新行动结果与下一步（2026-10-24，P0证据复核后）
+
+### 当前执行项
+
+已根据以下P0结论登记受控候选包准备协议：可信双审标签为0，真实Role准确率、监督训练和新SQL实验保持停止；先重现历史候选计数，再生成20条本地盲审材料。该准备工作不会改变Role Gate状态，材料生成后仍需两位真实审阅者独立完成标注。运行ID日期按2026-10-25登记。
 
 **分支与证据**：G2、FK Instance Gate及重复声明身份策略结果在`research/g2-asymmetric-relation-20261024`；G0-01 `IMPLEMENTATION_FAILURE`与G0-02 `G0_SYNTHETIC_NO_GO`在`research/g0-fk-instance-node-20261024`。G0-02最终报告记录了Smoke和Full结果、代码/模型/环境版本、资源、token和限制。研究分支结果尚未合并`main`。
 

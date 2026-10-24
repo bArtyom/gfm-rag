@@ -1,0 +1,63 @@
+{
+  "experiment_id": "p0_role_blind_review_packet_20261025_01",
+  "status": "pre_registered_not_run",
+  "category": "CPU-only private human-review packet preparation; no role labels",
+  "repository": "https://github.com/bArtyom/gfm-rag",
+  "branch": "research/p0-role-review-packet-20261025",
+  "base_commit": "9d2c23483506f40f62aee91bd276f0368170cc9f",
+  "protocol": "docs/research/text2sql/plans/p0_role_blind_review_packet_20261025.md",
+  "data": {
+    "dataset": "BIRD dev",
+    "split_role": "development/diagnostic only",
+    "dev_json_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "dev_tables_json_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "expected_queries": 1534,
+    "expected_join_on_queries": 1140,
+    "expected_fk_matched_queries": 956,
+    "expected_multi_fk_candidate_queries": 174
+  },
+  "identity_policy": "Unique ordered FK mapping; exact duplicate declarations become multiplicity metadata and do not create duplicate choices.",
+  "environment": {
+    "conda_env": "t2sql_code_audit_20261005",
+    "python": "3.10.22",
+    "sqlglot": "26.33.0",
+    "dependency_changes": 0
+  },
+  "sampling": {
+    "max_cases": 20,
+    "database_stratified_round_robin": true,
+    "seed": 20261024
+  },
+  "review": {
+    "independent_human_reviewers": 2,
+    "gold_sql_visible": false,
+    "model_outputs_visible": false,
+    "current_trusted_role_label_count": 0,
+    "minimum_confidence_for_consensus": 2
+  },
+  "budget": {
+    "cpu_seconds_max": 600,
+    "peak_rss_gib_max": 4,
+    "gpu_count": 0,
+    "local_model_calls": 0,
+    "external_api_calls": 0,
+    "sql_execution": 0,
+    "training_steps": 0,
+    "downloads": 0,
+    "dependency_changes": 0
+  },
+  "outputs": {
+    "private_result_root": "/mnt/liansp3/sources/results/gfmrag_p0_role_blind_review_packet_20261025_01",
+    "private_logs": "/mnt/liansp3/logs/p0_role_blind_review_packet_20261025_01",
+    "public_report": "docs/research/text2sql/reports/p0_role_blind_review_packet_20261025_01/README.md",
+    "public_aggregate_only": true
+  },
+  "run_ids": {
+    "smoke": "p0_role_blind_review_packet_20261025_01_smoke_001",
+    "full": "p0_role_blind_review_packet_20261025_01_packet_001"
+  },
+  "commands": {
+    "smoke": "/usr/bin/timeout --signal=TERM --kill-after=10s 600s conda run -n t2sql_code_audit_20261005 /root/miniconda3/envs/t2sql_code_audit_20261005/bin/python scripts/text2sql/prepare_p0_role_review_packet.py --mode smoke --run-id p0_role_blind_review_packet_20261025_01_smoke_001 --dev-json /mnt/liansp3/sources/datasets/bird/dev/dev.json --tables-json /mnt/liansp3/sources/datasets/bird/dev/dev_tables.json --output-dir /mnt/liansp3/logs/p0_role_blind_review_packet_20261025_01/smoke_001",
+    "full": "/usr/bin/timeout --signal=TERM --kill-after=10s 600s conda run -n t2sql_code_audit_20261005 /root/miniconda3/envs/t2sql_code_audit_20261005/bin/python scripts/text2sql/prepare_p0_role_review_packet.py --mode full --run-id p0_role_blind_review_packet_20261025_01_packet_001 --dev-json /mnt/liansp3/sources/datasets/bird/dev/dev.json --tables-json /mnt/liansp3/sources/datasets/bird/dev/dev_tables.json --output-dir /mnt/liansp3/sources/results/gfmrag_p0_role_blind_review_packet_20261025_01/packet_001"
+  }
+}
