@@ -1,6 +1,6 @@
 # G2 FK Instance稳定编码质量Gate
 
-> **状态：已预注册 / NOT RUN。** 不含实验结果。协议见[实验方案](../../plans/g2_fk_instance_quality_gate_20261024.md)。
+> **状态：SMOKE PASS / FULL PENDING。** Smoke结果已记录；全量结果尚未运行。协议见[实验方案](../../plans/g2_fk_instance_quality_gate_20261024.md)。
 
 ## 研究问题与边界
 
@@ -15,4 +15,18 @@
 
 ## 结果
 
-尚未完成BIRD数据Smoke/Full。协议已在GitHub commit `b3c60a2`预注册。启动前检查发现runner最初只查SQLite目录顶层；递归路径测试在任何BIRD数据读取前复现该问题，修正提交为`b2129583`，修正后9/9合约测试通过。首次Smoke命令`g2_fk_instance_quality_20261024_01_smoke_001`在shell层因宿主不存在`/usr/bin/time`退出127，runner未启动、无数据读取或结果文件；该失败保留独立日志。命令已修正，下一尝试使用新run ID `..._smoke_002`，完整预注册见配置。合约测试属于实现检查，不是BIRD实验结果。后续追加每个独立run状态、聚合指标、异常、哈希与结论。逐DB详情与运行日志留在本地私有目录。
+协议已在GitHub commit `b3c60a2`预注册。启动前检查发现runner最初只查SQLite目录顶层；递归路径测试在任何BIRD数据读取前复现该问题，修正提交为`b2129583`，修正后9/9合约测试通过。代码及测试内容在首次数据读取前已按GitHub commit `f1398935`回读校验。
+
+### Smoke `g2_fk_instance_quality_20261024_01_smoke_001` — 启动失败
+
+宿主缺少`/usr/bin/time`，shell退出127；runner未启动、未读取BIRD文件，也未生成结果。失败日志保留在`/mnt/liansp3/logs/g2_fk_instance_quality_20261024_01/smoke_001.log`。这是启动错误，不是科学结果；修复后采用新run ID。
+
+### Smoke `g2_fk_instance_quality_20261024_01_smoke_002` — 通过
+
+使用Python 3.10.21及标准库，在CPU上只读1个BIRD dev SQLite schema。结果为`SMOKE_PASS`：原始FK实例2，有效2，无效0；双向有向边4，ID碰撞0，复合FK 0，同端点多FK表对0。输入顺序不变、PRAGMA组号重编号不变、反向边配对检查均通过。该样本没有复合FK，故复合组件顺序敏感性仍由全量中实际出现的复合实例验证。Smoke进程wall 0.00139秒、CPU 0.00123秒、峰值RSS 0.0190 GiB。GPU/API/模型/SQL执行/依赖安装均为0。
+
+私有JSON结果：`/mnt/liansp3/logs/g2_fk_instance_quality_20261024_01/smoke_002/result.json`；原始日志：`/mnt/liansp3/logs/g2_fk_instance_quality_20261024_01/smoke_002.log`。JSON内逐数据库摘要与日志留在本地，不公开上传。
+
+### Full `g2_fk_instance_quality_20261024_01_full_001` — 待运行
+
+Smoke通过后，按已登记命令扫描11个SQLite schema。预注册门槛仍为103原始/100有效/3无效；分母不符时记为`INCONCLUSIVE`并停止，不调整门槛。全量报告会补充聚合结果、资源使用、失败/异常和保守结论。

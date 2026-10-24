@@ -52,7 +52,7 @@
   },
   "runs": [
     {"run_id": "g2_fk_instance_quality_20261024_01_smoke_001", "mode": "smoke", "database_limit": 1, "status": "failed_before_runner", "exit_code": 127, "reason": "The registered host command referenced missing /usr/bin/time; the runner did not start and read no data."},
-    {"run_id": "g2_fk_instance_quality_20261024_01_smoke_002", "mode": "smoke", "database_limit": 1, "status": "registered_not_run"},
+    {"run_id": "g2_fk_instance_quality_20261024_01_smoke_002", "mode": "smoke", "database_limit": 1, "status": "SMOKE_PASS", "database_count": 1, "raw_instances": 2, "valid_instances": 2, "invalid_instances": 0, "directed_edges": 4, "identity_collisions": 0, "composite_instances": 0, "all_input_order_invariant": true, "all_group_id_renumber_invariant": true, "all_reverse_edge_pairing_pass": true, "wall_seconds": 0.0013896394520998001, "process_cpu_seconds": 0.0012336550000000002, "peak_rss_gib": 0.01904296875, "result_path_private": "/mnt/liansp3/logs/g2_fk_instance_quality_20261024_01/smoke_002/result.json"},
     {"run_id": "g2_fk_instance_quality_20261024_01_full_001", "mode": "full", "database_limit": null, "status": "registered_not_run"}
   ],
   "run_commands": {
