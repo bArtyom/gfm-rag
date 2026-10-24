@@ -29,3 +29,5 @@ After choosing mapping-level FK identity with repeated declaration counts stored
 ### Corrected launch registered before retry
 
 One corrected smoke attempt is registered as `g0_fk_instance_node_20261024_01_smoke_002`, using the target environment's absolute Python executable inside `conda run`. All scientific inputs and criteria remain frozen. If this attempt fails or times out, the experiment stops; Full can run only after smoke_002 passes. Its output will use a separate immutable path under `/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/`, with logs under `/mnt/liansp3/logs/g0_fk_instance_node_20261024_01/`. Public artifacts will be limited to synthetic aggregate scores and reproduction metadata.
+
+- **GPU selection:** at the 2026-10-24 12:44 UTC pre-launch check, GPU 3 had 12,805/24,564 MiB used and 100% utilization; GPU 2 had 5,211/24,564 MiB used and 0% utilization. The corrected run selects physical GPU 2 (`CUDA_VISIBLE_DEVICES=2`, visible as `cuda:0`) with one GPU only.

@@ -116,14 +116,25 @@
     "root": "/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01",
     "logs": "/mnt/liansp3/logs/g0_fk_instance_node_20261024_01"
   },
+  "corrected_run_resource_selection": {
+    "checked_utc": "2026-10-24T12:44:32Z",
+    "physical_gpu": 2,
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "gpu_memory_used_mib": 5211,
+    "gpu_memory_free_mib": 19353,
+    "gpu_memory_total_mib": 24564,
+    "gpu_utilization_percent": 0,
+    "reason": "GPU 3 was 100% utilized with 12805 MiB used; GPU 2 was idle and had the most free memory",
+    "process_device": "cuda:0"
+  },
   "public_outputs": {
     "report": "docs/research/text2sql/reports/g0_fk_instance_node_20261024_01/README.md",
     "aggregate_json": "docs/research/text2sql/reports/g0_fk_instance_node_20261024_01/result_summary.json"
   },
   "commands": {
     "failed_smoke_001": "env CUDA_VISIBLE_DEVICES=3 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 timeout --signal=TERM --kill-after=15s 1200s /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode smoke --run-id g0_fk_instance_node_20261024_01_smoke_001 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/smoke_001/result.json",
-    "smoke": "env CUDA_VISIBLE_DEVICES=3 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 timeout --signal=TERM --kill-after=15s 1200s /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output /root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode smoke --run-id g0_fk_instance_node_20261024_01_smoke_002 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/smoke_002/result.json",
-    "full": "env CUDA_VISIBLE_DEVICES=3 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 timeout --signal=TERM --kill-after=15s 1200s /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output /root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode full --run-id g0_fk_instance_node_20261024_01_full_001 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/full_001/result.json"
+    "smoke": "env CUDA_VISIBLE_DEVICES=2 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 timeout --signal=TERM --kill-after=15s 1200s /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output /root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode smoke --run-id g0_fk_instance_node_20261024_01_smoke_002 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/smoke_002/result.json",
+    "full": "env CUDA_VISIBLE_DEVICES=2 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 timeout --signal=TERM --kill-after=15s 1200s /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output /root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode full --run-id g0_fk_instance_node_20261024_01_full_001 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/full_001/result.json"
   },
   "source_protocol": "docs/research/text2sql/plans/g0_fk_instance_node_20261024.md",
   "status": "launcher_failure_before_model; corrected_smoke_preregistered"
