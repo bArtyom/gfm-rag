@@ -57,7 +57,7 @@
     "dependency_installations": 0
   },
   "runs": [
-    {"run_id": "g2_fk_duplicate_identity_policy_20261024_01_smoke_001", "mode": "smoke", "database_limit": 1, "status": "registered_not_run"},
+    {"run_id": "g2_fk_duplicate_identity_policy_20261024_01_smoke_001", "mode": "smoke", "database_limit": 1, "status": "SMOKE_PASS", "raw_fk_declarations": 2, "valid_fk_declarations": 2, "synthetic_fixture_status": "PASS", "synthetic_mapping_unique_instances": 3, "synthetic_mapping_directed_edges": 6, "synthetic_multiset_unique_instances": 4, "synthetic_multiset_directed_edges": 8, "synthetic_multiset_duplicate_group_association_changes": 2, "synthetic_composite_order_sensitivity": true, "wall_seconds": 0.003132343292236328, "process_cpu_seconds": 0.002674784999999999, "peak_rss_gib": 0.01904296875, "result_path_private": "/mnt/liansp3/logs/g2_fk_duplicate_identity_policy_20261024_01/smoke_001/result.json"},
     {"run_id": "g2_fk_duplicate_identity_policy_20261024_01_full_001", "mode": "full", "database_limit": 11, "status": "registered_not_run"}
   ],
   "run_commands": {

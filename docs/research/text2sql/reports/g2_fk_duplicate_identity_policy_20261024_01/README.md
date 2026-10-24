@@ -1,6 +1,6 @@
 # FK完全重复约束身份策略探索
 
-> **状态：已预注册 / NOT RUN；exploratory。** 本工作包来自[G2 FK Instance结构Gate的NO_GO](../g2_fk_instance_quality_20261024_01/README.md)，比较唯一Join映射与保留声明重数的两种表示。它不改变原Gate结果，不进入Relation-typed G0，也不声称真实查询语义收益。
+> **状态：SMOKE PASS / FULL PENDING；exploratory。** 本工作包来自[G2 FK Instance结构Gate的NO_GO](../g2_fk_instance_quality_20261024_01/README.md)，比较唯一Join映射与保留声明重数的两种表示。它不改变原Gate结果，不进入Relation-typed G0，也不声称真实查询语义收益。
 
 ## 研究问题与核心假设
 
@@ -26,4 +26,12 @@
 
 ## 结果
 
-尚未运行。Smoke与Full结果、失败案例、资源使用、局限和结论将在各自运行结束后补充；Smoke与Full使用不同run ID及独立输出目录。
+### Smoke `g2_fk_duplicate_identity_policy_20261024_01_smoke_001` — `SMOKE_PASS`
+
+Python 3.10.21标准库，CPU只读1个BIRD dev SQLite schema；原始2个、有效2个FK声明，输入hash匹配预注册。真实单库没有完全重复映射，因此只作为路径与输出smoke。内存合成fixture有4个有效声明：mapping策略将完全重复的一对合成一个映射（3个唯一映射、6条方向边、重数1）；声明multiset策略保留4个唯一ID并生成8条方向边。两策略的ID集合均通过行顺序与组号重编号不变性检查；重复声明fixture在multiset策略下有2个组号到出现序号关联随重编号变化。复合FK fixture保持为一个实例，反转组件顺序会改变身份。进程wall 0.00313秒、CPU 0.00267秒、峰值RSS 0.0190 GiB；GPU/API/模型/SQL/依赖安装均为0。
+
+私有结果：`/mnt/liansp3/logs/g2_fk_duplicate_identity_policy_20261024_01/smoke_001/result.json`；日志：`/mnt/liansp3/logs/g2_fk_duplicate_identity_policy_20261024_01/smoke_001.log`。Full扫描11库并复现预注册hash/分母后，才判断BIRD重复约束上的两种策略表现。
+
+### Full `g2_fk_duplicate_identity_policy_20261024_01_full_001` — 待运行
+
+将扫描11个SQLite schema，预算CPU 300秒、RSS 2 GiB、单线程。目标是对照两种已冻结策略的身份集合、边数与组号绑定性质；这项探索不自动通过原FK Gate，也不启动G0模型。
