@@ -1,6 +1,6 @@
 {
   "experiment_id": "p0_bird_dev_evidence_reconciliation_20261024_01",
-  "status": "registered_not_run",
+  "status": "registered_preflight_passed_audit_pending",
   "registered_utc": "2026-10-24T13:11:54Z",
   "category": "P0 read-only evidence reconciliation; no new model or SQL experiment",
   "repository": "https://github.com/bArtyom/gfm-rag",
@@ -60,6 +60,25 @@
     "verify_model_config_fingerprint": true,
     "export_raw_questions_gold_or_predictions": false,
     "role_gate_requires_trusted_dual_review": true
+  },
+  "preflight": {
+    "checked_utc": "2026-10-24T13:12:46Z",
+    "gpu_required": false,
+    "gpu1_not_selected": "20645 MiB used, 92% utilization",
+    "ram_available_gib": 420,
+    "cpu_count": 192,
+    "disk_available_tib": 114,
+    "data_symlinks_valid": true,
+    "model_symlink_valid": true,
+    "historical_artifacts_present": true,
+    "result_and_log_paths_absent": true
+  },
+  "commands": {
+    "prepare_dataset_json_hashes": "jq -r '.inputs | to_entries[] | \"\\(.value.sha256)  \\(.key)\"' full_audit_v3.json",
+    "prepare_database_hashes": "jq -r '.database_input_hashes[] | \"\\(.sha256)  /mnt/liansp3/sources/datasets/bird_dev_databases/\\(.relative_path)\"' full_audit_v3.json",
+    "verify_dataset_and_database_hashes": "sha256sum --check --strict expected_inputs.sha256",
+    "verify_artifact_and_model_config_hashes": "sha256sum --check --strict expected_artifacts.sha256",
+    "aggregate_only": "jq select of registered aggregate counters; no question, SQL, or row-level output"
   },
   "budget": {
     "cpu_seconds_max": 300,
