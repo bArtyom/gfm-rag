@@ -12,8 +12,8 @@ After choosing mapping-level FK identity with repeated declaration counts stored
 - **Fixture:** two tables, two distinct mappings sharing endpoints, and three declarations (one exact duplicate). Mapping identity yields two unique Join nodes with multiplicities 2 and 1.
 - **Comparisons:** local Qwen3 dense cosine; direct typed parallel-edge table graph; reified relation-typed G-reasoner graph; simple FK path tie baseline.
 - **Queries:** four fixed synthetic prompts, two with billing targets and two with shipping targets.
-- **Pass criteria:** direct output `[1,2]`, reified output `[1,4]`, finite scores; mapping scores remain stable under node/edge permutation (max delta ≤ `1e-5`, same top-1); GFM top-1 correct on ≥3/4 and mean score margin is positive for billing and shipping queries. All criteria must pass for `G0_SYNTHETIC_PASS`.
-- **Budget:** smoke 1 forward then, only if it passes, full 6 forwards; total max 7 forwards and 2 loads per model, one GPU, 20 minutes/run, no training, API, BIRD/Gold, SQL, installs, or downloads.
+- **Pass criteria:** direct output `[1,2]`, reified output `[1,4]`, finite scores; stable mapping IDs derive from ordered table/column tuples; mapping scores remain stable under node/edge permutation (max delta ≤ `1e-5`, same mapping top-1 set); GFM top-1 correct on ≥3/4, strictly exceeds dense cosine accuracy, and has positive mean score margins for billing and shipping queries. All criteria must pass for `G0_SYNTHETIC_PASS`.
+- **Budget:** smoke 1 forward then, only if it passes, full 6 forwards; total max 7 forwards and 2 loads per model, one GPU, 20 minutes/run with a hard launcher timeout, 300 CPU seconds and 8 GiB peak RSS per run, no training, API, BIRD/Gold, SQL, installs, or downloads.
 - **Environment/resources:** frozen `gfmrag_greasoner_20261022`; details and hashes are in the [pre-registration](../../plans/g0_fk_instance_node_20261024.md) and [configuration](experiment_config.json).
 
 ## Execution and results

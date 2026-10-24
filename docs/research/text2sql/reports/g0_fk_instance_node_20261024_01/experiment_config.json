@@ -15,7 +15,10 @@
     "tables": 2,
     "unique_fk_mappings": 2,
     "declarations": 3,
-    "declaration_multiplicity": {"billing_map": 2, "shipping_map": 1},
+    "declaration_multiplicity": {
+      "billing_map": 2,
+      "shipping_map": 1
+    },
     "query_count_full": 4,
     "query_count_smoke": 1,
     "seed": 20261024,
@@ -28,10 +31,11 @@
     "simple FK path baseline, expected tie on the shared one-hop endpoint path"
   ],
   "success_criteria": {
-    "mapping_identity": "3 declarations produce 2 unique mapping IDs with counts billing=2 and shipping=1; duplicate declarations do not create duplicate graph edges",
+    "mapping_identity": "3 declarations derive 2 stable IDs by SHA-256 of ordered (source_table, source_column, target_table, target_column) tuples with billing multiplicity 2 and shipping multiplicity 1; reversing declarations preserves IDs and counts",
     "model_output": "direct graph output [1,2], reified output [1,4], all finite",
-    "permutation": "reified scores remain attached to stable mapping IDs after node and edge order permutation; max absolute delta <= 1e-5 and top-1 unchanged",
-    "synthetic_signal": "reified GFM top-1 correct on at least 3/4 fixed queries and mean score margin is positive for both billing and shipping queries",
+    "permutation": "mapping-node scores remain attached to stable IDs after node and edge reordering; mapping-only max absolute delta <= 1e-5 and top-ranked mapping ID set unchanged",
+    "synthetic_signal": "GFM top-1 correct on at least 3/4 fixed queries, correct on strictly more queries than dense cosine, and mean score margin is positive for both billing and shipping query groups",
+    "baseline_evidence": "report exact candidate scores/ranks for dense cosine, reified GFM, and path baseline; report direct graph table-node scores/ranks and state mapping rank is unavailable",
     "overall_status": "G0_SYNTHETIC_PASS only if interface, permutation, and synthetic signal criteria all pass; otherwise G0_SYNTHETIC_NO_GO or implementation failure"
   },
   "budget": {
@@ -43,14 +47,18 @@
     "gpu_count": 1,
     "wall_time_limit_minutes_per_run": 20,
     "cpu_seconds_per_run_max": 300,
-    "rss_gib_max": 2,
+    "rss_gib_max": 8,
     "training_epochs": 0,
     "external_model_api_calls": 0,
     "sql_or_database_execution": false,
     "bird_or_gold_data": false,
     "new_downloads": 0,
     "dependency_changes": 0,
-    "retries_under_run_id": 0
+    "retries_under_run_id": 0,
+    "wall_timeout_seconds_per_run": 1200,
+    "wall_timeout_signal": "TERM with 15-second KILL escalation",
+    "rss_limit_rationale": "A 0.6B-parameter encoder requires about 2.24 GiB for FP32 weights alone; 8 GiB allows model/runtime overhead while remaining a bounded cap on the 503 GiB host. This is a conservative estimate, not a measured peak.",
+    "run_id_attempt_marker": "The runner creates result.json.attempt.json exclusively before inference and refuses any existing attempt, failure, partial, or result artifact for that output path."
   },
   "model": {
     "gfm_source": "https://github.com/RManLuo/gfm-rag",
@@ -65,8 +73,12 @@
     "embedding_weights_sha256": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd",
     "embedding_config_sha256": "b5bf1f51fc45be473a54718cef92448d90a1be001bf9b9a44b8c7f10a19feaa9",
     "embedding_tokenizer_sha256": "def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a",
+    "embedding_sentence_transformers_config_sha256": "10667c72ddb772627bf1780cb7f86af8e2ae0032b8c243c731172064105c6961",
+    "embedding_tokenizer_config_sha256": "253153d0738ceb4c668d2eff957714dd2bea0b56de772a9fdccd96cbf517e6a0",
+    "embedding_pooling_config_sha256": "37bf193fa101f19101bfad9c31d3eb0f786e247b7b1e5cb7f007d730eed1ddbd",
     "feature_dimension": 1024,
-    "normalization": "explicit L2"
+    "normalization": "explicit L2",
+    "embedding_modules_sha256": "84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf"
   },
   "environment": {
     "conda_environment": "gfmrag_greasoner_20261022",
@@ -91,8 +103,8 @@
     "aggregate_json": "docs/research/text2sql/reports/g0_fk_instance_node_20261024_01/result_summary.json"
   },
   "commands": {
-    "smoke": "CUDA_VISIBLE_DEVICES=3 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode smoke --run-id g0_fk_instance_node_20261024_01_smoke_001 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/smoke_001/result.json",
-    "full": "CUDA_VISIBLE_DEVICES=3 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode full --run-id g0_fk_instance_node_20261024_01_full_001 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/full_001/result.json"
+    "smoke": "env CUDA_VISIBLE_DEVICES=3 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 timeout --signal=TERM --kill-after=15s 1200s /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode smoke --run-id g0_fk_instance_node_20261024_01_smoke_001 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/smoke_001/result.json",
+    "full": "env CUDA_VISIBLE_DEVICES=3 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 timeout --signal=TERM --kill-after=15s 1200s /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode full --run-id g0_fk_instance_node_20261024_01_full_001 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/full_001/result.json"
   },
   "source_protocol": "docs/research/text2sql/plans/g0_fk_instance_node_20261024.md",
   "status": "registered_not_run"
