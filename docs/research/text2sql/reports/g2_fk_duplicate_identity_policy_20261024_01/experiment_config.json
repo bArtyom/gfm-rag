@@ -58,7 +58,7 @@
   },
   "runs": [
     {"run_id": "g2_fk_duplicate_identity_policy_20261024_01_smoke_001", "mode": "smoke", "database_limit": 1, "status": "SMOKE_PASS", "raw_fk_declarations": 2, "valid_fk_declarations": 2, "synthetic_fixture_status": "PASS", "synthetic_mapping_unique_instances": 3, "synthetic_mapping_directed_edges": 6, "synthetic_multiset_unique_instances": 4, "synthetic_multiset_directed_edges": 8, "synthetic_multiset_duplicate_group_association_changes": 2, "synthetic_composite_order_sensitivity": true, "wall_seconds": 0.003132343292236328, "process_cpu_seconds": 0.002674784999999999, "peak_rss_gib": 0.01904296875, "result_path_private": "/mnt/liansp3/logs/g2_fk_duplicate_identity_policy_20261024_01/smoke_001/result.json"},
-    {"run_id": "g2_fk_duplicate_identity_policy_20261024_01_full_001", "mode": "full", "database_limit": 11, "status": "registered_not_run"}
+    {"run_id": "g2_fk_duplicate_identity_policy_20261024_01_full_001", "mode": "full", "database_limit": 11, "status": "EXPLORATORY_COMPLETE", "database_count": 11, "raw_fk_declarations": 103, "valid_fk_declarations": 100, "invalid_fk_declarations": 3, "dev_tables_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97", "schema_manifest_sha256": "89765355de0a75d03a547afa5bf04eed21857f28d393aeb4e94c20e18212c74e", "mapping_policy": {"unique_valid_mappings": 99, "duplicate_mapping_groups": 1, "duplicate_excess_declarations": 1, "directed_edges": 198, "id_sets_stable_under_row_and_group_permutation": true}, "declaration_multiset_policy": {"unique_valid_declaration_ids": 100, "directed_edges": 200, "id_sets_stable_under_row_and_group_permutation": true, "duplicate_group_to_ordinal_association_changes": 2}, "synthetic_fixture_status": "PASS", "composite_instances_in_bird": 0, "composite_order_sensitivity_in_synthetic_fixture": true, "wall_seconds": 0.025638801977038383, "process_cpu_seconds": 0.021179956000000007, "peak_rss_gib": 0.01904296875, "result_path_private": "/mnt/liansp3/sources/results/gfmrag_g2_fk_duplicate_identity_policy_20261024_01/full_001/result.json"}
   ],
   "run_commands": {
     "smoke_001": "/usr/bin/timeout 300s conda run -n precisiongate_bird /root/miniconda3/envs/precisiongate_bird/bin/python3.10 scripts/text2sql/fk_duplicate_identity_policy_audit.py --dataset-root /mnt/liansp3/sources/datasets/bird/dev/dev_databases --mode smoke --run-id g2_fk_duplicate_identity_policy_20261024_01_smoke_001 --output /mnt/liansp3/logs/g2_fk_duplicate_identity_policy_20261024_01/smoke_001/result.json",
@@ -77,6 +77,8 @@
     "base_fk_audit_helper_sha256": "a2ff6a331bad4c74fd4cffd7bd5df0295e15f2ba1ab87d5f1e4d641489f5b5b5",
     "runner": "scripts/text2sql/fk_duplicate_identity_policy_audit.py",
     "runner_sha256": "23f96e1db5bec304bb1b6deeddd9efd1638801ad03cb7c24bfe50f36f89d632d",
+    "commit_before_smoke": "a90cfef11d2ebfe53125885a5a49041ad66345df",
+    "commit_before_full": "3c5720f17ff934be5d5381faf6365e19be2503b0",
     "synthetic_fixture_checks": "embedded in runner and executed in smoke before BIRD scan"
   },
   "outputs": {
@@ -90,8 +92,20 @@
     "project_repository": "https://github.com/bArtyom/gfm-rag",
     "branch": "research/g2-asymmetric-relation-20261024",
     "registration_base_commit": "79f2bba7d1065a75c2bf4baf1d905d056ceb3473",
-    "parent_no_go_report": "docs/research/text2sql/reports/g2_fk_instance_quality_20261024_01/README.md"
+    "pre_run_registration_commit": "a90cfef11d2ebfe53125885a5a49041ad66345df",
+    "smoke_result_commit": "3c5720f17ff934be5d5381faf6365e19be2503b0",
+    "parent_no_go_report": "docs/research/text2sql/reports/g2_fk_instance_quality_20261024_01/README.md",
+    "guidance_read_at_registration_base": [
+      "README.md",
+      "docs/research/text2sql/README.md",
+      "docs/research/text2sql/experiment-roadmap.md",
+      "docs/research/text2sql/reproducibility-contract.md",
+      "docs/research/text2sql/plans/g2_asymmetric_relation_channel_identifiability_20261024.md",
+      "docs/research/text2sql/reports/g2_fk_instance_quality_20261024_01/README.md"
+    ],
+    "repository_root_agents_file": "not present at registration base; user-provided /mnt/liansp3/AGENTS.md applied"
   },
+  "decision_boundary": "This comparison does not reverse the parent FK identity Gate NO_GO and does not authorize a G0 model run. Candidate design recommendation is a unique Join-mapping ID plus declaration multiplicity metadata, pending an explicit next-run protocol.",
   "api_usage": {
     "external_api_requests": 0,
     "confirmed_input_tokens": 0,
