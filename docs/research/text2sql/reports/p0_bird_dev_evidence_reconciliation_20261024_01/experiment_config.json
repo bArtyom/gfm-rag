@@ -1,6 +1,7 @@
 {
   "experiment_id": "p0_bird_dev_evidence_reconciliation_20261024_01",
-  "status": "registered_preflight_passed_audit_pending",
+  "status": "launch_ready",
+  "run_id": "p0_bird_dev_evidence_reconciliation_20261024_01_audit_001",
   "registered_utc": "2026-10-24T13:11:54Z",
   "category": "P0 read-only evidence reconciliation; no new model or SQL experiment",
   "repository": "https://github.com/bArtyom/gfm-rag",
@@ -72,6 +73,12 @@
     "model_symlink_valid": true,
     "historical_artifacts_present": true,
     "result_and_log_paths_absent": true
+  },
+  "private_launch_manifest": "/mnt/liansp3/logs/gfmrag_p0_bird_dev_evidence_reconciliation_20261024_01/audit_001_launch.json",
+  "hash_checks": {
+    "dataset_and_database_input_count": 88,
+    "aggregate_and_model_config_count": 3,
+    "expected_inputs_manifest_sha256": "cb5652f7cf071b6d482cca032b987cbe2264e8b5023e2484d7de3f8c07f0fba3"
   },
   "commands": {
     "prepare_dataset_json_hashes": "jq -r '.inputs | to_entries[] | \"\\(.value.sha256)  \\(.key)\"' full_audit_v3.json",
