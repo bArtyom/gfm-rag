@@ -44,8 +44,9 @@
 
 ## 5. 运行、代码与归档
 
-- 实验ID：`g2_fk_instance_quality_20261024_01`；Smoke run `..._smoke_001`；Full run `..._full_001`。
+- 实验ID：`g2_fk_instance_quality_20261024_01`；首次Smoke命令`..._smoke_001`在进入runner前因宿主缺少`/usr/bin/time`停止（0个BIRD文件被runner读取，未创建结果）；修正命令后新Smoke为`..._smoke_002`；Full为`..._full_001`。每个尝试保留独立run ID。
 - 代码：`scripts/text2sql/fk_instance_quality_audit.py`；契约回归：`tests/test_fk_instance_quality_audit.py`。代码及协议须在首次Smoke之前提交到本仓库分支并通过GitHub内容回读。
 - 私有结果根：`/mnt/liansp3/sources/results/gfmrag_g2_fk_instance_quality_20261024_01/`；日志：`/mnt/liansp3/logs/g2_fk_instance_quality_20261024_01/`。先确认目标不存在并创建独立目录。
+- 固定命令以报告配置`run_commands`为准；runner自身采集wall/CPU/peak-RSS。宿主没有`/usr/bin/time`，故执行包装使用已存在的`/usr/bin/timeout`和`conda run`，不安装工具。
 - 公开目录：`docs/research/text2sql/reports/g2_fk_instance_quality_20261024_01/`；只上传README、配置、脚本/测试和匿名聚合。任何DB名称、DDL、逐FK ID、表名、查询/Gold SQL、日志不公开。
 - 本计划仅预注册，不含实测结果；实验结束后新增结果commit并校验GitHub分支、报告链接及文件内容。
