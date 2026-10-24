@@ -55,6 +55,6 @@ G2 沿用固定 seed `20261023` 的 5 节点、8 条有向边、6 个关系 ID �
 | 首次启动 | `STOP-INVALID`；0 次 checkpoint 加载，0 次前向 |
 | 修订运行 | 待启动；冻结额度最多 1 次加载、8 次前向、900 秒 |
 | 训练 / API / 数据集 / SQL | 0 / 0 / 未使用 / 未执行 |
-| 修订启动前资源复核 | 2026-10-24 11:13:17 UTC：GPU 2 RTX 4090，21,146 MiB free、0% 利用率且进程表为空；GPU 1 正在运行其他任务（88%），未选择/中断；RAM 可用 421 GiB，192 CPU，磁盘可用 114 TB；checkpoint 和 config hash 与冻结值一致 |
+| 修订启动前资源复核 | 2026-10-24 11:14:45 UTC：GPU 2 RTX 4090，21,146 MiB free、0% 利用率且进程表为空；GPU 1 有 2,661 MiB 空闲、未选用；RAM 可用 421 GiB，192 CPU，磁盘可用 114 TB；checkpoint 和 config hash 与冻结值一致 |
 
 修订运行命令、模型/数据版本、环境、资源限制、结果路径和当前 CPU Gate 均记录在 [`experiment_config.json`](experiment_config.json)。GPU 运行结束后追加实际指标、异常、结果哈希、结论和边界；不会覆盖首次停止现场或历史 G1 报告/结果。

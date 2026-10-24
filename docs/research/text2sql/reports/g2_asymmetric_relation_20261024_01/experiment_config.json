@@ -190,7 +190,7 @@
       "filesystem_available_tb": 114
     },
     "amended_launch_snapshot": {
-      "captured_utc": "2026-10-24T11:13:17Z",
+      "captured_utc": "2026-10-24T11:14:45Z",
       "gpu_physical_index": 2,
       "gpu_model": "NVIDIA GeForce RTX 4090",
       "gpu_total_mib": 24564,
@@ -199,7 +199,7 @@
       "gpu_utilization_percent": 0,
       "nvidia_smi_process_table_empty": true,
       "selected_gpu_only": true,
-      "other_gpu_note": "GPU 1 was busy at 88 percent utilization and was not selected or interrupted.",
+      "other_gpu_note": "GPU 1 had 2,661 MiB free and was not selected; no other task was interrupted.",
       "host_memory_available_gib": 421,
       "swap_used_gib": 2.0,
       "swap_free_gib": 0.0,
