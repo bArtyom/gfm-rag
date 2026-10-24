@@ -1,6 +1,7 @@
 {
   "experiment_id": "g0_fk_instance_node_20261024_01",
   "status_at_preregistration": "registered_not_run",
+  "status_current": "launcher_failure_before_model; corrected_smoke_preregistered",
   "experiment_date": "2026-10-24",
   "category": "exploratory synthetic engineering and identifiability probe",
   "hypothesis": "Mapping-level FK identity with declaration multiplicity metadata can be represented by one reified node per unique Join mapping, allowing the frozen official G-reasoner to emit a separate stable node score for same-endpoint FK candidates; a small synthetic query set may reveal an initial signal.",
@@ -55,6 +56,9 @@
     "new_downloads": 0,
     "dependency_changes": 0,
     "retries_under_run_id": 0,
+    "launcher_recovery_attempts_after_smoke_001_max": 1,
+    "smoke_001_model_loads": 0,
+    "smoke_001_forward_passes": 0,
     "wall_timeout_seconds_per_run": 1200,
     "wall_timeout_signal": "TERM with 15-second KILL escalation",
     "rss_limit_rationale": "A 0.6B-parameter encoder requires about 2.24 GiB for FP32 weights alone; 8 GiB allows model/runtime overhead while remaining a bounded cap on the 503 GiB host. This is a conservative estimate, not a measured peak.",
@@ -91,9 +95,23 @@
     "offline_only": true
   },
   "run_ids": {
-    "smoke": "g0_fk_instance_node_20261024_01_smoke_001",
+    "failed_launcher_smoke": "g0_fk_instance_node_20261024_01_smoke_001",
+    "smoke": "g0_fk_instance_node_20261024_01_smoke_002",
     "full": "g0_fk_instance_node_20261024_01_full_001"
   },
+  "attempt_history": [
+    {
+      "run_id": "g0_fk_instance_node_20261024_01_smoke_001",
+      "status": "FAILED_PRE_MODEL_STARTUP",
+      "failed_utc": "2026-10-24T12:39:37Z",
+      "reason": "conda run resolved python3 to /root/miniconda3/envs/python39/bin/python3 (Python 3.9.20); sentence_transformers was unavailable in that unrelated environment",
+      "qwen_loads": 0,
+      "g_reasoner_loads": 0,
+      "g_reasoner_forward_passes": 0,
+      "result_path": "/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/smoke_001/result.json.failure.json",
+      "log_path": "/mnt/liansp3/logs/g0_fk_instance_node_20261024_01/smoke_001.log"
+    }
+  ],
   "private_outputs": {
     "root": "/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01",
     "logs": "/mnt/liansp3/logs/g0_fk_instance_node_20261024_01"
@@ -103,9 +121,10 @@
     "aggregate_json": "docs/research/text2sql/reports/g0_fk_instance_node_20261024_01/result_summary.json"
   },
   "commands": {
-    "smoke": "env CUDA_VISIBLE_DEVICES=3 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 timeout --signal=TERM --kill-after=15s 1200s /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode smoke --run-id g0_fk_instance_node_20261024_01_smoke_001 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/smoke_001/result.json",
-    "full": "env CUDA_VISIBLE_DEVICES=3 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 timeout --signal=TERM --kill-after=15s 1200s /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode full --run-id g0_fk_instance_node_20261024_01_full_001 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/full_001/result.json"
+    "failed_smoke_001": "env CUDA_VISIBLE_DEVICES=3 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 timeout --signal=TERM --kill-after=15s 1200s /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode smoke --run-id g0_fk_instance_node_20261024_01_smoke_001 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/smoke_001/result.json",
+    "smoke": "env CUDA_VISIBLE_DEVICES=3 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 timeout --signal=TERM --kill-after=15s 1200s /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output /root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode smoke --run-id g0_fk_instance_node_20261024_01_smoke_002 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/smoke_002/result.json",
+    "full": "env CUDA_VISIBLE_DEVICES=3 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 timeout --signal=TERM --kill-after=15s 1200s /root/miniconda3/bin/conda run -n gfmrag_greasoner_20261022 --no-capture-output /root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3 scripts/text2sql/g0_fk_instance_node_probe.py --mode full --run-id g0_fk_instance_node_20261024_01_full_001 --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output /mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/full_001/result.json"
   },
   "source_protocol": "docs/research/text2sql/plans/g0_fk_instance_node_20261024.md",
-  "status": "registered_not_run"
+  "status": "launcher_failure_before_model; corrected_smoke_preregistered"
 }

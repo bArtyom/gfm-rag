@@ -1,6 +1,6 @@
 # G0 FK instance-node scoring probe
 
-**Status: registered; not yet run.** No result is reported in this pre-run version.
+**Status: first launch failed before model initialization; one corrected smoke attempt is pre-registered.** No scientific model result exists yet.
 
 ## Experiment question
 
@@ -18,4 +18,14 @@ After choosing mapping-level FK identity with repeated declaration counts stored
 
 ## Execution and results
 
-Pending smoke. Full is not authorized by the protocol unless smoke passes. Run outputs will be saved under `/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/`, with logs under `/mnt/liansp3/logs/g0_fk_instance_node_20261024_01/`. Public artifacts will be limited to synthetic aggregate scores and reproduction metadata.
+### `smoke_001` — launcher failure before model initialization
+
+- **Outcome:** `FAILED_PRE_MODEL_STARTUP`, exit code 1 at 2026-10-24 12:39:37 UTC. The command used `conda run -n gfmrag_greasoner_20261022 ... python3`, but the wrapper selected `/root/miniconda3/envs/python39/bin/python3` (Python 3.9.20), which raised `ModuleNotFoundError: No module named 'sentence_transformers'`.
+- **Root cause:** the wrapper's `python3` resolved outside the registered target environment. The target environment is intact: its absolute Python executable is Python 3.12.15, and a no-GPU preflight successfully imported Sentence-Transformers 5.1.1, PyTorch 2.8.0+cu128, PyG 2.6.1, and Transformers 4.56.1.
+- **Work not performed:** no Qwen encoder or G-reasoner checkpoint loaded; zero G-reasoner forwards; no data/model download or API call; no scientific metric was produced. Qwen input tokens: 0 for this attempt.
+- **Preserved artifacts:** `/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/smoke_001/result.json.attempt.json` and `result.json.failure.json`; log `/mnt/liansp3/logs/g0_fk_instance_node_20261024_01/smoke_001.log`.
+- **Resource note:** the immediate post-failure snapshot showed GPU 3 at 17,817 MiB used and 100% utilization while `nvidia-smi` listed no process. A later fresh snapshot returned to 8,665/24,564 MiB and 0% utilization. The failed process did not initialize CUDA; the transient GPU use is not attributed to this experiment.
+
+### Corrected launch registered before retry
+
+One corrected smoke attempt is registered as `g0_fk_instance_node_20261024_01_smoke_002`, using the target environment's absolute Python executable inside `conda run`. All scientific inputs and criteria remain frozen. If this attempt fails or times out, the experiment stops; Full can run only after smoke_002 passes. Its output will use a separate immutable path under `/mnt/liansp3/sources/results/gfmrag_g0_fk_instance_node_20261024_01/`, with logs under `/mnt/liansp3/logs/g0_fk_instance_node_20261024_01/`. Public artifacts will be limited to synthetic aggregate scores and reproduction metadata.
