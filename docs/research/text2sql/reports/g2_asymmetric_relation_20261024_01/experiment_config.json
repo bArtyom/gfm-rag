@@ -135,7 +135,21 @@
     "status": "GPU_PENDING",
     "model_loads": 0,
     "completed_forwards": 0,
-    "launch_snapshot": "pending immediate pre-launch nvidia-smi/free/nproc capture"
+    "launch_snapshot": {
+      "captured_utc": "2026-10-24T11:01:16Z",
+      "gpu_physical_index": 2,
+      "gpu_model": "NVIDIA GeForce RTX 4090",
+      "gpu_total_mib": 24564,
+      "gpu_used_mib": 3063,
+      "gpu_free_mib_reported": 21146,
+      "gpu_utilization_percent": 0,
+      "nvidia_smi_process_table_empty": true,
+      "host_memory_available_gib": 421,
+      "swap_used_gib": 2.0,
+      "swap_free_gib": 0.0,
+      "cpu_logical_threads": 192,
+      "filesystem_available_tb": 114
+    }
   },
   "interpretation_limit": "A synthetic positive response demonstrates relation-channel sensitivity only on this asymmetric fixture; it does not establish same-endpoint FK-instance role accuracy, Join Path accuracy, or SQL execution improvement."
 }
