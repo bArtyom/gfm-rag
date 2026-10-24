@@ -1,0 +1,148 @@
+{
+  "cpu_preflight": {
+    "changed_targets": {
+      "A2": [
+        0,
+        1,
+        4
+      ],
+      "A3": [
+        0,
+        1
+      ],
+      "A4": []
+    },
+    "cpu_thread_count": 8,
+    "expected_fixture_tensor_bundle_sha256": "3a36bd4656bed2ddeaa803a2fac5ea0bae6fb2635cdb2fa3a72b3f63b99f02f8",
+    "fixture_contract": {
+      "composite_instance_components": [
+        0,
+        1
+      ],
+      "fk_instance_count": 3,
+      "forward_roles": [
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          4,
+          1
+        ],
+        [
+          2,
+          3,
+          2
+        ]
+      ],
+      "inverse_pairs_valid": true,
+      "num_directed_edges": 8,
+      "num_nodes": 5,
+      "num_relations": 6
+    },
+    "fixture_tensor_bundle_sha256": "3a36bd4656bed2ddeaa803a2fac5ea0bae6fb2635cdb2fa3a72b3f63b99f02f8",
+    "gates": {
+      "A0_repeat_input_multisets_unchanged": true,
+      "A1_consumed_fields_unchanged": true,
+      "A1_metadata_changed": true,
+      "A2_message_multiset_changed_on_reachable_target": true,
+      "A3_message_multiset_changed_on_reachable_target": true,
+      "A3_only_frozen_rows_0_3_and_norms_preserved": true,
+      "A4_all_message_multisets_unchanged": true,
+      "A4_edge_relation_semantics_preserved": true,
+      "case_intervention_isolation_valid": true,
+      "exact_condition_set": true,
+      "fixture_contract_valid_all_cases": true,
+      "frozen_fixture_tensor_bundle_hash_matches": true,
+      "legacy_G1_C2_message_multisets_unchanged": true,
+      "legacy_G1_C3_message_multisets_unchanged": true
+    },
+    "interpretation_note": "These hashes certify CPU input multiset changes only; they are not internal model-message activations or evidence of business-role understanding.",
+    "legacy_g1_symmetry_audit": {
+      "C2_changed_targets": [],
+      "C2_message_multisets_unchanged": true,
+      "C3_changed_targets": [],
+      "C3_message_multisets_unchanged": true,
+      "base_signatures": {
+        "0": "5e6689a6089f51c499aff3059a3644cd35b2fed85dae5faff5a79ffdb8feb81f",
+        "1": "c834227c357c53a6816b7bc9df20848e1dc61d98e72d9afe9072db2753e62bc3",
+        "2": "b160df2eb0d263e1515982470e39934b74b95ee39cc40909a747a8c2c43212cd",
+        "3": "60016a16dfd8f3cb50c4204434a97ab7c6fe55b0b3b6044c885058742dd560bf",
+        "4": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "passed": true,
+    "per_case_message_multiset_sha256": {
+      "A0": {
+        "0": "5910ea26afd0ade13bdf9b493ffb58d6bf536a37c9fb03849d7ccb9fbd508677",
+        "1": "5ef49c835b4dd7d48358c8b5ab0a1d9aede7725ec1697ac59131d1b920dd6965",
+        "2": "b160df2eb0d263e1515982470e39934b74b95ee39cc40909a747a8c2c43212cd",
+        "3": "60016a16dfd8f3cb50c4204434a97ab7c6fe55b0b3b6044c885058742dd560bf",
+        "4": "d9d5270794d4b6e345b95056cc2eac078591fa3e854fa527e8ca8e10df516e1f"
+      },
+      "A0_repeat": {
+        "0": "5910ea26afd0ade13bdf9b493ffb58d6bf536a37c9fb03849d7ccb9fbd508677",
+        "1": "5ef49c835b4dd7d48358c8b5ab0a1d9aede7725ec1697ac59131d1b920dd6965",
+        "2": "b160df2eb0d263e1515982470e39934b74b95ee39cc40909a747a8c2c43212cd",
+        "3": "60016a16dfd8f3cb50c4204434a97ab7c6fe55b0b3b6044c885058742dd560bf",
+        "4": "d9d5270794d4b6e345b95056cc2eac078591fa3e854fa527e8ca8e10df516e1f"
+      },
+      "A1": {
+        "0": "5910ea26afd0ade13bdf9b493ffb58d6bf536a37c9fb03849d7ccb9fbd508677",
+        "1": "5ef49c835b4dd7d48358c8b5ab0a1d9aede7725ec1697ac59131d1b920dd6965",
+        "2": "b160df2eb0d263e1515982470e39934b74b95ee39cc40909a747a8c2c43212cd",
+        "3": "60016a16dfd8f3cb50c4204434a97ab7c6fe55b0b3b6044c885058742dd560bf",
+        "4": "d9d5270794d4b6e345b95056cc2eac078591fa3e854fa527e8ca8e10df516e1f"
+      },
+      "A2": {
+        "0": "93670888c83daf0a7293408b8063112aef0963287532212a49d41515bfeda375",
+        "1": "d9d5270794d4b6e345b95056cc2eac078591fa3e854fa527e8ca8e10df516e1f",
+        "2": "b160df2eb0d263e1515982470e39934b74b95ee39cc40909a747a8c2c43212cd",
+        "3": "60016a16dfd8f3cb50c4204434a97ab7c6fe55b0b3b6044c885058742dd560bf",
+        "4": "5ef49c835b4dd7d48358c8b5ab0a1d9aede7725ec1697ac59131d1b920dd6965"
+      },
+      "A3": {
+        "0": "ee294889ff9d4ed6a3f786786072fb60d8b51ef72185539acf2d2a613b2fd8af",
+        "1": "ef053206923718c267861408fd229db775cf75086f6a4eb6f2ee59d5d0ef47dd",
+        "2": "b160df2eb0d263e1515982470e39934b74b95ee39cc40909a747a8c2c43212cd",
+        "3": "60016a16dfd8f3cb50c4204434a97ab7c6fe55b0b3b6044c885058742dd560bf",
+        "4": "d9d5270794d4b6e345b95056cc2eac078591fa3e854fa527e8ca8e10df516e1f"
+      },
+      "A4": {
+        "0": "5910ea26afd0ade13bdf9b493ffb58d6bf536a37c9fb03849d7ccb9fbd508677",
+        "1": "5ef49c835b4dd7d48358c8b5ab0a1d9aede7725ec1697ac59131d1b920dd6965",
+        "2": "b160df2eb0d263e1515982470e39934b74b95ee39cc40909a747a8c2c43212cd",
+        "3": "60016a16dfd8f3cb50c4204434a97ab7c6fe55b0b3b6044c885058742dd560bf",
+        "4": "d9d5270794d4b6e345b95056cc2eac078591fa3e854fa527e8ca8e10df516e1f"
+      },
+      "A5": {
+        "0": "5910ea26afd0ade13bdf9b493ffb58d6bf536a37c9fb03849d7ccb9fbd508677",
+        "1": "5ef49c835b4dd7d48358c8b5ab0a1d9aede7725ec1697ac59131d1b920dd6965",
+        "2": "b160df2eb0d263e1515982470e39934b74b95ee39cc40909a747a8c2c43212cd",
+        "3": "60016a16dfd8f3cb50c4204434a97ab7c6fe55b0b3b6044c885058742dd560bf",
+        "4": "d9d5270794d4b6e345b95056cc2eac078591fa3e854fa527e8ca8e10df516e1f"
+      },
+      "A6": {
+        "0": "5910ea26afd0ade13bdf9b493ffb58d6bf536a37c9fb03849d7ccb9fbd508677",
+        "1": "5ef49c835b4dd7d48358c8b5ab0a1d9aede7725ec1697ac59131d1b920dd6965",
+        "2": "b160df2eb0d263e1515982470e39934b74b95ee39cc40909a747a8c2c43212cd",
+        "3": "60016a16dfd8f3cb50c4204434a97ab7c6fe55b0b3b6044c885058742dd560bf",
+        "4": "d9d5270794d4b6e345b95056cc2eac078591fa3e854fa527e8ca8e10df516e1f"
+      }
+    },
+    "reachable_targets_from_anchor": [
+      0,
+      1,
+      4
+    ],
+    "status": "PASS"
+  },
+  "experiment_id": "g2_asymmetric_relation_20261024_01_cpu_gate_012",
+  "forward_count": 0,
+  "model_load_attempted": false,
+  "model_loaded": false,
+  "phase": "CPU_PRECHECK_ONLY",
+  "status": "PASS"
+}
