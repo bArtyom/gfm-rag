@@ -792,7 +792,7 @@ def main() -> None:
     parser.add_argument("--result-root", type=Path, required=True)
     args = parser.parse_args()
     config = read(REPORT / "experiment_config.json")
-    if config["status"] not in {"preregistered_not_run", "prepared_not_run"} or config["experiment_id"] != EXPERIMENT:
+    if config["status"] not in {"preregistered_not_run", "prepared_not_run", "smoke_pass_full_pending"} or config["experiment_id"] != EXPERIMENT:
         raise RuntimeError("P2d.3 is not open for execution")
     if args.result_root.resolve() != Path(os.environ["P2D3_RESULT_ROOT"]).resolve():
         raise RuntimeError("Output root differs from the registered local alias")
