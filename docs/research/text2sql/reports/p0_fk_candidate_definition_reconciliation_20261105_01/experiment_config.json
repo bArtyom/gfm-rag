@@ -1,0 +1,65 @@
+{
+  "experiment_id": "p0_fk_candidate_definition_reconciliation_20261105_01",
+  "status": "PREREGISTERED_NOT_RUN",
+  "layer": "exploratory_read_only_definition_audit",
+  "mainline_evidence": false,
+  "research_question": "Explain divergent FK match / multi-FK candidate aggregates on identical BIRD dev input hashes by separating implementation definition from SQLGlot/Python environment effects.",
+  "historical_aggregates": {
+    "p0_v3": {"fk_matched_questions": 956, "multi_fk_candidate_questions": 174},
+    "p1_5_p2a_5": {"fk_matched_questions": 970, "multi_fk_candidate_questions": 197},
+    "p0_packet_attempt": {"fk_matched_questions": 1043, "multi_fk_candidate_questions": 176}
+  },
+  "source_project": {
+    "url": "https://github.com/bArtyom/gfm-rag",
+    "base_branch": "research/p0-role-review-packet-20261025",
+    "base_commit": "f0d9ceeed8dc5b19a5bfddc83bdfabc6ee6e3e4e",
+    "working_branch": "research/p0-fk-candidate-definition-20261105"
+  },
+  "pinned_code": {
+    "packet_runner_sha256": "5c84af91edc6dd39cd1fba39105dfc74b804be17912d91edab5eba2ff180eebc",
+    "p1_5_runner_sha256": "af59d01d22a6b5d5538231b38c2bf52e0355a9193a5773f40b14d29470ec40cf",
+    "p2a_5_runner_sha256": "e046595df72d3b684062a54d2fffc2c8df13cae419b056625b8981c20b805085"
+  },
+  "inputs": {
+    "dev_json_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "dev_tables_json_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "p0_v3_artifact_sha256": "verify_after_registration",
+    "p1_5_fk_artifact_sha256": "5bc60f6d64429215fa92c3d3a42f1a4881dc77c09839729153fb55a119555060"
+  },
+  "environments": {
+    "packet_pinned": {
+      "conda_env": "t2sql_code_audit_20261005",
+      "python": "3.10.22",
+      "sqlglot": "26.33.0",
+      "python_executable": "/root/miniconda3/envs/t2sql_code_audit_20261005/bin/python"
+    },
+    "p1_5_pinned": {
+      "conda_env": "think2sql_20260909",
+      "python": "3.12.14",
+      "sqlglot": "28.0.0",
+      "python_executable": "/root/miniconda3/envs/think2sql_20260909/bin/python3.12"
+    }
+  },
+  "frozen_denominators": {
+    "questions": 1534,
+    "parse_success": 1534,
+    "join_on_questions": 1140
+  },
+  "smoke": {"n": 5, "must_pass_before_full": true},
+  "resource_budget": {
+    "gpu_seconds": 0,
+    "model_calls": 0,
+    "api_calls": 0,
+    "sql_execution": 0,
+    "download_or_install": 0,
+    "wall_seconds_per_process_max": 600,
+    "cpu_seconds_per_process_max": 600,
+    "peak_rss_gib_max": 4,
+    "max_cpu_threads": 8
+  },
+  "privacy": {
+    "public_outputs": "Aggregate counters, hashes, and anonymous mismatch-category counts only",
+    "private_only": "Question-keyed booleans/counters, raw questions, SQL, database names, logs, source artifacts",
+    "review_packet_created": false
+  }
+}

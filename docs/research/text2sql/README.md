@@ -6,6 +6,8 @@
 >
 > **最新决策（2026-10-24，P0证据复核后）**：P0只读复核的88/88输入指纹、3/3历史产物/模型配置指纹及聚合计数均通过；结果支持在重复使用的BIRD dev上复现表/列清单。Role Gate仍为**NO-GO**：174个多FK候选未盲审，可信双人标签为0；FK schema来源差异和身份碰撞仍需保留。G0-02仍为**G0_SYNTHETIC_NO_GO**（GFM 2/4、dense 4/4），G2-A PASS仅说明非对称合成fixture上关系输入能改变分数。不得启动P1角色准确率/维度扫描或SQL扩样。下一步需要先建立受控的双人盲审标签；任何后续G0都须基于明确的FK身份策略另行预注册。见[P0复核报告](reports/p0_bird_dev_evidence_reconciliation_20261024_01/README.md)、[G0-02最终报告](reports/g0_fk_instance_node_20261024_02/README.md)和[实验路线图](experiment-roadmap.md)。
 
+> **2026-11-05 状态补充**：相同 BIRD dev 输入哈希下，历史 P0 v3、P1.5/P2a.5 与 P0 packet 报告的 JOIN/FK 汇总分别为 **956/174、970/197、1043/176**（FK 匹配题/多 FK 候选题）。P0 packet 已因计数门不符而停止；现只登记了定义与解析器版本对账，不生成审阅包、不新增角色标签。详见[FK候选定义对账登记](reports/p0_fk_candidate_definition_reconciliation_20261105_01/README.md)。
+
 ## 现有研究文档
 
 | 文档 | 作用 | 状态 |
@@ -38,6 +40,7 @@
 | [P2d 最新SQL Pilot复核（当前）](reports/p2d_latest_review_20261022/README.md) | 30题三臂可判/不可判、Token机制、时间函数策略与研究主线 | **2026-10-22分析；非新实验** |
 | [P2d.1 评测覆盖和失败归因（当前下一轮）](plans/p2d_1_frozen_prediction_eval_audit_20261022.md) | 封存SQL复核、safe temporal evaluator v2测试、19题语义审核与Go/No-go | **下一轮已登记，尚未执行** |
 | [P2d.1 执行登记](reports/p2d_1_eval_audit_20261022_01/README.md) | 零模型、合成时间函数安全门与冻结预测复评 | **预注册；Gate 0/1/2均待运行** |
+| [P0 FK候选定义对账登记](reports/p0_fk_candidate_definition_reconciliation_20261105_01/README.md) | 对账 956/174、970/197、1043/176 三组不一致计数 | **已登记；尚未读取本轮题目/Gold SQL，尚未运行** |
 | [2026-10-23 P2d.1 + G0 跨分支复核（当前）](reports/p2d1_g0_cross_branch_review_20261023/README.md) | 读取分支的真实结果，区分 evaluator v2、元数据未被模型读取及方法结论边界 | 已完成静态分析；非新实验 |
 | [G1关系通道×FK Instance保真](plans/g1_relation_channel_and_fk_instance_gate_20261023.md) | 8次合成前向/多种edge_type/rel_attr对照、同义重标记不变性、FK Role Label Gate及Go/No-go | 2026-10-23完成；按原门槛 G1-A NO-GO，见G1报告 |
 | [2026-10-24全局实验复核与G1结构对称性分析](reports/current_results_review_20261024/README.md) | 从P1/P2到G1/G2及FK Instance Gate结果、失败机制和下一步 | **静态复核附Gate结果更新** |
