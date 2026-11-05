@@ -30,6 +30,8 @@
 
 > **2026-11-06 Pilot 输入语义澄清**：代码核对发现 G0 合成探针固定从 FK source table 起步，而真实表对的候选 FK 方向可能不同。为避免候选得到不同起点，条件式映射排序 Pilot 暂定将表对两个端点作为所有候选共享的 binary seeds；这不是官方端到端 NER/EL 流程，也未解除人工标签门。见[输入语义审计](plans/p0_fk_mapping_rank_pilot_input_semantics_audit_20261106.md)。
 
+> **2026-11-06 P2d.3 authorizer 候选归因（已预注册，尚未运行）**：不新增 SQL 生成、修复或 Schema packing；只在冻结 P2d.3 输出上回放 6 个初始上下文拒绝与 8 个被拒修复候选，检查完整数据库 schema 下是否有可执行且正确的 SQL 被边界挡住。全程保留 SQLite 只读门，不用模型或 GPU。见[预注册计划](plans/p2d3_authorizer_counterfactual_audit_20261106.md)与[运行配置](reports/p2d3_authorizer_counterfactual_audit_20261106_01/experiment_config.json)。
+
 ## 现有研究文档
 
 | 文档 | 作用 | 状态 |

@@ -1,0 +1,74 @@
+{
+  "experiment_id": "p2d3_authorizer_counterfactual_audit_20261106_01",
+  "status": "PREREGISTERED_NOT_RUN",
+  "layer": "exploratory_error_attribution",
+  "source_branch": "research/p2d3-authorizer-counterfactual-audit-20261106",
+  "base_commit": "0571a9de9261b1b30ff1be00ae67f1fc36f49154",
+  "source_experiment": "p2d3_context_bounded_repair_20261105_01/full_003",
+  "source_prepared_input": "p2d3_context_bounded_repair_20261105_01/prepare_002",
+  "research_question": "Did the context authorizer reject any frozen A2 repair candidate that is read-only executable and Set-correct under the complete SQLite schema?",
+  "scope": {
+    "full_cases": 66,
+    "initial_context_denials_expected": 6,
+    "rejected_repair_candidates_expected": 8,
+    "max_sql_replays": 14,
+    "smoke_max_candidates": 3,
+    "smoke_excluded_from_full_metrics": true
+  },
+  "hypotheses": {
+    "h1": "At least one context-rejected repair candidate passes frozen read-only execution and Set EX.",
+    "h0": "No context-rejected repair candidate passes frozen read-only execution and Set EX."
+  },
+  "methods": {
+    "candidate_source": "sealed local P2d.3 predictions and A2 response records",
+    "changed_factor": "remove only the selected-V00 identifier allowlist during offline replay",
+    "unchanged": [
+      "SQL text",
+      "SQLite database snapshot",
+      "read-only SQL parser and authorizer",
+      "timeout and row/byte/heap limits",
+      "Set/Bag comparison rules",
+      "reference SQL used only for evaluation"
+    ],
+    "model_calls": 0,
+    "training": false,
+    "external_api": false,
+    "gpu": false
+  },
+  "metrics": {
+    "primary": "among 8 rejected A2 repair candidates, count read-only executable and Set-correct with an executable reference; unavailable references remain incomparable",
+    "secondary": [
+      "parse/schema compilation status",
+      "read-only execution status",
+      "Bag EX",
+      "A0 versus frozen A2 paired Set/Bag outcomes among the 6 initial context denials"
+    ],
+    "inference": "descriptive candidate-level audit; no significance or system-level counterfactual accuracy claim"
+  },
+  "resource_budget": {
+    "wall_seconds": 300,
+    "cpu_seconds": 300,
+    "peak_rss_gib": 4,
+    "cpu_threads": 8
+  },
+  "environment": {
+    "existing_environment": "think2sql_20260909",
+    "python": "3.12.14",
+    "sqlglot": "28.0.0",
+    "dependencies_changed": false
+  },
+  "local_artifacts": {
+    "output_alias": "local:results/gfmrag_p2d3_authorizer_counterfactual_audit_20261106_01",
+    "logs_alias": "local:logs/p2d3_authorizer_counterfactual_audit_20261106_01",
+    "private_data_published": false
+  },
+  "stop_rules": [
+    "stop on any source, prediction, preparation, or database hash mismatch",
+    "stop if any required saved response is missing or malformed",
+    "stop if the immutable read-only evaluation contract is not preserved",
+    "stop on resource limit breach",
+    "do not regenerate SQL, replace examples, tune prompts, or alter the evaluator"
+  ],
+  "primary_source_commit_for_execution": "to_be_recorded_after_code_commit",
+  "result": null
+}
