@@ -167,3 +167,4 @@ $$
 - 最终 Set EX 为 A0 18/66（27.27%）、A1 20/66（30.30%）、A2 17/66（25.76%）。A2−A0 为−1.52pp，未达到 +5pp 成功门；A2 阻止了8个越界字段提案，0个越界读取被接受。实验判为 `NO_GO_OR_INCONCLUSIVE`，不换 seed、不扩样。完整数据与边界见[P2d.3 报告](reports/p2d3_context_bounded_repair_20261105_01/README.md)。
 - 此 Pilot 检验本地 pipeline 效用与信息范围，不作为通用修复算法的新颖性主张；近期 Post-SQLFix、DSR-SQL、SCOPE-SQL 等已覆盖相近方法类别。本分支停止新增 SQL 修复实验。
 - P2d.3不评真实FK Role、JOIN Path角色或Jev；可信双人Role标签仍为0，相关准确率和训练实验继续等候人工审阅门。
+- 2026-11-06 对 P2d.3 被拒候选的只读反事实审计发现 8 个修复候选中 2 个完整 Schema 下可执行且正确，但不改变 66 题系统分数；按新近 Post-SQLFix / DSR-SQL 近邻和本项目既定停止规则，不新增通用 SQL 修复实验。下一项唯一 GFM 方法试验仍是冻结 checkpoint 的 FK 映射排序 Pilot，必须先通过两位真实审阅者的标签与样本门。当前标签数为 0，未启动模型运行；详见[2026-11-06 路线更新](plans/p0_fk_mapping_rank_literature_update_20261106.md#6-p2d3-反事实审计后的路线更新-2026-11-06)。

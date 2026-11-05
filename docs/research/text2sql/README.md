@@ -112,6 +112,8 @@
 
 论文与代码审计、实验路线图、复现规范从旧仓库**迁移**，部分路径/迁移日期调整；迁移本身不产生新实验结论。上表的 P1 报告记录了 2026-10-14 实际运行，但其范围仅为表/列筛查，FK/角色未测；不得视作当前路线图下 P0 通过或完整 P1 完成。
 
+> **2026-11-06 路线更新**：P2d.3 authorizer 只读反事实审计在 8 个被拒修复候选中发现 2 个完整 Schema 下可执行且正确，但不改变原 A2 的 17/66 系统分数。通用 SQL 修复和双 Schema 路线已有近期工作覆盖，本分支不继续追加此类实验。当前唯一可启动的 GFM 方法 Pilot 仍需两位真实审阅者完成现有 A/B 映射审阅；最新文件状态仍是 0 个可信标签，所以不运行 Smoke/Full、不让模型代标。见[审计报告](reports/p2d3_authorizer_counterfactual_audit_20261106_01/README.md)、[映射排序文献更新](plans/p0_fk_mapping_rank_literature_update_20261106.md)和[设计审计](plans/p0_fk_mapping_rank_pilot_design_audit_20261106.md)。
+
 ## 当前研究命题
 
 **固定 Schema Graph 下研究 Query/Node/Join-Instance Embedding 维度与检索评分方式如何影响表列召回、关系角色、合法 JOIN 路径及最终 Set EX。**

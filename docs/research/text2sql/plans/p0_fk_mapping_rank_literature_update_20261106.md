@@ -54,4 +54,27 @@ Graph-Link（ICML 2026）已把 schema linking 写成受语义与结构约束的
 - [Graph-Link, ICML 2026 / PMLR](https://proceedings.mlr.press/v306/zhong26s.html)
 - [SchemaGraphSQL, Findings of EACL 2026](https://aclanthology.org/2026.findings-eacl.134/)
 - [SchemaScope, SURGeLLM 2026](https://aclanthology.org/2026.surgellm-1.17/)
+- [DSR-SQL, EMNLP 2026](https://aclanthology.org/2026.emnlp-main.1688/) — dual-schema generation already addresses pruned/full-schema complementarity.
+- [Post-SQLFix, arXiv:2610.41472](https://arxiv.org/abs/2610.41472) — property-guided SQL repair with schema-aware diagnostics and bounded acceptance.
 - 本仓库：[P2d.3 最终报告](../reports/p2d3_context_bounded_repair_20261105_01/README.md)、[G0-02 报告](../reports/g0_fk_instance_node_20261024_02/README.md)、[G2 报告](../reports/g2_asymmetric_relation_20261024_01/README.md)、[盲审准备报告](../reports/p0_fk_disagreement_blind_review_20261105_01/README.md)。
+
+## 6. P2d.3 反事实审计后的路线更新（2026-11-06）
+
+最新只读审计对冻结的 8 个被拒修复候选做了完整 Schema 回放：6 个可执行，其中 2 个 Set/Bag 正确；另 2 个完整 Schema 编译失败。6 个初始上下文拒绝 SQL 全部可执行，其中 2 个正确。该结果支持“上下文 authorizer 在少数已封存候选上拒绝过正确 SQL”，不改变 A2 的原始 17/66 Set EX，也不估算移除 allowlist 后的新系统分数。完整数字、执行限制及局限见[独立审计报告](../reports/p2d3_authorizer_counterfactual_audit_20261106_01/README.md)。
+
+这个结果没有推翻本计划的优先级：它说明生成候选与检索边界有局部冲突，但不能证明修复该冲突会提升端到端正确率；继续做一般 SQL 修复、双 Schema 生成或 Schema packing 又分别与 Post-SQLFix、DSR-SQL 及已有压缩/检索工作重叠。故不追加 SQL Repair 实验。
+
+下一项仍是本计划第 3 节的冻结 G-reasoner 映射排序证伪 Pilot，唯一未满足的启动条件是两位真实审阅者独立完成现有 A/B 表单并达到冻结的一致性及样本门。2026-11-06 仅检查了表单元数据：两份仍为材料生成时的 1,121 字节文件，可信标签数仍为 0；没有读取或生成任何标签。条件未满足前，不运行模型、GPU 或替代标注。
+
+### 三个研究镜头下的候选池
+
+| 镜头 | 候选假设 | 决定 |
+|---|---|---|
+| 边界探测 | 在同一表对有多个有效 FK 映射时，查询条件能否让预训练 G-reasoner 把人类接受集合排在前面？ | 保留为唯一 Pilot；需要真实双审标签。 |
+| 边界探测 | 在缺失或不完整 FK 的 schema 上加入来源可追溯的推断边，能否恢复连接候选？ | 暂缓：SchemaGraphSQL 已覆盖 joinability discovery，本地也没有推断边金标。 |
+| 结构类比 | 把 FK 映射视为带完整端点契约的符号对象，能否用稳定身份消除重复/复合映射混淆？ | 已做 identity 审计；未显示该身份定义本身带来任务收益，不重复包装成新方法。 |
+| 结构类比 | 用图遍历替代独立表排序，能否恢复未被文本命中的桥表？ | 不保留为新点：JoinGR 与 Graph-Link 已直接覆盖相关机制，且本地高跳数审计已停止扩展。 |
+| 矛盾反转 | 关系通道分数会随输入变化，是否就意味着关系选择正确？ | 保留为首选 Pilot 的核心对照：G2 的 score sensitivity 与 G0 的 2/4 排序结果相冲突，需以可审阅映射 Accepted@1 判别。 |
+| 评测边界 | 双 Schema 或静态修复能否救回被检索边界挡住的 SQL？ | 不追加：DSR-SQL、Post-SQLFix 及本地 P2d.3 已覆盖相邻路线，且本地系统级提升未成立。 |
+
+上述候选没有一个可据此称为“新颖算法”。保留项是一次受限的 checkpoint 迁移/证伪实验；新颖性仍为 `unknown / likely limited`。如果双审标签无法取得，本方向停在标签准备结果，不以合成题或模型伪标签替代。
