@@ -25,11 +25,12 @@
 - 冻结 P1.5 FK artifact：`fk_gate_private.json` SHA-256 `5bc60f6d64429215fa92c3d3a42f1a4881dc77c09839729153fb55a119555060`。
 - 冻结源：P0 packet runner SHA `5c84af91edc6dd39cd1fba39105dfc74b804be17912d91edab5eba2ff180eebc`；P1.5 runner SHA `af59d01d22a6b5d5538231b38c2bf52e0355a9193a5773f40b14d29470ec40cf`；P2a.5 runner SHA `e046595df72d3b684062a54d2fffc2c8df13cae419b056625b8981c20b805085`。新 recovery runner/comparator 的 SHA 记录在同目录 config。
 - 三臂：packet / Python 3.10.22 / SQLGlot 26.33.0；packet / Python 3.12.14 / SQLGlot 28.0.0；P1.5 `golden_join_audit` / Python 3.12.14 / SQLGlot 28.0.0。每臂仍处理固定输入顺序的前 5 题 Smoke，Full 才处理 1,534 题。
+- **解释器调用约束：** 预检发现此主机上 `conda run -n <env> python3` 实际返回 Python 3.9.20 / SQLGlot 30.12.0；各目标环境内的绝对解释器经核验分别返回登记的 Python 3.10.22 / SQLGlot 26.33.0 和 Python 3.12.14 / SQLGlot 28.0.0。因此所有恢复 run 使用 `conda run -n <env> <该环境绝对 python 路径>`，保持同一环境，避免误用 PATH 中的解释器；没有安装、升级或重建依赖。
 - 预期 Full 分母：1,534 条、解析成功 1,534、含显式 `JOIN ... ON` 的 1,140 题。冻结 Full 计数：packet 两版各按原登记 1,043/176；P1.5 按原登记 970/197。只要计数不匹配就停止比较并保留观测 receipt，不为凑数修改定义。
 
 ## 执行顺序、预算和停止门
 
-1. 本协议、恢复 runner/comparator、config 与初始报告先提交并推送到本仓库分支；之后才验证数据/私有 artifact 文件 hash 并启动 Smoke。
+1. 本协议、恢复 runner/comparator、config 与初始报告先提交并推送到本仓库分支；之后才验证数据/私有 artifact 文件 hash 并启动 Smoke。实际实验代码必须从该远端 commit 运行。
 2. 使用三个全新 run ID、独立结果文件和日志，同时或顺序运行三个 5 题 Smoke。每个任务 CPU-only、最多 8 线程、wall/CPU ≤600 秒、RSS ≤4 GiB；总共最多 6 个进程（3 Smoke + 3 Full），累计 wall/CPU 上限各 3,600 秒。每一臂只尝试一次；失败写安全 receipt，不复用 run ID。
 3. 只有三个 Smoke 均输出 `SMOKE_PASS`、分母与 hash 正确、输出结构有效且资源门通过，才进入三个 Full。任一 Smoke 不通过就停止全部 Full。
 4. Full 只读数据、Schema 与已冻结 FK artifact；不执行 Gold SQL，不加载模型、不训练、不调用 API/GPU、不安装依赖、不生成盲审包。三个 Full 均 `FULL_COMPLETE`、分母和冻结聚合计数匹配后，才运行恢复版 comparator。
