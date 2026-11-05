@@ -53,13 +53,13 @@
     "generation_prompt_tokenizer": "Qwen2.5-Coder-7B-Instruct"
   },
   "run_ids": {
-    "smoke": "p2d3_context_bounded_repair_smoke5_20261105_02",
-    "full": "p2d3_context_bounded_repair_full66_20261105_02"
+    "smoke": "p2d3_context_bounded_repair_smoke5_20261105_03",
+    "full": "p2d3_context_bounded_repair_full66_20261105_03"
   },
   "run_dirs": {
     "prepare": "prepare_002",
-    "smoke": "smoke_002",
-    "full": "full_002"
+    "smoke": "smoke_003",
+    "full": "full_003"
   },
   "arms": {
     "A0": "same one-shot E0/V00 generation; no repair",
@@ -108,11 +108,11 @@
     "max_gpu_memory_gib": 22,
     "max_cpu_threads": 8,
     "max_process_rss_gib": 16,
-    "max_total_wall_seconds": 14382.912179963663,
+    "max_total_wall_seconds": 14364.88782151416,
     "request_timeout_seconds": 240,
-    "max_model_requests": 208,
-    "max_input_tokens": 6995268,
-    "max_output_tokens": 199764,
+    "max_model_requests": 203,
+    "max_input_tokens": 6990536,
+    "max_output_tokens": 199531,
     "service_host": "127.0.0.1",
     "service_port": 18731,
     "training": false,

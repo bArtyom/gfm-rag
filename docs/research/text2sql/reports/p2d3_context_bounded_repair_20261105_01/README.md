@@ -1,6 +1,6 @@
 # P2d.3：受检索上下文约束的 SQL 修复
 
-**状态：`SMOKE_RECOVERY_PENDING`。** 预注册、固定配置和匿名样本登记已发布到项目仓库；私有 Full 66 题与 Smoke 5 题已冻结在本地 `prepare_002`。首次 Smoke 运行门通过，但后续 Full 预检要求 Smoke/Full 使用相同代码提交，故将用新 run ID 重做同一组 Smoke，再运行 Full。
+**状态：`SMOKE_RECOVERY_PENDING`。** 预注册、固定配置和匿名样本登记已发布到项目仓库；私有 Full 66 题与 Smoke 5 题已冻结在本地 `prepare_002`。两次 Smoke 均通过运行门，但对应的 Full 预检分别因来源提交差异和服务身份 JSON 类型比较错误而停止；正在保留既有产物并准备第三组同源运行。
 
 本地准备过程保留了两个失败现场。第一次在打开私有输入前，因程序误要求预先登记的空结果根不存在而以 `FileExistsError` 停止。第二次通过冻结输入哈希检查后，发现 P2c-R 将 1,460 个可评样本的 V00 完整性标记存成整数 `0/1`（633/827），而非 JSON boolean；因此在抽取样本和打开 SQLite 数据库前停止。修订只兼容已冻结的 `0/1` 表示，并支持预先登记的空结果根，不改变抽样算法或实验定义；两个失败回执及日志均保留。
 
@@ -10,7 +10,9 @@
 
 兼容性修正后，Smoke `smoke_001` 在代码提交 `e62ed2180d7d72c723a42366a4d40216e14ff02f` 上完成并通过运行门：5题参考与预测均可执行；A0、A1、A2 均为 3/5 Set EX、2/5 Bag EX；5题都没有触发修复，所以这组结果不能检验修复方法是否有效。共发送5次本地初始 SQL 请求，usage 为4,732输入、236输出、4,968总 tokens；无外部 API 费用。
 
-之后，Full `full_001` 预检在代码提交 `f9f15613c0e1e55b1d8accaf4db77de23609301a` 上发现它与 `smoke_001` 的来源提交不同，按冻结的同源门在第一次模型请求前停止；只写入运行开始信息和停止回执，没有生成 Full SQL。两个 run 均保留。为避免覆盖并满足同源要求，补充[来源一致性修订](amendment_smoke_source_recovery.md)：不改问题、模型、处理臂或判据；用新的 `smoke_002` 和 `full_002` 目录重跑同一份冻结 Smoke/Full 样本。剩余请求、token 与 wall-clock 上限分别扣除 `smoke_001` 已确认的5次请求、4,732输入 tokens、236输出 tokens和17.087820秒，确保原始总预算不增加。新的 Smoke 与 Full 将在同一提交上运行。
+之后，Full `full_001` 在来源提交与 Smoke 不同时，于第一次请求前停止。改用新目录后，Smoke `smoke_002` 在提交 `764020a8eda7680745b6c3fd1f1c62f72a05ad76` 上再次通过运行门（仍是3/5 Set EX、2/5 Bag EX、无修复）；再启动的 `full_002` 也在任何 Full 请求前停止。逐字段核对发现，实时服务身份中的 `models` 是 tuple 列表，写入 `run_start.json` 并读回后变成 list 列表，Python 直接比较因此错误地判定身份不一致。运行器现统一使用 JSON list 表示。`smoke_001`、`full_001`、`smoke_002`、`full_002` 的目录和日志全部保留，没有 Full 预测。
+
+为避免覆盖并满足同源要求，第二份[恢复修订](amendment_service_identity_json_stability.md)注册新目录 `smoke_003` / `full_003`，重跑同一冻结 Smoke/Full 样本，不改模型、处理臂、prompt、指标或判据。剩余请求、token 和阶段 wall-clock 上限已从原始预算中扣除两次 Smoke 的已确认用量及两次 Full 预检 wall time：203 次请求、6,990,536 输入 tokens、199,531 输出 tokens、14,364.887822 秒。新 Smoke 与 Full 将使用同一公开提交和同一服务身份。
 
 本轮从 P2d.2 的失败归因提出一个探索性问题：对同一条初始 SQL，最多修复一次时，只允许查看检索得到的 V00 Schema，上下文受限修复能否接近完整 Schema 修复的效果，并提高不修复基线的 Set EX。通用 SQL 校验/修复已有近期工作，本实验不主张该机制新颖。
 
@@ -23,5 +25,6 @@ P2c-R 的候选排序和节点选择保持冻结；准备器使用 Qwen3-Embeddi
 - 准备器与阶段运行器：[p2d3_prepare_inputs.py](../../../../../scripts/text2sql/p2d3_prepare_inputs.py)、[p2d3_context_bounded_repair.py](../../../../../scripts/text2sql/p2d3_context_bounded_repair.py)
 - 直接前序证据：[P2d.2 失败归因](../p2d2_frozen_failure_attribution_20261105_02/README.md)
 - 执行修订：[Smoke/Full 来源一致性 amendment](amendment_smoke_source_recovery.md)
+- 执行修订：[服务身份 JSON 稳定性 amendment](amendment_service_identity_json_stability.md)
 
 Full 样本从 P2c-R 可评的 1,460 题中抽取，与旧 P2d 全部准备样例不重叠；按匿名数据库与 V00 Complete Schema@1024 完整/不完整分层。另有 5 题 Smoke，独立于 Full 与历史样本。运行仍须在核对远端公开登记和启动前资源后进行；BIRD dev 仅作探索性开发证据。

@@ -118,8 +118,8 @@ def service_identity(model: str, prepared_root: Path) -> dict:
     request = urllib.request.Request(base_url.rstrip("/") + "/v1/models", method="GET")
     with urllib.request.urlopen(request, timeout=10) as response:
         metadata = json.load(response)
-    models = [(row["id"], row.get("max_model_len")) for row in metadata.get("data", [])]
-    if models != [(model, 32768)]:
+    models = [[row["id"], row.get("max_model_len")] for row in metadata.get("data", [])]
+    if models != [[model, 32768]]:
         raise RuntimeError("Local inference endpoint model metadata differs from registration")
     return {
         "base_url_private": base_url.rstrip("/"),
