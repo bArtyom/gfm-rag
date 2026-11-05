@@ -1,0 +1,12 @@
+{
+  "experiment_id": "p0_fk_candidate_definition_recovery_v3_20261105_01",
+  "status": "PREREGISTERED_NOT_RUN",
+  "smoke_arms": 3,
+  "full_arms": 3,
+  "observed_results": null,
+  "full_runs_started": 0,
+  "crosswalk_run": false,
+  "input_read_before_registration": false,
+  "api_usage": {"requests": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0, "cost_cny": "0.00"},
+  "gpu_seconds": 0
+}
