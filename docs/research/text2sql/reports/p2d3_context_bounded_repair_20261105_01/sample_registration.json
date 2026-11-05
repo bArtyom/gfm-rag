@@ -1,0 +1,42 @@
+{
+  "status": "prepared_not_run",
+  "experiment_id": "p2d3_context_bounded_repair_20261105_01",
+  "preparation_source_commit": "4005fb138899cd3fdb6692287f8da57889291192",
+  "full_cases": 66,
+  "smoke_cases": 5,
+  "excluded_prior_p2d_cases": 33,
+  "stratification": "11 anonymized databases x V00 Complete Schema@1024, eligible cases only",
+  "full_database_alias_counts": {
+    "db_01|incomplete": 3,
+    "db_01|complete": 3,
+    "db_02|incomplete": 3,
+    "db_02|complete": 3,
+    "db_03|incomplete": 3,
+    "db_03|complete": 3,
+    "db_04|complete": 6,
+    "db_05|incomplete": 3,
+    "db_05|complete": 3,
+    "db_06|incomplete": 3,
+    "db_06|complete": 3,
+    "db_07|incomplete": 3,
+    "db_07|complete": 3,
+    "db_08|incomplete": 3,
+    "db_08|complete": 3,
+    "db_09|incomplete": 3,
+    "db_09|complete": 3,
+    "db_10|incomplete": 3,
+    "db_10|complete": 3,
+    "db_11|complete": 6
+  },
+  "sample_ids_or_questions_published": false,
+  "gold_sql_or_database_paths_published": false,
+  "seed_full": 20261105,
+  "seed_smoke": 20261106,
+  "input_hashes_public": {
+    "dev_json": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "dev_tables_json": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "p2c_aggregate": "7e4ce4b2a92df5e17160bb2429402b66ab7caec521c6e4da9ec90abd108e8fdc",
+    "p2c_rows": "99935116001811bef790bf2e916d34f4f40ffecc70322f7b71e28f885d9425ff"
+  },
+  "prepared_wall_seconds": 47.45552039705217
+}

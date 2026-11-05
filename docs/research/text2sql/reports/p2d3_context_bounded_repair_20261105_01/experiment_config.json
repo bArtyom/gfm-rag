@@ -1,6 +1,6 @@
 {
   "experiment_id": "p2d3_context_bounded_repair_20261105_01",
-  "status": "preregistered_not_run",
+  "status": "prepared_not_run",
   "layer": "exploratory_text2sql_pipeline_utility",
   "base_commit": "9c39bee45daf5d12382bcd7c183ed0cb44237460",
   "base_branch": "research/p2d2-frozen-failure-attribution-20261105",
