@@ -67,14 +67,21 @@ def rank_key(seed: int, question_id: int) -> str:
     return hashlib.sha256(f"{seed}|{question_id}".encode()).hexdigest()
 
 
+def complete_flag(row: dict) -> bool:
+    value = row["arms"]["V00"]["budgets"]["1024"]["complete"]
+    if type(value) is bool:
+        return value
+    if type(value) is int and value in (0, 1):
+        return bool(value)
+    raise RuntimeError("V00 Complete Schema@1024 must be encoded as boolean or 0/1")
+
+
 def select_sample(rows: dict[int, dict], seed: int, count: int = 66) -> list[int]:
     cells: dict[tuple[str, bool], list[int]] = {}
     by_database: dict[str, list[int]] = {}
     for question_id, row in rows.items():
         db = row["db_id"]
-        complete = row["arms"]["V00"]["budgets"]["1024"]["complete"]
-        if type(complete) is not bool:
-            raise RuntimeError("Eligible sample lacks a boolean V00 Complete Schema stratum")
+        complete = complete_flag(row)
         cells.setdefault((db, complete), []).append(question_id)
         by_database.setdefault(db, []).append(question_id)
 
@@ -162,7 +169,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--expected-commit", required=True)
     parser.add_argument("--result-root", type=Path, required=True)
+    parser.add_argument("--prepare-dir", required=True)
     args = parser.parse_args()
+
+    if not args.prepare_dir.startswith("prepare_") or Path(args.prepare_dir).name != args.prepare_dir:
+        raise RuntimeError("Preparation directory must be a local prepare_* name")
 
     head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     if head != args.expected_commit:
@@ -179,14 +190,15 @@ def main() -> None:
 
     result_root = args.result_root.resolve()
     if result_root.exists():
+        existing = list(result_root.iterdir()) if result_root.is_dir() else []
         if (not result_root.is_dir()
-                or any(result_root.iterdir())
-                or result_root.stat().st_mode & 0o777 != 0o700):
-            raise RuntimeError("Pre-registered result root must be an empty mode-0700 directory")
+                or result_root.stat().st_mode & 0o777 != 0o700
+                or any(not child.is_dir() or not child.name.startswith("prepare_") for child in existing)):
+            raise RuntimeError("Existing result root must be mode 0700 and contain only preserved prepare_* directories")
     else:
         result_root.mkdir(parents=True, exist_ok=False, mode=0o700)
         result_root.chmod(0o700)
-    prepared_root = result_root / "prepare_001"
+    prepared_root = result_root / args.prepare_dir
     prepared_root.mkdir(exist_ok=False, mode=0o700)
     cases_dir = prepared_root / "cases"
     cases_dir.mkdir(exist_ok=False, mode=0o700)
@@ -257,9 +269,7 @@ def main() -> None:
             raise RuntimeError("P2c-R contains an unknown question id")
         if p2c["column_eligible"] is not True:
             continue
-        complete = p2c["arms"]["V00"]["budgets"]["1024"]["complete"]
-        if type(complete) is not bool:
-            raise RuntimeError("P2c-R eligible row lacks V00 completeness label")
+        complete_flag(p2c)
         eligible[question_id] = p2c
     if len(eligible) != EXPECTED_COUNTS["column_eligible"]:
         raise RuntimeError("Frozen eligible sample count differs")
@@ -300,7 +310,7 @@ def main() -> None:
         if prompt_tokens + 1024 > 32768:
             raise RuntimeError("Frozen initial prompt exceeds registered model context")
         cohort = "full" if question_id in set(full_ids) else "smoke"
-        complete = row["arms"]["V00"]["budgets"]["1024"]["complete"]
+        complete = complete_flag(row)
         case_id = f"P2D3-{index:03d}"
         payload = {
             "case_id": case_id,

@@ -93,7 +93,7 @@ def repair_messages(case: dict, context: str, initial_sql: str, diagnostic: str)
     return [{"role": "system", "content": system}, {"role": "user", "content": user}]
 
 
-def service_identity(model: str) -> dict:
+def service_identity(model: str, prepared_root: Path) -> dict:
     base_url = os.environ.get("P2D3_LOCAL_BASE_URL")
     pid_text = os.environ.get("P2D3_LOCAL_SERVICE_PID")
     if not base_url or not pid_text:
@@ -104,7 +104,7 @@ def service_identity(model: str) -> dict:
     if "--model" not in arguments:
         raise RuntimeError("Local inference process does not expose a model argument")
     model_root = Path(arguments[arguments.index("--model") + 1]).resolve(strict=True)
-    manifest = read(Path(os.environ["P2D3_RESULT_ROOT"]) / "prepare_001" / "model_manifest_private.json")
+    manifest = read(prepared_root / "model_manifest_private.json")
     expected_root = Path(manifest["model_root_private"]).resolve(strict=True)
     if model_root != expected_root:
         raise RuntimeError("Local inference process is serving a different model path")
@@ -419,10 +419,10 @@ def call_ledger_snapshot(path: Path) -> dict:
 
 def run_stage(args, config: dict) -> None:
     result_root = args.result_root.resolve(strict=True)
-    prepared_root = result_root / "prepare_001"
+    prepared_root = result_root / config["run_dirs"]["prepare"]
     source = current_source(args.expected_commit)
     seal = verify_prepared(prepared_root, args.expected_seal_sha256)
-    identity = service_identity(config["model"]["served_model_name"])
+    identity = service_identity(config["model"]["served_model_name"], prepared_root)
     stage_id = config["run_ids"][args.stage]
     output_dir = result_root / config["run_dirs"][args.stage]
     output_dir.mkdir(exist_ok=False)

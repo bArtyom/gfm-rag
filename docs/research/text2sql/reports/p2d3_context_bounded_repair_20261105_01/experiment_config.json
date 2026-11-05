@@ -21,6 +21,7 @@
       "smoke_disjoint_from_full": true,
       "exclude_all_previous_p2d_prepared_questions": true,
       "strata": "database x V00 Complete Schema@1024 (complete/incomplete)",
+      "stratum_value_encoding": "P2c-R serializes this boolean as integer 0/1; the preparer normalizes the registered values only.",
       "full_seed": 20261105,
       "smoke_seed": 20261106,
       "eligible_only": true,
@@ -56,6 +57,7 @@
     "full": "p2d3_context_bounded_repair_full66_20261105_01"
   },
   "run_dirs": {
+    "prepare": "prepare_002",
     "smoke": "smoke_001",
     "full": "full_001"
   },
