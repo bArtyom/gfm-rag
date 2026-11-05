@@ -50,3 +50,8 @@ P1.6 使用的 Query 指令：
 - [FK 映射 Pilot 输入语义审计](p0_fk_mapping_rank_pilot_input_semantics_audit_20261106.md)
 - [P1.6 冻结基线报告](../reports/p1_6_rebaseline_20261018_01/README.md)
 - [G0-02 合成映射探针报告](../reports/g0_fk_instance_node_20261024_02/README.md)
+## 官方模型卡核对（2026-11-06）
+
+Qwen3-Embedding-0.6B 官方模型卡将该模型标为 instruction-aware，要求 Query 侧用一句话描述检索任务；文档侧不需要加同一 Query 指令，并建议按具体任务和场景定制 instruction。官方页面也报告，在多数检索场景下，Query 侧不使用 instruction 可能降低约 1–5% 的检索效果。来源：[Qwen3-Embedding-0.6B 官方模型卡](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B)。
+
+这支持显式冻结 Query/候选两侧的编码格式，并说明 P1.6 与 G-reasoner 的不同指令可能改变检索空间；它不能单独判断哪条指令对 FK Role 排序更优。本 Pilot 的主比较是冻结 checkpoint 的迁移检验，故沿用 checkpoint 注册的指令。若未来要优化数据库专用 instruction，应作为独立因素预注册，Dense 与 G-reasoner 必须共用该 Query 向量，不能混入本次 Pilot。
