@@ -779,9 +779,9 @@ def main() -> int:
     parser.add_argument("--output-dir", type=Path, required=True)
     args = parser.parse_args()
     expected_run_id = (
-        f"{EXPERIMENT_ID}_smoke_20261105_01"
+        "p0_fk_disagreement_blind_review_smoke_20261105_01"
         if args.mode == "smoke"
-        else f"{EXPERIMENT_ID}_full_20261105_01"
+        else "p0_fk_disagreement_blind_review_full_20261105_01"
     )
     if args.run_id != expected_run_id:
         raise StopRun("RUN_ID_MISMATCH")

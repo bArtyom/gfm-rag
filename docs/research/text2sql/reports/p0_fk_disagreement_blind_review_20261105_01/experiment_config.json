@@ -67,7 +67,7 @@
     "python": "3.12.14",
     "sqlglot": "28.0.0",
     "runner": "scripts/text2sql/prepare_p0_fk_disagreement_review_packet.py",
-    "runner_sha256": "7eb7445e9dc634844bbded0f7ec500cc043f1397b35370c715d3c61073de449d",
+    "runner_sha256": "5ef881594e99cd0a4ebed02a04dc130ebf3ef787bf62cb09f5a95a308dc87db0",
     "device": "CPU-only",
     "threads_max": 8,
     "per_process_wall_seconds_max": 600,
