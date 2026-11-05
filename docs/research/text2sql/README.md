@@ -30,13 +30,13 @@
 
 > **2026-11-06 Pilot 输入语义澄清**：代码核对发现 G0 合成探针固定从 FK source table 起步，而真实表对的候选 FK 方向可能不同。为避免候选得到不同起点，条件式映射排序 Pilot 暂定将表对两个端点作为所有候选共享的 binary seeds；这不是官方端到端 NER/EL 流程，也未解除人工标签门。见[输入语义审计](plans/p0_fk_mapping_rank_pilot_input_semantics_audit_20261106.md)。
 
-> **2026-11-06 P2d.3 authorizer 候选归因（预注册；Smoke 修复中）**：不新增 SQL 生成、修复或 Schema packing；只在冻结 P2d.3 输出上回放 6 个初始上下文拒绝与 8 个被拒修复候选。首次 Smoke 在 SQL 执行前因配置对象层级错误停止；修正后将用新 run ID 重做相同 Smoke，再决定是否 Full。没有模型或 GPU 调用。见[预注册及执行修订](plans/p2d3_authorizer_counterfactual_audit_20261106.md)与[运行配置](reports/p2d3_authorizer_counterfactual_audit_20261106_01/experiment_config.json)。
+> **2026-11-06 P2d.3 authorizer 候选归因（完成）**：只读回放 6 个初始上下文拒绝与 8 个被拒修复候选；6/6 初始 SQL 在完整 Schema 下可执行、2 条正确；8 个修复候选中 6 条可执行，其中 2 条 Set/Bag 正确，2 条在完整 Schema 编译失败。支持“安全边界拒绝了少量正确候选”这一候选级判断，但不更新 P2d.3 的 A0/A1/A2 系统分数，也不证明取消边界会提升总体 EX。无模型/GPU调用。见[预注册与最终报告](reports/p2d3_authorizer_counterfactual_audit_20261106_01/README.md)及[匿名聚合](reports/p2d3_authorizer_counterfactual_audit_20261106_01/aggregate_summary.json)。
 
 ## 现有研究文档
 
 | 文档 | 作用 | 状态 |
 |---|---|---|
-| [方法变更台账（当前）](method-change-ledger-20261105.md) | 逐项区分 QuadGraph 原方法、Text2SQL 检索/上下文改动、SQL评测变化及 G0/G1/G2 图探针 | 2026-11-05 按已归档报告整理；不新增实验结果 |
+| [方法变更台账（当前）](method-change-ledger-20261105.md) | 逐项区分 QuadGraph 原方法、Text2SQL 检索/上下文改动、SQL评测变化及 G0/G1/G2 图探针 | 2026-11-06 更新，含 P2d.3 authorizer 候选归因；不把候选级结果写成系统收益 |
 | [论文与代码审计](paper-and-code-audit.md) | QuadGraph 四层图、Qwen3 Embedding 输出维度、GraphReasoner 投影约束、相似度归一化 | 讨论版，待按当前 fork commit 复核 |
 | [实验路线图](experiment-roadmap.md) | P0 数据审计 → P1 维度消融 → P2 评分消融 → P3 Text2SQL EX → P4 可选 GFM 适配 | 研究指导 v1，尚未按本路线图执行 |
 | [数据与复现规范](reproducibility-contract.md) | Gold 约束、FK 实例标识、反泄漏、缓存版本、评测模板与 Go/No-go | 待实现/执行 |
@@ -68,6 +68,7 @@
 | [P2d.2 `_01` 启动记录](reports/p2d2_frozen_failure_attribution_20261105_01/README.md) | 预注册代码 10/10 合成自检；未读取样本 | **STOP：准备包路径误填；保留失败回执** |
 | [P2d.2 `_02` recovery 报告](reports/p2d2_frozen_failure_attribution_20261105_02/README.md) | 固定 90 条封存预测的失败归因 | **Full 完成；28/28 可分类；未发现上下文缺字段，生成引用错误候选待新样本验证** |
 | [P2d.3 检索上下文约束修复（最终报告）](reports/p2d3_context_bounded_repair_20261105_01/README.md) | 66题 Full 比较不修复、完整 Schema 修复和 V00 上下文约束修复；匿名聚合随报告归档 | **已完成；A0/A1/A2 Set EX=27.27%/30.30%/25.76%；NO_GO_OR_INCONCLUSIVE，不扩样** |
+| [P2d.3 authorizer 候选归因](reports/p2d3_authorizer_counterfactual_audit_20261106_01/README.md) | 对冻结的6个初始拒绝与8个修复拒绝候选做完整 Schema 只读回放 | **Full 完成；发现2个可执行且正确的修复候选；候选级归因，不修改原系统准确率** |
 | [P0 FK候选定义对账报告](reports/p0_fk_candidate_definition_reconciliation_20261105_01/README.md) | 对账 956/174、970/197、1043/176 三组不一致计数 | **STOP_INVALID_SMOKE；未启动 Full** |
 | [P0 FK候选定义对账恢复](reports/p0_fk_candidate_definition_recovery_20261105_01/README.md) | 对上次 Smoke 增加不含 SQL 内容的异常位置回执，并重过三臂小样本门 | **已预注册；Smoke/Full 尚未运行** |
 | [P0 FK候选定义哈希诊断恢复计划](plans/p0_fk_candidate_definition_recovery_v2_20261105.md) | 记录同一受控文件句柄的摘要、文件身份和解析字节；新 run ID 重跑三臂 Smoke | **已预注册；尚未读取实验输入** |

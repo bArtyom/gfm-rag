@@ -1,6 +1,6 @@
 {
   "experiment_id": "p2d3_authorizer_counterfactual_audit_20261106_01",
-  "status": "PREREGISTERED_NOT_RUN",
+  "status": "COMPLETED_CANDIDATE_LEVEL_SIGNAL",
   "layer": "exploratory_error_attribution",
   "source_branch": "research/p2d3-authorizer-counterfactual-audit-20261106",
   "base_commit": "0571a9de9261b1b30ff1be00ae67f1fc36f49154",
@@ -71,6 +71,13 @@
   ],
   "execution_amendments": [
     {
+      "attempt_id": "launch_wrapper_001",
+      "status": "STOPPED_BEFORE_RUNNER_START",
+      "reason": "/usr/bin/time was unavailable in the environment",
+      "recovery": "used Bash time with a 300-second wall timeout",
+      "scientific_protocol_changed": false
+    },
+    {
       "attempt_id": "smoke_001",
       "status": "STOPPED_BEFORE_SQL_EXECUTION",
       "reason": "runner passed the sql subsection where the evaluator expects the complete source configuration",
@@ -78,6 +85,30 @@
       "scientific_protocol_changed": false
     }
   ],
-  "primary_source_commit_for_execution": "to_be_recorded_after_code_commit",
-  "result": null
+  "primary_source_commit_for_execution": "e8fe43dc211152812e342dcfacac429d1b4a194f",
+  "result": {
+    "status": "H1_SUPPORTED_FOR_FROZEN_CANDIDATES_ONLY",
+    "run_directory": "run_002",
+    "aggregate_summary_sha256": "80f84c887f754a8809b375b7a3fa13b8bc3f9278be4584db69b56af183c7c46c",
+    "initial_context_denials": {
+      "n": 6,
+      "full_schema_readonly_executable": 6,
+      "set_correct": 2,
+      "bag_correct": 2,
+      "frozen_a0_set_correct": 2,
+      "frozen_a2_set_correct": 0
+    },
+    "rejected_repair_candidates": {
+      "n": 8,
+      "reference_executable": 8,
+      "full_schema_readonly_executable": 6,
+      "full_schema_compile_failure": 2,
+      "set_correct_among_comparable": 2,
+      "bag_correct_among_comparable": 2
+    },
+    "system_level_accuracy_updated": false,
+    "peak_rss_measured": false,
+    "external_model_calls": 0,
+    "external_api_cost_cny": 0
+  }
 }
