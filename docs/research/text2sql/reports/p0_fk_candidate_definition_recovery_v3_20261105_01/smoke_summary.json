@@ -1,11 +1,34 @@
 {
   "experiment_id": "p0_fk_candidate_definition_recovery_v3_20261105_01",
-  "status": "PREREGISTERED_NOT_RUN",
+  "status": "CROSSWALK_COMPLETE",
   "smoke_arms": 3,
   "full_arms": 3,
-  "observed_results": null,
-  "full_runs_started": 0,
-  "crosswalk_run": false,
+  "observed_results": {
+    "smoke": {
+      "packet_py310_sqlglot26": {"status": "SMOKE_PASS", "records_processed": 5, "parse_ok": 5, "join_on": 3, "fk_match": 3, "multi_fk_candidate": 0},
+      "packet_py312_sqlglot28": {"status": "SMOKE_PASS", "records_processed": 5, "parse_ok": 5, "join_on": 3, "fk_match": 3, "multi_fk_candidate": 0},
+      "p1_5_py312_sqlglot28": {"status": "SMOKE_PASS", "records_processed": 5, "parse_ok": 5, "join_on": 3, "fk_match": 3, "multi_fk_candidate": 0, "same_byte_hash_parse": true, "file_identity_stable": true}
+    },
+    "full": {
+      "packet_py310_sqlglot26": {"status": "FULL_COMPLETE", "records_processed": 1534, "parse_ok": 1534, "join_on": 1140, "fk_match": 1043, "multi_fk_candidate": 176, "wall_seconds": 1.6753952540457249, "cpu_seconds": 1.674004993, "peak_rss_gib": 0.0263671875},
+      "packet_py312_sqlglot28": {"status": "FULL_COMPLETE", "records_processed": 1534, "parse_ok": 1534, "join_on": 1140, "fk_match": 1043, "multi_fk_candidate": 176, "wall_seconds": 1.1586125195026398, "cpu_seconds": 1.155013914, "peak_rss_gib": 0.03076171875},
+      "p1_5_py312_sqlglot28": {"status": "FULL_COMPLETE", "records_processed": 1534, "parse_ok": 1534, "join_on": 1140, "fk_match": 970, "multi_fk_candidate": 197, "wall_seconds": 1.2348011005669832, "cpu_seconds": 1.85633683, "peak_rss_gib": 0.04541015625}
+    },
+    "crosswalk": {
+      "status": "CROSSWALK_COMPLETE",
+      "question_count": 1534,
+      "packet_py310_vs_py312": {"fk_match_disagreements": 0, "multi_fk_candidate_disagreements": 0},
+      "packet28_vs_p1_5": {
+        "fk_match": {"both_true": 955, "packet_only": 88, "p1_5_only": 15, "both_false": 476},
+        "multi_fk_candidate": {"both_true": 176, "packet_only": 0, "p1_5_only": 21, "both_false": 1337},
+        "p1_5_evidence_strata": {"packet_only_ambiguous": 22, "packet_only_unmatched": 66, "p1_5_only_exact": 14, "p1_5_only_exact_and_unmatched": 1}
+      },
+      "public_aggregate": "crosswalk_aggregate.json",
+      "public_aggregate_sha256": "8751fa1930434b2ed1af49c8ec63cd4ff2ddb37d6364513beb752aa409c0e55d"
+    }
+  },
+  "full_runs_started": 3,
+  "crosswalk_run": true,
   "input_read_before_registration": false,
   "api_usage": {"requests": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0, "cost_cny": "0.00"},
   "gpu_seconds": 0

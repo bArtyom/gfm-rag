@@ -1,6 +1,6 @@
 {
   "experiment_id": "p0_fk_candidate_definition_recovery_v3_20261105_01",
-  "status": "PREREGISTERED_NOT_RUN",
+  "status": "CROSSWALK_COMPLETE",
   "layer": "exploratory_cpu_only_integrity_and_label_definition_audit",
   "mainline_evidence": false,
   "research_question": "Does correcting the previously misregistered P1.5 FK artifact digest allow the same-byte hash-and-parse integrity gate and all three frozen parser/label smoke arms to pass? If so, do all three definitions reproduce their pre-existing aggregate counters on the fixed development split?",
@@ -121,5 +121,22 @@
     "external_model_api_calls": 0,
     "external_api_cost_CNY": "0.00",
     "local_cpu_cost": "not monetized; CPU seconds will be reported"
+  },
+  "execution_result": {
+    "registration_commit": "1514a2017afa245439d6e7a3bd28bbd47d949a0a",
+    "smoke_summary": "docs/research/text2sql/reports/p0_fk_candidate_definition_recovery_v3_20261105_01/smoke_summary.json",
+    "full_runs_started": 3,
+    "crosswalk_run": true,
+    "full_counts": {
+      "packet_py310_sqlglot26": {"questions": 1534, "parse_ok": 1534, "join_on": 1140, "fk_match": 1043, "multi_fk_candidate": 176},
+      "packet_py312_sqlglot28": {"questions": 1534, "parse_ok": 1534, "join_on": 1140, "fk_match": 1043, "multi_fk_candidate": 176},
+      "p1_5_py312_sqlglot28": {"questions": 1534, "parse_ok": 1534, "join_on": 1140, "fk_match": 970, "multi_fk_candidate": 197}
+    },
+    "crosswalk_aggregate": "docs/research/text2sql/reports/p0_fk_candidate_definition_recovery_v3_20261105_01/crosswalk_aggregate.json",
+    "crosswalk_aggregate_sha256": "8751fa1930434b2ed1af49c8ec63cd4ff2ddb37d6364513beb752aa409c0e55d",
+    "trusted_role_labels_created": 0,
+    "sql_execution": 0,
+    "external_api_calls": 0,
+    "gpu_seconds": 0
   }
 }

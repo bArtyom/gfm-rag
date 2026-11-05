@@ -1,0 +1,97 @@
+{
+  "experiment_id": "p0_fk_candidate_definition_recovery_v3_20261105_01",
+  "status": "CROSSWALK_COMPLETE",
+  "question_count": 1534,
+  "definitions": {
+    "packet_py310_sqlglot26": {
+      "records_processed": 1534,
+      "parse_ok": 1534,
+      "join_on_questions": 1140,
+      "fk_match_queries": 1043,
+      "multi_fk_candidate_queries": 176
+    },
+    "packet_py312_sqlglot28": {
+      "records_processed": 1534,
+      "parse_ok": 1534,
+      "join_on_questions": 1140,
+      "fk_match_queries": 1043,
+      "multi_fk_candidate_queries": 176
+    },
+    "p1_5_py312_sqlglot28": {
+      "records_processed": 1534,
+      "parse_ok": 1534,
+      "join_on_questions": 1140,
+      "fk_match_queries": 970,
+      "multi_fk_candidate_queries": 197
+    }
+  },
+  "pairwise_categories": {
+    "packet_py310_sqlglot26_vs_packet_py312_sqlglot28": {
+      "fk_match": {
+        "both_false": 491,
+        "left_only": 0,
+        "right_only": 0,
+        "both_true": 1043
+      },
+      "multi_fk_candidate": {
+        "both_false": 1358,
+        "left_only": 0,
+        "right_only": 0,
+        "both_true": 176
+      },
+      "parse_ok": {
+        "both_false": 0,
+        "left_only": 0,
+        "right_only": 0,
+        "both_true": 1534
+      },
+      "join_on": {
+        "both_false": 394,
+        "left_only": 0,
+        "right_only": 0,
+        "both_true": 1140
+      }
+    },
+    "packet_py312_sqlglot28_vs_p1_5_py312_sqlglot28": {
+      "fk_match": {
+        "both_false": 476,
+        "left_only": 88,
+        "right_only": 15,
+        "both_true": 955
+      },
+      "multi_fk_candidate": {
+        "both_false": 1337,
+        "left_only": 0,
+        "right_only": 21,
+        "both_true": 176
+      },
+      "parse_ok": {
+        "both_false": 0,
+        "left_only": 0,
+        "right_only": 0,
+        "both_true": 1534
+      },
+      "join_on": {
+        "both_false": 394,
+        "left_only": 0,
+        "right_only": 0,
+        "both_true": 1140
+      }
+    }
+  },
+  "pre_registered_disagreement_strata": {
+    "packet_version_deltas": {},
+    "packet28_vs_p1_5_fk_match_by_p1_5_evidence": {
+      "p1_5_only:exact": 14,
+      "p1_5_only:exact+unmatched": 1,
+      "packet_only:ambiguous": 22,
+      "packet_only:unmatched": 66
+    },
+    "packet28_vs_p1_5_multi_fk_by_p1_5_candidate_count": {
+      "p1_5_only:p1_5_role_candidates_nonzero": 21
+    }
+  },
+  "raw_question_text_written": false,
+  "raw_sql_written": false,
+  "question_hashes_in_public_aggregate": false
+}
