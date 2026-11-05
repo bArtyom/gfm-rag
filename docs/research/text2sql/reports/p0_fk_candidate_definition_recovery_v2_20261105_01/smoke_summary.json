@@ -1,9 +1,45 @@
 {
   "experiment_id": "p0_fk_candidate_definition_recovery_v2_20261105_01",
-  "status": "PREREGISTERED_NOT_RUN",
+  "status": "STOP_INVALID_SMOKE",
   "smoke_arms": 3,
   "full_arms": 3,
-  "observed_results": null,
+  "observed_results": {
+    "packet_py310_sqlglot26": {
+      "status": "SMOKE_PASS",
+      "records_processed": 5,
+      "parse_ok": 5,
+      "join_on_questions": 3,
+      "fk_match_queries": 3,
+      "multi_fk_candidate_queries": 0,
+      "wall_seconds": 0.06328593380749226,
+      "cpu_seconds": 0.060792119,
+      "peak_rss_gib": 0.0263671875
+    },
+    "packet_py312_sqlglot28": {
+      "status": "SMOKE_PASS",
+      "records_processed": 5,
+      "parse_ok": 5,
+      "join_on_questions": 3,
+      "fk_match_queries": 3,
+      "multi_fk_candidate_queries": 0,
+      "wall_seconds": 0.6060850080102682,
+      "cpu_seconds": 0.098439224,
+      "peak_rss_gib": 0.02783203125
+    },
+    "p1_5_py312_sqlglot28": {
+      "status": "STOP_INVALID",
+      "stage": "hash_and_parse_p1_5_fk_artifact_same_bytes",
+      "records_processed": 0,
+      "frozen_expected_sha256": "5bc60f6d64429215fa92c3d3a42f1a4881dc77c09839729153fb55a119555060",
+      "same_buffer_and_helper_sha256": "5bc60f6d64429215fa92d3c3a42f1a4881dc77c09839729153fb55a119555060",
+      "file_identity_stable": true,
+      "json_parsed": false
+    }
+  },
+  "full_runs_started": 0,
+  "crosswalk_run": false,
+  "failure_receipt": "/mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_v2_20261105_01/smoke/p0fk_v2_smoke_p15_py312_sqlg28_20261105_01.failure.json",
+  "api_usage": {"requests": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0, "cost_cny": "0.00"},
   "input_read_before_registration": false,
   "api_calls": 0,
   "gpu_seconds": 0

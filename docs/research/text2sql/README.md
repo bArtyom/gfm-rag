@@ -10,7 +10,7 @@
 
 > **2026-11-05 恢复轮预注册**：新增安全异常位置回执和独立 run ID，重过三个冻结定义的 5 题 Smoke；只有三臂全过才运行 Full。旧报告和数据定义不改。见[恢复计划](plans/p0_fk_candidate_definition_recovery_20261105.md)与[恢复报告](reports/p0_fk_candidate_definition_recovery_20261105_01/README.md)。
 
-> **2026-11-05 哈希诊断恢复预注册**：恢复轮中 P1.5 文件的外部 SHA-256 与预期一致，但 runner 的 in-process 摘要未写入回执，故原因仍未知，Full 已按门停止。新方案会把同一文件句柄读出的字节用于摘要和 JSON 解析，并记录文件身份稳定性；通过后才重跑三臂 5 题 Smoke，再按冻结门决定是否做 Full。见[新计划](plans/p0_fk_candidate_definition_recovery_v2_20261105.md)。
+> **2026-11-05 哈希诊断恢复结果**：两组 packet Smoke 通过；P1.5 Smoke 因冻结 artifact SHA 与同一字节缓冲区、分块 helper 及独立 SHA-256 的结果不符而 `STOP_INVALID`。文件身份稳定，JSON 未解析，未启动 Full。见[计划](plans/p0_fk_candidate_definition_recovery_v2_20261105.md)和[结果报告](reports/p0_fk_candidate_definition_recovery_v2_20261105_01/README.md)。
 
 ## 现有研究文档
 
@@ -47,7 +47,7 @@
 | [P0 FK候选定义对账报告](reports/p0_fk_candidate_definition_reconciliation_20261105_01/README.md) | 对账 956/174、970/197、1043/176 三组不一致计数 | **STOP_INVALID_SMOKE；未启动 Full** |
 | [P0 FK候选定义对账恢复](reports/p0_fk_candidate_definition_recovery_20261105_01/README.md) | 对上次 Smoke 增加不含 SQL 内容的异常位置回执，并重过三臂小样本门 | **已预注册；Smoke/Full 尚未运行** |
 | [P0 FK候选定义哈希诊断恢复计划](plans/p0_fk_candidate_definition_recovery_v2_20261105.md) | 记录同一受控文件句柄的摘要、文件身份和解析字节；新 run ID 重跑三臂 Smoke | **已预注册；尚未读取实验输入** |
-| [P0 FK候选定义哈希诊断恢复报告](reports/p0_fk_candidate_definition_recovery_v2_20261105_01/README.md) | 记录哈希诊断、Smoke/Full Gate 与匿名差异 crosswalk | **预注册；待执行** |
+| [P0 FK候选定义哈希诊断恢复报告](reports/p0_fk_candidate_definition_recovery_v2_20261105_01/README.md) | 同句柄/旧 helper 摘要一致，但与冻结摘要不同；记录 smoke 停止门 | **STOP_INVALID_SMOKE；未运行 Full** |
 | [2026-10-23 P2d.1 + G0 跨分支复核（当前）](reports/p2d1_g0_cross_branch_review_20261023/README.md) | 读取分支的真实结果，区分 evaluator v2、元数据未被模型读取及方法结论边界 | 已完成静态分析；非新实验 |
 | [G1关系通道×FK Instance保真](plans/g1_relation_channel_and_fk_instance_gate_20261023.md) | 8次合成前向/多种edge_type/rel_attr对照、同义重标记不变性、FK Role Label Gate及Go/No-go | 2026-10-23完成；按原门槛 G1-A NO-GO，见G1报告 |
 | [2026-10-24全局实验复核与G1结构对称性分析](reports/current_results_review_20261024/README.md) | 从P1/P2到G1/G2及FK Instance Gate结果、失败机制和下一步 | **静态复核附Gate结果更新** |

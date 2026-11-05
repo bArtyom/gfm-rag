@@ -1,6 +1,6 @@
 {
   "experiment_id": "p0_fk_candidate_definition_recovery_v2_20261105_01",
-  "status": "PREREGISTERED_NOT_RUN",
+  "status": "STOP_INVALID_SMOKE",
   "layer": "exploratory_cpu_only_integrity_and_label_definition_audit",
   "mainline_evidence": false,
   "research_question": "Does binding the P1.5 FK artifact hash and JSON parse to the same file bytes resolve the prior sanitized digest failure, and can all three frozen parser/label definitions pass fresh smoke and full gates?",
@@ -131,5 +131,12 @@
     "external_model_api_calls": 0,
     "external_api_cost_CNY": "0.00",
     "local_cpu_cost": "not monetized; CPU seconds will be reported"
+  },
+  "execution_result": {
+    "registration_and_execution_commit": "516ff3fafc83f2bbff848dfed825db9951b65fdf",
+    "smoke_summary": "docs/research/text2sql/reports/p0_fk_candidate_definition_recovery_v2_20261105_01/smoke_summary.json",
+    "full_runs_started": 0,
+    "crosswalk_run": false,
+    "stop_reason": "Frozen FK artifact SHA-256 differed from both same-buffer SHA-256 and chunked-path helper SHA-256; the file identity was stable."
   }
 }
