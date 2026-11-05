@@ -33,7 +33,7 @@ Python 3.10.22 / SQLGlot 26.33.0 与 Python 3.12.14 / SQLGlot 28.0.0 均复用�
 - **packet / Python 3.12.14 / SQLGlot 28.0.0 Smoke：** 同样 5/5 解析成功，3/3/0；wall 0.6061 秒、CPU 0.0984 秒、峰值 RSS 0.0278 GiB。
 - **P1.5 / Python 3.12.14 / SQLGlot 28.0.0 Smoke：** 在处理问题前停止，状态 `STOP_INVALID`。冻结配置摘要为 `5bc60f6d64429215fa92c3d3a42f1a4881dc77c09839729153fb55a119555060`；同一受控字节缓冲区的计算摘要、旧分块 helper 与独立 `sha256sum` 均为 `5bc60f6d64429215fa92d3c3a42f1a4881dc77c09839729153fb55a119555060`。文件大小 76,177 字节，身份在打开前后与路径复核期间稳定，非符号链接且 `O_NOFOLLOW` 可用。因摘要与冻结值不符，JSON 解析及五题分析都没有进行。
 - **停止决定：** 三个 Smoke 未全部通过；没有任何 Full 运行，没有题级 crosswalk，没有可信 Role 标签，也没有新的 JOIN 或 SQL 效果结果。旧文件没有覆盖。
-- **私有产物：** packet Smoke 结果与 P1.5 失败回执位于 `/mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_v2_20261105_01/smoke/`；三份日志位于 `/mnt/liansp3/logs/p0_fk_candidate_definition_recovery_v2_20261105_01/`。结果/失败回执权限为 `0600`。
+- **私有产物：** packet Smoke 结果与 P1.5 失败回执位于 `local:results/gfmrag_p0_fk_candidate_definition_recovery_v2_20261105_01/smoke/`；三份日志位于 `local:logs/p0_fk_candidate_definition_recovery_v2_20261105_01/`。结果/失败回执权限为 `0600`。
 - **调用与资源：** GPU、模型、API、SQL 执行均为 0；无依赖安装。失败臂在完整性门退出，未记录到该臂解析资源指标。
 
 ## 结论与后续

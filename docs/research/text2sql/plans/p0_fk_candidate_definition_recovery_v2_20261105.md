@@ -51,11 +51,11 @@ P1.5 FK artifact 的预期 SHA-256 固定为 `5bc60f6d64429215fa92c3d3a42f1a4881
 ## 预算、环境与执行命令
 
 - CPU-only；最多 8 个线程；每个进程 wall/CPU 不超过 600 秒、RSS 不超过 4 GiB；Smoke/Full 总计最多 6 个 runner 进程及 3,600 CPU 秒。
-- Python 3.10 packet 环境：`/root/miniconda3/envs/t2sql_code_audit_20261005/bin/python`，SQLGlot 26.33.0。
-- Python 3.12 环境：`/root/miniconda3/envs/think2sql_20260909/bin/python3.12`，SQLGlot 28.0.0。
+- Python 3.10.22 / SQLGlot 26.33.0：Conda 环境名 `t2sql_code_audit_20261005`。
+- Python 3.12.14 / SQLGlot 28.0.0：Conda 环境名 `think2sql_20260909`。
 - 运行前必须检查 `nvidia-smi`、`free -h`、`nproc`、磁盘与相关进程；本实验不分配 GPU，不安装/升级依赖。
 - GitHub 源码、config、计划和报告预登记并验证回读后才访问数据/artifact。实际运行命令在远端执行 commit 冻结时写入 `experiment_config.json`；Shell 只重定向到权限 0600 的本地日志。
-- 独立结果根：`/mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_v2_20261105_01/`；独立日志根：`/mnt/liansp3/logs/p0_fk_candidate_definition_recovery_v2_20261105_01/`。旧结果不覆盖。
+- 独立结果根：`local:results/gfmrag_p0_fk_candidate_definition_recovery_v2_20261105_01/`；独立日志根：`local:logs/p0_fk_candidate_definition_recovery_v2_20261105_01/`。旧结果不覆盖。
 
 ## 后续判断
 
