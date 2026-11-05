@@ -14,6 +14,8 @@
 
 > **2026-11-05 哈希指纹更正 v3 结果（运行后复核修订）**：三组 Smoke、三组 Full 与匿名 crosswalk 已运行；packet 两环境均为 1,043/176，本轮 P1.5 wrapper 输出 970/197。后续代码复核发现 wrapper 传入原始 `instances_private`，而 canonical P1.5 汇总使用过滤后的 `valid_instances_private`，所以 103/21 差异尚不能归因于方法定义。需按新 run ID 修正过滤后再比较；可信 Role 标签仍为0。见[报告](reports/p0_fk_candidate_definition_recovery_v3_20261105_01/README.md)。
 
+> **2026-11-05 canonical FK crosswalk 复核（已登记）**：在新 run ID 下，用 `valid_endpoints=true` 的 100 个 FK 实例重放 P1.5 `golden_join_audit`；与既有同环境 packet-28 结果、v3 原始实例适配结果做匿名逐题对账。只修正适配输入，不改解析器或计数定义；Smoke 通过才运行 Full。见[计划](plans/p0_fk_canonical_crosswalk_20261105.md)和[报告](reports/p0_fk_canonical_crosswalk_20261105_01/README.md)。
+
 ## 现有研究文档
 
 | 文档 | 作用 | 状态 |

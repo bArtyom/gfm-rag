@@ -1,0 +1,128 @@
+{
+  "experiment_id": "p0_fk_canonical_crosswalk_20261105_01",
+  "status": "PREREGISTERED_NOT_RUN",
+  "layer": "P0 FK input and label-definition audit; exploratory; not method-effect evidence",
+  "source_project": {
+    "repository": "https://github.com/bArtyom/gfm-rag",
+    "base_commit": "1409fbc00bdd13fe41ea93a03db0d0030a72e15c",
+    "branch": "research/p0-fk-canonical-crosswalk-20261105",
+    "guidance_conflict": "main research README and roadmap are older; this run follows the more specific v3 P0 crosswalk report and its stated canonical-input correction"
+  },
+  "research_question": "Does filtering invalid FK instances to the canonical P1.5 valid_instances_private set change the v3 P1.5 per-question labels, and which packet-vs-P1.5 differences remain?",
+  "hypothesis": "The P1.5 adapter should pass only records with boolean valid_endpoints=true, matching run_p1_5_diagnostics.analyze_gold_joins. Changes from the prior wrapper should be attributable only to excluding invalid FK records; any remaining packet differences are implementation-definition differences, not role accuracy.",
+  "inputs": {
+    "dataset": "BIRD dev; development/diagnostic only",
+    "dev_json": "local:datasets/bird/dev/dev.json",
+    "dev_json_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "dev_tables_json": "local:datasets/bird/dev/dev_tables.json",
+    "dev_tables_json_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "p1_5_fk_artifact": "local:results/gfmrag_p1_5_diagnosis_20261016/full_03/fk_gate_private.json",
+    "p1_5_fk_artifact_sha256": "5bc60f6d64429215fa92d3c3a42f1a4881dc77c09839729153fb55a119555060",
+    "p1_5_fk_artifact_bytes": 76177,
+    "expected_fk_instance_counts": {
+      "database_count": 11,
+      "raw": 103,
+      "valid": 100,
+      "invalid": 3,
+      "validity_flag_type": "boolean"
+    },
+    "packet28_reference": {
+      "run_id": "p0fk_v3_full_packet_py312_sqlg28_20261105_01",
+      "experiment_id": "p0_fk_candidate_definition_recovery_v3_20261105_01",
+      "result_alias": "local:results/gfmrag_p0_fk_candidate_definition_recovery_v3_20261105_01/full/p0fk_v3_full_packet_py312_sqlg28_20261105_01.json",
+      "result_sha256": "13401f39e6744a4c47e3a5f36b59be468335f79f04594db27c3e662ce9ba75f3",
+      "denominators": {
+        "records_processed": 1534,
+        "parse_ok": 1534,
+        "join_on_questions": 1140,
+        "fk_match_queries": 1043,
+        "multi_fk_candidate_queries": 176
+      }
+    },
+    "p1_5_unfiltered_reference": {
+      "run_id": "p0fk_v3_full_p15_py312_sqlg28_20261105_01",
+      "experiment_id": "p0_fk_candidate_definition_recovery_v3_20261105_01",
+      "result_alias": "local:results/gfmrag_p0_fk_candidate_definition_recovery_v3_20261105_01/full/p0fk_v3_full_p15_py312_sqlg28_20261105_01.json",
+      "result_sha256": "4736e320aff6da6bdc56f0ddd56c7887a85014cf9577c6dd568b7f738df0f883",
+      "denominators": {
+        "records_processed": 1534,
+        "parse_ok": 1534,
+        "join_on_questions": 1140,
+        "fk_match_queries": 970,
+        "multi_fk_candidate_queries": 197
+      },
+      "role": "frozen comparison reference only; not canonical P1.5"
+    }
+  },
+  "definitions": {
+    "p1_5_runner": "scripts/text2sql/run_p1_5_diagnostics.py; golden_join_audit unchanged",
+    "canonical_fk_adapter": "filter raw instances by valid_endpoints is True; reject missing/non-boolean validity flags; assert raw/valid/invalid totals 103/100/3",
+    "packet_parser": "frozen reference output only; no re-run",
+    "question_order": "dev.json order",
+    "join_on_sqlglot_environment": "Python 3.12.14 / SQLGlot 28.0.0",
+    "hard_full_denominators": {
+      "records_processed": 1534,
+      "parse_ok": 1534,
+      "join_on_questions": 1140
+    },
+    "observed_fk_counts_are_not_pass_fail_gates": true,
+    "historical_970_197_reference_is_not_a_required_result": true
+  },
+  "execution_code": {
+    "runner": "scripts/text2sql/reconcile_p0_fk_candidate_definitions_canonical.py",
+    "runner_sha256": "5384c7e94a5814c50a3ff3505029ecc86bd7accad8982beb14fad3b2fa6017a8",
+    "comparator": "scripts/text2sql/compare_p0_fk_candidate_definitions_canonical.py",
+    "comparator_sha256": "263f60a2db0570a2ff3d4d9e2e833b518785143e62c60b54625f1a88870ddb55",
+    "packet_source_sha256": "5c84af91edc6dd39cd1fba39105dfc74b804be17912d91edab5eba2ff180eebc",
+    "p1_5_source_sha256": "af59d01d22a6b5d5538231b38c2bf52e0355a9193a5773f40b14d29470ec40cf",
+    "runner_change": "new run ID plus strict valid_endpoints boolean validation/filter and removal of FK-match count as a pass gate; golden_join_audit itself unchanged"
+  },
+  "run_ids": {
+    "smoke": "p0fk_canonical_p15_smoke_py312_sqlg28_20261105_01",
+    "full": "p0fk_canonical_p15_full_py312_sqlg28_20261105_01",
+    "crosswalk": "p0fk_canonical_crosswalk_full_py312_sqlg28_20261105_01"
+  },
+  "command_templates": {
+    "smoke": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 timeout --signal=TERM --kill-after=15s 585s conda run --no-capture-output -n think2sql_20260909 python3.12 scripts/text2sql/reconcile_p0_fk_candidate_definitions_canonical.py --mode smoke --method p1_5 --run-id p0fk_canonical_p15_smoke_py312_sqlg28_20261105_01 --dev-json ${BIRD_DEV_ROOT}/dev.json --tables-json ${BIRD_DEV_ROOT}/dev_tables.json --p1-5-fk-artifact ${P1_5_FK_ARTIFACT} --output ${P0_RESULT_ROOT}/smoke/p0fk_canonical_p15_smoke_py312_sqlg28_20261105_01.json",
+    "full": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 timeout --signal=TERM --kill-after=15s 585s conda run --no-capture-output -n think2sql_20260909 python3.12 scripts/text2sql/reconcile_p0_fk_candidate_definitions_canonical.py --mode full --method p1_5 --run-id p0fk_canonical_p15_full_py312_sqlg28_20261105_01 --dev-json ${BIRD_DEV_ROOT}/dev.json --tables-json ${BIRD_DEV_ROOT}/dev_tables.json --p1-5-fk-artifact ${P1_5_FK_ARTIFACT} --output ${P0_RESULT_ROOT}/full/p0fk_canonical_p15_full_py312_sqlg28_20261105_01.json"
+  },
+  "environment": {
+    "conda_environment": "think2sql_20260909",
+    "python": "3.12.14",
+    "sqlglot": "28.0.0",
+    "threads_max": 8
+  },
+  "resources": {
+    "gpu_seconds": 0,
+    "model_calls": 0,
+    "api_calls": 0,
+    "sql_execution": 0,
+    "training": 0,
+    "downloads_or_installs": 0,
+    "wall_seconds_per_process_max": 600,
+    "cpu_seconds_per_process_max": 600,
+    "rss_gib_per_process_max": 4,
+    "cumulative_cpu_seconds_max": 1800,
+    "sequential_processes_max": 1
+  },
+  "success_and_stop_gates": {
+    "smoke": "5/5 processed, 5/5 parse_ok, FK artifact counts/schema valid; otherwise stop and preserve failure receipt",
+    "full": "only after smoke success; 1534/1534 processed and parsed, 1140 join_on_questions, correct FK instance filter counts, no overwrite",
+    "crosswalk": "only if all three full records have the same 1534 hashed question keys and pinned input hashes",
+    "no_fk_match_count_gate": true,
+    "no_retries_under_same_run_id": true
+  },
+  "privacy": {
+    "public_raw_questions": false,
+    "public_gold_sql": false,
+    "public_database_names": false,
+    "public_question_hashes": false,
+    "public_private_fk_artifact": false,
+    "public_per_question_labels": false,
+    "public_trusted_human_role_labels_created": false,
+    "private_crosswalk_permissions": "0600"
+  },
+  "result_root": "local:results/gfmrag_p0_fk_canonical_crosswalk_20261105_01",
+  "log_root": "local:logs/p0_fk_canonical_crosswalk_20261105_01",
+  "current_execution_status": "PREREGISTERED_NOT_RUN"
+}
