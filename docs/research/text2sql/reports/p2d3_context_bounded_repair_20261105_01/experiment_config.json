@@ -1,6 +1,6 @@
 {
   "experiment_id": "p2d3_context_bounded_repair_20261105_01",
-  "status": "smoke_recovery_pending",
+  "status": "completed_no_go_or_inconclusive",
   "layer": "exploratory_text2sql_pipeline_utility",
   "base_commit": "9c39bee45daf5d12382bcd7c183ed0cb44237460",
   "base_branch": "research/p2d2-frozen-failure-attribution-20261105",
@@ -60,6 +60,30 @@
     "prepare": "prepare_002",
     "smoke": "smoke_003",
     "full": "full_003"
+  },
+  "latest_result": {
+    "source_commit": "405535cd87b6c1b0ee6780c46f0e7461ea080c85",
+    "smoke_gate": "pass",
+    "full_cases": 66,
+    "set_execution_accuracy": {
+      "A0_no_repair": "18/66 (27.27%)",
+      "A1_full_schema_repair": "20/66 (30.30%)",
+      "A2_retrieved_context_repair": "17/66 (25.76%)",
+      "A2_minus_A0_percentage_points": -1.515,
+      "A2_minus_A1_percentage_points": -4.545
+    },
+    "repair_attempts": {
+      "A1": 13,
+      "A1_accepted": 2,
+      "A2": 19,
+      "A2_accepted": 3,
+      "A2_out_of_context_proposals_rejected": 8,
+      "A2_accepted_out_of_context_reads": 0
+    },
+    "minimum_repair_signal_met": true,
+    "a2_authorization_gate": "pass",
+    "decision": "NO_GO_OR_INCONCLUSIVE",
+    "full_aggregate_file": "aggregate_summary.json"
   },
   "arms": {
     "A0": "same one-shot E0/V00 generation; no repair",

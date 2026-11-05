@@ -1,6 +1,6 @@
 # P2d.3 受检索上下文约束的 SQL 修复：预注册方案
 
-**状态：** `preregistered_not_run`
+**状态：** `preregistered_protocol_frozen; execution_completed_no_go_or_inconclusive`。方案内容与门槛在推理前冻结；执行结果见[P2d.3 完整报告](../reports/p2d3_context_bounded_repair_20261105_01/README.md)。
 **实验 ID：** `p2d3_context_bounded_repair_20261105_01`
 **性质：** BIRD dev 上的探索性本地效用实验；不主张通用 SQL 修复的新颖性。
 **项目基线：** `bArtyom/gfm-rag`，执行分支从 `research/p2d2-frozen-failure-attribution-20261105` 的归档结果继续，起始提交 `9c39bee45daf5d12382bcd7c183ed0cb44237460`。

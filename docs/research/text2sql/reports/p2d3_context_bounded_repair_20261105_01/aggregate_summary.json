@@ -1,0 +1,347 @@
+{
+  "experiment_id": "p2d3_context_bounded_repair_20261105_01",
+  "stage": "full",
+  "status": "completed",
+  "smoke_gate": null,
+  "cases": 66,
+  "arms": {
+    "A0": {
+      "n": 66,
+      "set_correct": 18,
+      "set_execution_accuracy": 0.2727272727272727,
+      "bag_correct": 15,
+      "bag_execution_accuracy": 0.22727272727272727,
+      "prediction_executable": 51,
+      "reference_executable_cases": 58,
+      "initial_parse_or_compile_failures": 15
+    },
+    "A1": {
+      "n": 66,
+      "set_correct": 20,
+      "set_execution_accuracy": 0.30303030303030304,
+      "bag_correct": 16,
+      "bag_execution_accuracy": 0.24242424242424243,
+      "prediction_executable": 53,
+      "reference_executable_cases": 58,
+      "initial_parse_or_compile_failures": 15
+    },
+    "A2": {
+      "n": 66,
+      "set_correct": 17,
+      "set_execution_accuracy": 0.25757575757575757,
+      "bag_correct": 13,
+      "bag_execution_accuracy": 0.19696969696969696,
+      "prediction_executable": 48,
+      "reference_executable_cases": 58,
+      "initial_parse_or_compile_failures": 21
+    }
+  },
+  "per_database": {
+    "db_01": {
+      "A0": {
+        "n": 6,
+        "set_correct": 0,
+        "set_execution_accuracy": 0.0
+      },
+      "A1": {
+        "n": 6,
+        "set_correct": 0,
+        "set_execution_accuracy": 0.0
+      },
+      "A2": {
+        "n": 6,
+        "set_correct": 0,
+        "set_execution_accuracy": 0.0
+      },
+      "A2_minus_A0_percentage_points": 0.0
+    },
+    "db_02": {
+      "A0": {
+        "n": 6,
+        "set_correct": 1,
+        "set_execution_accuracy": 0.16666666666666666
+      },
+      "A1": {
+        "n": 6,
+        "set_correct": 1,
+        "set_execution_accuracy": 0.16666666666666666
+      },
+      "A2": {
+        "n": 6,
+        "set_correct": 1,
+        "set_execution_accuracy": 0.16666666666666666
+      },
+      "A2_minus_A0_percentage_points": 0.0
+    },
+    "db_03": {
+      "A0": {
+        "n": 6,
+        "set_correct": 3,
+        "set_execution_accuracy": 0.5
+      },
+      "A1": {
+        "n": 6,
+        "set_correct": 3,
+        "set_execution_accuracy": 0.5
+      },
+      "A2": {
+        "n": 6,
+        "set_correct": 3,
+        "set_execution_accuracy": 0.5
+      },
+      "A2_minus_A0_percentage_points": 0.0
+    },
+    "db_04": {
+      "A0": {
+        "n": 6,
+        "set_correct": 4,
+        "set_execution_accuracy": 0.6666666666666666
+      },
+      "A1": {
+        "n": 6,
+        "set_correct": 4,
+        "set_execution_accuracy": 0.6666666666666666
+      },
+      "A2": {
+        "n": 6,
+        "set_correct": 4,
+        "set_execution_accuracy": 0.6666666666666666
+      },
+      "A2_minus_A0_percentage_points": 0.0
+    },
+    "db_05": {
+      "A0": {
+        "n": 6,
+        "set_correct": 2,
+        "set_execution_accuracy": 0.3333333333333333
+      },
+      "A1": {
+        "n": 6,
+        "set_correct": 2,
+        "set_execution_accuracy": 0.3333333333333333
+      },
+      "A2": {
+        "n": 6,
+        "set_correct": 1,
+        "set_execution_accuracy": 0.16666666666666666
+      },
+      "A2_minus_A0_percentage_points": -16.666666666666664
+    },
+    "db_06": {
+      "A0": {
+        "n": 6,
+        "set_correct": 0,
+        "set_execution_accuracy": 0.0
+      },
+      "A1": {
+        "n": 6,
+        "set_correct": 1,
+        "set_execution_accuracy": 0.16666666666666666
+      },
+      "A2": {
+        "n": 6,
+        "set_correct": 0,
+        "set_execution_accuracy": 0.0
+      },
+      "A2_minus_A0_percentage_points": 0.0
+    },
+    "db_07": {
+      "A0": {
+        "n": 6,
+        "set_correct": 2,
+        "set_execution_accuracy": 0.3333333333333333
+      },
+      "A1": {
+        "n": 6,
+        "set_correct": 2,
+        "set_execution_accuracy": 0.3333333333333333
+      },
+      "A2": {
+        "n": 6,
+        "set_correct": 2,
+        "set_execution_accuracy": 0.3333333333333333
+      },
+      "A2_minus_A0_percentage_points": 0.0
+    },
+    "db_08": {
+      "A0": {
+        "n": 6,
+        "set_correct": 2,
+        "set_execution_accuracy": 0.3333333333333333
+      },
+      "A1": {
+        "n": 6,
+        "set_correct": 2,
+        "set_execution_accuracy": 0.3333333333333333
+      },
+      "A2": {
+        "n": 6,
+        "set_correct": 2,
+        "set_execution_accuracy": 0.3333333333333333
+      },
+      "A2_minus_A0_percentage_points": 0.0
+    },
+    "db_09": {
+      "A0": {
+        "n": 6,
+        "set_correct": 3,
+        "set_execution_accuracy": 0.5
+      },
+      "A1": {
+        "n": 6,
+        "set_correct": 3,
+        "set_execution_accuracy": 0.5
+      },
+      "A2": {
+        "n": 6,
+        "set_correct": 2,
+        "set_execution_accuracy": 0.3333333333333333
+      },
+      "A2_minus_A0_percentage_points": -16.666666666666668
+    },
+    "db_10": {
+      "A0": {
+        "n": 6,
+        "set_correct": 1,
+        "set_execution_accuracy": 0.16666666666666666
+      },
+      "A1": {
+        "n": 6,
+        "set_correct": 2,
+        "set_execution_accuracy": 0.3333333333333333
+      },
+      "A2": {
+        "n": 6,
+        "set_correct": 2,
+        "set_execution_accuracy": 0.3333333333333333
+      },
+      "A2_minus_A0_percentage_points": 16.666666666666664
+    },
+    "db_11": {
+      "A0": {
+        "n": 6,
+        "set_correct": 0,
+        "set_execution_accuracy": 0.0
+      },
+      "A1": {
+        "n": 6,
+        "set_correct": 0,
+        "set_execution_accuracy": 0.0
+      },
+      "A2": {
+        "n": 6,
+        "set_correct": 0,
+        "set_execution_accuracy": 0.0
+      },
+      "A2_minus_A0_percentage_points": 0.0
+    }
+  },
+  "per_v00_completeness_stratum": {
+    "incomplete": {
+      "A0": {
+        "n": 27,
+        "set_correct": 4,
+        "set_execution_accuracy": 0.14814814814814814
+      },
+      "A1": {
+        "n": 27,
+        "set_correct": 5,
+        "set_execution_accuracy": 0.18518518518518517
+      },
+      "A2": {
+        "n": 27,
+        "set_correct": 2,
+        "set_execution_accuracy": 0.07407407407407407
+      },
+      "A2_minus_A0_percentage_points": -7.4074074074074066
+    },
+    "complete": {
+      "A0": {
+        "n": 39,
+        "set_correct": 14,
+        "set_execution_accuracy": 0.358974358974359
+      },
+      "A1": {
+        "n": 39,
+        "set_correct": 15,
+        "set_execution_accuracy": 0.38461538461538464
+      },
+      "A2": {
+        "n": 39,
+        "set_correct": 15,
+        "set_execution_accuracy": 0.38461538461538464
+      },
+      "A2_minus_A0_percentage_points": 2.564102564102566
+    }
+  },
+  "paired_set_outcomes": {
+    "A2_vs_A0": {
+      "both_correct": 16,
+      "left_only_correct": 1,
+      "right_only_correct": 2,
+      "both_wrong": 47
+    },
+    "A1_vs_A0": {
+      "both_correct": 18,
+      "left_only_correct": 2,
+      "right_only_correct": 0,
+      "both_wrong": 46
+    },
+    "A2_vs_A1": {
+      "both_correct": 17,
+      "left_only_correct": 0,
+      "right_only_correct": 3,
+      "both_wrong": 46
+    }
+  },
+  "repair_counts": {
+    "A1": {
+      "repair_attempted": 13,
+      "repair_accepted": 2,
+      "out_of_context_proposals_rejected": 0,
+      "denied_read_events": 0,
+      "initial_context_denials": 0
+    },
+    "A2": {
+      "repair_attempted": 19,
+      "repair_accepted": 3,
+      "out_of_context_proposals_rejected": 8,
+      "denied_read_events": 14,
+      "initial_context_denials": 6
+    }
+  },
+  "accepted_out_of_context_identifiers": 0,
+  "failure_categories": {
+    "A0:not_executable": 15,
+    "A1:not_executable": 13,
+    "A2:not_executable": 18
+  },
+  "decision": "NO_GO_OR_INCONCLUSIVE",
+  "minimum_repair_signal_met": true,
+  "reference_unavailable_cases": 8,
+  "budget": {
+    "stage_model_requests": 98,
+    "stage_input_tokens": 130924,
+    "stage_output_tokens": 4774,
+    "experiment_model_requests": 113,
+    "experiment_input_tokens": 145120,
+    "experiment_output_tokens": 5476,
+    "experiment_unknown_usage_requests": 0,
+    "request_wall_seconds": 92.2274134773761,
+    "external_api_cost_CNY": "0.00",
+    "local_gpu_compute_seconds": null,
+    "local_compute_cost": "unpriced"
+  },
+  "privacy": {
+    "question_text_published": false,
+    "gold_sql_published": false,
+    "predicted_sql_published": false,
+    "database_names_published": false,
+    "query_result_rows_published": false
+  },
+  "a2_authorization_gate": {
+    "status": "PASS",
+    "visible_read": "compiled",
+    "hidden_read": "out_of_context_identifier"
+  }
+}

@@ -4,7 +4,7 @@
 
 ## 先说结论
 
-目前没有改 QuadGraph/G-reasoner 的核心图消息传播算法、模型权重或训练目标。已完成的大部分 Text2SQL 对照使用 Qwen3-Embedding-0.6B 对表/列文本做稠密检索；主要变化发生在向量维度、候选排序、字段文本和返回上下文的长度。G0/G1/G2 是小型合成图的 FK 实例表示与关系输入敏感性实验，没有接入真实 BIRD 查询的 G-reasoner 准确率评测。
+目前没有改 QuadGraph/G-reasoner 的核心图消息传播算法、模型权重或训练目标。已完成的大部分 Text2SQL 对照使用 Qwen3-Embedding-0.6B 对表/列文本做稠密检索；主要变化发生在向量维度、候选排序、字段文本、返回上下文长度，以及 P2d.3 的一次 SQL 修复流程。G0/G1/G2 是小型合成图的 FK 实例表示与关系输入敏感性实验，没有接入真实 BIRD 查询的 G-reasoner 准确率评测。P2d.3 Full 已完成并判为 NO-GO；它验证了 authorizer 的越界阻断，但没有达到受限修复的准确率增益门槛。
 
 因此，目前最有证据的正向结果是 **P2c-R 在固定预算下提高离线 Schema 节点覆盖**。它还没有证明 SQL Set EX、JOIN 角色准确率或图推理提升。
 
@@ -29,7 +29,7 @@
 | **P2d：固定生成器的三臂 SQL Pilot** | E0 使用 V00 的节点/完整 R0 文本 | E1 使用 V01 节点/短 R1 文本；E2 保留 V00 节点、只换短 R1 文本。固定本地 Qwen2.5-Coder-7B、每题每臂一次生成、无 SQL 修复；30题（19优先案例+11匹配对照） | 确认 Set/Bag 正确数为 E0/E1/E2 = 8/7/8；未知较多，样本有偏，不能证明 V01 改善 SQL，也不能把 E2 的输入 token 少30.27%称为无损压缩。Jev 没有运行，结果不是 Jev。 |
 | **P2d.1：评测器覆盖修订** | P2d v1 因安全规则把4条含存储列时间表达式的参考 SQL 判为不可比较 | 只扩展只读评测器对受限、确定性时间表达式的支持；保存的90条预测不变，做137项合成安全检查及83条旧结果一致性回放 | 更多案例从 unknown 变为可判，但新增判定为错误；Set 正确数仍8/7/8，预测仍有10条解析失败、18条 missing-column。改的是测量覆盖，不是 SQL 生成方法。 |
 | **P2d.2：冻结失败归因** | 旧 Pilot 把失败记成 parse/missing-column，无法判断是检索漏字段还是 SQL 引用错误 | 不再生成 SQL；对28条封存失败做 AST 结构检查，并对18条缺列 SQL 做只读 `EXPLAIN`，映射到上下文可见性、标识符存在性和作用域类别 | 分类为10 parse/结构、13限定符/作用域、4不存在字段、1误用可见字段；没有失败字段缺失于上下文。这是错误分析，不是新修复器；用于提出新样本验证问题。 |
-| **P2d.3：检索上下文约束修复（Smoke/Full 同源恢复待运行）** | P2d 每臂只生成一次；P2d.2 指向生成 SQL 的作用域/标识符有效性问题 | 三组共用同一初始 SQL：A0不修复；A1失败时用完整 R0 Schema 修复一次；A2只用原 V00 Context 修复一次，并对初始 SQL 和修复 SQL都用 SQLite authorizer 禁止超出检索上下文的表/列。Full 66 题、Smoke 5 题，33 个旧 P2d 样本全部排除 | `smoke_001/002` 均5题通过运行门，但对应 `full_001/002` 均在首次请求前停止（依次为提交不一致、服务身份 JSON tuple/list 比较缺陷）。原有预算已扣除两次 Smoke 的10次请求/9,464输入/469输出 tokens 和两次 Full 预检 wall time；新 `smoke_003`/`full_003` 同源运行待开始。旧 Smoke 不提供修复效果证据；实验仍为探索性。 |
+| **P2d.3：检索上下文约束修复** | P2d 每臂只生成一次；P2d.2 指向生成 SQL 的作用域/标识符有效性问题 | 三组共用同一初始 SQL：A0不修复；A1失败时用完整 R0 Schema 修复一次；A2只用原 V00 Context 修复一次，并对初始 SQL和修复 SQL都用 SQLite authorizer 禁止超出检索上下文的表/列。Full 66题、Smoke 5题，排除33个旧 P2d 准备样本。 | Full Set EX：A0 18/66（27.27%）、A1 20/66（30.30%）、A2 17/66（25.76%）；A2−A0为−1.52pp，A2−A1为−4.55pp。A1修复尝试13次、候选接受2次；A2尝试19次、候选接受3次，拒绝8个越界字段提案，接受的越界读取为0。最低修复信号与 authorizer 安全门通过；A2未达到“至少比 A0 高5pp”，故按预注册判为 `NO_GO_OR_INCONCLUSIVE`。见[P2d.3 完整报告](reports/p2d3_context_bounded_repair_20261105_01/README.md)及[匿名聚合](reports/p2d3_context_bounded_repair_20261105_01/aggregate_summary.json)。 |
 
 ## 图方法探针到底改了什么
 
@@ -63,7 +63,7 @@ G2 只改变合成拓扑以打破上述对称：两个关系角色分别走 `0�
 
 ## 资料来源
 
-- G-reasoner 论文（QuadGraph 四层和模型配置）：[OpenReview ICLR 2026](https://openreview.net/forum?id=zJm9nmoahk)。
+- G-reasoner 论文（QuadGraph 四层和模型配置）：[ICLR 2026 正式论文页](https://proceedings.iclr.cc/paper_files/paper/2026/hash/67e2da8af2476c7441c881fc253042a6-Abstract-Conference.html)。
 - 官方实现：[RManLuo/gfm-rag](https://github.com/RManLuo/gfm-rag)。
 - 本项目源码核查：[GraphReasoner 源码审计](graph-algorithm-code-review-20261016.md)。
 - 主要结果： [P1](reports/gfmrag_p1_official_20261014/report.md)、[P2a](reports/p2a_similarity_20261018_01/README.md)、[P2b](reports/p2b_values_ablation_20261018_01/README.md)、[P2c-R](reports/p2c_r_recovery_20261019_01/README.md)、[P2d](reports/p2d_sql_utility_20261022_01/README.md)、[G0-02](reports/g0_fk_instance_node_20261024_02/README.md)、[G2](reports/g2_asymmetric_relation_20261024_01/README.md)、[canonical P1.5 FK crosswalk](reports/p0_fk_canonical_crosswalk_20261105_01/README.md)。

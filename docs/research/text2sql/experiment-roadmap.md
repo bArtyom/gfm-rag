@@ -163,6 +163,7 @@ $$
 本文件前文是 2026-10-14 制定的历史路线图；以下只记录后续实际执行指导，不回写旧实验门槛。
 
 - P2d.2 对已封存的28条不可执行预测做了静态/只读归因：10条解析/结构错误、13条限定符或作用域错配、4条不存在标识符、1条误用可见字段；旧样本里没有“失败字段不在 prompt”的案例。
-- 因此，不追加旧30题上的检索打包扫描。唯一已登记的下一步是 [P2d.3 受检索上下文约束的 SQL 修复 Pilot](plans/p2d3_context_bounded_repair_20261105.md)：66题Full与5题独立Smoke，均与P2d旧准备样例不重叠；同一初始SQL比较A0无修复、A1完整R0 Schema一次修复、A2只见V00检索上下文且由SQLite authorizer拒绝未检索表列。
-- 此Pilot检验本地pipeline效用与信息范围，不作为通用修复算法的新颖性主张；近期Post-SQLFix、DSR-SQL、SCOPE-SQL等已覆盖相近方法类别。若结果不满足预注册门，停止本分支，不换seed扫描。
+- 因此，不追加旧30题上的检索打包扫描。P2d.3 已按方案完成：66题 Full、5题独立 Smoke，均与旧 P2d 准备样本不重叠；同一初始 SQL 比较 A0 无修复、A1 完整 R0 Schema 一次修复、A2 只见 V00 检索上下文并由 SQLite authorizer 拒绝未检索表列。
+- 最终 Set EX 为 A0 18/66（27.27%）、A1 20/66（30.30%）、A2 17/66（25.76%）。A2−A0 为−1.52pp，未达到 +5pp 成功门；A2 阻止了8个越界字段提案，0个越界读取被接受。实验判为 `NO_GO_OR_INCONCLUSIVE`，不换 seed、不扩样。完整数据与边界见[P2d.3 报告](reports/p2d3_context_bounded_repair_20261105_01/README.md)。
+- 此 Pilot 检验本地 pipeline 效用与信息范围，不作为通用修复算法的新颖性主张；近期 Post-SQLFix、DSR-SQL、SCOPE-SQL 等已覆盖相近方法类别。本分支停止新增 SQL 修复实验。
 - P2d.3不评真实FK Role、JOIN Path角色或Jev；可信双人Role标签仍为0，相关准确率和训练实验继续等候人工审阅门。
