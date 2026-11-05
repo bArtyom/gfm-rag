@@ -5,7 +5,7 @@
   "source_project": {
     "repository": "https://github.com/bArtyom/gfm-rag",
     "branch": "research/p0-fk-disagreement-review-20261105",
-    "base_commit": "8ea7f093ed2fb54acca7d8826aa02c67d4738411",
+    "base_commit": "7a65c5564f7be68e506adffcf4b66c213ee5a8bd",
     "execution_commit": "recorded in the post-registration run receipt",
     "guidance_read": [
       "README.md",
