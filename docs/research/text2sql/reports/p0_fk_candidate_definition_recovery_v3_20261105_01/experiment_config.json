@@ -28,11 +28,11 @@
     "p1_5_source_sha256": "af59d01d22a6b5d5538231b38c2bf52e0355a9193a5773f40b14d29470ec40cf"
   },
   "inputs": {
-    "dev_json": "/mnt/liansp3/sources/datasets/bird/dev/dev.json",
+    "dev_json": "local:datasets/bird/dev/dev.json",
     "dev_json_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
-    "dev_tables_json": "/mnt/liansp3/sources/datasets/bird/dev/dev_tables.json",
+    "dev_tables_json": "local:datasets/bird/dev/dev_tables.json",
     "dev_tables_json_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
-    "p1_5_fk_artifact_private_local_path": "/mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom-local-results/p1_5_diagnosis_20261016/full_03/fk_gate_private.json",
+    "p1_5_fk_artifact_private_local_path": "local:fk_gate_private.json (resolve by registered SHA-256)",
     "p1_5_fk_artifact_sha256": "5bc60f6d64429215fa92d3c3a42f1a4881dc77c09839729153fb55a119555060",
     "p1_5_fk_artifact_size_bytes_observed_in_v2": 76177,
     "dataset": "BIRD dev; development and diagnostic split only"
@@ -80,10 +80,10 @@
     "full_p1_5_py312_sqlglot28"
   ],
   "command_templates": {
-    "packet_py310_sqlglot26": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 /usr/bin/timeout --signal=TERM --kill-after=15s 585s conda run --no-capture-output -n t2sql_code_audit_20261005 /root/miniconda3/envs/t2sql_code_audit_20261005/bin/python3.10 scripts/text2sql/reconcile_p0_fk_candidate_definitions_v3.py --mode {mode} --method packet --run-id {run_id} --dev-json /mnt/liansp3/sources/datasets/bird/dev/dev.json --tables-json /mnt/liansp3/sources/datasets/bird/dev/dev_tables.json --output {unique_output_path}",
-    "packet_py312_sqlglot28": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 /usr/bin/timeout --signal=TERM --kill-after=15s 585s conda run --no-capture-output -n think2sql_20260909 /root/miniconda3/envs/think2sql_20260909/bin/python3.12 scripts/text2sql/reconcile_p0_fk_candidate_definitions_v3.py --mode {mode} --method packet --run-id {run_id} --dev-json /mnt/liansp3/sources/datasets/bird/dev/dev.json --tables-json /mnt/liansp3/sources/datasets/bird/dev/dev_tables.json --output {unique_output_path}",
-    "p1_5_py312_sqlglot28": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 /usr/bin/timeout --signal=TERM --kill-after=15s 585s conda run --no-capture-output -n think2sql_20260909 /root/miniconda3/envs/think2sql_20260909/bin/python3.12 scripts/text2sql/reconcile_p0_fk_candidate_definitions_v3.py --mode {mode} --method p1_5 --run-id {run_id} --dev-json /mnt/liansp3/sources/datasets/bird/dev/dev.json --tables-json /mnt/liansp3/sources/datasets/bird/dev/dev_tables.json --p1-5-fk-artifact /mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom-local-results/p1_5_diagnosis_20261016/full_03/fk_gate_private.json --output {unique_output_path}",
-    "comparator": "/usr/bin/timeout --signal=TERM --kill-after=15s 585s /root/miniconda3/envs/think2sql_20260909/bin/python3.12 scripts/text2sql/compare_p0_fk_candidate_definitions_v3.py --packet-26 {packet_py310_full_result} --packet-28 {packet_py312_full_result} --p1-5-28 {p1_5_py312_full_result} --private-output {result_root}/crosswalk_private.json --aggregate-output {result_root}/crosswalk_aggregate.json"
+    "packet_py310_sqlglot26": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 timeout --signal=TERM --kill-after=15s 585s conda run --no-capture-output -n t2sql_code_audit_20261005 python3.10 scripts/text2sql/reconcile_p0_fk_candidate_definitions_v3.py --mode {mode} --method packet --run-id {run_id} --dev-json {dev_json_local_path} --tables-json {dev_tables_json_local_path} --output {unique_output_path}",
+    "packet_py312_sqlglot28": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 timeout --signal=TERM --kill-after=15s 585s conda run --no-capture-output -n think2sql_20260909 python3.12 scripts/text2sql/reconcile_p0_fk_candidate_definitions_v3.py --mode {mode} --method packet --run-id {run_id} --dev-json {dev_json_local_path} --tables-json {dev_tables_json_local_path} --output {unique_output_path}",
+    "p1_5_py312_sqlglot28": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 timeout --signal=TERM --kill-after=15s 585s conda run --no-capture-output -n think2sql_20260909 python3.12 scripts/text2sql/reconcile_p0_fk_candidate_definitions_v3.py --mode {mode} --method p1_5 --run-id {run_id} --dev-json {dev_json_local_path} --tables-json {dev_tables_json_local_path} --p1-5-fk-artifact {p1_5_fk_artifact_local_path} --output {unique_output_path}",
+    "comparator": "timeout --signal=TERM --kill-after=15s 585s python3.12 scripts/text2sql/compare_p0_fk_candidate_definitions_v3.py --packet-26 {packet_py310_full_result} --packet-28 {packet_py312_full_result} --p1-5-28 {p1_5_py312_full_result} --private-output {result_root}/crosswalk_private.json --aggregate-output {result_root}/crosswalk_aggregate.json"
   },
   "resources": {
     "gpu_seconds": 0,
@@ -99,8 +99,8 @@
     "maximum_runner_processes": 6,
     "cumulative_cpu_seconds_max": 3600
   },
-  "result_root": "/mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_v3_20261105_01",
-  "log_root": "/mnt/liansp3/logs/p0_fk_candidate_definition_recovery_v3_20261105_01",
+  "result_root": "local:results/gfmrag_p0_fk_candidate_definition_recovery_v3_20261105_01",
+  "log_root": "local:logs/p0_fk_candidate_definition_recovery_v3_20261105_01",
   "output_layout": {
     "private_result": "{result_root}/{mode}/{run_id}.json",
     "private_failure_receipt": "{result_root}/{mode}/{run_id}.failure.json",
@@ -138,5 +138,15 @@
     "sql_execution": 0,
     "external_api_calls": 0,
     "gpu_seconds": 0
+  },
+  "post_run_code_review": {
+    "status": "ADAPTER_MISMATCH_REVIEW_REQUIRED",
+    "date": "2026-11-05",
+    "evidence": {
+      "p1_5_artifact_writer": "run_p1_5_diagnostics.py serializes instances_private from all_instances; valid_instances_private is a separate filtered collection used by analyze_gold_joins.",
+      "canonical_p1_5_call": "analyze_gold_joins passes valid_instances_private to golden_join_audit.",
+      "reconciliation_wrapper": "reconcile_p0_fk_candidate_definitions_v3.py loads instances_private and passes it directly to golden_join_audit without filtering valid_endpoints."
+    },
+    "interpretation": "The observed P1.5 arm counts (970/197) and packet crosswalk are outputs of the registered wrapper, but are not yet a canonical P1.5 replay. Do not attribute the 103/21 differences solely to algorithm semantics; a separately registered corrected comparison is needed."
   }
 }

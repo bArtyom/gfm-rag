@@ -38,7 +38,7 @@
   },
   "full_runs_started": 0,
   "crosswalk_run": false,
-  "failure_receipt": "/mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_v2_20261105_01/smoke/p0fk_v2_smoke_p15_py312_sqlg28_20261105_01.failure.json",
+  "failure_receipt": "local:results/gfmrag_p0_fk_candidate_definition_recovery_v2_20261105_01/smoke/p0fk_v2_smoke_p15_py312_sqlg28_20261105_01.failure.json",
   "api_usage": {"requests": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0, "cost_cny": "0.00"},
   "input_read_before_registration": false,
   "api_calls": 0,

@@ -33,8 +33,8 @@ v2 的两组 packet Smoke 均通过；P1.5 Smoke 在解析输入前因冻结 FK 
 
 ## 运行与归档位置
 
-- 私有结果根：`/mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_v3_20261105_01/`
-- 私有日志根：`/mnt/liansp3/logs/p0_fk_candidate_definition_recovery_v3_20261105_01/`
+- 私有结果根：`local:results/gfmrag_p0_fk_candidate_definition_recovery_v3_20261105_01/`
+- 私有日志根：`local:logs/p0_fk_candidate_definition_recovery_v3_20261105_01/`
 - 运行前提交并回读注册材料后，才可重读本轮输入并启动三个 smoke。
 - 结果报告位于 `docs/research/text2sql/reports/p0_fk_candidate_definition_recovery_v3_20261105_01/README.md`；每个 run 单独归档，不覆盖旧报告。
 
