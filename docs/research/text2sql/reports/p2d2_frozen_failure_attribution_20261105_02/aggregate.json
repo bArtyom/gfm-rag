@@ -1,0 +1,72 @@
+{
+  "experiment_id": "p2d2_frozen_failure_attribution_20261105_02",
+  "status": "COMPLETED",
+  "denominators": {
+    "cases": 30,
+    "arms": 3,
+    "predictions": 90,
+    "failures": 28,
+    "missing_column": 18
+  },
+  "failure_categories": {
+    "column_not_in_schema": 4,
+    "column_visible_but_reference_invalid": 1,
+    "parse_structure_issue": 10,
+    "qualifier_or_scope_mismatch": 13
+  },
+  "failure_categories_by_arm": {
+    "E0": {
+      "column_not_in_schema": 2,
+      "parse_structure_issue": 4,
+      "qualifier_or_scope_mismatch": 4
+    },
+    "E1": {
+      "column_not_in_schema": 1,
+      "column_visible_but_reference_invalid": 1,
+      "parse_structure_issue": 2,
+      "qualifier_or_scope_mismatch": 6
+    },
+    "E2": {
+      "column_not_in_schema": 1,
+      "parse_structure_issue": 4,
+      "qualifier_or_scope_mismatch": 3
+    }
+  },
+  "context_visibility_cross_arm": {
+    "distinct_cases_with_same_missing_column_visible_in_other_arm": 0,
+    "failure_to_other_arm_visibility_pairs": 0,
+    "pairs_where_other_arm_prediction_was_executable": 0
+  },
+  "high_confidence_classifications": 28,
+  "next_step_decision": "GENERATION_VALIDITY_CANDIDATE_FOR_FRESH_FROZEN_SAMPLE",
+  "interpretation_limits": [
+    "BIRD dev is a repeatedly used diagnostic subset, not an independent test set.",
+    "Context omission is a structural diagnosis, not proof that omission caused the SQL failure.",
+    "Other-arm node visibility is a paired association, not a causal retrieval effect.",
+    "SQLite EXPLAIN compiled only the 18 already failed queries; no SELECT rows were evaluated."
+  ],
+  "source": {
+    "commit": "4b8b70b2ac8386012925e85c7c653e8706663202",
+    "tree": "8f01aff973c57f1bd1163199ddab14cf179102fc"
+  },
+  "inputs_sha256": {
+    "predictions": "e88bf42f22a73b6b56af96a5d3ea88d69252c33509bb72da5b8cfde2f7474ea5",
+    "prediction_seal_file": "f6ae031ec83e12da36bb27f55f1f8461298b340ef251a51cb1d280a43f2ddde3",
+    "p2d1_private_outcomes": "9b7fec27ee0d23cddf76b4bf842ddde530a2f1bbb001fa449218d3b049b3711d",
+    "schema": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "database_snapshots_unchanged": true
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "sqlglot": "28.0.0",
+    "sqlite": "3.53.2",
+    "process_cpu_seconds": 3.171975,
+    "elapsed_wall_seconds": 3.177266,
+    "peak_rss_bytes": 36175872,
+    "model_calls": 0,
+    "api_calls": 0,
+    "gpu_seconds": 0,
+    "select_queries_executed": 0,
+    "readonly_explain_compiles": 18
+  }
+}

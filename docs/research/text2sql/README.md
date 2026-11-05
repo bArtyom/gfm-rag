@@ -56,7 +56,7 @@
 | [P2d.1 评测覆盖和失败归因](plans/p2d_1_frozen_prediction_eval_audit_20261022.md) | 封存SQL复核、safe temporal evaluator v2测试、19题语义审核与Go/No-go | 已完成于独立分支；完整报告在 [GitHub commit `0f4a932`](https://github.com/bArtyom/gfm-rag/tree/0f4a932968f54b9c756e61f7b0ec910b93eefaac/docs/research/text2sql/reports/p2d_1_eval_audit_20261022_02) |
 | [P2d.2 封存 SQL 失败归因计划](plans/p2d2_frozen_failure_attribution_20261105.md) | 对 28 条旧不可执行输出做只读根因归因；不重新生成、不重算原分数 | `_01` 启动前检查因路径错误停止；科学分析未运行 |
 | [P2d.2 `_01` 启动记录](reports/p2d2_frozen_failure_attribution_20261105_01/README.md) | 预注册代码 10/10 合成自检；未读取样本 | **STOP：准备包路径误填；保留失败回执** |
-| [P2d.2 `_02` recovery 登记](reports/p2d2_frozen_failure_attribution_20261105_02/README.md) | 固定 90 条预测；parse/missing-column 分母 10/18 | **单独预注册；仅修正准备包路径** |
+| [P2d.2 `_02` recovery 报告](reports/p2d2_frozen_failure_attribution_20261105_02/README.md) | 固定 90 条封存预测的失败归因 | **Full 完成；28/28 可分类；未发现上下文缺字段，生成引用错误候选待新样本验证** |
 | [P0 FK候选定义对账报告](reports/p0_fk_candidate_definition_reconciliation_20261105_01/README.md) | 对账 956/174、970/197、1043/176 三组不一致计数 | **STOP_INVALID_SMOKE；未启动 Full** |
 | [P0 FK候选定义对账恢复](reports/p0_fk_candidate_definition_recovery_20261105_01/README.md) | 对上次 Smoke 增加不含 SQL 内容的异常位置回执，并重过三臂小样本门 | **已预注册；Smoke/Full 尚未运行** |
 | [P0 FK候选定义哈希诊断恢复计划](plans/p0_fk_candidate_definition_recovery_v2_20261105.md) | 记录同一受控文件句柄的摘要、文件身份和解析字节；新 run ID 重跑三臂 Smoke | **已预注册；尚未读取实验输入** |
