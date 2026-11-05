@@ -1,6 +1,6 @@
 {
   "experiment_id": "p0_fk_candidate_definition_reconciliation_20261105_01",
-  "status": "CODE_FROZEN_NOT_RUN",
+  "status": "STOP_INVALID_SMOKE",
   "layer": "exploratory_read_only_definition_audit",
   "mainline_evidence": false,
   "research_question": "Explain divergent FK match / multi-FK candidate aggregates on identical BIRD dev input hashes by separating implementation definition from SQLGlot/Python environment effects.",
@@ -48,6 +48,11 @@
     "join_on_questions": 1140
   },
   "smoke": {"n": 5, "must_pass_before_full": true},
+  "smoke_results": {
+    "packet_py310_sqlglot26": {"status":"SMOKE_PASS","parse_ok":5,"join_on_questions":3,"fk_match_queries":3,"multi_fk_candidate_queries":0,"wall_seconds":0.081698,"peak_rss_gib":0.024902},
+    "packet_py312_sqlglot28": {"status":"SMOKE_PASS","parse_ok":5,"join_on_questions":3,"fk_match_queries":3,"multi_fk_candidate_queries":0,"wall_seconds":0.360661,"peak_rss_gib":0.029297},
+    "p1_5_py312_sqlglot28": {"status":"STOP_INVALID","error_type":"RuntimeError","valid_output":false,"wall_seconds_approx":1.08,"full_started":false}
+  },
   "resource_budget": {
     "gpu_seconds": 0,
     "model_calls": 0,
@@ -62,6 +67,7 @@
   "privacy": {
     "public_outputs": "Aggregate counters, hashes, and anonymous mismatch-category counts only",
     "private_only": "Question-keyed booleans/counters, raw questions, SQL, database names, logs, source artifacts",
-    "review_packet_created": false
+    "review_packet_created": false,
+    "full_crosswalk_created": false
   }
 }
