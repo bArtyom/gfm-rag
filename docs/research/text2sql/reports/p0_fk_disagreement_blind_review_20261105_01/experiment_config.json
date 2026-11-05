@@ -1,12 +1,13 @@
 {
   "experiment_id": "p0_fk_disagreement_blind_review_20261105_01",
-  "status": "PREREGISTERED_NOT_RUN",
+  "status": "COMPLETED_PACKET_PREPARATION_PENDING_HUMAN_REVIEW",
   "layer": "P0 label-definition and annotation-readiness audit; exploratory; no method-effect evidence",
   "source_project": {
     "repository": "https://github.com/bArtyom/gfm-rag",
     "branch": "research/p0-fk-disagreement-review-20261105",
     "base_commit": "7a65c5564f7be68e506adffcf4b66c213ee5a8bd",
-    "execution_commit": "recorded in the post-registration run receipt",
+    "execution_commit": "41dcaf54e55ab20035788b06aad7a6a95497a987",
+    "local_execution_commit": "b35ccf44ceede9e8b730371b3687ad03646ae1a0",
     "guidance_read": [
       "README.md",
       "docs/research/text2sql/README.md",
@@ -83,13 +84,47 @@
       "smoke": "p0_fk_disagreement_blind_review_smoke_20261105_01",
       "full": "p0_fk_disagreement_blind_review_full_20261105_01"
     },
+    "results": {
+      "smoke": {
+        "status": "SMOKE_PASS",
+        "unique_questions": 5,
+        "table_pairs": 5,
+        "question_key_coverage": "1534/1534",
+        "wall_seconds": 0.039016,
+        "cpu_seconds": 0.036406,
+        "peak_rss_gib": 0.032227,
+        "aggregate_sha256": "b6764f56b51cfc60e689958180a3a783343ecf82db257e9436239ee212a44f37"
+      },
+      "full": {
+        "status": "REVIEW_PACKET_READY_PENDING_HUMANS",
+        "unique_questions": 49,
+        "table_pairs": 51,
+        "databases_private_aggregate_only": 6,
+        "quota_assignments": 54,
+        "question_key_coverage": "1534/1534",
+        "case_order_shuffled": true,
+        "case_candidate_display_order_differs": 4,
+        "wall_seconds": 0.082388,
+        "cpu_seconds": 0.080409,
+        "peak_rss_gib": 0.032227,
+        "aggregate_sha256": "17dd5d0ae813ee71e4ba5dfc6d31c9fe25f9d16c6bb1ebd549341201b2c74cfb"
+      }
+    },
+    "human_review_completed": false,
+    "trusted_role_labels": 0,
+    "run_id_mismatch_caught_before_input_read": true,
     "command_template": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 conda run --no-capture-output -n think2sql_20260909 python3.12 scripts/text2sql/prepare_p0_fk_disagreement_review_packet.py --mode {smoke|full} --run-id {run_id} --dev-json ${BIRD_DEV_ROOT}/dev.json --tables-json ${BIRD_DEV_ROOT}/dev_tables.json --fk-artifact ${P1_5_FK_ARTIFACT} --crosswalk-private ${CROSSWALK_PRIVATE} --canonical-full ${CANONICAL_FULL} --output-dir ${P0_RESULT_ROOT}/{smoke|full}/{run_id}"
   },
   "success_and_stop_gates": {
     "smoke": "all input hashes and frozen stratum population counts match; 5 deterministic selected cases parse; packets render in memory; candidate mapping sets agree across A/B; no SQL or method provenance is emitted",
     "full": "all smoke gates plus 1534 question-key joins, exact quotas, at least 30 unique questions, complete parseable table-pair prompts, full valid FK mapping lists, private permissions, and output hashes",
     "no_retries_under_same_run_id": true,
-    "human_review_is_not_a_preparation_gate": true
+    "human_review_is_not_a_preparation_gate": true,
+    "smoke_passed": true,
+    "full_passed": true,
+    "unique_questions": 49,
+    "table_pairs": 51,
+    "quota_assignment_count": 54
   },
   "privacy": {
     "public_questions": false,

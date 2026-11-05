@@ -4,7 +4,7 @@
 
 > **2026-10-16 状态更新（优先于本 v1 原始执行顺序）**：历史 P1 表/列维度筛查已完成并复核，所有低维严格 NO-GO；FK/Join Role 尚未评测。当前唯一下一步为 [P1.5 错误/预算诊断与 P0-FK 审计](plans/p1_5_diagnostics_and_p2a_20261016.md)，P1.5 Gate 通过后才做 P2a 的 1024 Cosine/BM25/RRF。见 [P1 结果复核](reports/p1_review_20261016/README.md)。**下文 v1 描述是原始计划留档，不代表当前阶段仍未有任何历史 P1 实验。**
 
-> **2026-11-05 最新状态（优先于上述历史顺序）**：canonical P1.5 crosswalk 已完成，103 条原始 SQLite FK 中过滤 3 条无效实例后，P1.5 仍为 970/197；packet-28 为 1043/176。逐题差异是候选定义差异，不能当作业务 Role 标签。唯一当前下一步为按分歧分层准备双人盲审材料；材料生成后须等待两名真实审阅者独立提交，可信标签形成前不启动 Role Accuracy、query-conditioned Role 训练或真实 JOIN 方法主实验。详见 [canonical crosswalk](reports/p0_fk_canonical_crosswalk_20261105_01/README.md) 与 [新预注册](plans/p0_fk_disagreement_blind_review_20261105.md)。
+> **2026-11-05 最新状态（优先于上述历史顺序）**：canonical P1.5 crosswalk 已完成，103 条原始 SQLite FK 中过滤 3 条无效实例后，P1.5 仍为 970/197；packet-28 为 1043/176。逐题差异是候选定义差异，不能当作业务 Role 标签。双人盲审包 Smoke/Full 已通过：54个分层名额去重为49题、51个问题×表对，完整覆盖1,534个问题键；结果只支持材料生成流程可行，人工审阅与可信标签仍为0。当前唯一下一步是等待两名真实审阅者独立提交；在此之前不启动 Role Accuracy、query-conditioned Role 训练或真实 JOIN 方法主实验。见 [canonical crosswalk](reports/p0_fk_canonical_crosswalk_20261105_01/README.md)、[预注册](plans/p0_fk_disagreement_blind_review_20261105.md)与[运行报告](reports/p0_fk_disagreement_blind_review_20261105_01/README.md)。
 
 ## 0. 预注册研究问题及假设
 
