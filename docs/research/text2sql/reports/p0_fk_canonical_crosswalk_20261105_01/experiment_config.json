@@ -1,6 +1,6 @@
 {
   "experiment_id": "p0_fk_canonical_crosswalk_20261105_01",
-  "status": "PREREGISTERED_NOT_RUN",
+  "status": "REGISTERED_NOT_RUN",
   "layer": "P0 FK input and label-definition audit; exploratory; not method-effect evidence",
   "source_project": {
     "repository": "https://github.com/bArtyom/gfm-rag",
@@ -8,6 +8,8 @@
     "branch": "research/p0-fk-canonical-crosswalk-20261105",
     "guidance_conflict": "main research README and roadmap are older; this run follows the more specific v3 P0 crosswalk report and its stated canonical-input correction"
   },
+  "preregistration_commit": "f8b1967bbe562d7d09fa1a2176ed0c481d7a1676",
+  "remote_readback_verified": true,
   "research_question": "Does filtering invalid FK instances to the canonical P1.5 valid_instances_private set change the v3 P1.5 per-question labels, and which packet-vs-P1.5 differences remain?",
   "hypothesis": "The P1.5 adapter should pass only records with boolean valid_endpoints=true, matching run_p1_5_diagnostics.analyze_gold_joins. Changes from the prior wrapper should be attributable only to excluding invalid FK records; any remaining packet differences are implementation-definition differences, not role accuracy.",
   "inputs": {
