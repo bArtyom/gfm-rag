@@ -1,0 +1,17 @@
+{
+  "experiment_id": "p2d2_frozen_failure_attribution_20261105_01",
+  "status": "STOP_BEFORE_PRIVATE_READ",
+  "registered_source_commit": "f2869e3debff41b5ad5ace5446cff2d18be61c48",
+  "error_type": "FileNotFoundError",
+  "cause": "The supplied prepared-root pointed to the P2d.1 evaluation archive rather than the P2d preparation bundle. The expected preparation manifest was absent at that root.",
+  "correct_resource_alias": "sources/results/gfmrag_p2d_sql_utility_20261022_01/prepare_01/",
+  "private_file_content_read": false,
+  "frozen_sql_opened": false,
+  "sqlite_explain_compiles": 0,
+  "analysis_rows_written": 0,
+  "full_output_directory_created": false,
+  "model_calls": 0,
+  "api_calls": 0,
+  "gpu_seconds": 0,
+  "retry_under_original_run_id": false
+}

@@ -1,0 +1,85 @@
+{
+  "experiment_id": "p2d2_frozen_failure_attribution_20261105_02",
+  "status": "preregistered_not_run",
+  "predecessor_attempt": "p2d2_frozen_failure_attribution_20261105_01",
+  "project_repository": "https://github.com/bArtyom/gfm-rag",
+  "branch": "research/p2d2-frozen-failure-attribution-20261105",
+  "guidance_commit": "14892ee5de06a101c2b79187f044aa7e63a30371",
+  "protocol_commit": "f2869e3debff41b5ad5ace5446cff2d18be61c48",
+  "amendment": {
+    "path_correction_only": true,
+    "scientific_protocol_changed": false,
+    "correction": "prepared bundle is under the P2d source results resource alias, subdirectory prepare_01; the P2d.1 resource contains evaluation artifacts only",
+    "private_resource_alias": "sources/results/gfmrag_p2d_sql_utility_20261022_01/prepare_01/"
+  },
+  "research_layer": "exploratory_frozen_output_error_attribution",
+  "mainline_claim": false,
+  "core_question": "Can the 28 non-executable outputs among the 90 frozen P2d predictions be attributed to missing context, invalid schema references, alias/scope errors, or SQL formatting/structure without new model calls or query execution?",
+  "dataset": {
+    "source": "BIRD dev frozen P2d diagnostic subset",
+    "cases": 30,
+    "arms": ["E0", "E1", "E2"],
+    "prediction_denominator": 90,
+    "failure_denominator": 28,
+    "expected_parse_failures": {"E0": 4, "E1": 2, "E2": 4},
+    "expected_missing_column": {"E0": 6, "E1": 8, "E2": 4},
+    "independent_test_set": false
+  },
+  "frozen_inputs": {
+    "predictions_sha256": "e88bf42f22a73b6b56af96a5d3ea88d69252c33509bb72da5b8cfde2f7474ea5",
+    "prediction_seal_file_sha256": "f6ae031ec83e12da36bb27f55f1f8461298b340ef251a51cb1d280a43f2ddde3",
+    "prepare_seal_sha256": "334e388af338c7f20575aa81a86ff7184e526716b251cd1b48955b4134172aaa",
+    "p2d1_private_outcomes_sha256": "9b7fec27ee0d23cddf76b4bf842ddde530a2f1bbb001fa449218d3b049b3711d",
+    "schema_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97"
+  },
+  "method": {
+    "parse_failures": "static SQLGlot shape classification only",
+    "missing_column_failures": "one read-only SQLite EXPLAIN compilation per frozen failure; no SELECT execution or row retrieval",
+    "context_comparison": "exact failing identifier mapped in memory to schema and selected node IDs; only aggregate categories written",
+    "human_review": 0,
+    "model_calls": 0,
+    "api_calls": 0,
+    "gpu_seconds": 0,
+    "training": false
+  },
+  "environment": {
+    "conda_environment": "think2sql_20260909",
+    "python": "3.12.14",
+    "sqlglot": "28.0.0",
+    "dependency_installation": false,
+    "execution_note": "Use the environment's explicit Python 3.12 interpreter through conda run; bare conda run -n ... python resolved to an unrelated Python 3.9 environment in this shell."
+  },
+  "resource_budget": {
+    "cpu_threads_max": 4,
+    "process_cpu_seconds_max": 300,
+    "rss_bytes_max": 4294967296,
+    "per_explain_wall_seconds_max": 2,
+    "retries": 0
+  },
+  "success_criteria": {
+    "high_confidence_failure_categories_min": 23,
+    "failure_denominator": 28,
+    "context_omission_followup_candidate": {
+      "missing_column_cases_min": 9,
+      "denominator": 18,
+      "same_node_visible_in_other_arm_distinct_cases_min": 4
+    },
+    "generation_side_candidate": {
+      "hallucinated_visible_or_qualifier_scope_min": 9,
+      "denominator": 18
+    }
+  },
+  "privacy": {
+    "public_case_ids": false,
+    "public_sql": false,
+    "public_database_table_column_names": false,
+    "public_question_or_prompt_text": false,
+    "public_raw_sqlite_errors": false,
+    "public_private_paths_or_logs": false
+  },
+  "result_storage": {
+    "local_result_alias": "sources/results/gfmrag_p2d2_frozen_failure_attribution_20261105_02/",
+    "local_log_alias": "logs/gfmrag_p2d2_frozen_failure_attribution_20261105_02/",
+    "public_aggregate": "docs/research/text2sql/reports/p2d2_frozen_failure_attribution_20261105_02/aggregate.json"
+  }
+}

@@ -532,7 +532,7 @@ def full_analysis(args):
     if elapsed_cpu > CPU_SECONDS_LIMIT or peak_rss > RSS_BYTES_LIMIT:
         raise StopRun("analysis resource budget exceeded")
     result = {
-        "experiment_id": "p2d2_frozen_failure_attribution_20261105_01",
+        "experiment_id": args.experiment_id,
         "status": "COMPLETED",
         "denominators": {"cases": 30, "arms": 3, "predictions": 90, "failures": len(classifications), "missing_column": missing_column_total},
         "failure_categories": dict(sorted(category_counts.items())),
@@ -652,6 +652,7 @@ def self_check():
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--self-check", action="store_true")
+    parser.add_argument("--experiment-id")
     parser.add_argument("--expected-commit")
     parser.add_argument("--expected-tree")
     parser.add_argument("--prepared-root", type=Path)
@@ -662,9 +663,11 @@ def main():
     if args.self_check:
         self_check()
         return
-    required = (args.expected_commit, args.expected_tree, args.prepared_root, args.p2d_full_root, args.p2d1_root, args.output_root)
+    required = (args.experiment_id, args.expected_commit, args.expected_tree, args.prepared_root, args.p2d_full_root, args.p2d1_root, args.output_root)
     if any(value is None for value in required):
         raise StopRun("required argument missing")
+    if not re.fullmatch(r"p2d2_frozen_failure_attribution_20261105_[0-9]{2}", args.experiment_id):
+        raise StopRun("experiment id is outside the registered namespace")
     full_analysis(args)
 
 
