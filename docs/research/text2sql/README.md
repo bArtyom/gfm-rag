@@ -34,7 +34,7 @@
 
 > **2026-11-06 Query 指令兼容性审计**：G-reasoner-34M checkpoint/G0 使用的 Query 指令与 P1.6 表列检索指令不同。后续 FK 映射 Pilot 的 G-reasoner 与 Dense 主比较须共享 checkpoint 兼容的 Query 向量和相同映射候选文本；不得直接复用 P1.6 Query cache。本审计不修改 P1.6 历史结果；双人标签仍为0，Pilot 未运行。见[兼容性审计](plans/p0_gfm_embedding_instruction_compatibility_audit_20261106.md)。
 
-> **2026-11-06 FK mapping 样本容量审计已登记**：现有盲审包 51 个问题×表对中，匿名结构计数只有 8 对含至少两个不同有效 FK mapping，低于 Pilot 预设的 20 对门槛。现在先核对完整 BIRD dev 候选总体是否有足够表对级歧义；不读 A/B 回复、不降阈值、不运行模型。见[预注册计划](plans/p0_fk_mapping_candidate_capacity_audit_20261106.md)。
+> **2026-11-06 FK mapping 样本容量审计完成**：已解析 1,127/1,140 个 JOIN-ON 问题，提取 1,391 个问题×表对，其中 1,208 对含有效 FK 候选、176 对含多个 mapping，覆盖 4 个数据库；13 题仍有表对解析缺口。即使排除任意 5 个已解析问题，解析子集的保守下界仍为 1,189 个 FK-bearing 对、170 个多映射对、4 个数据库，超过 30/20/3 容量必要门。可准备新的独立 pair-level 双人盲审包；可信人工标签仍为 0，模型 Pilot 未启动。见[审计报告](reports/p0_fk_mapping_candidate_capacity_20261106_01/README.md)、[容量审计计划](plans/p0_fk_mapping_candidate_capacity_audit_20261106.md)和[新盲审方案](plans/p0_fk_mapping_pair_level_blind_review_20261106.md)。
 
 ## 现有研究文档
 
@@ -90,7 +90,9 @@
 | [FK 映射排序文献更新](plans/p0_fk_mapping_rank_literature_update_20261106.md) | 将 JoinGR、MDB-Link 等近邻纳入 novelty audit，明确候选只作 G-reasoner 迁移/证伪测试 | **盲审回复未更新；按路线图等待，不启动模型实验** |
 | [FK 映射排序前沿复核](plans/p0_fk_mapping_rank_frontier_check_20261106.md) | 核对双向检索、joinable-table扩展和多解释歧义评测等新近邻，说明为何保留同一映射级 Pilot | **未发现可替代盲审门的独立实验；A/B可信标签仍为0** |
 | [FK 映射 Pilot 设计审计](plans/p0_fk_mapping_rank_pilot_design_audit_20261106.md) | 纳入近期修复/检索/压缩文献，冻结主基线、可区分标签分母、Smoke/Full 隔离和小样本成功门 | **设计收敛；仍待双人标签；未注册、未运行** |
-| [FK mapping 候选容量审计](plans/p0_fk_mapping_candidate_capacity_audit_20261106.md) | 计算冻结 BIRD dev 的表对级有效 FK 候选容量，判断现有盲审样本门能否实现 | **已登记；CPU-only；未运行** |
+| [FK mapping 候选容量审计计划](plans/p0_fk_mapping_candidate_capacity_audit_20261106.md) | 检查冻结 BIRD dev 的表对级有效 FK 候选容量 | **已执行；解析子集超过必要容量门，完整总体有 13 个解析缺口** |
+| [FK mapping 候选容量审计报告](reports/p0_fk_mapping_candidate_capacity_20261106_01/README.md) | 匿名统计表对级 FK mapping 候选、Smoke 后结构容量范围 | **完成；1,208 个 FK-bearing 对、176 个多映射对、4 个数据库；未运行模型** |
+| [FK mapping pair-level 双人盲审方案](plans/p0_fk_mapping_pair_level_blind_review_20261106.md) | 用新的独立样本包补足映射级双审候选，保留旧包和阈值 | **仅方案；未生成新材料，未联系审阅者，等待标签门** |
 | [G-reasoner Query 指令兼容性审计](plans/p0_gfm_embedding_instruction_compatibility_audit_20261106.md) | 对照 checkpoint、G0 与 P1.6 的 Query 指令，冻结 FK mapping Pilot 的向量兼容要求 | **只读审计；不推翻历史结果；仍待双人标签，未运行模型** |
 | [FK 映射 Pilot 输入语义审计](plans/p0_fk_mapping_rank_pilot_input_semantics_audit_20261106.md) | 基于官方 seed-mask 接口与 G0 代码，冻结条件式表对任务的共享起点语义 | **设计澄清；仍待双人标签；未注册、未运行** |
 | [2026-10-23 P2d.1 + G0 跨分支复核（当前）](reports/p2d1_g0_cross_branch_review_20261023/README.md) | 读取分支的真实结果，区分 evaluator v2、元数据未被模型读取及方法结论边界 | 已完成静态分析；非新实验 |

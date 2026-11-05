@@ -1,0 +1,95 @@
+{
+  "after_removing_any_five_join_question_smoke": {
+    "best_case_remaining_capacity": {
+      "ambiguous_pairs": 176,
+      "databases_with_ambiguous_pairs": 4,
+      "fk_bearing_pairs": 1208,
+      "questions_with_any_fk_pair": 1140
+    },
+    "range_basis": "all JOIN ON questions; parse failures contribute zero observed pairs",
+    "range_complete": false,
+    "worst_case_remaining_capacity": {
+      "ambiguous_pairs": 170,
+      "databases_with_ambiguous_pairs": 4,
+      "fk_bearing_pairs": 1189,
+      "questions_with_any_fk_pair": 1135
+    }
+  },
+  "capacity_decision": "CAPACITY_POSSIBLE_ON_PARSED_SUBSET_PARSE_FAILURES_PRESENT",
+  "experiment_id": "p0_fk_mapping_candidate_capacity_20261106_01",
+  "frozen_population": {
+    "ambiguous_question_table_pairs_with_two_or_more_mappings": 176,
+    "database_count": 11,
+    "databases_with_ambiguous_pairs": 4,
+    "databases_with_fk_bearing_pairs": 11,
+    "fk_bearing_question_table_pairs": 1208,
+    "join_on_questions": 1140,
+    "mapping_multiplicity_histogram": {
+      "0": 183,
+      "1": 1032,
+      "2": 141,
+      "22": 7,
+      "3": 28
+    },
+    "parsed_questions": 1127,
+    "per_database_ambiguous_pair_count_bucket_histogram": {
+      "0": 7,
+      "1": 0,
+      "2-5": 0,
+      "6+": 4
+    },
+    "per_database_fk_pair_count_bucket_histogram": {
+      "0": 0,
+      "1": 0,
+      "2-5": 0,
+      "6+": 11
+    },
+    "question_table_pairs": 1391,
+    "questions_with_any_ambiguous_pair": 175,
+    "questions_with_any_fk_bearing_pair": 989,
+    "target_parse_failures_by_reason": {
+      "JOIN_PAIR_EXTRACTION_INCOMPLETE": 13
+    }
+  },
+  "input_sha256": {
+    "canonical_full": "746e6366831b5924fedd309af4c96f71ab49d6f3462ad2d054cfd427fb2f33ed",
+    "crosswalk_private": "7acdbecca557d8ce49283adca174e1caacd9dc77929e1f6ad819b75299a9938e",
+    "dev.json": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "dev_tables.json": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "fk_artifact": "5bc60f6d64429215fa92d3c3a42f1a4881dc77c09839729153fb55a119555060"
+  },
+  "necessary_capacity_thresholds": {
+    "ambiguous_question_table_pairs": 20,
+    "databases_with_ambiguous_pairs": 3,
+    "fk_bearing_question_table_pairs": 30
+  },
+  "privacy": {
+    "database_ids_written": false,
+    "mapping_ids_written": false,
+    "question_ids_written": false,
+    "reviewer_response_files_read": false,
+    "sql_written": false,
+    "table_or_column_names_written": false
+  },
+  "python_version": "3.12.14",
+  "resource_usage": {
+    "api_calls": 0,
+    "cpu_seconds": 0.844948,
+    "gpu_seconds": 0,
+    "limits": {
+      "cpu_seconds": 300.0,
+      "peak_rss_gib": 4.0,
+      "wall_seconds": 600.0
+    },
+    "model_calls": 0,
+    "peak_rss_gib": 0.032227,
+    "sql_execution_calls": 0,
+    "wall_seconds": 0.848946
+  },
+  "run_id": "p0_fk_mapping_candidate_capacity_20261106_01",
+  "script_sha256": "273bcc382d4316e4d41d67cf68b0c6175fd337264fd65ea011bff1d0a7498bbb",
+  "source_commit": "de481ac62d1b278c9b21c5b2f805548a52c2bb59",
+  "sqlglot_version": "28.0.0",
+  "started_at_utc": "2026-11-05T23:14:00Z",
+  "status": "COMPLETED"
+}
