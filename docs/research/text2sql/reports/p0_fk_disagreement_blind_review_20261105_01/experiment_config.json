@@ -1,0 +1,105 @@
+{
+  "experiment_id": "p0_fk_disagreement_blind_review_20261105_01",
+  "status": "PREREGISTERED_NOT_RUN",
+  "layer": "P0 label-definition and annotation-readiness audit; exploratory; no method-effect evidence",
+  "source_project": {
+    "repository": "https://github.com/bArtyom/gfm-rag",
+    "branch": "research/p0-fk-disagreement-review-20261105",
+    "base_commit": "8ea7f093ed2fb54acca7d8826aa02c67d4738411",
+    "execution_commit": "recorded in the post-registration run receipt",
+    "guidance_read": [
+      "README.md",
+      "docs/research/text2sql/README.md",
+      "docs/research/text2sql/experiment-roadmap.md",
+      "docs/research/text2sql/reproducibility-contract.md",
+      "plans/p0_role_blind_review_packet_20261025.md",
+      "reports/p0_fk_canonical_crosswalk_20261105_01/README.md"
+    ]
+  },
+  "research_question": "Can a deterministic, privacy-preserving sample of packet-vs-canonical FK-definition disagreements be prepared for independent human judgment of intended FK mappings, conditional on a supplied table pair?",
+  "hypothesis": "Frozen per-question crosswalk labels, canonical P1.5 diagnostics, and valid SQLite FK instances suffice to create reproducible blinded A/B packets with complete composite mappings and no Gold SQL or method provenance in the packets.",
+  "interpretation_boundary": "Preparation only. No human review, trusted Role labels, Role Accuracy, SQL EX, or model-method gain is produced. Table pairs are derived from Gold JOIN structure, so this is a conditional mapping review, not an end-to-end or fully Gold-free online evaluation.",
+  "inputs": {
+    "dataset": "BIRD dev; repeatedly used development/diagnostic data; not an independent test set",
+    "dev_json": "local:datasets/bird/dev/dev.json",
+    "dev_json_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "dev_tables_json": "local:datasets/bird/dev/dev_tables.json",
+    "dev_tables_json_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "fk_artifact": "local:results/gfmrag_p1_5_diagnosis_20261016/full_03/fk_gate_private.json",
+    "fk_artifact_sha256": "5bc60f6d64429215fa92d3c3a42f1a4881dc77c09839729153fb55a119555060",
+    "crosswalk_private": "local:results/gfmrag_p0_fk_canonical_crosswalk_20261105_01/crosswalk/crosswalk_private.json",
+    "crosswalk_private_sha256": "7acdbecca557d8ce49283adca174e1caacd9dc77929e1f6ad819b75299a9938e",
+    "canonical_p1_5_full": "local:results/gfmrag_p0_fk_canonical_crosswalk_20261105_01/full/p0fk_canonical_p15_full_py312_sqlg28_20261105_01.json",
+    "canonical_p1_5_full_sha256": "746e6366831b5924fedd309af4c96f71ab49d6f3462ad2d054cfd427fb2f33ed",
+    "expected_schema_fk_counts": {"database_count": 11, "raw_instances": 103, "valid_instances": 100, "invalid_instances": 3, "unique_valid_mappings": 99}
+  },
+  "sampling": {
+    "seed": 20261105,
+    "population_counts": {
+      "packet_only_canonical_ambiguous": 22,
+      "packet_only_canonical_unmatched": 66,
+      "canonical_only_fk_match": 15,
+      "canonical_only_multi_fk": 21,
+      "both_positive_controls": 173
+    },
+    "quotas": {
+      "packet_only_canonical_ambiguous": 6,
+      "packet_only_canonical_unmatched": 6,
+      "canonical_only_fk_match": 15,
+      "canonical_only_multi_fk": 21,
+      "both_positive_controls": 6
+    },
+    "selection": "stable SHA-256 order per stratum, then deduplicate questions and preserve all selected stratum tags; no cross-stratum replacement",
+    "minimum_unique_questions": 30,
+    "smoke_cases": 5,
+    "full_cases_max": 54
+  },
+  "annotation": {
+    "unit": "question × table pair",
+    "decisions": ["single_mapping", "multiple_mappings", "cannot_determine", "no_declared_fk", "other"],
+    "confidence": "1=low, 2=medium, 3=high",
+    "consensus": "exact decision and mapping-set agreement, both reviewers confidence >= 2",
+    "human_review_completed": false,
+    "trusted_role_labels_created": 0
+  },
+  "execution": {
+    "environment": "think2sql_20260909",
+    "python": "3.12.14",
+    "sqlglot": "28.0.0",
+    "runner": "scripts/text2sql/prepare_p0_fk_disagreement_review_packet.py",
+    "runner_sha256": "7eb7445e9dc634844bbded0f7ec500cc043f1397b35370c715d3c61073de449d",
+    "device": "CPU-only",
+    "threads_max": 8,
+    "per_process_wall_seconds_max": 600,
+    "per_process_cpu_seconds_max": 600,
+    "rss_gib_max": 4,
+    "gpu_seconds": 0,
+    "model_calls": 0,
+    "api_calls": 0,
+    "sql_execution": 0,
+    "training": 0,
+    "downloads_or_installs": 0,
+    "run_ids": {
+      "smoke": "p0_fk_disagreement_blind_review_smoke_20261105_01",
+      "full": "p0_fk_disagreement_blind_review_full_20261105_01"
+    },
+    "command_template": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 conda run --no-capture-output -n think2sql_20260909 python3.12 scripts/text2sql/prepare_p0_fk_disagreement_review_packet.py --mode {smoke|full} --run-id {run_id} --dev-json ${BIRD_DEV_ROOT}/dev.json --tables-json ${BIRD_DEV_ROOT}/dev_tables.json --fk-artifact ${P1_5_FK_ARTIFACT} --crosswalk-private ${CROSSWALK_PRIVATE} --canonical-full ${CANONICAL_FULL} --output-dir ${P0_RESULT_ROOT}/{smoke|full}/{run_id}"
+  },
+  "success_and_stop_gates": {
+    "smoke": "all input hashes and frozen stratum population counts match; 5 deterministic selected cases parse; packets render in memory; candidate mapping sets agree across A/B; no SQL or method provenance is emitted",
+    "full": "all smoke gates plus 1534 question-key joins, exact quotas, at least 30 unique questions, complete parseable table-pair prompts, full valid FK mapping lists, private permissions, and output hashes",
+    "no_retries_under_same_run_id": true,
+    "human_review_is_not_a_preparation_gate": true
+  },
+  "privacy": {
+    "public_questions": false,
+    "public_gold_sql": false,
+    "public_question_or_database_ids": false,
+    "public_per_question_strata": false,
+    "public_packets_or_responses": false,
+    "reviewer_packets_private_permissions": "0600",
+    "result_directory_private_permissions": "0700"
+  },
+  "result_root": "local:results/gfmrag_p0_fk_disagreement_blind_review_20261105_01",
+  "log_root": "local:logs/p0_fk_disagreement_blind_review_20261105_01"
+}
