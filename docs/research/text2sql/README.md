@@ -84,6 +84,7 @@
 | [P0 BIRD FK hop v2 完整报告](reports/p0_bird_fk_hop_profile_20261105_02/README.md) | v2匿名结构画像、v1聚合对照、SchemaScope比例差异及停止决定 | **FULL_COMPLETED；不再扩展高跳数方法** |
 | [双人标签后 FK 映射排序 Pilot 候选](plans/p0_fk_mapping_rank_pilot_candidate_20261105.md) | 在固定表对/映射候选上比较冻结 GFM 与 Dense、BM25、结构顺序；报告接受集合排序与错误交集 | **仅候选；方法新颖性未知；必须先通过真实双人标签门，不得提前运行** |
 | [FK 映射排序文献更新](plans/p0_fk_mapping_rank_literature_update_20261106.md) | 将 JoinGR、MDB-Link 等近邻纳入 novelty audit，明确候选只作 G-reasoner 迁移/证伪测试 | **盲审回复未更新；按路线图等待，不启动模型实验** |
+| [FK 映射排序前沿复核](plans/p0_fk_mapping_rank_frontier_check_20261106.md) | 核对双向检索、joinable-table扩展和多解释歧义评测等新近邻，说明为何保留同一映射级 Pilot | **未发现可替代盲审门的独立实验；A/B可信标签仍为0** |
 | [FK 映射 Pilot 设计审计](plans/p0_fk_mapping_rank_pilot_design_audit_20261106.md) | 纳入近期修复/检索/压缩文献，冻结主基线、可区分标签分母、Smoke/Full 隔离和小样本成功门 | **设计收敛；仍待双人标签；未注册、未运行** |
 | [FK 映射 Pilot 输入语义审计](plans/p0_fk_mapping_rank_pilot_input_semantics_audit_20261106.md) | 基于官方 seed-mask 接口与 G0 代码，冻结条件式表对任务的共享起点语义 | **设计澄清；仍待双人标签；未注册、未运行** |
 | [2026-10-23 P2d.1 + G0 跨分支复核（当前）](reports/p2d1_g0_cross_branch_review_20261023/README.md) | 读取分支的真实结果，区分 evaluator v2、元数据未被模型读取及方法结论边界 | 已完成静态分析；非新实验 |
@@ -113,6 +114,8 @@
 论文与代码审计、实验路线图、复现规范从旧仓库**迁移**，部分路径/迁移日期调整；迁移本身不产生新实验结论。上表的 P1 报告记录了 2026-10-14 实际运行，但其范围仅为表/列筛查，FK/角色未测；不得视作当前路线图下 P0 通过或完整 P1 完成。
 
 > **2026-11-06 路线更新**：P2d.3 authorizer 只读反事实审计在 8 个被拒修复候选中发现 2 个完整 Schema 下可执行且正确，但不改变原 A2 的 17/66 系统分数。通用 SQL 修复和双 Schema 路线已有近期工作覆盖，本分支不继续追加此类实验。当前唯一可启动的 GFM 方法 Pilot 仍需两位真实审阅者完成现有 A/B 映射审阅；最新文件状态仍是 0 个可信标签，所以不运行 Smoke/Full、不让模型代标。见[审计报告](reports/p2d3_authorizer_counterfactual_audit_20261106_01/README.md)、[映射排序文献更新](plans/p0_fk_mapping_rank_literature_update_20261106.md)和[设计审计](plans/p0_fk_mapping_rank_pilot_design_audit_20261106.md)。
+
+> **2026-11-06 前沿复核补充**：Rethinking Schema Linking 已覆盖 table-first/column-first 检索，REaR 已覆盖检索后按列向量扩展 joinable 表；ARCS 的人工多解释标签并非 BIRD FK mapping 业务角色标签。未发现能在不重复已有工作、也不替代双人审阅的可执行新实验，因此保留同一 Accepted@1 映射级证伪 Pilot，不另开支线。详见[前沿复核](plans/p0_fk_mapping_rank_frontier_check_20261106.md)。
 
 ## 当前研究命题
 
