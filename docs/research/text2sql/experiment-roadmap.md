@@ -8,7 +8,7 @@
 
 > **2026-11-05 非方法结构审计补充**：在人工标签等待期间，可执行一次独立 CPU-only BIRD dev FK 图 hop-depth profile，判断该开发集是否包含足够、跨数据库分布的 h≥3 结构样本。此审计不输出题目级/数据库级数据、不验证业务路径正确性，也不放宽前述 Role 标签门。详见 [P0-BIRD-FK Hop Profile 计划](plans/p0_bird_fk_hop_profile_20261105.md)。
 >
-> **2026-11-05 实施更正**：hop profile v1 已运行但发现全局 CTE 名称过滤可能跨作用域误删同名基础表，因此 v1 仅保留为待修正版本。v2 使用 SQLGlot scope-aware `selected_sources` 解析器；输入、FK 图、Steiner 定义、阈值、Smoke→Full 门与 CPU 预算不变。见 [v1 报告](reports/p0_bird_fk_hop_profile_20261105_01/README.md) 和 [v2 更正计划](plans/p0_bird_fk_hop_profile_v2_correction_20261105.md)。
+> **2026-11-05 实施更正与停止决定**：hop profile v1 曾使用全局 CTE 名称过滤，可能跨作用域误删同名基础表；v1 原报告/产物保留。v2 使用 SQLGlot scope-aware `selected_sources` 解析器，Smoke/Full 通过且匿名聚合与 v1 相同：36/1,534 题连通 `h≥3`、覆盖5库，77题声明FK图不连通。与 SchemaScope 报告的约22%差异仍未解释；按预注册规则停止更多切片或解析器扫描，暂不在 BIRD dev 扩展高跳数方法。见 [v1报告](reports/p0_bird_fk_hop_profile_20261105_01/README.md)、[v2更正计划](plans/p0_bird_fk_hop_profile_v2_correction_20261105.md)和[v2结果](reports/p0_bird_fk_hop_profile_20261105_02/README.md)。双人可信 Role 标签仍是任何真实 FK mapping 方法评估的前置。
 
 ## 0. 预注册研究问题及假设
 
