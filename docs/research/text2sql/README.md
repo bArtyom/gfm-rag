@@ -28,6 +28,8 @@
 
 > **2026-11-06 Pilot 设计审计**：新核对的 Post-SQLFix、CORE-T、DBCC、BASS 与 PASCAL 进一步覆盖通用修复、相干表检索、上下文压缩、预算搜索及交互式证据获取；不新增相邻 SQL 修复或普通 Schema packing 实验。FK 映射 Pilot 的主对照、可区分标签分母、Smoke/Full 不重叠和数据库级成功门已明确；仍须等待两位真实审阅者，未注册、未运行。见[设计审计](plans/p0_fk_mapping_rank_pilot_design_audit_20261106.md)。
 
+> **2026-11-06 Pilot 输入语义澄清**：代码核对发现 G0 合成探针固定从 FK source table 起步，而真实表对的候选 FK 方向可能不同。为避免候选得到不同起点，条件式映射排序 Pilot 暂定将表对两个端点作为所有候选共享的 binary seeds；这不是官方端到端 NER/EL 流程，也未解除人工标签门。见[输入语义审计](plans/p0_fk_mapping_rank_pilot_input_semantics_audit_20261106.md)。
+
 ## 现有研究文档
 
 | 文档 | 作用 | 状态 |
@@ -80,6 +82,7 @@
 | [双人标签后 FK 映射排序 Pilot 候选](plans/p0_fk_mapping_rank_pilot_candidate_20261105.md) | 在固定表对/映射候选上比较冻结 GFM 与 Dense、BM25、结构顺序；报告接受集合排序与错误交集 | **仅候选；方法新颖性未知；必须先通过真实双人标签门，不得提前运行** |
 | [FK 映射排序文献更新](plans/p0_fk_mapping_rank_literature_update_20261106.md) | 将 JoinGR、MDB-Link 等近邻纳入 novelty audit，明确候选只作 G-reasoner 迁移/证伪测试 | **盲审回复未更新；按路线图等待，不启动模型实验** |
 | [FK 映射 Pilot 设计审计](plans/p0_fk_mapping_rank_pilot_design_audit_20261106.md) | 纳入近期修复/检索/压缩文献，冻结主基线、可区分标签分母、Smoke/Full 隔离和小样本成功门 | **设计收敛；仍待双人标签；未注册、未运行** |
+| [FK 映射 Pilot 输入语义审计](plans/p0_fk_mapping_rank_pilot_input_semantics_audit_20261106.md) | 基于官方 seed-mask 接口与 G0 代码，冻结条件式表对任务的共享起点语义 | **设计澄清；仍待双人标签；未注册、未运行** |
 | [2026-10-23 P2d.1 + G0 跨分支复核（当前）](reports/p2d1_g0_cross_branch_review_20261023/README.md) | 读取分支的真实结果，区分 evaluator v2、元数据未被模型读取及方法结论边界 | 已完成静态分析；非新实验 |
 | [G1关系通道×FK Instance保真](plans/g1_relation_channel_and_fk_instance_gate_20261023.md) | 8次合成前向/多种edge_type/rel_attr对照、同义重标记不变性、FK Role Label Gate及Go/No-go | 2026-10-23完成；按原门槛 G1-A NO-GO，见G1报告 |
 | [2026-10-24全局实验复核与G1结构对称性分析](reports/current_results_review_20261024/README.md) | 从P1/P2到G1/G2及FK Instance Gate结果、失败机制和下一步 | **静态复核附Gate结果更新** |
