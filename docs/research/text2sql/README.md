@@ -24,6 +24,8 @@
 
 > **方法变更台账**：为避免把检索、上下文打包、SQL评测和图传播探针混为“QuadGraph方法改进”，逐项列出原方法、实际改动、结果及证据边界，见[方法变更台账](method-change-ledger-20261105.md)。
 
+> **2026-11-06 文献与下一步门更新**：新近的 JoinGR 已覆盖 join-graph 遍历及可选边级监督，MDB-Link 已覆盖分层表/列选择与预算 Schema 构造；当前 FK mapping pilot 只保留为冻结 G-reasoner 的小样本迁移/证伪测试，不主张新算法。盲审 A/B 回复文件元数据仍停留在材料生成时间，故按路线图暂不启动模型实验，等待两位真实审阅者提交。见[文献更新与候选门](plans/p0_fk_mapping_rank_literature_update_20261106.md)。
+
 ## 现有研究文档
 
 | 文档 | 作用 | 状态 |
@@ -74,6 +76,7 @@
 | [P0 BIRD FK hop v2 修正方案](plans/p0_bird_fk_hop_profile_v2_correction_20261105.md) | 只将 CTE 过滤改为 SQLGlot 作用域感知基础表解析，其他定义冻结 | Smoke/Full 已按计划完成 |
 | [P0 BIRD FK hop v2 完整报告](reports/p0_bird_fk_hop_profile_20261105_02/README.md) | v2匿名结构画像、v1聚合对照、SchemaScope比例差异及停止决定 | **FULL_COMPLETED；不再扩展高跳数方法** |
 | [双人标签后 FK 映射排序 Pilot 候选](plans/p0_fk_mapping_rank_pilot_candidate_20261105.md) | 在固定表对/映射候选上比较冻结 GFM 与 Dense、BM25、结构顺序；报告接受集合排序与错误交集 | **仅候选；方法新颖性未知；必须先通过真实双人标签门，不得提前运行** |
+| [FK 映射排序文献更新](plans/p0_fk_mapping_rank_literature_update_20261106.md) | 将 JoinGR、MDB-Link 等近邻纳入 novelty audit，明确候选只作 G-reasoner 迁移/证伪测试 | **盲审回复未更新；按路线图等待，不启动模型实验** |
 | [2026-10-23 P2d.1 + G0 跨分支复核（当前）](reports/p2d1_g0_cross_branch_review_20261023/README.md) | 读取分支的真实结果，区分 evaluator v2、元数据未被模型读取及方法结论边界 | 已完成静态分析；非新实验 |
 | [G1关系通道×FK Instance保真](plans/g1_relation_channel_and_fk_instance_gate_20261023.md) | 8次合成前向/多种edge_type/rel_attr对照、同义重标记不变性、FK Role Label Gate及Go/No-go | 2026-10-23完成；按原门槛 G1-A NO-GO，见G1报告 |
 | [2026-10-24全局实验复核与G1结构对称性分析](reports/current_results_review_20261024/README.md) | 从P1/P2到G1/G2及FK Instance Gate结果、失败机制和下一步 | **静态复核附Gate结果更新** |
