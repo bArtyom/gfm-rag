@@ -59,6 +59,7 @@ P2d.2 对 28 条不可执行 SQL 的冻结归因中，10 条是解析/结构错�
 ## 固定配置与资源预算
 
 - 模型：本地 `Qwen2.5-Coder-7B-Instruct`；temperature `0`、top-p `1`、top-k `-1`、repetition penalty `1.0`、seed `20261105`；初始 SQL 最大 1024 tokens；每次修复最大 512 tokens；一次初始生成，修复组各最多一次。
+- 冻结检索文本重建另使用既有 `Qwen3-Embedding-0.6B` tokenizer（`sources/models/qwen3-embedding-0.6b`）复现 P2c-R 的 R0/R1 Schema 文本与 token 计数；SQL prompt 长度、生成和修复均使用 Qwen2.5-Coder-7B tokenizer/模型（`sources/models/qwen25-coder-7b`）。P2c-R 已有排名与节点选择直接复用，不重新编码或改变检索结果。
 - 服务：独立既有 `qbridge_vllm085_20260829` 环境，vLLM `0.8.5`；单机本地服务，指定一张 RTX 4090 和独立端口；不启动 Jev，不使用外部付费 API。
 - 运行器：既有 `think2sql_20260909` Python 3.12.14 / SQLGlot 28 环境；不改依赖、不下载模型。启动前再次确认环境实际版本。
 - 资源上限：单 GPU、峰值显存 22 GiB、最多 8 CPU 线程、进程 RSS 16 GiB、Full+Smoke 总墙钟 4 小时；最大 213 个模型请求（15 Smoke + 198 Full），输入 token 700 万、输出 token 20 万。达到任一上限即停止。

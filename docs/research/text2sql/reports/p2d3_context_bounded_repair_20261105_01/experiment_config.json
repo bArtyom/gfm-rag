@@ -45,6 +45,12 @@
     "repair_max_tokens": 512,
     "max_repair_attempts_per_arm": 1
   },
+  "frozen_retrieval_reconstruction": {
+    "encoder_tokenizer": "Qwen3-Embedding-0.6B",
+    "encoder_source_alias": "sources/models/qwen3-embedding-0.6b",
+    "purpose": "Rebuild the frozen P2c-R R0/R1 Schema text and its token accounting only; reuse archived V00 ranks/node selections and do not recompute embeddings.",
+    "generation_prompt_tokenizer": "Qwen2.5-Coder-7B-Instruct"
+  },
   "run_ids": {
     "smoke": "p2d3_context_bounded_repair_smoke5_20261105_01",
     "full": "p2d3_context_bounded_repair_full66_20261105_01"

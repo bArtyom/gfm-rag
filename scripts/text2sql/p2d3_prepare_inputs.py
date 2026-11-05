@@ -170,7 +170,8 @@ def main() -> None:
     if subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True).strip():
         raise RuntimeError("Preparation requires a clean source tree")
     data_root = env_path("P2D3_BIRD_ROOT")
-    model_root = env_path("P2D3_MODEL_ROOT")
+    embedding_model_root = env_path("P2D3_EMBEDDING_MODEL_ROOT")
+    generation_model_root = env_path("P2D3_GENERATION_MODEL_ROOT")
     p1_run = env_path("P2D3_P1_6_RUN")
     legacy_root = env_path("P2D3_LEGACY_ROOT")
     p2c_root = env_path("P2D3_P2C_RESULT")
@@ -203,16 +204,21 @@ def main() -> None:
         p1_6_run_dir=p1_run,
         legacy_root=legacy_root,
         dataset_root=data_root,
-        model_path=model_root,
+        model_path=embedding_model_root,
         previous_run_dir=env_path("P2D3_P1_LEGACY_RESULT"),
         p1_5_run_dir=env_path("P2D3_P1_5_RESULT"),
     )
     input_record, frozen, _, _ = p2a.validate_p1_6_inputs(p1_args, p1)
-    _, common = p1.load_common(legacy_root, data_root, model_root)
+    _, common = p1.load_common(legacy_root, data_root, embedding_model_root)
     from transformers import AutoTokenizer
-    tokenizer = AutoTokenizer.from_pretrained(str(model_root), local_files_only=True, trust_remote_code=True)
+    embedding_tokenizer = AutoTokenizer.from_pretrained(
+        str(embedding_model_root), local_files_only=True, trust_remote_code=True,
+    )
+    generation_tokenizer = AutoTokenizer.from_pretrained(
+        str(generation_model_root), local_files_only=True, trust_remote_code=True,
+    )
     r0_nodes = {node.node_id: node.text for node in frozen["nodes"]}
-    r1_nodes, text_audit = p2b.build_r1_nodes(frozen, common, tokenizer)
+    r1_nodes, text_audit = p2b.build_r1_nodes(frozen, common, embedding_tokenizer)
     if (len(r0_nodes) != 873
             or text_audit["r0_schema_text_sequence_sha256"] != "b5b6ca9714195f733aaeb379aabbcb64c403e107444b8ed95679d798d924ab5a"
             or text_audit["r1_schema_text_sequence_sha256"] != "73c59126b931fb72b7c09ba06de76327057e32832e2aeef0c8175b8956ed3e3c"):
@@ -282,7 +288,9 @@ def main() -> None:
         selected_text = "\n".join(r0_nodes[node_id] for node_id in selected_ids)
         allowed_catalog = make_catalog(schemas[db_id], db_id, selected_ids)
         messages = p2d_inputs.messages(raw["question"], raw.get("evidence", "") or "", selected_text)
-        prompt_tokens = len(tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True))
+        prompt_tokens = len(generation_tokenizer.apply_chat_template(
+            messages, tokenize=True, add_generation_prompt=True,
+        ))
         if prompt_tokens + 1024 > 32768:
             raise RuntimeError("Frozen initial prompt exceeds registered model context")
         cohort = "full" if question_id in set(full_ids) else "smoke"
@@ -329,10 +337,13 @@ def main() -> None:
     }
     source_hashes = {name: {"sha256": sha(path), "path_private": str(path.resolve())}
                      for name, path in source_paths.items()}
-    model_files = sorted(path for path in model_root.rglob("*") if path.is_file())
-    model_hashes = {str(path.relative_to(model_root)): sha(path) for path in model_files}
+    model_files = sorted(path for path in generation_model_root.rglob("*") if path.is_file())
+    model_hashes = {str(path.relative_to(generation_model_root)): sha(path) for path in model_files}
     model_manifest_path = prepared_root / "model_manifest_private.json"
-    write_new(model_manifest_path, {"model_root_private": str(model_root), "files": model_hashes})
+    write_new(model_manifest_path, {
+        "model_root_private": str(generation_model_root),
+        "files": model_hashes,
+    })
     seal = {
         "experiment_id": EXPERIMENT,
         "cases": case_manifest,
