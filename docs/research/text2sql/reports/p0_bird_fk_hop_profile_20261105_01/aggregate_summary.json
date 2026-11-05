@@ -1,0 +1,58 @@
+{
+  "denominators": {
+    "questions_processed": 1534,
+    "schemas_loaded": 11,
+    "distinct_schema_databases": 11,
+    "statuses_sum_to_questions": true,
+    "questions_with_all_table_refs_mapped": 1534,
+    "base_table_references_parsed": 2978
+  },
+  "fk_table_graph": {
+    "declared_fk_column_pairs": 102,
+    "unique_undirected_table_edges": 72,
+    "invalid_fk_endpoints": 0
+  },
+  "status_counts": {
+    "connected": 1457,
+    "disconnected_fk_graph": 77
+  },
+  "hop_histogram_connected_only": {
+    "0": 363,
+    "1": 849,
+    "2": 209,
+    "3": 35,
+    "4": 1
+  },
+  "connected_questions_hop_ge_3": 36,
+  "databases_with_connected_questions_hop_ge_3": 5,
+  "max_hop_ge_3_questions_in_one_database": 18,
+  "connected_questions_hop_ge_4": 1,
+  "databases_with_connected_questions_hop_ge_4": 1,
+  "max_hop_ge_4_questions_in_one_database": 1,
+  "interpretation_scope": "Unweighted exact minimum Steiner-tree edge count over the declared, undirected, table-level FK graph. This is structural coverage only; it does not establish that an FK path is semantically correct, does not count Role accuracy, and does not evaluate a JOIN method.",
+  "run_id": "p0_bird_fk_hop_profile_full_20261105_01",
+  "mode": "full",
+  "elapsed_seconds": 1.061311,
+  "inputs": {
+    "dev_json_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "dev_tables_json_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97"
+  },
+  "source": {
+    "project_commit": "1d308dc9bd30eb153f49427fabfc6adab026d7fa",
+    "script_sha256": "c4905341a9dbd427934109e1f70a22d5ad56dfe8ab9359683f306964fa3e7e5a",
+    "config_sha256": "0c42e7305a8e96f97f3ae084a7a739e9400b100099ed2a88ce1b35212ab3ed40",
+    "sqlglot_version": "28.0.0",
+    "python_version": "3.12.14"
+  },
+  "full_audit_gate": {
+    "table_extraction_parse_rate": 1.0,
+    "parse_rate_at_least_95_percent": true,
+    "high_hop_screen": "BIRD_H_GE_3_SCREEN_PASS",
+    "high_hop_screen_threshold": {
+      "connected_questions_hop_ge_3": 30,
+      "databases_with_at_least_one": 3
+    },
+    "screen_is_not_a_power_calculation": true
+  },
+  "status": "FULL_COMPLETED"
+}

@@ -99,12 +99,15 @@ def build_schema_graph(schema: dict[str, Any]) -> dict[str, Any]:
 
 def extract_base_tables(sql: str, sqlglot: Any, exp: Any) -> set[str]:
     parsed = sqlglot.parse_one(sql, read="sqlite")
-    cte_names = {normalize_name(cte.alias_or_name) for cte in parsed.find_all(exp.CTE)}
+    from sqlglot.optimizer.scope import traverse_scope
+
     result: set[str] = set()
-    for table in parsed.find_all(exp.Table):
-        name = normalize_name(table.name)
-        if name and name not in cte_names:
-            result.add(name)
+    for scope in traverse_scope(parsed):
+        for _, source in scope.selected_sources.values():
+            if isinstance(source, exp.Table):
+                name = normalize_name(source.name)
+                if name:
+                    result.add(name)
     return result
 
 
@@ -287,8 +290,13 @@ def main() -> int:
     import yaml
 
     config = yaml.safe_load(args.config.read_text(encoding="utf-8"))
-    if config.get("status") != "preregistered_exploratory_structural_audit":
+    if config.get("status") not in {
+        "preregistered_exploratory_structural_audit",
+        "preregistered_exploratory_structural_audit_correction",
+    }:
         raise RuntimeError("Experiment config status is not preregistered")
+    if config.get("parser", {}).get("method") != "scope_selected_sources_v1":
+        raise RuntimeError("Config must pin the scope-aware SQL table-reference parser")
     if int(config["dataset"]["questions"]) != EXPECTED_QUESTIONS or int(config["dataset"]["schemas"]) != EXPECTED_SCHEMAS:
         raise RuntimeError("Config denominator differs from the frozen runner")
     if int(config["analysis"]["max_exact_terminals"]) != MAX_EXACT_TERMINALS:
@@ -319,6 +327,7 @@ def main() -> int:
             "dev_json_sha256": dev_sha,
             "dev_tables_json_sha256": tables_sha,
         },
+        "table_reference_parser": config["parser"]["method"],
         "resource_snapshot": {
             "gpu_snapshot_cpu_only": command_output(["nvidia-smi", "--query-gpu=index,name,memory.total,memory.used,utilization.gpu", "--format=csv,noheader,nounits"]),
             "free_h": command_output(["free", "-h"]),
@@ -343,6 +352,7 @@ def main() -> int:
         "project_commit": start["project_commit"],
         "script_sha256": start["script_sha256"],
         "config_sha256": start["config_sha256"],
+        "table_reference_parser": start["table_reference_parser"],
         "sqlglot_version": start["environment"]["sqlglot"],
         "python_version": start["environment"]["python"],
     }

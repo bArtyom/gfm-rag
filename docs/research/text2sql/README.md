@@ -18,7 +18,7 @@
 
 > **2026-11-05 FK分歧盲审材料生成完成**：Smoke 与 Full 通过，54个分层名额去重为49题、51个问题×表对，五层配额和1,534个问题键对齐均通过。包只在本地私有保存，等待两位真实审阅者独立填写；可信Role标签仍为0，因此不启动Role Accuracy、监督训练或真实JOIN方法实验。该审阅以参考JOIN派生的表对为条件，不是端到端Gold-free评测。见[预注册计划](plans/p0_fk_disagreement_blind_review_20261105.md)及[完整实验报告](reports/p0_fk_disagreement_blind_review_20261105_01/README.md)。
 
-> **2026-11-05 高跳数结构审计已预注册**：新增一次 CPU-only BIRD FK 图 hop-depth profile，检查本地开发集是否含足够多、跨库分布的高跳数结构样本，以决定是否值得在未来的受限 pilot 中按图距离分层。它只用 SQL 解析结果与声明 FK 图计算精确最小 Steiner 边数，不计算 Role Accuracy、不评测方法、不训练模型、不执行 SQL，也不解除双人标签门。见[审计计划](plans/p0_bird_fk_hop_profile_20261105.md)；等待 Smoke/Full 运行。
+> **2026-11-05 高跳数结构审计状态**：v1 Smoke/Full 已完成，但复核发现全局 CTE 别名过滤有作用域误删风险，v1 数字暂不作为最终数据画像。v1 原始产物保留；v2 已按作用域感知解析器另行预注册，先 Smoke、通过后再 Full。见[v1 报告](reports/p0_bird_fk_hop_profile_20261105_01/README.md)及[v2 修正方案](plans/p0_bird_fk_hop_profile_v2_correction_20261105.md)。这仍是 CPU-only 数据结构审计，不计算 Role Accuracy 或方法效果。
 
 > **方法变更台账**：为避免把检索、上下文打包、SQL评测和图传播探针混为“QuadGraph方法改进”，逐项列出原方法、实际改动、结果及证据边界，见[方法变更台账](method-change-ledger-20261105.md)。
 
@@ -65,6 +65,8 @@
 | [P0 FK 分歧双人盲审材料准备计划](plans/p0_fk_disagreement_blind_review_20261105.md) | 对 packet-only ambiguous/unmatched、canonical-only FK/multi-FK 与正向控制分层抽样，准备匿名本地 A/B 包 | **已按计划执行；Full 通过，等待人工审阅** |
 | [P0 FK 分歧双人盲审材料准备报告](reports/p0_fk_disagreement_blind_review_20261105_01/README.md) | 材料生成、映射完整性和隐私门；不产出人类标签 | **49题/51表对；等待两位审阅者；Role 标签仍为0** |
 | [P0 BIRD FK 图 hop-depth 结构审计](plans/p0_bird_fk_hop_profile_20261105.md) | 检查 BIRD dev 声明 FK 表图上的精确最小 Steiner hop 分布及高跳数样本覆盖 | **已预注册；CPU-only；不涉及 Role/JOIN 方法准确率** |
+| [P0 BIRD FK hop v1 报告](reports/p0_bird_fk_hop_profile_20261105_01/README.md) | 初次 Smoke/Full 匿名画像及 CTE 作用域解析风险 | v1 保留；`SUPERSEDED_PENDING_SCOPE_CORRECTION` |
+| [P0 BIRD FK hop v2 修正方案](plans/p0_bird_fk_hop_profile_v2_correction_20261105.md) | 只将 CTE 过滤改为 SQLGlot 作用域感知基础表解析，其他定义冻结 | **已预注册；待 Smoke/Full** |
 | [双人标签后 FK 映射排序 Pilot 候选](plans/p0_fk_mapping_rank_pilot_candidate_20261105.md) | 在固定表对/映射候选上比较冻结 GFM 与 Dense、BM25、结构顺序；报告接受集合排序与错误交集 | **仅候选；方法新颖性未知；必须先通过真实双人标签门，不得提前运行** |
 | [2026-10-23 P2d.1 + G0 跨分支复核（当前）](reports/p2d1_g0_cross_branch_review_20261023/README.md) | 读取分支的真实结果，区分 evaluator v2、元数据未被模型读取及方法结论边界 | 已完成静态分析；非新实验 |
 | [G1关系通道×FK Instance保真](plans/g1_relation_channel_and_fk_instance_gate_20261023.md) | 8次合成前向/多种edge_type/rel_attr对照、同义重标记不变性、FK Role Label Gate及Go/No-go | 2026-10-23完成；按原门槛 G1-A NO-GO，见G1报告 |
