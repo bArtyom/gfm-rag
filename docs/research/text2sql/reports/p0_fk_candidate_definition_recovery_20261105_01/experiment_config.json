@@ -1,6 +1,6 @@
 {
   "experiment_id": "p0_fk_candidate_definition_recovery_20261105_01",
-  "status": "PREREGISTERED",
+  "status": "STOPPED_BY_SMOKE_GATE",
   "layer": "exploratory_read_only_fk_definition_audit_recovery",
   "mainline_evidence": false,
   "source_project": {
@@ -126,6 +126,49 @@
     "packet_py310_sqlglot26": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 /usr/bin/timeout --signal=TERM 600s conda run --no-capture-output -n t2sql_code_audit_20261005 /root/miniconda3/envs/t2sql_code_audit_20261005/bin/python scripts/text2sql/reconcile_p0_fk_candidate_definitions_recovery.py --mode smoke --method packet --run-id p0_fk_recovery_smoke_packet_py310_sqlg26_20261105_01 --dev-json /mnt/liansp3/sources/datasets/bird/dev/dev.json --tables-json /mnt/liansp3/sources/datasets/bird/dev/dev_tables.json --output /mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_20261105_01/smoke/packet_py310_sqlglot26.json",
     "packet_py312_sqlglot28": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 /usr/bin/timeout --signal=TERM 600s conda run --no-capture-output -n think2sql_20260909 /root/miniconda3/envs/think2sql_20260909/bin/python3.12 scripts/text2sql/reconcile_p0_fk_candidate_definitions_recovery.py --mode smoke --method packet --run-id p0_fk_recovery_smoke_packet_py312_sqlg28_20261105_01 --dev-json /mnt/liansp3/sources/datasets/bird/dev/dev.json --tables-json /mnt/liansp3/sources/datasets/bird/dev/dev_tables.json --output /mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_20261105_01/smoke/packet_py312_sqlglot28.json",
     "p1_5_py312_sqlglot28": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 /usr/bin/timeout --signal=TERM 600s conda run --no-capture-output -n think2sql_20260909 /root/miniconda3/envs/think2sql_20260909/bin/python3.12 scripts/text2sql/reconcile_p0_fk_candidate_definitions_recovery.py --mode smoke --method p1_5 --run-id p0_fk_recovery_smoke_p15_py312_sqlg28_20261105_01 --dev-json /mnt/liansp3/sources/datasets/bird/dev/dev.json --tables-json /mnt/liansp3/sources/datasets/bird/dev/dev_tables.json --p1-5-fk-artifact /mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom-local-results/p1_5_diagnosis_20261016/full_03/fk_gate_private.json --output /mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_20261105_01/smoke/p1_5_py312_sqlglot28.json"
+  },
+  "smoke_execution": {
+    "execution_commit": "0f292f1895d0468d3a5da6ab0015af0d2c0a65d3",
+    "decision": "STOP_NO_FULL_AFTER_ONE_OF_THREE_SMOKES_FAILED",
+    "public_summary": "docs/research/text2sql/reports/p0_fk_candidate_definition_recovery_20261105_01/smoke_summary.json",
+    "arms": {
+      "packet_py310_sqlglot26": {
+        "run_id": "p0_fk_recovery_smoke_packet_py310_sqlg26_20261105_01",
+        "status": "SMOKE_PASS",
+        "result_path": "/mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_20261105_01/smoke/packet_py310_sqlglot26.json",
+        "result_sha256": "ee11eb9effe5446285b7b77e691b5f5b4b953c880382b101b2924809c14bdfb5",
+        "log_path": "/mnt/liansp3/logs/p0_fk_candidate_definition_recovery_20261105_01/p0_fk_recovery_smoke_packet_py310_sqlg26_20261105_01.log",
+        "log_sha256": "304c3433581fd2ce1844c4cd07c2f45350524c010c1396b5e6335dbc0a47b0ac",
+        "denominators": {"records_processed": 5, "parse_ok": 5, "join_on_questions": 3, "fk_match_queries": 3, "multi_fk_candidate_queries": 0},
+        "resources": {"wall_seconds": 0.06135966815054417, "cpu_seconds": 0.06001455000000001, "peak_rss_gib": 0.0263671875, "gpu_seconds": 0, "model_calls": 0, "api_calls": 0, "sql_execution": 0}
+      },
+      "packet_py312_sqlglot28": {
+        "run_id": "p0_fk_recovery_smoke_packet_py312_sqlg28_20261105_01",
+        "status": "SMOKE_PASS",
+        "result_path": "/mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_20261105_01/smoke/packet_py312_sqlglot28.json",
+        "result_sha256": "209ce72770eb76c4716fd3c2bda755047e8ed1f51e69208d66fe3453b057056b",
+        "log_path": "/mnt/liansp3/logs/p0_fk_candidate_definition_recovery_20261105_01/p0_fk_recovery_smoke_packet_py312_sqlg28_20261105_01.log",
+        "log_sha256": "482e84659a1832575efa621deaa55ecaee620adc2c65cb4687425bc81f3d50fd8",
+        "denominators": {"records_processed": 5, "parse_ok": 5, "join_on_questions": 3, "fk_match_queries": 3, "multi_fk_candidate_queries": 0},
+        "resources": {"wall_seconds": 0.06114184483885765, "cpu_seconds": 0.05999246899999999, "peak_rss_gib": 0.029296875, "gpu_seconds": 0, "model_calls": 0, "api_calls": 0, "sql_execution": 0}
+      },
+      "p1_5_py312_sqlglot28": {
+        "run_id": "p0_fk_recovery_smoke_p15_py312_sqlg28_20261105_01",
+        "status": "STOP_INVALID",
+        "failure_receipt_path": "/mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_20261105_01/smoke/p1_5_py312_sqlglot28.failure.json",
+        "failure_receipt_sha256": "a0a47dedd0237f0dd7f8465a6738ff1f90cd396c9ed5cc56ea4f706b51defdb3",
+        "log_path": "/mnt/liansp3/logs/p0_fk_candidate_definition_recovery_20261105_01/p0_fk_recovery_smoke_p15_py312_sqlg28_20261105_01.log",
+        "log_sha256": "1aa138d12ed701a8a3ea19fbd7aff324a9d8096e90245276ed8d67a46f48dc34",
+        "stage": "load_p1_5_inputs_and_fk_artifact",
+        "error_type": "RuntimeError",
+        "safe_frames": [{"function": "<module>", "line": 323}, {"function": "main", "line": 195}],
+        "processed_counters": {},
+        "expected_artifact_sha256": "5bc60f6d64429215fa92c3d3a42f1a4881dc77c09839729153fb55a119555060",
+        "runtime_computed_artifact_sha256_recorded": false,
+        "no_retry": true
+      }
+    },
+    "full_runs": "NOT_RUN"
   },
   "result_root": "/mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_20261105_01",
   "log_root": "/mnt/liansp3/logs/p0_fk_candidate_definition_recovery_20261105_01",

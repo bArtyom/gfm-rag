@@ -1,0 +1,49 @@
+{
+  "experiment_id": "p0_fk_candidate_definition_recovery_20261105_01",
+  "status": "STOPPED_BY_SMOKE_GATE",
+  "execution_commit": "0f292f1895d0468d3a5da6ab0015af0d2c0a65d3",
+  "smoke_arms": {
+    "packet_py310_sqlglot26": {
+      "status": "SMOKE_PASS",
+      "questions": 5,
+      "parse_ok": 5,
+      "join_on_questions": 3,
+      "fk_match_queries": 3,
+      "multi_fk_candidate_queries": 0,
+      "wall_seconds": 0.06135966815054417,
+      "cpu_seconds": 0.06001455000000001,
+      "peak_rss_gib": 0.0263671875
+    },
+    "packet_py312_sqlglot28": {
+      "status": "SMOKE_PASS",
+      "questions": 5,
+      "parse_ok": 5,
+      "join_on_questions": 3,
+      "fk_match_queries": 3,
+      "multi_fk_candidate_queries": 0,
+      "wall_seconds": 0.06114184483885765,
+      "cpu_seconds": 0.05999246899999999,
+      "peak_rss_gib": 0.029296875
+    },
+    "p1_5_py312_sqlglot28": {
+      "status": "STOP_INVALID",
+      "stage": "load_p1_5_inputs_and_fk_artifact",
+      "error_type": "RuntimeError",
+      "safe_frames": [
+        {"function": "<module>", "line": 323},
+        {"function": "main", "line": 195}
+      ],
+      "processed_questions": 0,
+      "expected_artifact_sha256": "5bc60f6d64429215fa92c3d3a42f1a4881dc77c09839729153fb55a119555060",
+      "expected_hash_matched_by_external_pre_and_post_checks": true,
+      "runtime_computed_hash_recorded": false,
+      "retry": false
+    }
+  },
+  "full_runs": "NOT_RUN_BY_PREREGISTERED_GATE",
+  "gpu_seconds": 0,
+  "model_calls": 0,
+  "api_calls": 0,
+  "sql_execution": 0,
+  "question_hashes_or_sql_included": false
+}
