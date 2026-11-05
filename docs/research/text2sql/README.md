@@ -20,6 +20,8 @@
 
 > **2026-11-05 高跳数结构审计状态**：v1 全量后发现 CTE 全局别名过滤的作用域风险；v2 改用 SQLGlot scope-aware parser，Smoke/Full 均通过，匿名聚合与 v1 相同：36/1,534 题 `h≥3`、覆盖5库，77题声明FK图不连通。与 SchemaScope 报告的 BIRD 约22% `h≥3` 差距仍未解释；按预注册停止规则，不追加切片或解析器扫描。此项仅为 CPU-only 数据审计，不是JOIN方法结果，也不解除双人Role标签门。见[v1报告](reports/p0_bird_fk_hop_profile_20261105_01/README.md)、[v2修正方案](plans/p0_bird_fk_hop_profile_v2_correction_20261105.md)和[v2完整报告](reports/p0_bird_fk_hop_profile_20261105_02/README.md)。
 
+> **P2d.2 后续 SQL 有效性实验（2026-11-05）**：封存的28条失败中，13条为限定符/作用域错配、4条为不存在的标识符、10条解析/结构错误、1条误用可见字段；没有证据显示这些失败源自检索上下文缺少对应字段。新方案 `p2d3_context_bounded_repair_20261105_01` 已预注册、**尚未运行**：在与旧 P2d 样本不重叠的66题上比较无修复、完整 Schema 一次修复、仅用 V00 检索上下文的一次修复。它是本地效用诊断，不是通用修复方法的新颖性主张；BIRD dev 仍为探索性开发集。可信双人 Role 标签门仍单独保持 NO-GO，不从本实验推出 Role 或 JOIN 准确率。见[P2d.2 归因](reports/p2d2_frozen_failure_attribution_20261105_02/README.md)和[P2d.3 预注册报告](reports/p2d3_context_bounded_repair_20261105_01/README.md)。
+
 > **方法变更台账**：为避免把检索、上下文打包、SQL评测和图传播探针混为“QuadGraph方法改进”，逐项列出原方法、实际改动、结果及证据边界，见[方法变更台账](method-change-ledger-20261105.md)。
 
 ## 现有研究文档
@@ -57,6 +59,7 @@
 | [P2d.2 封存 SQL 失败归因计划](plans/p2d2_frozen_failure_attribution_20261105.md) | 对 28 条旧不可执行输出做只读根因归因；不重新生成、不重算原分数 | `_01` 启动前检查因路径错误停止；科学分析未运行 |
 | [P2d.2 `_01` 启动记录](reports/p2d2_frozen_failure_attribution_20261105_01/README.md) | 预注册代码 10/10 合成自检；未读取样本 | **STOP：准备包路径误填；保留失败回执** |
 | [P2d.2 `_02` recovery 报告](reports/p2d2_frozen_failure_attribution_20261105_02/README.md) | 固定 90 条封存预测的失败归因 | **Full 完成；28/28 可分类；未发现上下文缺字段，生成引用错误候选待新样本验证** |
+| [P2d.3 修复范围效用预注册](reports/p2d3_context_bounded_repair_20261105_01/README.md) | 新样本上比较不修复、完整 Schema 修复和检索上下文约束修复 | **PREREGISTERED_NOT_RUN；代码先推送，旧 P2d 样本排除；探索性效用实验** |
 | [P0 FK候选定义对账报告](reports/p0_fk_candidate_definition_reconciliation_20261105_01/README.md) | 对账 956/174、970/197、1043/176 三组不一致计数 | **STOP_INVALID_SMOKE；未启动 Full** |
 | [P0 FK候选定义对账恢复](reports/p0_fk_candidate_definition_recovery_20261105_01/README.md) | 对上次 Smoke 增加不含 SQL 内容的异常位置回执，并重过三臂小样本门 | **已预注册；Smoke/Full 尚未运行** |
 | [P0 FK候选定义哈希诊断恢复计划](plans/p0_fk_candidate_definition_recovery_v2_20261105.md) | 记录同一受控文件句柄的摘要、文件身份和解析字节；新 run ID 重跑三臂 Smoke | **已预注册；尚未读取实验输入** |

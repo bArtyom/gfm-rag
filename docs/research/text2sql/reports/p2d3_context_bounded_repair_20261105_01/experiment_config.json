@@ -1,0 +1,130 @@
+{
+  "experiment_id": "p2d3_context_bounded_repair_20261105_01",
+  "status": "preregistered_not_run",
+  "layer": "exploratory_text2sql_pipeline_utility",
+  "base_commit": "9c39bee45daf5d12382bcd7c183ed0cb44237460",
+  "base_branch": "research/p2d2-frozen-failure-attribution-20261105",
+  "protocol": "docs/research/text2sql/plans/p2d3_context_bounded_repair_20261105.md",
+  "hypothesis": "On a fresh frozen BIRD dev sample, a single repair restricted to the original retrieved V00 schema context improves Set EX over one-shot generation and is within 5 percentage points of a single repair that can see the full R0 database schema, without accepting identifiers outside V00.",
+  "prior_art_position": "Exploratory local utility evaluation; generic validation, bounded repair, full/pruned schema comparison, and execution feedback are established method classes and are not claimed as novel.",
+  "dataset": {
+    "name": "BIRD dev",
+    "snapshot": "existing local frozen snapshot",
+    "dev_json_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "dev_tables_json_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "retrieval_source": "P2c-R V00, fixed 1024-token selected node IDs and R0 texts",
+    "p2c_aggregate_sha256": "7e4ce4b2a92df5e17160bb2429402b66ab7caec521c6e4da9ec90abd108e8fdc",
+    "p2c_per_question_sha256": "99935116001811bef790bf2e916d34f4f40ffecc70322f7b71e28f885d9425ff",
+    "sample": {
+      "full_questions": 66,
+      "smoke_questions": 5,
+      "smoke_disjoint_from_full": true,
+      "exclude_all_previous_p2d_prepared_questions": true,
+      "strata": "database x V00 Complete Schema@1024 (complete/incomplete)",
+      "full_seed": 20261105,
+      "smoke_seed": 20261106,
+      "eligible_only": true,
+      "selection_algorithm": "See the registered protocol; private IDs and per-question labels remain local."
+    },
+    "evidence_status": "exploratory; BIRD dev has been repeatedly used and is not an independent test set"
+  },
+  "model": {
+    "id": "Qwen2.5-Coder-7B-Instruct",
+    "source_alias": "sources/models/qwen25-coder-7b",
+    "backend": "local_vllm",
+    "vllm_version": "0.8.5",
+    "dtype": "bfloat16",
+    "served_model_name": "Qwen2.5-Coder-7B-Instruct",
+    "max_model_len": 32768,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": -1,
+    "repetition_penalty": 1.0,
+    "seed": 20261105,
+    "initial_max_tokens": 1024,
+    "repair_max_tokens": 512,
+    "max_repair_attempts_per_arm": 1
+  },
+  "run_ids": {
+    "smoke": "p2d3_context_bounded_repair_smoke5_20261105_01",
+    "full": "p2d3_context_bounded_repair_full66_20261105_01"
+  },
+  "run_dirs": {
+    "smoke": "smoke_001",
+    "full": "full_001"
+  },
+  "arms": {
+    "A0": "same one-shot E0/V00 generation; no repair",
+    "A1": "one repair attempt with full R0 schema; safe read-only compile/execute gate",
+    "A2": "one repair attempt with only original V00 context; SQLite authorizer blocks reads of unselected tables/columns"
+  },
+  "repair_policy": {
+    "trigger": "Only initial output that fails SQL parse or read-only SQLite schema/scope compilation",
+    "a2_authorizer_applies_to": ["initial_sql", "repair_candidate", "final_accepted_sql"],
+    "a2_context_denial_triggers_single_repair": true,
+    "diagnostics_sent_to_model": ["parse_or_structure_failure", "schema_or_scope_compile_failure"],
+    "raw_database_errors_sent_to_model": false,
+    "query_results_sent_to_model": false,
+    "multiple_retries_or_candidate_selection": false
+  },
+  "metrics": {
+    "primary": "Set Execution Accuracy on all 66 full-sample questions",
+    "paired_contrasts": ["A2-A0", "A1-A0", "A2-A1"],
+    "secondary": [
+      "Bag Execution Accuracy",
+      "initial parse/schema compile failure count",
+      "post-repair executable rate among initial failures",
+      "paired rescue/damage counts",
+      "A2 rejected out-of-context identifier proposals",
+      "input/output tokens and repair requests per arm"
+    ]
+  },
+  "decision_gates": {
+    "minimum_repair_signal": "At least 10 initial parse/schema compile failures in Full; otherwise INSUFFICIENT_REPAIR_CASES and no sample expansion.",
+    "exploratory_success": "A2 Set EX >= A0 + 5 percentage points; A2 Set EX >= A1 - 5 percentage points; zero A2 accepted out-of-context table/column reads; all input hashes and model usage accounting valid.",
+    "stop": [
+      "Any frozen source/model/database hash mismatch",
+      "Smoke gate failure",
+      "SQL safety or immutable-database gate failure",
+      "Missing model request usage, request timeout, or transport failure",
+      "Output path collision or privacy leak",
+      "GPU, RAM, wall-clock, request, or token budget reached",
+      "Fewer than 10 initial repairable failures"
+    ]
+  },
+  "runtime": {
+    "runner_environment": "existing think2sql_20260909; Python 3.12.14; SQLGlot 28.0.0",
+    "inference_environment": "existing qbridge_vllm085_20260829; vLLM 0.8.5",
+    "gpu_physical_index": 1,
+    "gpu_memory_utilization": 0.88,
+    "max_gpu_memory_gib": 22,
+    "max_cpu_threads": 8,
+    "max_process_rss_gib": 16,
+    "max_total_wall_seconds": 14400,
+    "request_timeout_seconds": 240,
+    "max_model_requests": 213,
+    "max_input_tokens": 7000000,
+    "max_output_tokens": 200000,
+    "service_host": "127.0.0.1",
+    "service_port": 18731,
+    "training": false,
+    "jev": false,
+    "external_paid_api": false,
+    "dependency_changes": false,
+    "model_download": false
+  },
+  "sql": {
+    "timeout_seconds": 10,
+    "row_limit": 50000,
+    "byte_limit": 67108864,
+    "sqlite_memory_limit": 268435456
+  },
+  "local_artifacts": {
+    "result_alias": "gfmrag_p2d3_context_bounded_repair_20261105_01",
+    "log_alias": "gfmrag_p2d3_context_bounded_repair_20261105_01",
+    "usage_ledger_provider": "local_vllm",
+    "usage_ledger_project": "gfm-rag-p2d3-context-repair",
+    "public_artifacts": "protocol, runner, anonymized aggregate, complete experiment report",
+    "private_artifacts": "sample IDs, prompts, generated SQL, reference SQL, database rows, per-question execution results, raw service logs"
+  }
+}
