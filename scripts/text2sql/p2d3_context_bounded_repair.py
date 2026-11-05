@@ -101,9 +101,16 @@ def service_identity(model: str, prepared_root: Path) -> dict:
     pid = int(pid_text)
     proc_cmdline = Path(f"/proc/{pid}/cmdline").read_bytes()
     arguments = [part.decode("utf-8", errors="replace") for part in proc_cmdline.split(b"\0") if part]
-    if "--model" not in arguments:
+    if "--model" in arguments:
+        model_index = arguments.index("--model") + 1
+    else:
+        try:
+            model_index = arguments.index("serve") + 1
+        except ValueError as exc:
+            raise RuntimeError("Local inference process does not expose a model argument") from exc
+    if model_index >= len(arguments) or arguments[model_index].startswith("-"):
         raise RuntimeError("Local inference process does not expose a model argument")
-    model_root = Path(arguments[arguments.index("--model") + 1]).resolve(strict=True)
+    model_root = Path(arguments[model_index]).resolve(strict=True)
     manifest = read(prepared_root / "model_manifest_private.json")
     expected_root = Path(manifest["model_root_private"]).resolve(strict=True)
     if model_root != expected_root:
