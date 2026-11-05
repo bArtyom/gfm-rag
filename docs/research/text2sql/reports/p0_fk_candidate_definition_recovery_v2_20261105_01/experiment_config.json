@@ -1,0 +1,135 @@
+{
+  "experiment_id": "p0_fk_candidate_definition_recovery_v2_20261105_01",
+  "status": "PREREGISTERED_NOT_RUN",
+  "layer": "exploratory_cpu_only_integrity_and_label_definition_audit",
+  "mainline_evidence": false,
+  "research_question": "Does binding the P1.5 FK artifact hash and JSON parse to the same file bytes resolve the prior sanitized digest failure, and can all three frozen parser/label definitions pass fresh smoke and full gates?",
+  "hypothesis": "The prior mismatch arose from a file/path/read-chain condition rather than SHA-256 semantics; same-byte digest-and-parse plus stable file identity will produce auditable evidence.",
+  "source_project": {
+    "repository": "https://github.com/bArtyom/gfm-rag",
+    "base_branch": "research/p0-fk-candidate-definition-recovery-20261105",
+    "base_commit": "81521b33b48fe8f9e06a3b9d9c653e627dcbc79e",
+    "working_branch": "research/p0-fk-definition-recovery-v2-20261105",
+    "execution_commit": null,
+    "execution_commit_note": "Record the pushed registration/source commit in each launch receipt; this config is part of that source commit and cannot self-reference its own commit hash."
+  },
+  "guidance": {
+    "root_readme_blob_sha": "ba967338e1c257af24b683102aebca9c87b62a3e",
+    "text2sql_readme_blob_sha": "cb88d3d9b296e1ce9f18c02446795c00cb586087",
+    "roadmap_blob_sha": "0c9eb1f5f0906f287b2b53edf8b701c156361d41",
+    "reproducibility_contract_blob_sha": "d31e8bc078a02695e1cef96efd61171d4329ebc0"
+  },
+  "execution_code": {
+    "runner": "scripts/text2sql/reconcile_p0_fk_candidate_definitions_v2.py",
+    "runner_sha256": "0d95f24158fe2169e1fa003480d61219ccad8089f6c9d7a2132fc4eabb904807",
+    "comparator": "scripts/text2sql/compare_p0_fk_candidate_definitions_v2.py",
+    "comparator_sha256": "d4275d97d881200a0220df7a834465cde1954d8916a572130f26e49c3c37ce80",
+    "p0_packet_source_sha256": "5c84af91edc6dd39cd1fba39105dfc74b804be17912d91edab5eba2ff180eebc",
+    "p1_5_source_sha256": "af59d01d22a6b5d5538231b38c2bf52e0355a9193a5773f40b14d29470ec40cf"
+  },
+  "inputs": {
+    "dev_json_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "dev_tables_json_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "p1_5_fk_artifact_sha256": "5bc60f6d64429215fa92c3d3a42f1a4881dc77c09839729153fb55a119555060",
+    "p1_5_fk_artifact_private_local_path": "/mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom-local-results/p1_5_diagnosis_20261016/full_03/fk_gate_private.json",
+    "dataset": "BIRD dev; development and diagnostic split only"
+  },
+  "definitions": {
+    "packet_py310_sqlglot26": {
+      "python": "3.10.22",
+      "sqlglot": "26.33.0",
+      "expected_full_fk_match_queries": 1043,
+      "expected_full_multi_fk_candidate_queries": 176
+    },
+    "packet_py312_sqlglot28": {
+      "python": "3.12.14",
+      "sqlglot": "28.0.0",
+      "expected_full_fk_match_queries": 1043,
+      "expected_full_multi_fk_candidate_queries": 176
+    },
+    "p1_5_py312_sqlglot28": {
+      "python": "3.12.14",
+      "sqlglot": "28.0.0",
+      "expected_full_fk_match_queries": 970,
+      "expected_full_multi_fk_candidate_queries": 197
+    }
+  },
+  "frozen_denominators": {
+    "questions": 1534,
+    "parse_ok": 1534,
+    "join_on_questions": 1140,
+    "smoke_questions_per_arm": 5
+  },
+  "run_ids": {
+    "smoke_packet_py310_sqlglot26": "p0fk_v2_smoke_packet_py310_sqlg26_20261105_01",
+    "smoke_packet_py312_sqlglot28": "p0fk_v2_smoke_packet_py312_sqlg28_20261105_01",
+    "smoke_p1_5_py312_sqlglot28": "p0fk_v2_smoke_p15_py312_sqlg28_20261105_01",
+    "full_packet_py310_sqlglot26": "p0fk_v2_full_packet_py310_sqlg26_20261105_01",
+    "full_packet_py312_sqlglot28": "p0fk_v2_full_packet_py312_sqlg28_20261105_01",
+    "full_p1_5_py312_sqlglot28": "p0fk_v2_full_p15_py312_sqlg28_20261105_01"
+  },
+  "launch_order": [
+    "smoke_packet_py310_sqlglot26",
+    "smoke_packet_py312_sqlglot28",
+    "smoke_p1_5_py312_sqlglot28",
+    "full_packet_py310_sqlglot26",
+    "full_packet_py312_sqlglot28",
+    "full_p1_5_py312_sqlglot28"
+  ],
+  "command_templates": {
+    "packet_py310_sqlglot26": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 /usr/bin/timeout --signal=TERM --kill-after=15s 585s conda run --no-capture-output -n t2sql_code_audit_20261005 /root/miniconda3/envs/t2sql_code_audit_20261005/bin/python3.10 scripts/text2sql/reconcile_p0_fk_candidate_definitions_v2.py --mode {mode} --method packet --run-id {run_id} --dev-json /mnt/liansp3/sources/datasets/bird/dev/dev.json --tables-json /mnt/liansp3/sources/datasets/bird/dev/dev_tables.json --output {unique_output_path}",
+    "packet_py312_sqlglot28": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 /usr/bin/timeout --signal=TERM --kill-after=15s 585s conda run --no-capture-output -n think2sql_20260909 /root/miniconda3/envs/think2sql_20260909/bin/python3.12 scripts/text2sql/reconcile_p0_fk_candidate_definitions_v2.py --mode {mode} --method packet --run-id {run_id} --dev-json /mnt/liansp3/sources/datasets/bird/dev/dev.json --tables-json /mnt/liansp3/sources/datasets/bird/dev/dev_tables.json --output {unique_output_path}",
+    "p1_5_py312_sqlglot28": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 /usr/bin/timeout --signal=TERM --kill-after=15s 585s conda run --no-capture-output -n think2sql_20260909 /root/miniconda3/envs/think2sql_20260909/bin/python3.12 scripts/text2sql/reconcile_p0_fk_candidate_definitions_v2.py --mode {mode} --method p1_5 --run-id {run_id} --dev-json /mnt/liansp3/sources/datasets/bird/dev/dev.json --tables-json /mnt/liansp3/sources/datasets/bird/dev/dev_tables.json --p1-5-fk-artifact /mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom-local-results/p1_5_diagnosis_20261016/full_03/fk_gate_private.json --output {unique_output_path}",
+    "comparator": "/usr/bin/timeout --signal=TERM --kill-after=15s 585s /root/miniconda3/envs/think2sql_20260909/bin/python3.12 scripts/text2sql/compare_p0_fk_candidate_definitions_v2.py --packet-26 {packet_py310_full_result} --packet-28 {packet_py312_full_result} --p1-5-28 {p1_5_py312_full_result} --private-output {result_root}/crosswalk_private.json --aggregate-output {result_root}/crosswalk_aggregate.json"
+  },
+  "hash_diagnostic": {
+    "max_artifact_bytes": 2097152,
+    "hash_expected": "5bc60f6d64429215fa92c3d3a42f1a4881dc77c09839729153fb55a119555060",
+    "hash_and_parse_same_byte_buffer": true,
+    "compare_with_existing_chunked_path_helper": true,
+    "require_regular_file_and_stable_identity": true,
+    "public_outputs_exclude_local_inode_and_path": true
+  },
+  "gate": {
+    "smoke": "All three five-question arms pass source/input/artifact integrity, file identity, output schema, denominators, privacy, and resource checks before any Full.",
+    "full": "All three 1534-question arms reproduce their frozen counters and 1140 JOIN-ON denominator; identical private question-hash universe; anonymous crosswalk categories cover every disagreement.",
+    "stop": "Any hash, identity, parser, denominator, output, privacy, or resource failure stops the affected arm and all remaining Full attempts; no same-run retry or criteria changes."
+  },
+  "resources": {
+    "gpu_seconds": 0,
+    "model_calls": 0,
+    "api_calls": 0,
+    "sql_execution": 0,
+    "training": 0,
+    "download_or_install": 0,
+    "threads_per_process_max": 8,
+    "wall_seconds_per_process_max": 600,
+    "cpu_seconds_per_process_max": 600,
+    "rss_gib_per_process_max": 4,
+    "maximum_runner_processes": 6,
+    "cumulative_cpu_seconds_max": 3600
+  },
+  "result_root": "/mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_v2_20261105_01",
+  "log_root": "/mnt/liansp3/logs/p0_fk_candidate_definition_recovery_v2_20261105_01",
+  "output_layout": {
+    "private_result": "{result_root}/{mode}/{run_id}.json",
+    "private_failure_receipt": "{result_root}/{mode}/{run_id}.failure.json",
+    "private_log": "{log_root}/{run_id}.log",
+    "comparison_private": "{result_root}/crosswalk_private.json",
+    "comparison_public": "{result_root}/crosswalk_aggregate.json"
+  },
+  "privacy": {
+    "raw_question_text_public": false,
+    "gold_sql_public": false,
+    "database_names_public": false,
+    "question_hashes_public": false,
+    "artifact_content_public": false,
+    "inode_metadata_public": false,
+    "trusted_human_role_labels_created": false
+  },
+  "pricing_snapshot": {
+    "external_model_api_calls": 0,
+    "external_api_cost_CNY": "0.00",
+    "local_cpu_cost": "not monetized; CPU seconds will be reported"
+  }
+}

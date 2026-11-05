@@ -1,0 +1,10 @@
+{
+  "experiment_id": "p0_fk_candidate_definition_recovery_v2_20261105_01",
+  "status": "PREREGISTERED_NOT_RUN",
+  "smoke_arms": 3,
+  "full_arms": 3,
+  "observed_results": null,
+  "input_read_before_registration": false,
+  "api_calls": 0,
+  "gpu_seconds": 0
+}
