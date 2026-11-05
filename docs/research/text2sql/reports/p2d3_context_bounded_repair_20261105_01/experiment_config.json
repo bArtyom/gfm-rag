@@ -82,6 +82,8 @@
     },
     "minimum_repair_signal_met": true,
     "a2_authorization_gate": "pass",
+    "non_generation_metadata_checks": 7,
+    "metadata_check_model_tokens": 0,
     "decision": "NO_GO_OR_INCONCLUSIVE",
     "full_aggregate_file": "aggregate_summary.json"
   },

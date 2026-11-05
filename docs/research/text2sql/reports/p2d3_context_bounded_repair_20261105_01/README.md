@@ -68,7 +68,7 @@ Smoke 5题三臂 Set EX 均为3/5、Bag EX 均为2/5，全部可执行；没有�
 - 数据：本地冻结的 BIRD dev 与 P2c-R `V00` 结果。dev JSON SHA-256=`630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06`；tables JSON SHA-256=`35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97`；P2c-R 聚合 SHA-256=`7e4ce4b2a92df5e17160bb2429402b66ab7caec521c6e4da9ec90abd108e8fdc`；P2c-R 逐题输入文件 SHA-256=`99935116001811bef790bf2e916d34f4f40ffecc70322f7b71e28f885d9425ff`。Gold 只用于样本完整性分层和最终评测，不进入任何 prompt。
 - 模型：本地 `Qwen2.5-Coder-7B-Instruct`，vLLM 0.8.5，bfloat16，temperature 0、top-p 1、seed 20261105；单条初始生成最多1024 tokens，修复最多512 tokens，最多一次。Qwen3-Embedding-0.6B tokenizer 仅重建冻结的 R0/R1 文本和 token 计数，未重新排名或计算 embedding。
 - 执行环境：Python 3.12.14、SQLGlot 28.0.0、Transformers 4.57.1、tokenizers 0.22.1。运行器没有改依赖、下载权重或训练模型。
-- 资源：GPU 1（RTX 4090）；显存峰值21,821 MiB（预设上限22 GiB）；当时主机可用内存约435 GiB、192 CPU线程。Smoke+Full 共发出113个本地模型请求，确认输入145,120、输出5,476、合计150,596 tokens；没有 usage 缺失。Full 请求 wall time 92.227秒，Smoke 4.068秒。约190个一秒 GPU 采样点中积分约89.54个满利用率等效秒；这是设备利用率近似值，不是进程级精确 GPU 计时。外部 API 费用 CNY 0；本地 GPU 成本未折算货币。
+- 资源：GPU 1（RTX 4090）；显存峰值21,821 MiB（预设上限22 GiB）；当时主机可用内存约435 GiB、192 CPU线程。Smoke+Full 共发出113次本地模型生成请求；另有7次模型目录健康/身份检查（`GET /v1/models`，不生成内容，记0输入/输出token）。生成请求确认输入145,120、输出5,476、合计150,596 tokens；没有 usage 缺失。Full 请求 wall time 92.227秒，Smoke 4.068秒。约190个一秒 GPU 采样点中积分约89.54个满利用率等效秒；这是设备利用率近似值，不是进程级精确 GPU 计时。外部 API 费用 CNY 0；本地 GPU 成本未折算货币。
 - 可复现命令模板：
   ```bash
   python scripts/text2sql/p2d3_context_bounded_repair.py \
