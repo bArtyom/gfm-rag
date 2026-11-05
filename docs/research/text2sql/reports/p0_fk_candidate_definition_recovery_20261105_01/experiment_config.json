@@ -61,6 +61,7 @@
       "result_root_absent": true,
       "log_root_absent": true
     },
+    "run_source_commit": "9e8c4fbabe5372340bbb15f2c82d483ffd5ad31f",
     "preflight_decision": "PASS_AFTER_SELECTING_EXPLICIT_ENV_INTERPRETERS"
   },
   "pinned_sources": {
@@ -119,6 +120,12 @@
       "packet_py312_sqlglot28": "conda run --no-capture-output -n think2sql_20260909 /root/miniconda3/envs/think2sql_20260909/bin/python3.12",
       "p1_5_py312_sqlglot28": "conda run --no-capture-output -n think2sql_20260909 /root/miniconda3/envs/think2sql_20260909/bin/python3.12"
     }
+  },
+  "registered_smoke_commands": {
+    "execution_policy": "Run each argv from run_source_commit in the project root; use umask 077, redirect combined output to the matching private log path, and chmod the log 0600 after exit.",
+    "packet_py310_sqlglot26": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 /usr/bin/timeout --signal=TERM 600s conda run --no-capture-output -n t2sql_code_audit_20261005 /root/miniconda3/envs/t2sql_code_audit_20261005/bin/python scripts/text2sql/reconcile_p0_fk_candidate_definitions_recovery.py --mode smoke --method packet --run-id p0_fk_recovery_smoke_packet_py310_sqlg26_20261105_01 --dev-json /mnt/liansp3/sources/datasets/bird/dev/dev.json --tables-json /mnt/liansp3/sources/datasets/bird/dev/dev_tables.json --output /mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_20261105_01/smoke/packet_py310_sqlglot26.json",
+    "packet_py312_sqlglot28": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 /usr/bin/timeout --signal=TERM 600s conda run --no-capture-output -n think2sql_20260909 /root/miniconda3/envs/think2sql_20260909/bin/python3.12 scripts/text2sql/reconcile_p0_fk_candidate_definitions_recovery.py --mode smoke --method packet --run-id p0_fk_recovery_smoke_packet_py312_sqlg28_20261105_01 --dev-json /mnt/liansp3/sources/datasets/bird/dev/dev.json --tables-json /mnt/liansp3/sources/datasets/bird/dev/dev_tables.json --output /mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_20261105_01/smoke/packet_py312_sqlglot28.json",
+    "p1_5_py312_sqlglot28": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 /usr/bin/timeout --signal=TERM 600s conda run --no-capture-output -n think2sql_20260909 /root/miniconda3/envs/think2sql_20260909/bin/python3.12 scripts/text2sql/reconcile_p0_fk_candidate_definitions_recovery.py --mode smoke --method p1_5 --run-id p0_fk_recovery_smoke_p15_py312_sqlg28_20261105_01 --dev-json /mnt/liansp3/sources/datasets/bird/dev/dev.json --tables-json /mnt/liansp3/sources/datasets/bird/dev/dev_tables.json --p1-5-fk-artifact /mnt/liansp3/研究工作区/03_实验中/gfm-rag-bartyom-local-results/p1_5_diagnosis_20261016/full_03/fk_gate_private.json --output /mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_20261105_01/smoke/p1_5_py312_sqlglot28.json"
   },
   "result_root": "/mnt/liansp3/sources/results/gfmrag_p0_fk_candidate_definition_recovery_20261105_01",
   "log_root": "/mnt/liansp3/logs/p0_fk_candidate_definition_recovery_20261105_01",
