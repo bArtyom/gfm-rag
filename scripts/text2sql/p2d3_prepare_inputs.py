@@ -178,8 +178,14 @@ def main() -> None:
     old_p2d_root = env_path("P2D3_OLD_P2D_RESULT")
 
     result_root = args.result_root.resolve()
-    result_root.mkdir(parents=True, exist_ok=False, mode=0o700)
-    result_root.chmod(0o700)
+    if result_root.exists():
+        if (not result_root.is_dir()
+                or any(result_root.iterdir())
+                or result_root.stat().st_mode & 0o777 != 0o700):
+            raise RuntimeError("Pre-registered result root must be an empty mode-0700 directory")
+    else:
+        result_root.mkdir(parents=True, exist_ok=False, mode=0o700)
+        result_root.chmod(0o700)
     prepared_root = result_root / "prepare_001"
     prepared_root.mkdir(exist_ok=False, mode=0o700)
     cases_dir = prepared_root / "cases"
