@@ -1,0 +1,100 @@
+{
+  "experiment_id": "p0_fk_canonical_crosswalk_20261105_01",
+  "status": "CROSSWALK_COMPLETE",
+  "question_count": 1534,
+  "definitions": {
+    "packet_py312_sqlglot28": {
+      "records_processed": 1534,
+      "parse_ok": 1534,
+      "join_on_questions": 1140,
+      "fk_match_queries": 1043,
+      "multi_fk_candidate_queries": 176
+    },
+    "p1_5_v3_unfiltered": {
+      "records_processed": 1534,
+      "parse_ok": 1534,
+      "join_on_questions": 1140,
+      "fk_match_queries": 970,
+      "multi_fk_candidate_queries": 197
+    },
+    "p1_5_canonical_valid_only": {
+      "records_processed": 1534,
+      "parse_ok": 1534,
+      "join_on_questions": 1140,
+      "fk_match_queries": 970,
+      "multi_fk_candidate_queries": 197
+    }
+  },
+  "reference_hashes": {
+    "packet28_result_sha256": "13401f39e6744a4c47e3a5f36b59be468335f79f04594db27c3e662ce9ba75f3",
+    "p1_5_unfiltered_result_sha256": "4736e320aff6da6bdc56f0ddd56c7887a85014cf9577c6dd568b7f738df0f883",
+    "canonical_result_sha256": "746e6366831b5924fedd309af4c96f71ab49d6f3462ad2d054cfd427fb2f33ed",
+    "p1_5_fk_artifact_sha256": "5bc60f6d64429215fa92d3c3a42f1a4881dc77c09839729153fb55a119555060"
+  },
+  "pairwise_categories": {
+    "p1_5_unfiltered_vs_canonical": {
+      "parse_ok": {
+        "both_false": 0,
+        "left_only": 0,
+        "right_only": 0,
+        "both_true": 1534
+      },
+      "has_join_on": {
+        "both_false": 394,
+        "left_only": 0,
+        "right_only": 0,
+        "both_true": 1140
+      },
+      "fk_match": {
+        "both_false": 564,
+        "left_only": 0,
+        "right_only": 0,
+        "both_true": 970
+      },
+      "multi_fk_candidate": {
+        "both_false": 1337,
+        "left_only": 0,
+        "right_only": 0,
+        "both_true": 197
+      }
+    },
+    "packet28_vs_p1_5_canonical": {
+      "parse_ok": {
+        "both_false": 0,
+        "left_only": 0,
+        "right_only": 0,
+        "both_true": 1534
+      },
+      "has_join_on": {
+        "both_false": 394,
+        "left_only": 0,
+        "right_only": 0,
+        "both_true": 1140
+      },
+      "fk_match": {
+        "both_false": 476,
+        "left_only": 88,
+        "right_only": 15,
+        "both_true": 955
+      },
+      "multi_fk_candidate": {
+        "both_false": 1337,
+        "left_only": 0,
+        "right_only": 21,
+        "both_true": 176
+      }
+    }
+  },
+  "filter_effect_by_label": {},
+  "packet28_disagreement_strata": {
+    "canonical_only:exact": 14,
+    "canonical_only:exact+unmatched": 1,
+    "multi_fk:canonical_only:role_candidates_nonzero": 21,
+    "packet_only:ambiguous": 22,
+    "packet_only:unmatched": 66
+  },
+  "raw_question_text_written": false,
+  "raw_sql_written": false,
+  "database_names_written": false,
+  "question_hashes_in_public_aggregate": false
+}

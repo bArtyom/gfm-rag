@@ -1,6 +1,6 @@
 {
   "experiment_id": "p0_fk_canonical_crosswalk_20261105_01",
-  "status": "REGISTERED_NOT_RUN",
+  "status": "CROSSWALK_COMPLETE",
   "layer": "P0 FK input and label-definition audit; exploratory; not method-effect evidence",
   "source_project": {
     "repository": "https://github.com/bArtyom/gfm-rag",
@@ -86,7 +86,8 @@
   },
   "command_templates": {
     "smoke": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 timeout --signal=TERM --kill-after=15s 585s conda run --no-capture-output -n think2sql_20260909 python3.12 scripts/text2sql/reconcile_p0_fk_candidate_definitions_canonical.py --mode smoke --method p1_5 --run-id p0fk_canonical_p15_smoke_py312_sqlg28_20261105_01 --dev-json ${BIRD_DEV_ROOT}/dev.json --tables-json ${BIRD_DEV_ROOT}/dev_tables.json --p1-5-fk-artifact ${P1_5_FK_ARTIFACT} --output ${P0_RESULT_ROOT}/smoke/p0fk_canonical_p15_smoke_py312_sqlg28_20261105_01.json",
-    "full": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 timeout --signal=TERM --kill-after=15s 585s conda run --no-capture-output -n think2sql_20260909 python3.12 scripts/text2sql/reconcile_p0_fk_candidate_definitions_canonical.py --mode full --method p1_5 --run-id p0fk_canonical_p15_full_py312_sqlg28_20261105_01 --dev-json ${BIRD_DEV_ROOT}/dev.json --tables-json ${BIRD_DEV_ROOT}/dev_tables.json --p1-5-fk-artifact ${P1_5_FK_ARTIFACT} --output ${P0_RESULT_ROOT}/full/p0fk_canonical_p15_full_py312_sqlg28_20261105_01.json"
+    "full": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 timeout --signal=TERM --kill-after=15s 585s conda run --no-capture-output -n think2sql_20260909 python3.12 scripts/text2sql/reconcile_p0_fk_candidate_definitions_canonical.py --mode full --method p1_5 --run-id p0fk_canonical_p15_full_py312_sqlg28_20261105_01 --dev-json ${BIRD_DEV_ROOT}/dev.json --tables-json ${BIRD_DEV_ROOT}/dev_tables.json --p1-5-fk-artifact ${P1_5_FK_ARTIFACT} --output ${P0_RESULT_ROOT}/full/p0fk_canonical_p15_full_py312_sqlg28_20261105_01.json",
+    "crosswalk": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 timeout --signal=TERM --kill-after=15s 585s conda run --no-capture-output -n think2sql_20260909 python3.12 scripts/text2sql/compare_p0_fk_candidate_definitions_canonical.py --packet28 ${V3_RESULT_ROOT}/full/p0fk_v3_full_packet_py312_sqlg28_20261105_01.json --p1-5-unfiltered ${V3_RESULT_ROOT}/full/p0fk_v3_full_p15_py312_sqlg28_20261105_01.json --p1-5-canonical ${P0_RESULT_ROOT}/full/p0fk_canonical_p15_full_py312_sqlg28_20261105_01.json --private-output ${P0_RESULT_ROOT}/crosswalk/crosswalk_private.json --aggregate-output ${P0_RESULT_ROOT}/crosswalk/crosswalk_aggregate.json"
   },
   "environment": {
     "conda_environment": "think2sql_20260909",
@@ -126,5 +127,19 @@
   },
   "result_root": "local:results/gfmrag_p0_fk_canonical_crosswalk_20261105_01",
   "log_root": "local:logs/p0_fk_canonical_crosswalk_20261105_01",
-  "current_execution_status": "PREREGISTERED_NOT_RUN"
+  "current_execution_status": "COMPLETED",
+  "results": {
+    "smoke_status": "SMOKE_PASS",
+    "smoke_result_sha256": "51cec8f6be43ac23c750e3cd084e5b494f7083e7a8e8e449ab6b86368fcc4236",
+    "full_status": "FULL_COMPLETE",
+    "full_result_sha256": "746e6366831b5924fedd309af4c96f71ab49d6f3462ad2d054cfd427fb2f33ed",
+    "crosswalk_status": "CROSSWALK_COMPLETE",
+    "public_crosswalk_sha256": "f2360ae188f7a70c75f194b815ed9a5417206e15a0029e4e6b486671e998643d",
+    "denominators": {"records_processed": 1534, "parse_ok": 1534, "join_on_questions": 1140},
+    "fk_counts": {"raw": 103, "valid": 100, "invalid": 3},
+    "canonical_p1_5": {"fk_match_queries": 970, "multi_fk_candidate_queries": 197},
+    "packet28": {"fk_match_queries": 1043, "multi_fk_candidate_queries": 176},
+    "filter_effect_by_label": {},
+    "resources": {"gpu_seconds": 0, "model_calls": 0, "api_calls": 0, "sql_execution": 0, "full_wall_seconds": 1.2233, "full_cpu_seconds": 1.8429, "full_peak_rss_gib": 0.0455, "crosswalk_process_time_recorded": false}
+  }
 }

@@ -12,14 +12,17 @@
 
 > **2026-11-05 哈希诊断恢复结果**：两组 packet Smoke 通过；P1.5 Smoke 因冻结 artifact SHA 与同一字节缓冲区、分块 helper 及独立 SHA-256 的结果不符而 `STOP_INVALID`。文件身份稳定，JSON 未解析，未启动 Full。见[计划](plans/p0_fk_candidate_definition_recovery_v2_20261105.md)和[结果报告](reports/p0_fk_candidate_definition_recovery_v2_20261105_01/README.md)。
 
-> **2026-11-05 哈希指纹更正 v3 结果（运行后复核修订）**：三组 Smoke、三组 Full 与匿名 crosswalk 已运行；packet 两环境均为 1,043/176，本轮 P1.5 wrapper 输出 970/197。后续代码复核发现 wrapper 传入原始 `instances_private`，而 canonical P1.5 汇总使用过滤后的 `valid_instances_private`，所以 103/21 差异尚不能归因于方法定义。需按新 run ID 修正过滤后再比较；可信 Role 标签仍为0。见[报告](reports/p0_fk_candidate_definition_recovery_v3_20261105_01/README.md)。
+> **2026-11-05 哈希指纹更正 v3 结果（运行后复核修订）**：三组 Smoke、三组 Full 与匿名 crosswalk 已运行；packet 两环境均为 1,043/176，本轮 P1.5 wrapper 输出 970/197。后续代码复核发现 wrapper 传入原始 `instances_private`，canonical P1.5 汇总使用过滤后的 `valid_instances_private`。当时的待办已由下方 canonical crosswalk 新 run ID 完成：过滤后仍为 970/197，逐题标签与未过滤适配器一致；packet/P1.5 差异仍在。可信 Role 标签仍为0。见[v3报告](reports/p0_fk_candidate_definition_recovery_v3_20261105_01/README.md)及[canonical crosswalk报告](reports/p0_fk_canonical_crosswalk_20261105_01/README.md)。
 
-> **2026-11-05 canonical FK crosswalk 复核（已登记）**：在新 run ID 下，用 `valid_endpoints=true` 的 100 个 FK 实例重放 P1.5 `golden_join_audit`；与既有同环境 packet-28 结果、v3 原始实例适配结果做匿名逐题对账。只修正适配输入，不改解析器或计数定义；Smoke 通过才运行 Full。见[计划](plans/p0_fk_canonical_crosswalk_20261105.md)和[报告](reports/p0_fk_canonical_crosswalk_20261105_01/README.md)。
+> **2026-11-05 canonical FK crosswalk 复核（完成）**：5题 Smoke、1,534题 Full 与逐题 crosswalk 全部通过。valid-only 过滤没有改变 P1.5 的任何逐题标签或 970/197 汇总；packet-28 的 1043/176 差异仍在，且可分解为实现定义差异，不是 Role 准确率。见[计划](plans/p0_fk_canonical_crosswalk_20261105.md)和[报告](reports/p0_fk_canonical_crosswalk_20261105_01/README.md)。
+
+> **方法变更台账**：为避免把检索、上下文打包、SQL评测和图传播探针混为“QuadGraph方法改进”，逐项列出原方法、实际改动、结果及证据边界，见[方法变更台账](method-change-ledger-20261105.md)。
 
 ## 现有研究文档
 
 | 文档 | 作用 | 状态 |
 |---|---|---|
+| [方法变更台账（当前）](method-change-ledger-20261105.md) | 逐项区分 QuadGraph 原方法、Text2SQL 检索/上下文改动、SQL评测变化及 G0/G1/G2 图探针 | 2026-11-05 按已归档报告整理；不新增实验结果 |
 | [论文与代码审计](paper-and-code-audit.md) | QuadGraph 四层图、Qwen3 Embedding 输出维度、GraphReasoner 投影约束、相似度归一化 | 讨论版，待按当前 fork commit 复核 |
 | [实验路线图](experiment-roadmap.md) | P0 数据审计 → P1 维度消融 → P2 评分消融 → P3 Text2SQL EX → P4 可选 GFM 适配 | 研究指导 v1，尚未按本路线图执行 |
 | [数据与复现规范](reproducibility-contract.md) | Gold 约束、FK 实例标识、反泄漏、缓存版本、评测模板与 Go/No-go | 待实现/执行 |
@@ -53,7 +56,8 @@
 | [P0 FK候选定义哈希诊断恢复计划](plans/p0_fk_candidate_definition_recovery_v2_20261105.md) | 记录同一受控文件句柄的摘要、文件身份和解析字节；新 run ID 重跑三臂 Smoke | **已预注册；尚未读取实验输入** |
 | [P0 FK候选定义哈希诊断恢复报告](reports/p0_fk_candidate_definition_recovery_v2_20261105_01/README.md) | 同句柄/旧 helper 摘要一致，但与冻结摘要不同；记录 smoke 停止门 | **STOP_INVALID_SMOKE；未运行 Full** |
 | [P0 FK候选定义哈希更正 v3 计划](plans/p0_fk_candidate_definition_recovery_v3_20261105.md) | 新实验 ID 冻结经独立确认的 FK artifact 摘要，重跑 smoke / 条件式 full | **2026-11-05 已执行；结果见报告** |
-| [P0 FK候选定义哈希更正 v3 执行报告](reports/p0_fk_candidate_definition_recovery_v3_20261105_01/README.md) | v3 注册、Smoke/Full 与 crosswalk 运行结果；追加适配层代码复核 | **已计算；canonical P1.5 对照待修正过滤后复核，语义 Role 标签仍缺** |
+| [P0 FK候选定义哈希更正 v3 执行报告](reports/p0_fk_candidate_definition_recovery_v3_20261105_01/README.md) | v3 注册、Smoke/Full 与 crosswalk 运行结果；追加适配层代码复核 | 已完成；原始 FK 适配差异由后续 canonical crosswalk 复核，语义 Role 标签仍缺 |
+| [P0 canonical P1.5 FK crosswalk 报告](reports/p0_fk_canonical_crosswalk_20261105_01/README.md) | valid-only FK adapter 与 packet-28 / v3 P1.5 的匿名逐题对账 | **完成；过滤无标签影响；实现定义差异仍在，Role Gate NO-GO** |
 | [2026-10-23 P2d.1 + G0 跨分支复核（当前）](reports/p2d1_g0_cross_branch_review_20261023/README.md) | 读取分支的真实结果，区分 evaluator v2、元数据未被模型读取及方法结论边界 | 已完成静态分析；非新实验 |
 | [G1关系通道×FK Instance保真](plans/g1_relation_channel_and_fk_instance_gate_20261023.md) | 8次合成前向/多种edge_type/rel_attr对照、同义重标记不变性、FK Role Label Gate及Go/No-go | 2026-10-23完成；按原门槛 G1-A NO-GO，见G1报告 |
 | [2026-10-24全局实验复核与G1结构对称性分析](reports/current_results_review_20261024/README.md) | 从P1/P2到G1/G2及FK Instance Gate结果、失败机制和下一步 | **静态复核附Gate结果更新** |
