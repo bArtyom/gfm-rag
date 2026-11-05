@@ -1,0 +1,29 @@
+run_id: p0_bird_fk_hop_profile_20261105_01
+status: preregistered_exploratory_structural_audit
+dataset:
+  name: BIRD dev
+  questions: 1534
+  schemas: 11
+  dev_json_sha256: 630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06
+  dev_tables_sha256: 35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97
+analysis:
+  definition: exact_unweighted_minimum_steiner_edges_over_undirected_declared_FK_table_graph
+  max_exact_terminals: 12
+  primary_screen:
+    connected_questions_hop_ge_3: 30
+    databases_with_at_least_one_connected_question_hop_ge_3: 3
+  parse_rate_gate: 0.95
+resources:
+  compute: CPU only
+  max_threads: 4
+  model_inference: false
+  gpu: false
+  external_api: false
+  sql_execution: false
+stages:
+  smoke_questions: 5
+  full_questions: 1534
+artifacts:
+  private_result_root: /mnt/liansp3/sources/results/gfmrag_p0_bird_fk_hop_profile_20261105_01
+  public_report: docs/research/text2sql/reports/p0_bird_fk_hop_profile_20261105_01/README.md
+  private_logs: /mnt/liansp3/logs/p0_bird_fk_hop_profile_20261105_01
