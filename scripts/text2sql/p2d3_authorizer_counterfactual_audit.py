@@ -413,8 +413,9 @@ def main() -> None:
         smoke_path = args.output_dir / "smoke_summary.json"
         require(smoke_path.is_file() and read_json(smoke_path).get("status") == "SMOKE_PASS",
                 "Full requires the registered passing offline Smoke")
-    args.sql_config = read_json(args.sql_config).get("sql")
-    require(isinstance(args.sql_config, dict), "Frozen SQL limits are missing from P2d.3 config")
+    args.sql_config = read_json(args.sql_config)
+    require(isinstance(args.sql_config.get("sql"), dict),
+            "Frozen SQL limits are missing from P2d.3 config")
     result = run_replay(args, artifacts, registration, registration_sha)
     print(json.dumps(result, ensure_ascii=False, sort_keys=True))
 

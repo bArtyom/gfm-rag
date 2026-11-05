@@ -37,3 +37,7 @@ P2d.3 的 A2（只提供 V00 检索上下文并阻止读取上下文外表列）
 - 复用 P2d.3 的 `p2d3_context_bounded_repair.py` 与 `p2d_sql_evaluator.py`，不改生成器、prompt、authorizer 或既有评测。
 - 环境复用已安装的 `think2sql_20260909` Python 3.12 / SQLGlot 28；调用经核验的 Python 3.12 绝对解释器，避免 `conda run python3` 落到 Python 3.9。
 - 参考近邻：通用属性引导 SQL 修复已由 [Post-SQLFix](https://arxiv.org/abs/2610.41472) 研究；相干表筛选和预算式结构搜索也已有 [CORE-T](https://aclanthology.org/2026.emnlp-main.89/) 与 [BASS](https://aclanthology.org/2026.findings-emnlp.1025/) 覆盖。本审计只定位现有失败原因，不提出相邻的修复或 Schema packing 方法。
+
+## 执行修订（2026-11-06）
+
+首次注册已成功并冻结了 6 个初始上下文拒绝样本及 8 个被拒修复候选。`smoke_001` 在调用只读 SQLite 执行器前停止：runner 将源配置中的 `sql` 子对象传给了仍期望根配置对象的 evaluator，因此在读取超时参数时触发 `KeyError`。本次没有执行 SQL、写出 Smoke 汇总或改变任何冻结输入。代码仅改为保留并传递完整配置对象，同时仍显式检查其中 `sql` 限制存在；新源码提交已发布。恢复使用新的 `run_002` 注册与 Smoke 目录，候选、选择顺序、执行规则、指标和预算不变；`smoke_001` 日志保留，不覆盖。

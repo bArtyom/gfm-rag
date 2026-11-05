@@ -69,6 +69,15 @@
     "stop on resource limit breach",
     "do not regenerate SQL, replace examples, tune prompts, or alter the evaluator"
   ],
+  "execution_amendments": [
+    {
+      "attempt_id": "smoke_001",
+      "status": "STOPPED_BEFORE_SQL_EXECUTION",
+      "reason": "runner passed the sql subsection where the evaluator expects the complete source configuration",
+      "recovery_run_id": "run_002",
+      "scientific_protocol_changed": false
+    }
+  ],
   "primary_source_commit_for_execution": "to_be_recorded_after_code_commit",
   "result": null
 }
