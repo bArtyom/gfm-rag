@@ -112,7 +112,7 @@
     },
     "human_review_completed": false,
     "trusted_role_labels": 0,
-    "run_id_mismatch_caught_before_input_read": true,
+    "run_id_mismatch_detected_before_execution": true,
     "command_template": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 OPENBLAS_NUM_THREADS=8 NUMEXPR_NUM_THREADS=8 conda run --no-capture-output -n think2sql_20260909 python3.12 scripts/text2sql/prepare_p0_fk_disagreement_review_packet.py --mode {smoke|full} --run-id {run_id} --dev-json ${BIRD_DEV_ROOT}/dev.json --tables-json ${BIRD_DEV_ROOT}/dev_tables.json --fk-artifact ${P1_5_FK_ARTIFACT} --crosswalk-private ${CROSSWALK_PRIVATE} --canonical-full ${CANONICAL_FULL} --output-dir ${P0_RESULT_ROOT}/{smoke|full}/{run_id}"
   },
   "success_and_stop_gates": {

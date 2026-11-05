@@ -18,7 +18,7 @@
 - 预注册基线：`7a65c5564f7be68e506adffcf4b66c213ee5a8bd`；登记后的执行器与配置提交：[`41dcaf5`](https://github.com/bArtyom/gfm-rag/commit/41dcaf54e55ab20035788b06aad7a6a95497a987)。本地执行提交：`b35ccf44ceede9e8b730371b3687ad03646ae1a0`。报告归档提交另见本报告所在分支的最新提交。
 - 启动前阅读仓库 `README.md`、`docs/research/text2sql/README.md`、`experiment-roadmap.md`、`reproducibility-contract.md`、旧盲审计划以及 canonical crosswalk 报告；执行依照仓库的 P0、隐私和结果归档要求。
 - 新增独立执行器 `scripts/text2sql/prepare_p0_fk_disagreement_review_packet.py`；没有修改 QuadGraph/GFM-RAG 的检索、图构建、G-reasoner、SQL 生成或模型权重。
-- 启动复核时发现代码与配置的 run ID 拼写不一致。执行器在读取输入前拒绝了错误 ID，未创建运行产物；随后更正检查逻辑、冻结新代码哈希并先推送到实验分支，再运行 Smoke。旧 launch 记录和更正回执留在本地日志中。
+- 启动前静态复核发现初版 launch 清单里的 run ID 与配置不一致；当时尚未调用执行器，也未读取输入。随后更正执行器检查逻辑、冻结新代码哈希并先推送到实验分支，再运行 Smoke。初版 launch 清单保留在本地日志中，并附有更正回执。
 
 ## 3. 数据、环境与可复现设置
 
