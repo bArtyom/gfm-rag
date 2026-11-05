@@ -21,13 +21,13 @@
 - P1.5 runner：`scripts/text2sql/run_p1_5_diagnostics.py`，SHA-256 `af59d01d22a6b5d5538231b38c2bf52e0355a9193a5773f40b14d29470ec40cf`。复用其 `golden_join_audit`：SQLGlot scope/local alias 处理、直接 Column=Column 条件、对比 SQLite 完整 FK 实例的全部有序列对；唯一完整实例、部分匹配、多重匹配与无匹配分别计数。
 - P2a.5 runner：`scripts/text2sql/run_p2a_5_error_audit.py`，SHA-256 `e046595df72d3b684062a54d2fffc2c8df13cae419b056625b8981c20b805085`；仅用于核对其诊断标签是否来自同一 scope-aware 完整实例规则。
 - 输入历史 SHA-256：`dev.json`=`630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06`；`dev_tables.json`=`35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97`。
-- 私有参照：历史 P0 `/mnt/liansp3/sources/results/quadrag_p0_20261014/full_audit_v3.json`；P1.5 `/mnt/liansp3/sources/results/gfmrag_p1_5_diagnosis_20261016/full_03/fk_gate_private.json`，已知 SHA-256 `5bc60f6d64429215fa92c3d3a42f1a4881dc77c09839729153fb55a119555060`。文件存在性/哈希/结构将在本登记推送后核验；私有内容不得进入公开产物。
+- 登记推送后的私有 artifact 核验：历史 P0 v3 SHA-256 为 `0f3f104638e1a37c579db81c453aa514188e0a40341938b92964db833410ebcf`，JSON 只有聚合 `gold_label_audit` 计数（956/174）、解析分母和少量失败示例 ID，没有逐题标签；因此这组旧数不可做题目级归因。P1.5 artifact SHA-256 为 `5bc60f6d64429215fa92c3d3a42f1a4881dc77c09839729153fb55a119555060`，包含 970/197 聚合及私有 SQLite FK 实例表，但没有逐题 JOIN 标签；本轮会用该冻结 FK 实例表和原 P1.5 `golden_join_audit` 重新构造匿名 crosswalk。上述内容均只留在私有环境，不复制到公开结果。
 
 ## 执行顺序与输出
 
 1. 提交并推送本登记后，才检查题目/Gold SQL 与私有逐题 artifact；先保存环境、资源与输入 hash 回执。
-2. 分别用两套冻结环境对五条固定 Smoke 输入运行 packet 规则，写入独立私有目录；不得创建 reviewer packet。
-3. 两个 Smoke 均通过后，在新 runner 中复用冻结函数，对 1,534 题运行 packet@26、packet@28 与 P1.5@28。SQLite 只读读取 schema 元数据；不得执行参考或预测 SQL。
+2. 用 SQLGlot 26.33.0 与 28.0.0 分别对五条固定 Smoke 输入运行 packet 规则；另用 P1.5 原规则在 SQLGlot 28.0.0 上跑同一 Smoke，写入独立私有目录；不得创建 reviewer packet。
+3. 三个 Smoke 均通过后，在冻结 runner 中复用原函数，对 1,534 题运行 packet@26、packet@28 与 P1.5@28。P1.5 使用 artifact 中已冻结的 SQLite FK 实例，不重新修改身份定义；不执行参考或预测 SQL。
 4. 若历史 P1.5 artifact 含逐题结果，按哈希题键与重新计算标签对齐；只存题键哈希及各规则标签，不保存文本/ID/SQL。若 artifact 只有聚合，注明无法做历史逐题对照。
 5. 输出匿名聚合：解析/Join 分母、各定义计数、交集、各方向差集、规则分类原因、环境版本贡献及历史 P0 v3 可复现性状态。私有逐题 crosswalk 与原始日志不上传。
 6. 只有所有 Gate 通过，才允许另外登记一轮盲审包生成；本轮不生成盲审材料。

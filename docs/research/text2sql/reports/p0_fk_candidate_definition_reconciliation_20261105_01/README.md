@@ -1,6 +1,6 @@
 # P0 FK 候选定义对账
 
-**状态：已预注册；尚未读取本轮 BIRD 问题/Gold SQL 或私有逐题产物，尚未运行 Smoke/Full。**
+**状态：已预注册并冻结对账 runner；尚未运行 Smoke/Full。**
 
 ## 问题
 
@@ -15,6 +15,8 @@
 - 环境：`t2sql_code_audit_20261005` Python 3.10.22 / SQLGlot 26.33.0；`think2sql_20260909` Python 3.12.14 / SQLGlot 28.0.0。
 - 预算：CPU only；进程 wall/CPU ≤600 秒、RSS ≤4 GiB、≤8 CPU 线程；GPU/model/API/SQL execution/download/install = 0。
 - 成功判据：1,534 题、解析 1,534、JOIN-ON 1,140；复现 P0 packet 1,043/176 与 P1.5 970/197；完整解释 SQLGlot 28 下的逐题集合差及 packet 跨版本差异。不能解释则保持 unresolved/NO-GO。
+- 私有 artifact 检查确认历史 P0 v3 只保留 956/174 聚合计数，没有逐题标签；P1.5 保留 970/197 聚合与 SQLite FK 实例，但没有逐题 JOIN 标签。P0 v3 将保留为 aggregate-only / unreproducible；P1.5 会从冻结实例表按原规则重新计算，不改写历史产物。
+- 冻结 runner：`scripts/text2sql/reconcile_p0_fk_candidate_definitions.py` SHA `9d4e2ec2fa7d44156ae170285951c9df7a617ebde6d23714185cefc5c0749855`；匿名差异汇总器 `scripts/text2sql/compare_p0_fk_candidate_definitions.py` SHA `d1c9123d195e40afaf8e15a02cef823525ac06a1d1c531dade8fac9c3c2d7e9e`。
 - 历史 P0 v3 的 956/174 只在存在可复核源码和逐题标签时归因；若只有聚合 artifact，将标为 aggregate-only、unreproducible。
 - 停止条件：hash/分母不符、5 题 Smoke 失败、源码不匹配、逐题集合差异无法完整解释、隐私或资源门失败。失败 run ID 不重试；不生成 blind-review packet。
 

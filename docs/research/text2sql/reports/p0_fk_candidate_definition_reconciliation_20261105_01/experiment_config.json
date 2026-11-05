@@ -1,6 +1,6 @@
 {
   "experiment_id": "p0_fk_candidate_definition_reconciliation_20261105_01",
-  "status": "PREREGISTERED_NOT_RUN",
+  "status": "CODE_FROZEN_NOT_RUN",
   "layer": "exploratory_read_only_definition_audit",
   "mainline_evidence": false,
   "research_question": "Explain divergent FK match / multi-FK candidate aggregates on identical BIRD dev input hashes by separating implementation definition from SQLGlot/Python environment effects.",
@@ -18,12 +18,14 @@
   "pinned_code": {
     "packet_runner_sha256": "5c84af91edc6dd39cd1fba39105dfc74b804be17912d91edab5eba2ff180eebc",
     "p1_5_runner_sha256": "af59d01d22a6b5d5538231b38c2bf52e0355a9193a5773f40b14d29470ec40cf",
-    "p2a_5_runner_sha256": "e046595df72d3b684062a54d2fffc2c8df13cae419b056625b8981c20b805085"
+    "p2a_5_runner_sha256": "e046595df72d3b684062a54d2fffc2c8df13cae419b056625b8981c20b805085",
+    "reconciliation_runner_sha256": "9d4e2ec2fa7d44156ae170285951c9df7a617ebde6d23714185cefc5c0749855",
+    "crosswalk_comparator_sha256": "d1c9123d195e40afaf8e15a02cef823525ac06a1d1c531dade8fac9c3c2d7e9e"
   },
   "inputs": {
     "dev_json_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
     "dev_tables_json_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
-    "p0_v3_artifact_sha256": "verify_after_registration",
+    "p0_v3_artifact_sha256": "0f3f104638e1a37c579db81c453aa514188e0a40341938b92964db833410ebcf",
     "p1_5_fk_artifact_sha256": "5bc60f6d64429215fa92c3d3a42f1a4881dc77c09839729153fb55a119555060"
   },
   "environments": {
