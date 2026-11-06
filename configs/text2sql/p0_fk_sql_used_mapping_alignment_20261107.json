@@ -66,10 +66,12 @@
   "gates": {
     "smoke_sql_parse": "5/5",
     "smoke_scope_errors": 0,
-    "smoke_candidate_mapping_match_min": 4,
+    "smoke_complete_qualified_join_equality_resolution": "all 5 questions",
+    "smoke_complete_and_candidate_mapping_match_min": 4,
     "full_sql_parse_min": 54,
     "full_scope_errors": 0,
     "full_evaluable_pairs_min": 30,
+    "full_evaluable_requires_all_qualified_join_equalities_resolved": true,
     "full_anonymous_databases_min": 3,
     "success_g_reasoner_delta_pp_min": 5,
     "success_net_rescues_min": 4,
