@@ -20,3 +20,9 @@ Run `p0_fk_sql_used_mapping_rank_20261107_cpu_001` 在解析任何数据前停�
 - 唯一恢复目标：私有 `/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_rank_20261107_01/cpu_002/`；独立日志 `.../cpu_002.log`。
 - 运行前将本补充、配置及带 actual/expected 哈希回执的 runner 推送到用户拥有的 `bArtyom/gfm-rag` 分支，并读回验证；执行 commit/hash 记录在 CPU 回执。
 - 本轮恢复仍不上传问题、SQL、schema 行、逐题身份、mapping ID、模型原文或本地运行日志。
+
+## 2026-11-07 执行记录与更正
+
+唯一恢复 `p0_fk_sql_used_mapping_rank_20261107_cpu_002` 已运行并按本 amendment 停止。CPU runner 在反序列化任何 JSON、读取问题/SQL 字段或构造样本之前，报告 exclusion manifest 哈希不匹配：冻结 expected 为 `14d3e65e53bbc29c03d312fb32227c47b568242502d30bc3c4d4656b97521ed7`，observed 为 `14d3e65e53bbc29c03d312fb32227c47b568242502e30bc3c4d4656b97521ed7`。独立 `sha256sum` 与失败回执的 observed 值相同。Recovery allowance 已用完；不再试运行、不更改输入或登记哈希，也不运行后续模型审阅与 GPU 排序。
+
+**登记勘误：**本补充开头“独立 SHA-256 检查与原登记值相同”的记录，以及 Amendment 002 JSON `independent_check.observed_sha256`，错误地复写了 expected 值；它们不是正确的独立实测值。保留冻结配置以避免静默改写预注册，按 CPU_002 回执和本段公开更正解释。匿名执行结果见[报告](../reports/p0_fk_sql_used_mapping_rank_20261107_01/README.md)。

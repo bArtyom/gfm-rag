@@ -1,0 +1,31 @@
+{
+  "experiment_id": "p0_fk_sql_used_mapping_rank_20261107_01",
+  "status": "STOPPED_BEFORE_PARSE",
+  "stop_reason": "INPUT_HASH_MISMATCH_EXCLUSION_MANIFEST",
+  "source_commit": "3329dc0cb029c1047147720616baebd707637613",
+  "recovery_allowance_used": true,
+  "recovery_allowance_remaining": 0,
+  "expected_sha256": "14d3e65e53bbc29c03d312fb32227c47b568242502d30bc3c4d4656b97521ed7",
+  "observed_sha256": "14d3e65e53bbc29c03d312fb32227c47b568242502e30bc3c4d4656b97521ed7",
+  "expected_matches_observed": false,
+  "input_json_deserialized": false,
+  "question_or_sql_fields_read": false,
+  "sql_parsed": false,
+  "sample_units_created": 0,
+  "smoke_units_created": 0,
+  "full_units_created": 0,
+  "model_review_calls": 0,
+  "ranker_runs": 0,
+  "primary_metrics": null,
+  "model_proxy_metrics": null,
+  "local_model_tokens": {
+    "input": 0,
+    "output": 0,
+    "total": 0
+  },
+  "external_api_requests": 0,
+  "external_api_cost_CNY": "0.00",
+  "gpu_inference_seconds": 0,
+  "private_artifacts_uploaded": false,
+  "registration_note": "Amendment 002 recorded its independent observed hash by copying the expected hash; this was corrected in the execution report and appended to the amendment plan. The frozen config remains unchanged."
+}
