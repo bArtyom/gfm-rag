@@ -215,12 +215,12 @@ Smoke_002 通过；Full 完成55个问题×表对、123个mapping候选。A1 对
 
 最终结果：Smoke 5/5 parse、7/7 JOIN 等式解析；Full 495 题完成。完整 500 题 parse 为 500/500，限定 JOIN 等式解析率 523/663=78.88%，低于 95% 质量门。48 个可评分题×表对、4 个数据库的数量门通过，作用域错误为 0；最终 `STOP_LABEL_GATE_FAILED`。未运行 G-reasoner/Dense/BM25，也未调用模型/API。此次停止针对标签解析覆盖，不代表排序器性能负面结果。报告和匿名聚合见[实验报告](reports/p0_minidev_sql_fk_mapping_rank_20261106_01/README.md)与[聚合](reports/p0_minidev_sql_fk_mapping_rank_20261106_01/aggregate_summary.json)。不自动重试或扩展该排序实验；如后续研究 140 个无法解析的限定等式，须另立有界 parser error taxonomy 预注册。
 
-## 2026-11-06：G-reasoner 原始表/列检索迁移诊断（Amendment 1 已登记，恢复 Smoke 待运行）
+## 2026-11-06：G-reasoner 原始表/列检索迁移诊断（停止；无科学结果）
 
 已停止的 FK mapping Pilot 回答“已知表对内哪条 FK mapping 得分更高”，不能代表 P1.6 的完整表/列检索任务。P1.6 测得 Dense Column R@10 为 68.00%，但没有运行 G-reasoner。为区分“FK mapping 任务适配失败”和“G-reasoner 在 Schema 检索上无增量”，单独预注册一次冻结 checkpoint 的表/列检索诊断。它仍使用反复开发的 BIRD dev，只作 exploratory transfer screen。
 
 三条件共享同一 Qwen3 query/node vectors：D0 为 Dense Cosine；G1 为每类节点一个 Dense anchor；G3 为每类节点三个 Dense anchors。Query 使用 G-reasoner checkpoint 指令并重新编码，避免复用指令不同的 P1.6 cache；Schema 文本使用冻结的 value-free R1 视图，避免让公开方法声称不含 Values 却实际输入 Values。图只含双向 table/column membership 边，不含 FK、Gold SQL、Gold 派生边、Values 或业务角色。主指标 Column R@10；迁移门、预算、Smoke/Full 和停止规则见[预注册方案](plans/gfm_schema_retrieval_transfer_20261106.md)与[冻结配置](../../../configs/text2sql/gfm_schema_retrieval_transfer_20261106.json)。
 
-首次 `smoke_001` 的 `conda run ... python3` 解析到了 `/root/miniconda3/envs/python39/bin/python3`，未使用目标 GFM 环境，因此在模型和数据读取前因 `torch_geometric` 缺失而停止。无 Qwen/G-reasoner 加载、token、API 或 GPU 前向。已核实目标环境的 `/root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3.12` 与冻结依赖版本完整；不安装依赖。Amendment 1 仅显式指定该解释器，保留 `_001` 失败产物，并登记唯一恢复 Smoke `_002`。原配置不覆盖，恢复及后续 Full 使用独立的 Amendment 配置；见[Amendment 1](plans/gfm_schema_retrieval_transfer_20261106_amendment1.md)和[Amendment 配置](../../../configs/text2sql/gfm_schema_retrieval_transfer_20261106_amendment1.json)。
+首次 `smoke_001` 的 `conda run ... python3` 解析到了 `/root/miniconda3/envs/python39/bin/python3`，在 PyG 导入时停止。Amendment 1 显式指定目标环境解释器后，唯一恢复 Smoke `_002` 又在 G-reasoner `config.json` SHA-256 核验处停止：注册值 `75d14b97d6a077ebc17b09a21170a3d9272251db59f7ac8cc853165efb2efd5`；实际文件值 `75d14b97d6a077ebc17b09a21170a3ad9272251db59f7ac8cc853165efb2efd5`，注册值少一个 `a`。两次均无 Qwen/G-reasoner 模型加载、embedding、前向、token 或 API 请求；`_002` 有 0/5 有效打分。原日志和失败收据保留；没有覆盖数据、模型或旧结果。
 
-REaR、Graph-Link、Rethinking Schema Linking、JoinGR 已覆盖多类图式/结构式 Schema retrieval，因此本项只作冻结 G-reasoner checkpoint-transfer 证伪诊断，不宣称新算法。Amendment 1 提交并回读后才允许运行 `_002`；若此恢复 Smoke 仍失败则停止。Full 后不扫 anchor 数、边或 relation text。
+REaR、Graph-Link、Rethinking Schema Linking、JoinGR 已覆盖多类图式/结构式 Schema retrieval，因此本项只作冻结 G-reasoner checkpoint-transfer 证伪诊断，不宣称新算法。Amendment 1 的恢复额度已耗尽；按预注册停止规则，不启动第三次 Smoke 或 Full。没有科学指标，核心假设未被支持或否定。完整记录见[失败报告](reports/gfm_schema_retrieval_transfer_20261106_01/README.md)及[匿名汇总](reports/gfm_schema_retrieval_transfer_20261106_01/aggregate_summary.json)。

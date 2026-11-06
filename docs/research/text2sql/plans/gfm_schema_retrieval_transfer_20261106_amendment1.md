@@ -1,6 +1,6 @@
 # Amendment 1：修正环境解释器入口
 
-**状态：已登记；新的 Smoke 尚未运行。** 本 amendment 只修正启动器所用的 Python 路径，不改实验问题、假设、数据、模型、输入、图、锚点、指标、阈值、资源上限或停止门。
+**登记内容：已发布。执行状态：唯一恢复 Smoke `_002` 失败，按停止门结束。** 本 amendment 只修正启动器所用的 Python 路径，不改实验问题、假设、数据、模型、输入、图、锚点、指标、阈值、资源上限或停止门。
 
 ## 保留的失败尝试
 
@@ -27,3 +27,9 @@
 - 原冻结配置：`configs/text2sql/gfm_schema_retrieval_transfer_20261106.json`。
 - Amendment 配置：`configs/text2sql/gfm_schema_retrieval_transfer_20261106_amendment1.json`。
 - 已发布运行代码：`scripts/text2sql/run_gfm_schema_retrieval_transfer.py`。
+
+## 执行结果与停止
+
+恢复 Smoke `_002` 使用了已核实的目标解释器，但预注册 runner/config 中的 G-reasoner `config.json` SHA-256 少了一个 `a`。runner 在本地输入预检后停止于 checkpoint 配置哈希校验，未加载 Qwen 或 G-reasoner、未编码、未打分；有效样本为 0/5。Full 未启动。amendment 注册的唯一恢复额度已经用完，因此不再启动第三次 Smoke。
+
+完整失败记录和匿名聚合见[运行报告](../reports/gfm_schema_retrieval_transfer_20261106_01/README.md)与[aggregate](../reports/gfm_schema_retrieval_transfer_20261106_01/aggregate_summary.json)。

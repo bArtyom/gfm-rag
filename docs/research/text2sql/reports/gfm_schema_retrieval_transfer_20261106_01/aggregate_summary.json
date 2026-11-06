@@ -1,0 +1,73 @@
+{
+  "experiment_id": "gfm_schema_retrieval_transfer_20261106_01",
+  "status": "STOP_NO_SCIENTIFIC_RESULT",
+  "claim_type": "exploratory checkpoint-transfer diagnostic",
+  "scientific_metrics_available": false,
+  "registered_success_gate_evaluated": false,
+  "attempts": [
+    {
+      "run_id": "gfm_schema_retrieval_transfer_20261106_smoke_001",
+      "mode": "smoke",
+      "status": "failed_before_data_and_model_loading",
+      "failure_class": "wrong_python_interpreter_on_path",
+      "resolved_interpreter": "/root/miniconda3/envs/python39/bin/python3",
+      "python_version": "3.9.20",
+      "error": "ModuleNotFoundError: No module named 'torch_geometric'",
+      "wall_seconds": 1.242349436,
+      "process_cpu_seconds": 1.823094984,
+      "embedding_requests": 0,
+      "g_reasoner_forward_count": 0
+    },
+    {
+      "run_id": "gfm_schema_retrieval_transfer_20261106_smoke_002",
+      "mode": "smoke",
+      "status": "failed_before_model_loading",
+      "failure_class": "registered_checkpoint_config_hash_mismatch",
+      "resolved_interpreter": "/root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3.12",
+      "python_version": "3.12.15",
+      "selected_question_count": 5,
+      "scored_question_count": 0,
+      "expected_g_reasoner_config_sha256": "75d14b97d6a077ebc17b09a21170a3d9272251db59f7ac8cc853165efb2efd5",
+      "observed_g_reasoner_config_sha256": "75d14b97d6a077ebc17b09a21170a3ad9272251db59f7ac8cc853165efb2efd5",
+      "g_reasoner_weight_sha256_match": true,
+      "wall_seconds": 8.362925289,
+      "process_cpu_seconds": 9.576732919,
+      "embedding_requests": 0,
+      "g_reasoner_forward_count": 0
+    }
+  ],
+  "full_run": {
+    "run_id": "gfm_schema_retrieval_transfer_20261106_full_001",
+    "status": "not_started",
+    "question_count": 0
+  },
+  "sampling": {
+    "smoke_selection": "first five source-order questions from the lexicographically first database; deterministic, no sample seed",
+    "bootstrap_seed": 20261106,
+    "bootstrap_executed": false
+  },
+  "resources": {
+    "target_environment": {
+      "python": "3.12.15",
+      "torch": "2.8.0",
+      "torch_geometric": "2.6.1",
+      "transformers": "4.56.1",
+      "sentence_transformers": "5.1.1"
+    },
+    "dependency_changes": 0,
+    "g_reasoner_gpu_forward_seconds": 0,
+    "combined_failed_process_cpu_seconds": 11.399827903
+  },
+  "usage": {
+    "local_model_requests": 0,
+    "external_api_requests": 0,
+    "confirmed_input_tokens": 0,
+    "confirmed_output_tokens": 0,
+    "confirmed_total_tokens": 0,
+    "unknown_usage_requests": 0,
+    "estimated_api_cost_CNY": "0",
+    "supplier_billing_verified": false
+  },
+  "decision": "Stop after the amendment's one recovery Smoke failed. No third Smoke or Full run is authorized by this registration.",
+  "contains_raw_questions_sql_database_names_predictions_or_keys": false
+}
