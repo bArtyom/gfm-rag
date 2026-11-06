@@ -1,0 +1,110 @@
+{
+  "experiment_id": "p0_fk_sql_used_mapping_rank_20261107_01",
+  "amendment_id": "amendment_001_model_review",
+  "status": "preregistered_not_run",
+  "user_instruction": "用模型来审阅",
+  "scope": "Add two local model reviewers and a secondary model-proxy analysis; preserve the original SQL-used primary target, ranking inputs, primary success screen, and stop rule.",
+  "review_unit": "one question x one unordered table pair x all unique valid declared FK mapping candidates",
+  "reviewers": {
+    "A": {
+      "model": "Qwen2.5-Coder-7B-Instruct",
+      "path": "/mnt/liansp3/sources/models/qwen25-coder-7b",
+      "resolved_path": "/mnt/liansp3/研究项目/Text2SQL/Alpha-SQL_idea1/models/Qwen2.5-Coder-7B-Instruct",
+      "runtime": "local Transformers, BF16, greedy, CUDA_VISIBLE_DEVICES=0",
+      "config_sha256": "c0242402ad6a13b331ea320feea8c7e3776ffb7a4eff0757b9cd667e116d9a28",
+      "model_shard_sha256": {
+        "model-00001-of-00004.safetensors": "0b6f069918b07c064cbba8ae4f00f529aa9bbf84b7cdfcb7fc2694a40f6aa8ef",
+        "model-00002-of-00004.safetensors": "c3d46733e7aa054ea7b063fbccd0a5a08446e7bd1814bef26936c5aa1331da62",
+        "model-00003-of-00004.safetensors": "9fe45dacee087385b3d2d6dd27a7413a8a56d95f145772facc148fa86fc73446",
+        "model-00004-of-00004.safetensors": "5aa6e5cbe642377fd441fb4e60e83cca96b2bcd9820e245b9ea06d94653f17f2"
+      }
+    },
+    "B": {
+      "model": "Qwen3-4B-Think2SQL",
+      "path": "/mnt/liansp3/sources/models/qwen3-4b-think2sql",
+      "resolved_path": "/mnt/liansp3/资源模型/Think2SQL/Qwen3-4B-1cfa9a7",
+      "runtime": "local Transformers, BF16, greedy, thinking disabled, CUDA_VISIBLE_DEVICES=1",
+      "config_sha256": "8ba006f74fecfaaeb392872a60f4a480e7ec9860153d2e1b769ec81f9a147f8a",
+      "model_shard_sha256": {
+        "model-00001-of-00003.safetensors": "328a91d3122359d5547f9d79521205bc0a46e1f79a792dfe650e99fc2d651223",
+        "model-00002-of-00003.safetensors": "6cd087b316306a68c562436b5492edbcf6e16c6dba3a1308279caa5a58e21ca5",
+        "model-00003-of-00003.safetensors": "e4bf436957184f4eeb86a80e9db394503f1f56446b2e6b7edeac5b81470f4ca1"
+      }
+    }
+  },
+  "prompt_and_output_contract": {
+    "runner": "scripts/text2sql/run_p0_fk_mapping_model_review_proxy.py",
+    "same_question_and_candidate_universe_for_both": true,
+    "candidate_ids_shared_and_candidate_order_stably_permuted": true,
+    "visible_to_reviewers": ["natural_language_question", "unordered_table_pair", "all_unique_candidate_fk_mappings"],
+    "hidden_from_reviewers": ["gold_sql", "sql_used_mapping_ids", "g_reasoner_scores", "dense_scores", "other_reviewer_output", "database_id", "question_id"],
+    "temperature": 0,
+    "sampling": false,
+    "max_new_tokens": 384,
+    "consensus": "exact decision and accepted mapping ID set agreement; each confidence >= 2; only single_mapping or multiple_mappings can be adjudicable",
+    "human_gold_created": false,
+    "trusted_human_role_labels": 0
+  },
+  "stages": {
+    "smoke_units": 5,
+    "smoke_full_overlap": 0,
+    "smoke_gate": "both reviewers have 5/5 valid outputs and >=4/5 exact high-confidence agreements; otherwise stop model Full review without retry",
+    "full_units": "all newly prepared eligible units excluding the five Smoke units",
+    "full_retries": 0,
+    "full_replacements": 0,
+    "proxy_ranking_descriptive_minimum": {"distinguishable_units": 20, "anonymous_databases": 3},
+    "proxy_ranking_when_below_minimum": "report review counts only; no model-proxy ranking metrics"
+  },
+  "model_review_run_ids": {
+    "smoke": "p0_fk_sql_used_mapping_rank_20261107_review_smoke_001",
+    "full": "p0_fk_sql_used_mapping_rank_20261107_review_full_001"
+  },
+  "resources": {
+    "conda_environment": "gfmrag_greasoner_20261022",
+    "python": "/root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3.12",
+    "python_version": "3.12.15",
+    "torch": "2.8.0",
+    "transformers": "4.56.1",
+    "physical_gpu_a": 0,
+    "physical_gpu_b": 1,
+    "execution": "serial; recheck resources before each reviewer stage",
+    "max_gpu_allocated_bytes": {"A": 21474836480, "B": 15032385536},
+    "max_rss_bytes": 25769803776,
+    "max_wall_seconds_per_review_stage": 1800,
+    "local_model_inference": true,
+    "external_api_calls": false,
+    "dependencies_changed": false,
+    "downloads": false,
+    "token_ledger": "/mnt/liansp3/.config/api-usage/usage.sqlite3",
+    "ledger_provider": "local_transformers",
+    "local_gpu_time_reported_separately": true
+  },
+  "run_paths": {
+    "result_alias": "/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_rank_20261107_01",
+    "log_alias": "/mnt/liansp3/logs/gfmrag_p0_fk_sql_used_mapping_rank_20261107_01"
+  },
+  "registration_sha256": {
+    "main_plan": "ee84bda23338734651203c464f9fe43fa81336afe620037d68746df0e166ba3f",
+    "amendment_plan": "4e4b1c6465461b43b5f83e0a3dfe3a2c5c0b90b192ba0278e7a10a70875f0a28",
+    "main_config": "258249f042638fef36e20a2afe0877096364e259de5000414a546d1df4dd79cd"
+  },
+  "privacy": {
+    "packets_outputs_and_per_unit_consensus_private": true,
+    "github_contains_only_anonymous_counts_and_aggregate_metrics": true,
+    "question_sql_schema_names_mapping_ids_and_raw_model_output_uploaded": false
+  },
+  "code_sha256": {
+    "scripts/text2sql/prepare_p0_fk_sql_used_mapping_rank_20261107.py": "7723b27fe7b3097cef0f01fa56888653af5ffaf026d42127556363623c1d8e54",
+    "scripts/text2sql/aggregate_p0_fk_sql_used_model_review.py": "ed7b4557fa8bf3577553584bcb4e5893b9c41fff0f3818ec6c7793900f2238c9",
+    "scripts/text2sql/run_p0_fk_sql_used_mapping_rank_20261107.py": "a151da0f457e324a207f779451e3b37e04b303308e4101271468bd6acf898b94",
+    "scripts/text2sql/aggregate_p0_fk_sql_used_model_proxy_rank.py": "3a99ca963fda066c1c81a71fa9c45bd22d49e1aa6fd1909d2430f7e5b41d8d85",
+    "scripts/text2sql/run_p0_fk_mapping_model_review_proxy.py": "45cadb60ffda61caa762094166f6aa247c1a7c39422cfc8fc8793285346b0f5f",
+    "scripts/text2sql/aggregate_p0_fk_mapping_model_review_proxy.py": "b089f3044122a9bc261650937f619f605487b4ecc47530cf5ec163d38480d8b9",
+    "scripts/text2sql/run_p0_fk_mapping_model_proxy_rank_pilot.py": "0f396faf4a8c96d14fbafa8f352cd32bd3c99027f6c9afe41aa067892a7ce11f",
+    "scripts/text2sql/g0_fk_instance_node_probe.py": "6feae32fb7fd2610d7bcc8d7f1e45035e0375042b8dbd1d699db224fe82dad69",
+    "scripts/text2sql/audit_minidev_sql_fk_labels.py": "02758ae18ba707b8b920a6951af6d2a45deb086dcd56b43ca2f1ba95e6abe498",
+    "scripts/text2sql/audit_p0_fk_sql_used_mapping_alignment_20261107_02.py": "1c1b2230ed3cb5531b612d1b0a69513f21bdac6cc85704d687852ad940da42cd",
+    "scripts/text2sql/prepare_p0_fk_disagreement_review_packet.py": "5ef881594e99cd0a4ebed02a04dc130ebf3ef787bf62cb09f5a95a308dc87db0",
+    "/mnt/liansp3/sources/code/api_usage_ledger.py": "960fec17130b8ac320afe97c71c2f1c8a15da5d1086e0ce31947efef5c74b83f"
+  }
+}

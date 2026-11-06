@@ -1,6 +1,6 @@
 # P0：新 SQL-derived 样本上的 FK 映射排序诊断
 
-**状态：已预注册，尚未读取本轮样本；不得据样本或模型得分改动条件。** 实验 ID：`p0_fk_sql_used_mapping_rank_20261107_01`。该实验沿着 2026-11-07 身份对齐诊断指出的缺口，另建一批由参考 SQL 显式 `JOIN ... ON` 目标派生的样本；不是重跑旧 60 对，也不使用模型审阅标签。
+**状态：已预注册，尚未读取本轮样本；不得据样本或模型得分改动条件。** 实验 ID：`p0_fk_sql_used_mapping_rank_20261107_01`。该实验沿着 2026-11-07 身份对齐诊断指出的缺口，另建一批由参考 SQL 显式 `JOIN ... ON` 目标派生的样本；不是重跑旧 60 对。用户随后要求使用模型审阅，补充协议见[Amendment 001](p0_fk_sql_used_mapping_rank_20261107_amendment_001_model_review.md)：两种本地模型标签只作次要代理审阅与描述性评估，不改变主要 SQL-used 标签、主要指标或成功门，也不称为人工共识。
 
 ## 痛点、研究问题与因果链
 
@@ -43,7 +43,7 @@
 
 ## 运行预算、停止条件与复现
 
-- 预算：一次 CPU-only 全量 SQL/候选解析；通过容量门后，一次 5 单位 GPU Smoke，再通过后一次 Full（全部剩余合格单位）。无重试、无新模型审阅、无 SQL 执行、无新依赖安装或数据下载。
+- 预算：一次 CPU-only 全量 SQL/候选解析；通过容量门后，一次 5 单位 G-reasoner GPU Smoke，再通过后一次 Full（全部剩余合格单位）。无重试、无 SQL 执行、无新依赖安装或数据下载。双本地模型次要审阅严格按 Amendment 001 的额外 Smoke/Full 预算执行。
 - 资源：指定物理 GPU2（本次预检空闲 RTX 4090）；峰值 CUDA allocation `≤8 GiB`，RSS `≤8 GiB`，wall `≤1,800s`，进程 CPU `≤900s`；CPU 解析最多 8 线程。每次 GPU 启动前重新记录 `nvidia-smi`、`free -h`、`nproc`、磁盘余量和环境版本。若 GPU2 不空闲，本次停止，不挪用正在运行任务、不临时换卡或重试。
 - 环境：复用 `gfmrag_greasoner_20261022`，指定 `/root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3.12`，Python 3.12.15、Torch 2.8.0、PyG 2.6.1、Transformers 4.56.1、sentence-transformers 5.1.1；模型本地离线加载。不升级环境、不自动转外部 API。
 - 固定模型：G-reasoner revision `a3a4ed2c62281e1c3e0551bd42f2072d9204674f`，`model.pth` SHA-256 `2f2a1a2d2f5725133428941b785f3898255666b06041b58420f75e60599d387d`，checkpoint config SHA-256 `75d14b97d6a077ebc17b09a21170a3ad9272251db59f7ac8cc853165efb2efd5`；Qwen3-Embedding-0.6B weights SHA-256 `0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd`。使用 checkpoint 注册的 Query instruction：`Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery: `；Dense 与 G-reasoner 共享向量。
