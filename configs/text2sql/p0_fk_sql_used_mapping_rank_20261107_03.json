@@ -1,0 +1,158 @@
+{
+  "experiment_id": "p0_fk_sql_used_mapping_rank_20261107_03",
+  "status": "preregistered_not_run",
+  "layer": "exploratory_target_aligned_rank_transfer",
+  "core_hypothesis": "On a fresh BIRD-dev sample derived from resolved explicit JOIN ON table pairs with at least two valid FK candidates, frozen G-reasoner has SQL-used Mapping@1 at least 5 percentage points above shared-vector Dense cosine, with at least four net rescues and positive net rescue in at least two anonymous databases with n>=5.",
+  "unit": "one question x one unordered table pair; at most one unit per question",
+  "data": {
+    "dataset": "BIRD dev original local snapshot",
+    "question_count": 1534,
+    "source_population_max_units": 176,
+    "source_population_questions": 175,
+    "source_population_databases": 4,
+    "target": "complete declared FK mapping used in explicit JOIN ON for a resolved alias pair",
+    "candidate_universe": "all unique valid canonical FK identities between the selected endpoint tables, constructed independently from gold SQL target",
+    "exclude_question_keys_in_existing_60_unit_packet": true,
+    "one_unit_per_question": true,
+    "smoke_selection": "five eligible question keys with lowest SHA256(experiment_id + question_key_sha256); excluded from Full",
+    "full_min_units": 30,
+    "full_min_anonymous_databases": 3,
+    "gold_sql_used_as_model_input": false,
+    "model_proxy_labels_used": false,
+    "trusted_human_role_labels": 0
+  },
+  "inputs": {
+    "dev_json": {
+      "path": "/mnt/liansp3/sources/datasets/bird/dev/dev.json",
+      "sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06"
+    },
+    "dev_tables_json": {
+      "path": "/mnt/liansp3/sources/datasets/bird/dev/dev_tables.json",
+      "sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97"
+    },
+    "fk_artifact": {
+      "path": "/mnt/liansp3/sources/results/gfmrag_p1_5_diagnosis_20261016/full_03/fk_gate_private.json",
+      "sha256": "5bc60f6d64429215fa92d3c3a42f1a4881dc77c09839729153fb55a119555060"
+    },
+    "crosswalk_private": {
+      "path": "/mnt/liansp3/sources/results/gfmrag_p0_fk_canonical_crosswalk_20261105_01/crosswalk/crosswalk_private.json",
+      "sha256": "7acdbecca557d8ce49283adca174e1caacd9dc77929e1f6ad819b75299a9938e"
+    },
+    "canonical_full": {
+      "path": "/mnt/liansp3/sources/results/gfmrag_p0_fk_canonical_crosswalk_20261105_01/full/p0fk_canonical_p15_full_py312_sqlg28_20261105_01.json",
+      "sha256": "746e6366831b5924fedd309af4c96f71ab49d6f3462ad2d054cfd427fb2f33ed"
+    },
+    "exclusion_manifest": {
+      "path": "/mnt/liansp3/sources/results/gfmrag_p0_fk_mapping_pair_level_blind_review_20261106_01/full_001/private_manifest.json",
+      "sha256": "14d3e65e53bbc29c03d312fb32227c47b568242502e30bc3c4d4656b97521ed7"
+    }
+  },
+  "models": {
+    "g_reasoner": {
+      "path": "/mnt/liansp3/sources/models/g-reasoner-34m",
+      "revision": "a3a4ed2c62281e1c3e0551bd42f2072d9204674f",
+      "model_pth_sha256": "2f2a1a2d2f5725133428941b785f3898255666b06041b58420f75e60599d387d",
+      "config_sha256": "75d14b97d6a077ebc17b09a21170a3ad9272251db59f7ac8cc853165efb2efd5",
+      "train": false,
+      "fine_tune": false
+    },
+    "embedding": {
+      "path": "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+      "model": "Qwen/Qwen3-Embedding-0.6B",
+      "revision": "local_frozen_snapshot",
+      "weights_sha256": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd",
+      "dimension": 1024,
+      "query_instruction": "Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery: ",
+      "passage_instruction": null
+    }
+  },
+  "methods": {
+    "primary": [
+      "frozen_g_reasoner_34m",
+      "shared_vector_dense_cosine"
+    ],
+    "secondary": [
+      "bm25_okapi_k1_1.5_b_0.75",
+      "stable_mapping_id_order"
+    ],
+    "graph": "two endpoint table nodes; all unique canonical mapping nodes; four directed edges per mapping; binary seed both endpoints",
+    "mapping_identity": "ordered child table + all ordered child/parent columns + parent table; exact duplicates collapsed",
+    "ranking_tie_break": "mapping_id ascending"
+  },
+  "sql_label_rule": {
+    "parser": "SQLGlot 28.0.0",
+    "dialect": "sqlite",
+    "source": "qualified cross-table equalities inside explicit JOIN ON, grouped by JOIN and alias pair",
+    "composite_fk": "all ordered column pairs must occur in the same JOIN ON and alias pair",
+    "accepted_target": "one or more full valid candidate identities in the same question-table-pair SQL joins",
+    "excluded_constructs": [
+      "WHERE",
+      "USING",
+      "unresolved qualified join equalities"
+    ],
+    "interpretation": "SQL-used mapping only, not unique business semantic gold"
+  },
+  "metrics": {
+    "primary": "set-valued SQL-used Mapping@1, G-reasoner minus Dense cosine",
+    "secondary": [
+      "Mapping@3",
+      "MRR to first SQL-used mapping",
+      "paired rescue/damage",
+      "per-anonymous-database counts",
+      "candidate coverage",
+      "exclusion taxonomy",
+      "resource and token use"
+    ],
+    "positive_screen": {
+      "delta_pp_min": 5,
+      "net_rescues_min": 4,
+      "positive_database_count_min": 2,
+      "database_denominator_min": 5
+    }
+  },
+  "gates": {
+    "smoke_sql_parse": "5/5",
+    "smoke_all_qualified_join_equalities_resolved": "5/5",
+    "smoke_sql_used_target_in_full_candidate_universe": "5/5",
+    "smoke_finite_scores_and_candidate_completeness": "5/5",
+    "full_evaluable_units_after_smoke_min": 30,
+    "full_anonymous_databases_min": 3,
+    "all_scored_rows_have_at_least_two_candidates": true,
+    "all_scored_rows_have_at_least_one_sql_used_candidate": true
+  },
+  "resource_budget": {
+    "cpu_preparation_max_threads": 8,
+    "cpu_preparation_max_wall_seconds": 600,
+    "cpu_preparation_max_process_seconds": 300,
+    "cpu_preparation_max_rss_bytes": 4294967296,
+    "gpu_physical_id": 3,
+    "gpu_count": 1,
+    "peak_gpu_allocated_bytes_max": 8589934592,
+    "peak_rss_bytes_max": 8589934592,
+    "wall_seconds_max": 1800,
+    "cpu_seconds_max": 900,
+    "dependency_changes": false,
+    "downloads": false,
+    "local_model_inference": true,
+    "external_api_calls": false,
+    "sql_execution": false,
+    "training": false,
+    "run_ids": {
+      "cpu": "p0_fk_sql_used_mapping_rank_20261107_03_cpu_001",
+      "smoke": "p0_fk_sql_used_mapping_rank_20261107_03_smoke_001",
+      "full": "p0_fk_sql_used_mapping_rank_20261107_03_full_001"
+    }
+  },
+  "paths": {
+    "report_directory": "docs/research/text2sql/reports/p0_fk_sql_used_mapping_rank_20261107_03",
+    "private_result_alias": "/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_rank_20261107_03",
+    "log_alias": "/mnt/liansp3/logs/gfmrag_p0_fk_sql_used_mapping_rank_20261107_03"
+  },
+  "privacy": {
+    "public_aggregate_only": true,
+    "question_or_database_ids_in_repo": false,
+    "sql_or_schema_rows_in_repo": false,
+    "mapping_ids_or_per_case_rankings_in_repo": false,
+    "model_review_outputs_in_repo": false
+  }
+}
