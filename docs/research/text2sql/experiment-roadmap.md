@@ -192,3 +192,7 @@ $$
 模型代理 Accepted@1 Pilot 已按原计划完成并为 NO-GO；同一标签上不得继续调参或挑图结构。当前只保留一个不同问题的有限机制核查：在完全相同的 55 个 Full 问题×表对和 FK mapping 候选上，比较两个端点同时为 query seed、仅第一个端点为 seed、仅第二个端点为 seed。审阅标签和 Gold SQL 不读取，指标仅为 seed 条件间的 Top-1 变化率与候选对顺序反转率。
 
 这是基于现有报告提出的探索性机制诊断，不是 Role Accuracy、方法改进或论文主线结果；无论排序变化与否，都不能判定正确性。计划：[G3 方案](plans/g3_fk_seed_direction_sensitivity_20261106.md)，配置：[G3 冻结配置](../../../configs/text2sql/g3_fk_seed_direction_sensitivity_20261106.yaml)。执行规则为 5 对 Smoke 通过后运行一次 55 对 Full；之后停止该支线，真实准确率仍需可信标签。
+
+### 2026-11-06 G3 执行结果与路线决定
+
+Smoke_002 通过；Full 完成55个问题×表对、123个mapping候选。A1 对 A0 改变 Top-1 4/55（7.27%）、反转6/81个候选对（7.41%）；A2 改变6/55（10.91%）、反转7/81（8.64%）。A0 确定性重复误差为0。结果没有满足机制信号门，也没有达到无实质影响门，故为 `INCONCLUSIVE`。本支线按计划停止，不继续调整seed、模型或图结构；不读取审阅标签的设计不能判断哪一组排序更正确。Smoke_001 的 Python 3.9 环境错配仅造成一次模型加载前失败，随后在同一冻结环境用 Python 3.12 重跑通过。详见[G3报告](reports/g3_fk_seed_direction_sensitivity_20261106_01/README.md)和[聚合结果](reports/g3_fk_seed_direction_sensitivity_20261106_01/aggregate_summary.json)。可信人工 Role 标签仍为0；如果研究问题仍是 FK Role 准确率，仍需独立可信标签，模型代理结果不可替代。
