@@ -1,0 +1,91 @@
+{
+  "experiment_id": "g3_fk_seed_direction_sensitivity_20261106",
+  "status": "FULL_COMPLETE",
+  "decision": "INCONCLUSIVE",
+  "source_commit": "1d37a9fd7407ed31103f4e464c2e31d83b00c2bc",
+  "config_sha256": "b5c4b4bc4ded01b2f442354bcac6b64f16669a46b180cf4a01be93158aea3652",
+  "inputs": {
+    "pair_count_smoke": 5,
+    "candidate_count_smoke": 12,
+    "pair_count_full": 55,
+    "candidate_count_full": 123,
+    "anonymous_database_count_full": 4,
+    "full_candidate_pair_comparisons": 81,
+    "reviewer_outputs_opened": false,
+    "gold_sql_or_execution_results_opened": false,
+    "external_api_requests": 0,
+    "sql_executions": 0
+  },
+  "conditions": {
+    "A0": "both sorted table endpoints seeded",
+    "A1": "first sorted table endpoint seeded",
+    "A2": "second sorted table endpoint seeded",
+    "A0_repeat_max_absolute_error": 0.0
+  },
+  "metrics": {
+    "A1": {
+      "top1_flips": 4,
+      "top1_denominator": 55,
+      "top1_flip_rate": 0.072727,
+      "candidate_pair_order_reversals": 6,
+      "candidate_pair_order_denominator": 81,
+      "candidate_pair_order_reversal_rate": 0.074074,
+      "score_range_mean": 0.469689326,
+      "graphs_with_top_score_tie": 0
+    },
+    "A2": {
+      "top1_flips": 6,
+      "top1_denominator": 55,
+      "top1_flip_rate": 0.109091,
+      "candidate_pair_order_reversals": 7,
+      "candidate_pair_order_denominator": 81,
+      "candidate_pair_order_reversal_rate": 0.08642,
+      "score_range_mean": 0.47144732,
+      "graphs_with_top_score_tie": 0
+    },
+    "A0": {
+      "score_range_mean": 0.474201775,
+      "graphs_with_top_score_tie": 0
+    }
+  },
+  "thresholds": {
+    "mechanism_signal": "at least one single-seed condition has top1_flip_rate >= 0.20 and pair_order_reversal_rate >= 0.10",
+    "no_material_order_effect": "both single-seed conditions have both rates <= 0.05"
+  },
+  "resources": {
+    "environment": {
+      "python": "3.12.15",
+      "torch": "2.8.0",
+      "torch_geometric": "2.6.1",
+      "transformers": "4.56.1",
+      "sentence_transformers": "5.1.1"
+    },
+    "gpu": "NVIDIA GeForce RTX 4090, physical GPU 1",
+    "smoke_wall_seconds": 10.041066,
+    "full_wall_seconds": 10.638529,
+    "smoke_cpu_seconds": 13.616409,
+    "full_cpu_seconds": 14.962948,
+    "smoke_peak_gpu_allocated_bytes": 2531396608,
+    "full_peak_gpu_allocated_bytes": 2979721216,
+    "smoke_peak_rss_bytes": 4721029120,
+    "full_peak_rss_bytes": 4719513600,
+    "qwen_encoder_seconds": 1.291515,
+    "g_reasoner_forward_seconds": 2.836146
+  },
+  "local_token_accounting": {
+    "model": "Qwen/Qwen3-Embedding-0.6B",
+    "requests_with_usage": 5,
+    "requests_without_usage": 0,
+    "input_tokens": 3223,
+    "output_tokens": 0,
+    "total_tokens": 3223,
+    "external_api_fee_cny": "0",
+    "local_energy_cost": "not priced"
+  },
+  "privacy": {
+    "contains_question_text": false,
+    "contains_case_or_mapping_ids": false,
+    "contains_per_case_scores": false,
+    "contains_raw_model_outputs": false
+  }
+}
