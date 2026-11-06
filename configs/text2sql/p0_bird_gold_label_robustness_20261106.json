@@ -1,0 +1,81 @@
+{
+  "experiment_id": "p0_bird_gold_label_robustness_20261106_01",
+  "status": "preregistered_with_pre_smoke_amendment_a1",
+  "source_repository": "https://github.com/uiuc-kang-lab/text_to_sql_benchmarks",
+  "source_commit": "fe766045c55b6875a43b30e9ac7683df5582f8cf",
+  "source_license": "CC BY-SA 4.0",
+  "source_file": "data/arcwise_plat_sql_only_with_diff.json",
+  "source_sha256": "e7bf76408f99266506ea558d84982c69422e5db3dfecab5f08a3a8d3900e8395",
+  "source_rows": 498,
+  "core_hypothesis": "With questions, evidence, schema, candidates, and frozen P1.6 ranking held fixed, replacing BIRD SQL-derived labels with corrected SQL-derived labels may change table/column labels and retrieval metrics.",
+  "layer": "exploratory_measurement_robustness_audit",
+  "intervention": "SQL label source only: original BIRD dev SQL versus corrected SQL-only annotation",
+  "fixed_inputs": {
+    "dev_json_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "dev_tables_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "archived_original_labels_sha256": "1b501810f0247999de1210fc807f3c39e60c2fab498cd104f8eb60f815269525",
+    "p1_6_per_question_sha256": "6b28af7400cb70e0ab88a00b56654235571a074022fd8ea52b3f9744a844c4e9",
+    "p1_6_node_manifest_sha256": "81ccc51c442c9d4771a16f600340c37f2673887fc0672d8179ecc20d39296754",
+    "p1_6_aggregate_sha256": "925a7116835080b78f0752b3915f9bdf056e173434bd5b176111f7830c91c504"
+  },
+  "matching_fields": ["question_id", "db_id", "question", "evidence"],
+  "parser": {
+    "dialect": "sqlite",
+    "sqlglot_version": "30.12.0",
+    "environment": "qes_rear_refine",
+    "python_version": "3.10.22",
+    "reason": "matches the archived P0 audit parser version; historical parser source is absent",
+    "historical_code_sha256": "457fd370b86db2cdadea357366f4429dbe06d86260b2ba470fdc6e1fee1c3847"
+  },
+  "metrics": [
+    "table_recall_at_5",
+    "table_recall_at_10",
+    "column_recall_at_5",
+    "column_recall_at_10",
+    "complete_schema_at_1024_tokens",
+    "table_and_column_label_set_exact_agreement",
+    "table_and_column_label_set_jaccard",
+    "complete_schema_rescues_and_damages"
+  ],
+  "bootstrap": {
+    "unit": "database_cluster",
+    "replicates": 10000,
+    "seed": 20261106,
+    "minimum_clusters": 5
+  },
+  "gates": {
+    "exact_one_to_one_match_all_source_rows": true,
+    "smoke_questions": 5,
+    "smoke_original_label_parity": "5/5 exact versus frozen P1 labels",
+    "historical_original_label_parity_minimum": 0.98,
+    "original_sql_parse_rate_minimum": 0.98,
+    "corrected_sql_parse_rate_minimum": 0.98,
+    "original_sql_nonempty_table_label_rate_minimum": 0.98,
+    "corrected_sql_nonempty_table_label_rate_minimum": 0.98,
+    "original_sql_column_eligibility_rate_minimum": 0.98,
+    "corrected_sql_column_eligibility_rate_minimum": 0.98,
+    "smoke_frozen_metric_parity": "Table/Column Top-K hit counts and Complete@1024 exact versus P1.6",
+    "sensitivity": "at least 5% questions change a gold table/column label set OR any primary retrieval metric changes by at least 2.0 percentage points",
+    "robustness": "at most 1% questions change a gold table/column label set AND Table R@10, Column R@10, and Complete@1024 each change by less than 1.0 percentage point",
+    "otherwise": "INCONCLUSIVE_OR_MIXED"
+  },
+  "sample": {
+    "smoke_selection": "sort by sha256(db_id/question_id), take first 5",
+    "full_rows": 493,
+    "full_excludes_smoke": true
+  },
+  "resources": {
+    "device": "CPU only",
+    "gpu": false,
+    "model_calls": 0,
+    "sql_execution": 0,
+    "dependencies_install_or_upgrade": 0,
+    "max_cpu_threads": 4,
+    "max_wall_seconds": 600,
+    "max_rss_bytes": 8589934592
+  },
+  "privacy": {
+    "raw_questions_sql_and_row_labels_upload": false,
+    "public_artifacts": ["anonymous_aggregate", "protocol", "reproduction_command", "report"]
+  }
+}
