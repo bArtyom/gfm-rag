@@ -42,8 +42,10 @@ from audit_p0_fk_sql_used_mapping_alignment_20261107_02 import (  # noqa: E402
 
 EXPERIMENT_ID = "p0_fk_sql_used_mapping_rank_20261107_01"
 EXPECTED_RUN_ID = "p0_fk_sql_used_mapping_rank_20261107_cpu_001"
+RECOVERY_RUN_ID = "p0_fk_sql_used_mapping_rank_20261107_cpu_002"
 EXPECTED_BRANCH = "research/p0-sql-used-proxy-alignment-20261107"
 EXPECTED_CONFIG_PATH = "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107.json"
+EXPECTED_RECOVERY_CONFIG_PATH = "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_amendment_002_hash_gate_recovery.json"
 EXPECTED_SQLGLOT = "28.0.0"
 MIN_FULL_UNITS = 30
 MIN_DATABASES = 3
@@ -353,7 +355,29 @@ def prepare(args: argparse.Namespace) -> dict[str, Any]:
     require(current_branch(args.repo_root) == EXPECTED_BRANCH, "BRANCH_MISMATCH")
     require(current_commit(args.repo_root) == args.expected_commit, "SOURCE_COMMIT_MISMATCH")
     require_clean_worktree(args.repo_root)
-    require(args.run_id == EXPECTED_RUN_ID, "RUN_ID_MISMATCH")
+    recovery_config_sha256 = None
+    if args.run_id == EXPECTED_RUN_ID:
+        require(args.amendment_config is None, "UNEXPECTED_RECOVERY_CONFIG_FOR_CPU_001")
+    elif args.run_id == RECOVERY_RUN_ID:
+        require(args.amendment_config is not None, "RECOVERY_CONFIG_REQUIRED")
+        require(
+            args.amendment_config.resolve().as_posix().endswith(EXPECTED_RECOVERY_CONFIG_PATH),
+            "RECOVERY_CONFIG_PATH_MISMATCH",
+        )
+        recovery_config = read_json(args.amendment_config)
+        require(recovery_config.get("status") == "preregistered_not_run", "RECOVERY_AMENDMENT_NOT_PREREGISTERED")
+        require(recovery_config.get("amendment_id") == "amendment_002_hash_gate_recovery", "RECOVERY_AMENDMENT_ID_MISMATCH")
+        require(recovery_config.get("recovery", {}).get("run_id") == RECOVERY_RUN_ID, "RECOVERY_RUN_ID_MISMATCH")
+        require(recovery_config.get("recovery", {}).get("previous_run_id") == EXPECTED_RUN_ID, "RECOVERY_PARENT_RUN_ID_MISMATCH")
+        require(recovery_config.get("recovery", {}).get("allowed_once") is True, "RECOVERY_NOT_AUTHORIZED")
+        require(
+            recovery_config.get("inputs", {}).get("exclusion_manifest", {}).get("expected_sha256")
+            == config["inputs"]["exclusion_manifest"]["sha256"],
+            "RECOVERY_EXCLUSION_HASH_DIFFERS_FROM_MAIN_CONFIG",
+        )
+        recovery_config_sha256 = sha256_file(args.amendment_config)
+    else:
+        raise StopRun("RUN_ID_MISMATCH")
     require(not args.output_dir.exists(), "OUTPUT_DIRECTORY_ALREADY_EXISTS")
 
     expected_inputs = {
@@ -364,11 +388,15 @@ def prepare(args: argparse.Namespace) -> dict[str, Any]:
         "canonical_full": args.canonical_full,
     }
     for name, path in expected_inputs.items():
-        require(sha256_file(path) == config["inputs"][name]["sha256"], f"INPUT_HASH_MISMATCH_{name.upper()}")
+        expected_sha = str(config["inputs"][name]["sha256"])
+        actual_sha = sha256_file(path)
+        require(actual_sha == expected_sha, f"INPUT_HASH_MISMATCH_{name.upper()}:expected={expected_sha}:actual={actual_sha}")
     exclusion_path = Path(config["inputs"]["exclusion_manifest"]["path"])
+    expected_exclusion_sha = str(config["inputs"]["exclusion_manifest"]["sha256"])
+    actual_exclusion_sha = sha256_file(exclusion_path)
     require(
-        sha256_file(exclusion_path) == config["inputs"]["exclusion_manifest"]["sha256"],
-        "INPUT_HASH_MISMATCH_EXCLUSION_MANIFEST",
+        actual_exclusion_sha == expected_exclusion_sha,
+        f"INPUT_HASH_MISMATCH_EXCLUSION_MANIFEST:expected={expected_exclusion_sha}:actual={actual_exclusion_sha}",
     )
 
     started = time.perf_counter()
@@ -507,6 +535,7 @@ def prepare(args: argparse.Namespace) -> dict[str, Any]:
         "status": status,
         "source_commit": args.expected_commit,
         "config_sha256": sha256_file(args.config),
+        "recovery_config_sha256": recovery_config_sha256,
         "input_sha256": frozen["input_hashes"],
         "exclusion_manifest_sha256": sha256_file(Path(config["inputs"]["exclusion_manifest"]["path"])),
         "sqlglot_version": sqlglot.__version__,
@@ -589,6 +618,7 @@ def main() -> int:
     parser.add_argument("--expected-commit", required=True)
     parser.add_argument("--repo-root", type=Path, required=True)
     parser.add_argument("--config", type=Path, required=True)
+    parser.add_argument("--amendment-config", type=Path)
     parser.add_argument("--dev-json", type=Path, required=True)
     parser.add_argument("--tables-json", type=Path, required=True)
     parser.add_argument("--fk-artifact", type=Path, required=True)

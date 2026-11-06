@@ -1,6 +1,6 @@
 # P0：新 SQL-derived 样本上的 FK 映射排序诊断
 
-**状态：已预注册，尚未读取本轮样本；不得据样本或模型得分改动条件。** 实验 ID：`p0_fk_sql_used_mapping_rank_20261107_01`。该实验沿着 2026-11-07 身份对齐诊断指出的缺口，另建一批由参考 SQL 显式 `JOIN ... ON` 目标派生的样本；不是重跑旧 60 对。用户随后要求使用模型审阅，补充协议见[Amendment 001](p0_fk_sql_used_mapping_rank_20261107_amendment_001_model_review.md)：两种本地模型标签只作次要代理审阅与描述性评估，不改变主要 SQL-used 标签、主要指标或成功门，也不称为人工共识。
+**状态：预注册。CPU_001 在 exclusion-manifest SHA 门停止；尚未解析问题或 SQL、生成样本或调用模型。** 唯一恢复须依照[Amendment 002](p0_fk_sql_used_mapping_rank_20261107_amendment_002_hash_gate_recovery.md)使用新 run ID `cpu_002`；失败的 `cpu_001` 不重跑。主假设、样本与标签条件不根据数据改动。实验 ID：`p0_fk_sql_used_mapping_rank_20261107_01`。该实验沿着 2026-11-07 身份对齐诊断指出的缺口，另建一批由参考 SQL 显式 `JOIN ... ON` 目标派生的样本；不是重跑旧 60 对。用户随后要求使用模型审阅，补充协议见[Amendment 001](p0_fk_sql_used_mapping_rank_20261107_amendment_001_model_review.md)：两种本地模型标签只作次要代理审阅与描述性评估，不改变主要 SQL-used 标签、主要指标或成功门，也不称为人工共识。
 
 ## 痛点、研究问题与因果链
 

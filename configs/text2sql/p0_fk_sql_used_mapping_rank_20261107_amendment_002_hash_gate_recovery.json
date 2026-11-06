@@ -1,0 +1,65 @@
+{
+  "experiment_id": "p0_fk_sql_used_mapping_rank_20261107_01",
+  "amendment_id": "amendment_002_hash_gate_recovery",
+  "status": "preregistered_not_run",
+  "trigger": {
+    "failed_run_id": "p0_fk_sql_used_mapping_rank_20261107_cpu_001",
+    "failed_reason": "INPUT_HASH_MISMATCH_EXCLUSION_MANIFEST",
+    "failed_receipt_observed_sha": null,
+    "independent_check": {
+      "method": "sha256sum",
+      "expected_sha256": "14d3e65e53bbc29c03d312fb32227c47b568242502d30bc3c4d4656b97521ed7",
+      "observed_sha256": "14d3e65e53bbc29c03d312fb32227c47b568242502d30bc3c4d4656b97521ed7",
+      "matches_preregistered_value": true
+    },
+    "data_rows_or_sql_parsed_in_failed_run": false,
+    "sample_or_model_inputs_created_in_failed_run": false
+  },
+  "recovery": {
+    "run_id": "p0_fk_sql_used_mapping_rank_20261107_cpu_002",
+    "previous_run_id": "p0_fk_sql_used_mapping_rank_20261107_cpu_001",
+    "allowed_once": true,
+    "output_subdirectory": "cpu_002",
+    "preserve_previous_failure": true,
+    "only_start_data_parsing_if_every_registered_input_hash_matches": true,
+    "on_any_hash_mismatch": "record expected and observed SHA-256 then stop permanently",
+    "on_any_other_data_or_capacity_gate_failure": "stop without another recovery"
+  },
+  "unchanged_protocol": {
+    "main_config_path": "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107.json",
+    "main_config_sha256": "258249f042638fef36e20a2afe0877096364e259de5000414a546d1df4dd79cd",
+    "sample_rule": "same registered resolved explicit JOIN ON multi-FK sample, exclude the frozen old 60-unit question keys, one unit per question, 5 Smoke excluded from Full",
+    "minimum_full_units": 30,
+    "minimum_full_anonymous_databases": 3,
+    "no_input_replacement_or_mutation": true,
+    "no_model_or_gpu_before_cpu_gate": true
+  },
+  "inputs": {
+    "exclusion_manifest": {
+      "path": "/mnt/liansp3/sources/results/gfmrag_p0_fk_mapping_pair_level_blind_review_20261106_01/full_001/private_manifest.json",
+      "expected_sha256": "14d3e65e53bbc29c03d312fb32227c47b568242502d30bc3c4d4656b97521ed7"
+    },
+    "all_other_hashes": "unchanged from the main preregistered configuration and rechecked by the runner before parsing"
+  },
+  "code_sha256": {
+    "scripts/text2sql/prepare_p0_fk_sql_used_mapping_rank_20261107.py": "30f6bd242b51b9a8035aa910d47490ba2ff725f027bdbd5812ac0d6c16cd942a",
+    "scripts/text2sql/aggregate_p0_fk_sql_used_model_review.py": "ed7b4557fa8bf3577553584bcb4e5893b9c41fff0f3818ec6c7793900f2238c9",
+    "scripts/text2sql/run_p0_fk_sql_used_mapping_rank_20261107.py": "a151da0f457e324a207f779451e3b37e04b303308e4101271468bd6acf898b94",
+    "scripts/text2sql/aggregate_p0_fk_sql_used_model_proxy_rank.py": "3a99ca963fda066c1c81a71fa9c45bd22d49e1aa6fd1909d2430f7e5b41d8d85",
+    "scripts/text2sql/run_p0_fk_mapping_model_review_proxy.py": "45cadb60ffda61caa762094166f6aa247c1a7c39422cfc8fc8793285346b0f5f"
+  },
+  "registration_sha256": {
+    "main_plan": "c87d5eb4e80795e00a50b3d644e06302d753a53338857406aa415db885fa41aa",
+    "amendment_002_plan": "bdf898c5913141ecbe7636a7d610b0136b297ec7ad0e56a856e9d20501977488",
+    "main_config": "258249f042638fef36e20a2afe0877096364e259de5000414a546d1df4dd79cd"
+  },
+  "paths": {
+    "result_alias": "/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_rank_20261107_01/cpu_002",
+    "log_path": "/mnt/liansp3/logs/gfmrag_p0_fk_sql_used_mapping_rank_20261107_01/cpu_002.log"
+  },
+  "privacy": {
+    "public_report_contains_only_anonymous_run_status_and_counts": true,
+    "input_values_or_sql_uploaded": false,
+    "expected_and_observed_hashes_are_safe_to_report": true
+  }
+}
