@@ -1,0 +1,44 @@
+{
+  "experiment_id": "p0_fk_mapping_counterfactual_shuffle_20261107_01",
+  "amendment": "001",
+  "status": "preregistered_before_sample_read",
+  "model_protocol_review": {
+    "reviewers": [
+      {"model": "Qwen2.5-Coder-7B-Instruct", "verdict": "proceed", "blocking_risks": 0},
+      {"model": "Qwen3-4B-Think2SQL", "verdict": "revise", "blocking_risks": 2}
+    ],
+    "use": "process critique only; not labels or experimental outcomes"
+  },
+  "source_integrity": {
+    "hash_before_sql_or_sqlite_connection": true,
+    "record_sqlite_hashes_privately": true,
+    "verify_database_hashes_at_end": true
+  },
+  "eligibility": {
+    "single_column_fk_only": true,
+    "stable_rowid_required": true,
+    "mutated_fields_must_not_be_pk": true,
+    "exclude_composite_fk": true,
+    "exclude_multi_column_unique_index_touching_mutated_field": true,
+    "exclude_table_check_constraint_or_generated_column": true,
+    "non_null_fk_values_must_resolve_to_parent_key": true
+  },
+  "view_validation": [
+    "row_count_exact",
+    "column_value_multiset_exact",
+    "null_count_exact",
+    "foreign_key_domain_membership",
+    "applicable_unique_indexes"
+  ],
+  "permutations": {
+    "required_per_pair": 20,
+    "distinct_combined_assignments": true,
+    "base_seed_start": 20261107,
+    "base_seed_end_inclusive": 20261126,
+    "max_attempts_per_seed": 100,
+    "adaptive_sampling_on_sql_output": false
+  },
+  "primary_denominator": "fixed pairs with at least one informative perturbation (at least one query Bag nonempty); all-both-empty pairs are reported separately",
+  "minimum_coverage": {"informative_pairs": 40, "anonymous_databases": 3},
+  "unchanged_decision_thresholds": {"positive": 0.5, "weak": 0.25}
+}
