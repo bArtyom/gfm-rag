@@ -311,26 +311,51 @@ def load_known_columns(schema_path: Path) -> dict[str, dict[str, set[str]]]:
     return known
 
 
-def validate_dev_tables(dev_tables_path: Path, known_columns: Mapping[str, Mapping[str, set[str]]]) -> None:
+def validate_dev_tables(
+    dev_tables_path: Path, known_columns: Mapping[str, Mapping[str, set[str]]]
+) -> dict[str, int]:
     dev_tables = json.loads(dev_tables_path.read_text(encoding="utf-8"))
     require(isinstance(dev_tables, list), "BIRD dev_tables root must be a list")
     rows = {str(row["db_id"]): row for row in dev_tables}
     require(len(rows) == len(dev_tables), "duplicate db_id in dev_tables")
     require(set(rows) == set(known_columns), "official schema/dev_tables database set differs")
+    official_only_table_count = 0
+    official_only_column_count = 0
+    dev_table_count = 0
+    official_schema_table_count = 0
     for db_id, row in rows.items():
         table_names = [str(value) for value in row["table_names_original"]]
+        dev_table_count += len(table_names)
         dev_columns: dict[str, set[str]] = {table: set() for table in table_names}
         for table_index, column_name in row["column_names_original"]:
             if int(table_index) >= 0 and str(column_name) != "*":
                 dev_columns[table_names[int(table_index)]].add(str(column_name))
         schema_table_lookup = {table.casefold(): table for table in known_columns[db_id]}
         dev_table_lookup = {table.casefold(): table for table in dev_columns}
-        require(set(schema_table_lookup) == set(dev_table_lookup), f"schema table inventory differs for {db_id}")
+        official_schema_table_count += len(schema_table_lookup)
+        require(
+            set(dev_table_lookup) <= set(schema_table_lookup),
+            f"dev_tables contains a table absent from official schema for {db_id}",
+        )
+        official_only_table_count += len(set(schema_table_lookup) - set(dev_table_lookup))
         for table_fold, schema_table in schema_table_lookup.items():
-            dev_table = dev_table_lookup[table_fold]
             schema_column_folds = {column.casefold() for column in known_columns[db_id][schema_table]}
+            if table_fold not in dev_table_lookup:
+                official_only_column_count += len(schema_column_folds)
+                continue
+            dev_table = dev_table_lookup[table_fold]
             dev_column_folds = {column.casefold() for column in dev_columns[dev_table]}
-            require(schema_column_folds == dev_column_folds, f"schema column inventory differs for {db_id}/{schema_table}")
+            require(
+                dev_column_folds <= schema_column_folds,
+                f"dev_tables contains a column absent from official schema for {db_id}/{schema_table}",
+            )
+            official_only_column_count += len(schema_column_folds - dev_column_folds)
+    return {
+        "dev_table_count": dev_table_count,
+        "official_schema_table_count": official_schema_table_count,
+        "official_only_table_count": official_only_table_count,
+        "official_only_column_count": official_only_column_count,
+    }
 
 
 def load_candidate_mappings(
@@ -461,11 +486,12 @@ def validate_smoke_private(
     payload: Mapping[str, Any],
     expected_keys: set[tuple[str, str]],
     expected_input_hashes: Mapping[str, str],
+    expected_run_id: str = f"{EXPERIMENT_ID}_cpu_smoke_001",
 ) -> list[dict[str, Any]]:
     """Reject stale, incomplete, duplicate, or mismatched smoke audit output."""
     require(payload.get("experiment_id") == EXPERIMENT_ID, "smoke output experiment ID mismatch")
     require(
-        payload.get("run_id") == f"{EXPERIMENT_ID}_cpu_smoke_001",
+        payload.get("run_id") == expected_run_id,
         "smoke output run ID mismatch",
     )
     require(payload.get("split") == "smoke", "smoke output split mismatch")
@@ -525,6 +551,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--split", choices=("smoke", "full"), required=True)
+    parser.add_argument("--attempt", type=int, default=1)
     parser.add_argument("--expected-commit", required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--smoke-private", type=Path)
@@ -533,6 +560,7 @@ def parse_args() -> argparse.Namespace:
 
 def run(args: argparse.Namespace) -> dict[str, Any]:
     require(sqlglot.__version__ == EXPECTED_SQLGLOT, f"SQLGlot version mismatch: {sqlglot.__version__}")
+    require(args.attempt >= 1, "attempt number must be positive")
     require(args.output_dir.exists() is False, f"output directory already exists: {args.output_dir}")
     run_started = time.perf_counter()
     cpu_started = time.process_time()
@@ -556,7 +584,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     }
     manifest = {
         "experiment_id": EXPERIMENT_ID,
-        "run_id": f"{EXPERIMENT_ID}_cpu_{args.split}_001",
+        "run_id": f"{EXPERIMENT_ID}_cpu_{args.split}_{args.attempt:03d}",
+        "attempt_number": args.attempt,
         "status": "started",
         "split": args.split,
         "attempted_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -585,7 +614,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         }
         require(manifest["input_sha256"] == expected_hashes, "input SHA-256 differs from frozen config")
         known_columns = load_known_columns(schema_path)
-        validate_dev_tables(dev_tables_path, known_columns)
+        schema_compatibility = validate_dev_tables(dev_tables_path, known_columns)
+        manifest["schema_compatibility_summary"] = schema_compatibility
         candidates, invalid_endpoints, duplicate_mapping_identities = load_candidate_mappings(
             artifact_path, known_columns
         )
@@ -609,7 +639,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         else:
             require(args.smoke_private is not None and args.smoke_private.is_file(), "full split requires the smoke private output")
             smoke_payload = json.loads(args.smoke_private.read_text(encoding="utf-8"))
-            smoke_audit_rows = validate_smoke_private(smoke_payload, smoke_keys, expected_hashes)
+            smoke_audit_rows = validate_smoke_private(
+                smoke_payload,
+                smoke_keys,
+                expected_hashes,
+                expected_run_id=f"{EXPERIMENT_ID}_cpu_smoke_{args.attempt:03d}",
+            )
             selected = [row for row in dataset if (str(row["db_id"]), str(row["question_id"])) not in smoke_keys]
             full_keys = {(str(row["db_id"]), str(row["question_id"])) for row in selected}
             require(len(selected) == EXPECTED_ROWS - EXPECTED_SMOKE_QUESTIONS, "full split question count mismatch")
@@ -750,6 +785,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "full_scored_database_count": gate["full_scored_database_count"] if gate is not None else None,
             "skipped_invalid_endpoint_mapping_count": invalid_endpoints,
             "duplicate_mapping_identity_rows_collapsed": duplicate_mapping_identities,
+            "schema_compatibility_summary": schema_compatibility,
             "label_gate": gate,
             "privacy": {
                 "contains_raw_question_or_gold_sql": False,

@@ -210,3 +210,5 @@ Smoke_002 通过；Full 完成55个问题×表对、123个mapping候选。A1 对
 本项不是重开旧 BIRD-dev 代理标签排序，也不是宣称拿到了人类 FK Role 标签。官方 2026 reviewed Mini-Dev 给出新的人工复核参考 SQL；标签被严格定义为“在参考 SQL 显式 `JOIN ... ON` 中出现的已声明 FK mapping”。它只验证已知端点后的 mapping 排序，11 个数据库与既有 BIRD 资源相同，不能支持跨数据库泛化或 QuadGraph 整体性能主张。
 
 先在 CPU-only 环境解析 5 题 Smoke，再完成其余题的单次 SQL 覆盖审计。只有 SQL parse ≥98%、限定 JOIN 等式的列解析 ≥95%、排除 Smoke 后至少 30 个可评分问题×表对且覆盖至少 3 个数据库，才运行冻结 G-reasoner 与 Dense 的一次 Smoke/Full 排序比较。质量门失败即归档停止；无同一数据上的调参、图结构扫描或扩样。成功筛选门是 G-reasoner Mapping@1 至少 +5pp、净救回 ≥4，且至少两个各 n≥5 的数据库净救回为正。完整预算、字段边界、环境、版本与复现步骤见[预注册方案](plans/p0_minidev_sql_fk_mapping_rank_20261106.md)及[配置](../../../configs/text2sql/p0_minidev_sql_fk_mapping_rank_20261106.json)。
+
+执行修订：`cpu_smoke_001` 在 SQL 解析前因旧 `dev_tables.json` 与 2026 官方 DDL 表数量不同而停止；未读取标签。旧表列清单对官方 DDL 中对应表/列均一致，官方 DDL 额外包含一张表。已在 amendment 001 登记以官方 DDL 为权威并保留旧清单子集检查，唯一工程恢复为 5 题 `cpu_smoke_002`；不再重试。

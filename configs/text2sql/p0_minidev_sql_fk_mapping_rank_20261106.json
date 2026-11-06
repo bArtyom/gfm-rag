@@ -1,6 +1,6 @@
 {
   "experiment_id": "p0_minidev_sql_fk_mapping_rank_20261106_01",
-  "status": "preregistered_cpu_label_gate_pending",
+  "status": "amended_recovery_smoke_pending",
   "project": {
     "repository": "https://github.com/bArtyom/gfm-rag",
     "branch": "research/minidev-sql-fk-use-rank-20261106",
@@ -23,6 +23,12 @@
     "fk_artifact": "/mnt/liansp3/sources/results/gfmrag_p1_5_diagnosis_20261016/full_03/fk_gate_private.json",
     "fk_artifact_sha256": "5bc60f6d64429215fa92d3c3a42f1a4881dc77c09839729153fb55a119555060",
     "dev_tables_path": "/mnt/liansp3/sources/datasets/bird/dev/dev_tables.json"
+  },
+  "schema_inventory_policy": {
+    "authoritative": "official_sqlite_schema_from_pinned_mini_dev_revision",
+    "compatibility_inventory": "legacy_bird_dev_tables_must_be_a_case_insensitive_subset_of_authoritative_schema",
+    "official_schema_additions_allowed": true,
+    "legacy_tables_or_columns_missing_from_official_schema": "stop"
   },
   "labels": {
     "definition": "complete declared FK mapping identity whose ordered column pairs all appear in a Gold SQL explicit JOIN ON condition",
@@ -89,7 +95,8 @@
     "max_rss_bytes": 17179869184,
     "max_wall_seconds": 1200,
     "full_attempts": 1,
-    "smoke_attempts": 1,
+    "smoke_attempts": 2,
+    "registered_engineering_recovery_attempts": 1,
     "external_api_calls": 0
   },
   "privacy": {

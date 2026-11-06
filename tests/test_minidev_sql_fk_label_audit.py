@@ -172,3 +172,50 @@ class GoldSqlLabelAuditTests(unittest.TestCase):
         wrong_hash_payload = {**payload, "input_sha256": {"dataset": "other-hash"}}
         with self.assertRaises(ValueError):
             audit.validate_smoke_private(wrong_hash_payload, set(keys), input_hashes)
+
+    def test_versioned_dev_tables_must_be_a_subset_of_authoritative_official_schema(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            schema_path = Path(temp_dir) / "official_schema.json"
+            dev_tables_path = Path(temp_dir) / "dev_tables.json"
+            schema_path.write_text(
+                json.dumps({
+                    "toy": "CREATE TABLE legacy_table(id INTEGER); "
+                    "CREATE TABLE added_in_reviewed_release(value TEXT);"
+                }),
+                encoding="utf-8",
+            )
+            dev_tables_path.write_text(
+                json.dumps([{
+                    "db_id": "toy",
+                    "table_names_original": ["legacy_table"],
+                    "column_names_original": [[-1, "*"], [0, "id"]],
+                }]),
+                encoding="utf-8",
+            )
+
+            summary = audit.validate_dev_tables(
+                dev_tables_path, audit.load_known_columns(schema_path)
+            )
+
+        self.assertEqual(summary["official_only_table_count"], 1)
+        self.assertEqual(summary["official_only_column_count"], 1)
+        self.assertEqual(summary["dev_table_count"], 1)
+        self.assertEqual(summary["official_schema_table_count"], 2)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            schema_path = Path(temp_dir) / "official_schema.json"
+            dev_tables_path = Path(temp_dir) / "dev_tables.json"
+            schema_path.write_text(
+                json.dumps({"toy": "CREATE TABLE legacy_table(id INTEGER);"}),
+                encoding="utf-8",
+            )
+            dev_tables_path.write_text(
+                json.dumps([{
+                    "db_id": "toy",
+                    "table_names_original": ["legacy_table"],
+                    "column_names_original": [[-1, "*"], [0, "not_in_schema"]],
+                }]),
+                encoding="utf-8",
+            )
+            with self.assertRaises(ValueError):
+                audit.validate_dev_tables(dev_tables_path, audit.load_known_columns(schema_path))
