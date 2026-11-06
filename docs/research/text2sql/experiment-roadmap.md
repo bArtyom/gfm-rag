@@ -183,3 +183,7 @@ $$
 ### 2026-11-06 第三模型审阅结果与独立探索排序诊断
 
 用户明确选择由模型进行审阅后，按已单独预注册方案运行 Gemma 4 E4B-it。vLLM GPU 初始化受 PyTorch CUDA 13 / 驱动 CUDA 12.4 不兼容阻断；没有生成 token，也没有修改驱动或依赖。CPU 恢复 Smoke 5/5、Full 60/60。三模型高置信精确多数为56个，其中41个可区分、覆盖4库。按稳定问题哈希选出5题 Smoke 并把其问题级样本全部排除后，Full 保留51个可裁定、38个可区分、覆盖4库，通过独立 exploratory 排序诊断的模型代理数据门。该结果仅许可另行预注册一次模型代理 Accepted@1 诊断；原双人真实审阅门与可信人工 Role 标签仍为0，不得把代理多数描述成金标准。见[GPU失败记录](reports/p0_fk_mapping_model_review_third_proxy_gpu_20261106_01/README.md)、[CPU恢复与聚合报告](reports/p0_fk_mapping_model_review_third_proxy_cpu_20261106_01/README.md)。
+
+### 2026-11-06 模型代理映射排序诊断已预注册
+
+单独的 exploratory 分支 `research/p0-model-proxy-rank-pilot-20261106` 已登记一次冻结 G-reasoner FK mapping 排序诊断，唯一主比较为同一 Qwen3 Query/mapping vectors 下的 G-reasoner 对 Dense Cosine；BM25 和稳定 mapping-ID 顺序为次级控制。五题 Smoke 按稳定问题哈希选取，所有 Smoke 问题从 Full 排除；本地拆分门为51个可裁定、38个可区分、4个匿名数据库。模型代理标签只进入事后 evaluator，不进入 query、图节点、边或排序特征。方案和资源预算修订已提交；当前尚无排序 Smoke/Full 推理或成绩。主路线可信人工 Role 标签仍为0；本分支最多运行一次有界诊断，任何正向信号也必须转入独立人工标签验证，不自动追加实验。见[预注册方案](plans/p0_fk_mapping_model_proxy_rank_pilot_20261106.md)和[冻结配置](../../../configs/text2sql/p0_fk_mapping_model_proxy_rank_pilot_20261106.yaml)。
