@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 10429)
-Total output lines: 194
-
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
 > **唯一主仓库：[`bArtyom/gfm-rag`](https://github.com/bArtyom/gfm-rag)。生效日期：2026-10-16。**
@@ -85,7 +82,15 @@ Total output lines: 194
 | [P0 FK候选定义哈希诊断恢复计划](plans/p0_fk_candidate_definition_recovery_v2_20261105.md) | 记录同一受控文件句柄的摘要、文件身份和解析字节；新 run ID 重跑三臂 Smoke | **已预注册；尚未读取实验输入** |
 | [P0 FK候选定义哈希诊断恢复报告](reports/p0_fk_candidate_definition_recovery_v2_20261105_01/README.md) | 同句柄/旧 helper 摘要一致，但与冻结摘要不同；记录 smoke 停止门 | **STOP_INVALID_SMOKE；未运行 Full** |
 | [P0 FK候选定义哈希更正 v3 计划](plans/p0_fk_candidate_definition_recovery_v3_20261105.md) | 新实验 ID 冻结经独立确认的 FK artifact 摘要，重跑 smoke / 条件式 full | **2026-11-05 已执行；结果见报告** |
-| [P0 FK候选定义哈希更正 v3 执行报告](reports/p0_fk_candidate_definition_recovery_v3_20261105_01/README.md) | v3 注册、Smoke/Full 与 crosswalk 运行结果；追加适配层代码复核 | 已完成；原始 FK 适配差异由后续 canonical crosswalk …429 tokens truncated…后 FK 映射排序 Pilot 候选](plans/p0_fk_mapping_rank_pilot_candidate_20261105.md) | 在固定表对/映射候选上比较冻结 GFM 与 Dense、BM25、结构顺序；报告接受集合排序与错误交集 | **仅候选；方法新颖性未知；必须先通过真实双人标签门，不得提前运行** |
+| [P0 FK候选定义哈希更正 v3 执行报告](reports/p0_fk_candidate_definition_recovery_v3_20261105_01/README.md) | v3 注册、Smoke/Full 与 crosswalk 运行结果；追加适配层代码复核 | 已完成；原始 FK 适配差异由后续 canonical crosswalk 复核，语义 Role 标签仍缺 |
+| [P0 canonical P1.5 FK crosswalk 报告](reports/p0_fk_canonical_crosswalk_20261105_01/README.md) | valid-only FK adapter 与 packet-28 / v3 P1.5 的匿名逐题对账 | **完成；过滤无标签影响；实现定义差异仍在，Role Gate NO-GO** |
+| [P0 FK 分歧双人盲审材料准备计划](plans/p0_fk_disagreement_blind_review_20261105.md) | 对 packet-only ambiguous/unmatched、canonical-only FK/multi-FK 与正向控制分层抽样，准备匿名本地 A/B 包 | **已按计划执行；Full 通过，等待人工审阅** |
+| [P0 FK 分歧双人盲审材料准备报告](reports/p0_fk_disagreement_blind_review_20261105_01/README.md) | 材料生成、映射完整性和隐私门；不产出人类标签 | **49题/51表对；等待两位审阅者；Role 标签仍为0** |
+| [P0 BIRD FK 图 hop-depth 结构审计](plans/p0_bird_fk_hop_profile_20261105.md) | 检查 BIRD dev 声明 FK 表图上的精确最小 Steiner hop 分布及高跳数样本覆盖 | **已预注册；CPU-only；不涉及 Role/JOIN 方法准确率** |
+| [P0 BIRD FK hop v1 报告](reports/p0_bird_fk_hop_profile_20261105_01/README.md) | 初次 Smoke/Full 匿名画像及 CTE 作用域解析风险 | v1 保留；`SUPERSEDED_PENDING_SCOPE_CORRECTION` |
+| [P0 BIRD FK hop v2 修正方案](plans/p0_bird_fk_hop_profile_v2_correction_20261105.md) | 只将 CTE 过滤改为 SQLGlot 作用域感知基础表解析，其他定义冻结 | Smoke/Full 已按计划完成 |
+| [P0 BIRD FK hop v2 完整报告](reports/p0_bird_fk_hop_profile_20261105_02/README.md) | v2匿名结构画像、v1聚合对照、SchemaScope比例差异及停止决定 | **FULL_COMPLETED；不再扩展高跳数方法** |
+| [双人标签后 FK 映射排序 Pilot 候选](plans/p0_fk_mapping_rank_pilot_candidate_20261105.md) | 在固定表对/映射候选上比较冻结 GFM 与 Dense、BM25、结构顺序；报告接受集合排序与错误交集 | **仅候选；方法新颖性未知；必须先通过真实双人标签门，不得提前运行** |
 | [FK 映射排序文献更新](plans/p0_fk_mapping_rank_literature_update_20261106.md) | 将 JoinGR、MDB-Link 等近邻纳入 novelty audit，明确候选只作 G-reasoner 迁移/证伪测试 | **盲审回复未更新；按路线图等待，不启动模型实验** |
 | [FK 映射排序前沿复核](plans/p0_fk_mapping_rank_frontier_check_20261106.md) | 核对双向检索、joinable-table扩展和多解释歧义评测等新近邻，说明为何保留同一映射级 Pilot | **未发现可替代盲审门的独立实验；A/B可信标签仍为0** |
 | [FK 映射 Pilot 设计审计](plans/p0_fk_mapping_rank_pilot_design_audit_20261106.md) | 纳入近期修复/检索/压缩文献，冻结主基线、可区分标签分母、Smoke/Full 隔离和小样本成功门 | **设计收敛；仍待双人标签；未注册、未运行** |
@@ -186,4 +191,5 @@ G2、FK Gate、身份策略、G0及P0复核均各自保留运行ID与结果，�
 
 
 > **2026-11-06 第三模型审阅 GPU 失败与 CPU 恢复（完成）**：GPU 预注册运行在生成前失败，原因是 vLLM 环境的 PyTorch CUDA 13 与系统 CUDA 12.4 驱动不兼容；第一次 conda run 还曾解析到 Python 3.9，未产生任何模型 token。没有升级驱动或依赖。独立 CPU 恢复使用同一 Gemma4 checkpoint、冻结样本与标签门，Smoke 5/5、Full 60/60。三方高置信精确多数56个、可区分41个，覆盖4库；仍为模型代理标签，可信人工 Role 标签为0。排除固定问题级 Smoke 后，模型代理排序门剩51个可裁定、38个可区分、覆盖4库，允许另行注册一次探索性排序诊断。见[GPU失败记录](reports/p0_fk_mapping_model_review_third_proxy_gpu_20261106_01/README.md)、[CPU恢复报告](reports/p0_fk_mapping_model_review_third_proxy_cpu_20261106_01/README.md)和[恢复预注册](plans/p0_fk_mapping_model_review_third_proxy_cpu_20261106.md)。
+
 > **2026-11-06 G3 起点敏感性机制诊断已预注册**：P0 的冻结排序在模型代理标签上 NO-GO 后，本实验不再使用任何人工或模型审阅标签；只测试双端 seed 与两个单端 seed 是否改变候选 FK mapping 的相对顺序，以核查 P0 报告中尚未证实的机制解释。结果不能用于判断哪种顺序正确。计划与冻结配置见 [G3 方案](plans/g3_fk_seed_direction_sensitivity_20261106.md) 和 [配置](../../../configs/text2sql/g3_fk_seed_direction_sensitivity_20261106.yaml)；Smoke/Full 尚未运行。
