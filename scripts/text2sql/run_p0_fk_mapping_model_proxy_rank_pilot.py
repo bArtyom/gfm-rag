@@ -669,6 +669,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "mode": args.mode,
         "attempted_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "source_commit": source_commit,
+        "interpreter": sys.executable,
+        "command_argv": [sys.executable, *sys.argv],
+        "execution_environment": {
+            key: os.environ.get(key)
+            for key in ("CUDA_VISIBLE_DEVICES", "HF_HUB_OFFLINE", "TRANSFORMERS_OFFLINE", "GFM_SHARED_CODE_ROOT")
+        },
         "input_sha256": file_hashes(args),
         "config_sha256": sha256_file(args.config),
         "cuda_visible_devices": visible_gpu,
@@ -827,6 +833,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 "run_id": args.run_id,
                 "mode": args.mode,
                 "source_commit": source_commit,
+                "interpreter": sys.executable,
+                "command_argv": attempt["command_argv"],
+                "execution_environment": attempt["execution_environment"],
                 "config_sha256": sha256_file(args.config),
                 "input_sha256": attempt["input_sha256"],
                 "checkpoint_sha256": {"model.pth": EXPECTED_GFM_MODEL_SHA256, "config.json": EXPECTED_GFM_CONFIG_SHA256},
