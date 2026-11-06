@@ -12,16 +12,31 @@ dataset:
   full_mapping_candidates: 123
   reviewer_labels_loaded: false
   gold_sql_loaded: false
+  sha256:
+    reviewer_A_packet: 0b6102f38c9a60afa9434091ce3b9c94e35460c47e105de804cfd119d826cfa2
+    reviewer_B_packet: a30230c9562f95e00c0af88e7cd0277d6d27e9f26eca2863ca968540b944dfdb
+    private_mapping_manifest: 14d3e65e53bbc29c03d312fb32227c47b568242502e30bc3c4d4656b97521ed7
+    frozen_split_manifest: 40234d6c3430b1cede8a1d5cdcdfce7c10a6834c136f38f31ff716cff98f14c0
 models:
   g_reasoner:
     path: /mnt/liansp3/sources/models/g-reasoner-34m
     revision: a3a4ed2c62281e1c3e0551bd42f2072d9204674f
     train: false
+    model_pth_sha256: 2f2a1a2d2f5725133428941b785f3898255666b06041b58420f75e60599d387d
+    config_json_sha256: 75d14b97d6a077ebc17b09a21170a3ad9272251db59f7ac8cc853165efb2efd5
   embedding:
     path: /mnt/liansp3/sources/models/qwen3-embedding-0.6b
     dimension: 1024
     local_only: true
     external_api: false
+    snapshot_sha256:
+      model.safetensors: 0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd
+      config.json: b5bf1f51fc45be473a54718cef92448d90a1be001bf9b9a44b8c7f10a19feaa9
+      tokenizer.json: def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a
+      modules.json: 84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf
+      config_sentence_transformers.json: 10667c72ddb772627bf1780cb7f86af8e2ae0032b8c243c731172064105c6961
+      tokenizer_config.json: 253153d0738ceb4c668d2eff957714dd2bea0b56de772a9fdccd96cbf517e6a0
+      1_Pooling/config.json: 37bf193fa101f19101bfad9c31d3eb0f786e247b7b1e5cb7f007d730eed1ddbd
 conditions:
   - id: A0
     seed_policy: both_sorted_table_endpoints
