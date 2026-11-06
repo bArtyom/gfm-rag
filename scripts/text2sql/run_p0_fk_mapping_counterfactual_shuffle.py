@@ -1248,7 +1248,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     require(frozen_environment.get("max_wall_seconds") == MAX_WALL_SECONDS and frozen_environment.get("max_rss_gib") == MAX_RSS_GIB, "EXECUTION_RESOURCE_BUDGET_MISMATCH")
     require(frozen_environment.get("query_timeout_seconds") == QUERY_TIMEOUT_SECONDS and frozen_environment.get("row_limit") == ROW_LIMIT, "EXECUTION_QUERY_LIMIT_MISMATCH")
     require(frozen_environment.get("byte_limit") == BYTE_LIMIT and frozen_environment.get("sqlite_heap_limit_bytes") == SQLITE_HEAP_LIMIT, "EXECUTION_OUTPUT_LIMIT_MISMATCH")
-    expected_run_id = f"{EXPERIMENT_ID}_{'smoke_005' if args.mode == 'smoke' else 'full_055'}_20261107_01"
+    expected_run_id = execution_config.get("run_ids", {}).get(args.mode)
+    require(isinstance(expected_run_id, str) and expected_run_id, "EXECUTION_RUN_ID_MISSING")
     require(args.run_id == expected_run_id, "RUN_ID_MISMATCH")
     verified = verify_inputs(config, paths)
     verified["hashes"]["files"]["prior_aggregate"] = {
@@ -1292,10 +1293,11 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         verified["database_labels_by_id"],
     )
     require(len(pairs) == EXPECTED_PAIR_COUNT, "FIXED_SAMPLE_COUNT_MISMATCH")
+    expected_source = execution_config.get("reconstructed_source_expectations", {})
     require(
-        execution_config.get("expected_fixed_pairs") == len(pairs)
-        and execution_config.get("expected_complete_units") == prior_reconstruction_summary["prior_complete_units"]
-        and execution_config.get("expected_alternative_comparisons") == prior_reconstruction_summary["prior_alternative_candidate_comparisons"],
+        expected_source.get("expected_fixed_pairs") == len(pairs)
+        and expected_source.get("expected_complete_units") == prior_reconstruction_summary["prior_complete_units"]
+        and expected_source.get("expected_alternative_comparisons") == prior_reconstruction_summary["prior_alternative_candidate_comparisons"],
         "EXECUTION_SAMPLE_ASSERTION_MISMATCH",
     )
     require(
