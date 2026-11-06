@@ -1,6 +1,13 @@
 {
   "experiment_id": "p0_fk_candidate_sql_identity_alignment_20261107_01",
-  "status": "preregistered_not_run",
+  "status": "amendment_001_full_pending",
+  "amendments": [
+    {
+      "id": "001",
+      "status": "registered_before_full",
+      "reason": "The first Smoke passed; code review found the runner omitted the preregistered minimum of 50/55 fully resolved Full queries. Amendment 001 makes the runner enforce that existing gate without changing data, labels, metrics, or budget."
+    }
+  ],
   "layer": "exploratory_data_integrity_diagnostic",
   "repository": {
     "url": "https://github.com/bArtyom/gfm-rag",
@@ -9,7 +16,8 @@
   },
   "runner": {
     "path": "scripts/text2sql/audit_p0_fk_candidate_sql_identity_alignment_20261107_01.py",
-    "sha256": "725adf291aacf9a3b412961804996ac61cb1ad0b76a95f2ae2dd54cc8030eb52"
+    "sha256": "de00b167213c5999c953b6fba128d7ec1343e12f3b2340cd4be6b4ffb80f9f35",
+    "initial_smoke_runner_sha256": "725adf291aacf9a3b412961804996ac61cb1ad0b76a95f2ae2dd54cc8030eb52"
   },
   "run_ids": {
     "smoke": "p0_fk_candidate_sql_identity_alignment_20261107_01_smoke_001",

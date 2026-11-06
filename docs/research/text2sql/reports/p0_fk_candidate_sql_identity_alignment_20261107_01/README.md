@@ -1,8 +1,8 @@
 # P0 FK candidate–SQL identity alignment audit
 
 **Experiment ID:** `p0_fk_candidate_sql_identity_alignment_20261107_01`  
-**Status:** preregistered; not run.  
-**Layer:** exploratory data-integrity diagnostic.  
+**Status:** Smoke technical gate passed; Amendment 001 registered; Full pending.
+**Layer:** exploratory data-integrity diagnostic.
 **Repository:** [`bArtyom/gfm-rag`](https://github.com/bArtyom/gfm-rag), branch `research/p0-sql-used-proxy-alignment-20261107`.
 
 ## Why this diagnostic is registered
@@ -23,9 +23,21 @@ The Smoke gate requires valid parsing/resolution, but intentionally has no candi
 - Frozen config: [config](../../../../../configs/text2sql/p0_fk_candidate_sql_identity_alignment_20261107_01.json).
 - Runner: `scripts/text2sql/audit_p0_fk_candidate_sql_identity_alignment_20261107_01.py`.
 - Starting repository commit: `275a1d23f642a51621960990fa452ca5534655a9`.
-- Runner SHA-256: `725adf291aacf9a3b412961804996ac61cb1ad0b76a95f2ae2dd54cc8030eb52`.
+- Initial preregistration commit: `d4341a3c20bf43b6a98305c612affe8bdc37979d` (all registration files read back from GitHub).
+- Initial Smoke runner SHA-256: `725adf291aacf9a3b412961804996ac61cb1ad0b76a95f2ae2dd54cc8030eb52`.
+- Amended Full runner SHA-256: `de00b167213c5999c953b6fba128d7ec1343e12f3b2340cd4be6b4ffb80f9f35`.
 - Input hashes, environment, gates, resource limits, and exact run IDs are recorded in the config.
+
+## Smoke result
+
+One CPU Smoke run completed on the five frozen units. SQL parse succeeded on 5/5; all 8/8 qualified JOIN equalities resolved; scope errors were 0; all five units had complete resolution and were categorized. No target table pair appeared in a resolved qualified explicit `JOIN ON` equality in 5/5 units. The legacy candidate-filtered matcher and direct identity matcher agreed on all 5/5 units; both returned no mapping IDs. Therefore this Smoke points to pair-to-SQL target alignment or explicit-ON coverage under the registered label rule; it does not show a mapping-ID bug or a ranking result. `WHERE` and `USING` conditions are outside this registered target definition.
+
+The Smoke technical gate passed. Wall time was 0.045199 s, process CPU 0.028640 s, peak RSS 0.634277 GiB; local model/API/GPU use was zero. The private per-unit evidence remains local.
+
+## Amendment 001 before Full
+
+Post-Smoke review found the runner omitted the preregistered minimum of 50/55 fully resolved queries from its Full gate. The Smoke result remains valid because all five Smoke queries had complete resolution. Amendment 001 adds that existing threshold to the runner before any Full data is read. It changes no sample, label, metric, taxonomy, or budget. The amended code and config must be pushed and read back before the single Full pass.
 
 ## Results
 
-No sample has been read and no run has started. Results will be appended after the registration commit is pushed and remotely verified. Raw SQL, names, mapping IDs, and pair-level evidence will remain private. The GitHub aggregate will contain anonymous counts only.
+The 55-unit Full pass has not started. Raw SQL, names, mapping IDs, and pair-level evidence remain private. The GitHub aggregate contains only anonymous counts.

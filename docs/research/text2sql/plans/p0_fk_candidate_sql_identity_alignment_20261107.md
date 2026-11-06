@@ -87,3 +87,7 @@ Run Full only after the Smoke technical gate passes, replacing `smoke` with `ful
 The prior roadmap calls for error-mode synthesis after the model-proxy rank experiment. This audit is a single, CPU-only follow-up explicitly recommended by the `_02` report because its 0/5 result left the cause unidentified. It does not reopen the stopped ranking line. The repository roadmap and experiment report will record this deviation and its stopping point.
 
 No claim about G-reasoner, Dense ranking quality, SQL execution accuracy, unique business Role, or cross-database generalization is authorized by this diagnostic.
+
+## Amendment 001 (after Smoke, before Full)
+
+The frozen Full sufficiency criterion above requires at least 50/55 units to have complete qualified JOIN-equality resolution. Post-Smoke code review found that the runner enforced the 54/55 parse and zero-scope-error checks but omitted the 50/55 resolution check. The 5-unit Smoke itself passed all 5 complete-resolution checks and remains valid. Before any Full input is read, Amendment 001 updates only the runner gate so its implementation matches the preregistered threshold. No sample, label definition, metric, taxonomy, or budget changes. Full proceeds once under the amended commit; if the resolution threshold is missed, the run is reported technically inconclusive and stops.

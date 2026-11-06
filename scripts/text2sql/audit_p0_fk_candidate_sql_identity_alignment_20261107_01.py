@@ -499,7 +499,8 @@ def main() -> int:
     try:
         config = read_json(args.config)
         require(config.get("experiment_id") == EXPERIMENT_ID, "CONFIG_EXPERIMENT_ID_MISMATCH")
-        require(config.get("status") == "preregistered_not_run", "CONFIG_STATUS_CHANGED")
+        expected_config_status = "amendment_001_full_pending" if args.mode == "full" else "preregistered_not_run"
+        require(config.get("status") == expected_config_status, "CONFIG_STATUS_CHANGED")
         runner_lock = config.get("runner", {})
         require(sha256_file(Path(__file__)) == runner_lock.get("sha256"), "RUNNER_HASH_MISMATCH")
         require(sqlglot.__version__ == EXPECTED_SQLGLOT, "SQLGLOT_VERSION_MISMATCH")
@@ -535,7 +536,13 @@ def main() -> int:
             )
             status = "SMOKE_TECHNICAL_GATE_PASS" if gate_pass else "STOP_SMOKE_TECHNICAL_GATE"
         else:
-            gate_pass = parse_success >= 54 and scope_errors == 0 and len(rows) == EXPECTED_FULL_COUNT
+            fully_resolved_count = sum(bool(row["resolution_complete"]) for row in rows)
+            gate_pass = (
+                parse_success >= 54
+                and scope_errors == 0
+                and fully_resolved_count >= 50
+                and len(rows) == EXPECTED_FULL_COUNT
+            )
             status = "FULL_DIAGNOSTIC_COMPLETE" if gate_pass else "STOP_FULL_TECHNICAL_GATE"
 
         resources = {
