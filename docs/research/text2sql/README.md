@@ -1,5 +1,7 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
+> **最新决策（2026-11-06）**：用户选择的本地模型审阅代理路线、一次 G-reasoner 排序诊断、起点敏感性诊断及错误分层均已完成。代理排序为 7/38 对 27/38，错误分层未发现正向子群；G3 为 inconclusive。按停止规则，当前 BIRD-dev GFM 排序支线不再扩展，进入错误模式综合和新问题筛选。模型标签仍不是人工 Role 真值。见[下一阶段决策记录](plans/next_step_evidence_synthesis_20261106.md)。
+
 > **唯一主仓库：[`bArtyom/gfm-rag`](https://github.com/bArtyom/gfm-rag)。生效日期：2026-10-16。**
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。
@@ -42,6 +44,7 @@
 
 | 文档 | 作用 | 状态 |
 |---|---|---|
+| [下一阶段决策：证据综合与路线停止](plans/next_step_evidence_synthesis_20261106.md) | 综合模型代理审阅、GFM 排序、seed 诊断、Schema 覆盖与 SQL 修复结果；筛选下一研究问题 | 2026-11-06；不新增实验；当前 BIRD-dev GFM 排序线停止扩展 |
 | [方法变更台账（当前）](method-change-ledger-20261105.md) | 逐项区分 QuadGraph 原方法、Text2SQL 检索/上下文改动、SQL评测变化及 G0/G1/G2 图探针 | 2026-11-06 更新，含 P2d.3 authorizer 候选归因；不把候选级结果写成系统收益 |
 | [P0 FK mapping pair-level 盲审材料报告](reports/p0_fk_mapping_pair_level_blind_review_20261106_01/README.md) | 60 个多 mapping 问题×表对的 A/B 双人审阅材料准备；不含人工标签或模型结果 | Smoke/Full 通过；等待两位真实审阅者；Role Pilot 仍未启动 |
 | [模型代理 FK mapping 排序预注册](plans/p0_fk_mapping_model_proxy_rank_pilot_20261106.md) 与[完整报告](reports/p0_fk_mapping_model_proxy_rank_pilot_20261106_01/README.md) | 三模型高置信多数代理标签上的 G-reasoner vs Dense 排序诊断 | 已完成，NO-GO：7/38 vs 27/38（−52.63 pp）；停止同一代理标签方向，人工 Role 标签仍为0 |
