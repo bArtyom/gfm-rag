@@ -1,0 +1,115 @@
+{
+  "experiment_id": "p0_minidev_sql_fk_mapping_rank_20261106_01",
+  "status": "STOP_LABEL_GATE_FAILED",
+  "layer": "bounded_exploratory_transfer_diagnostic",
+  "source_repository": "https://github.com/bArtyom/gfm-rag",
+  "source_branch": "research/minidev-sql-fk-use-rank-20261106",
+  "preregistration_commit": "e393dcdd5ca1e2d007ce452496cdb626af1f2f3e",
+  "amendment_and_execution_commit": "deb0b9ec1e25292f6e1036ba2b4b2259f8129678",
+  "input_versions": {
+    "dataset_repository": "https://huggingface.co/datasets/birdsql/bird_mini_dev",
+    "dataset_revision": "38818fcbc46038129592680c51b2c8b597aac27c",
+    "dataset_rows": 500,
+    "dataset_sha256": "926af2a0d1b47e5d0d15a7aa8a34d4721007f4550a881555b6a89496b54a2606",
+    "official_sqlite_schema_sha256": "5176e324a72e80a8a37a12285596d123e0ba6c310dceaa9f13e1a413ee88ff5b",
+    "legacy_dev_tables_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "fk_candidate_artifact_sha256": "5bc60f6d64429215fa92d3d3a42f1a4881dc77c09839729153fb55a119555060"
+  },
+  "schema_compatibility": {
+    "database_count": 11,
+    "legacy_dev_table_count": 75,
+    "official_schema_table_count": 76,
+    "database_inventories_identical": 10,
+    "official_only_table_count": 1,
+    "official_only_column_count": 2,
+    "legacy_tables_or_columns_missing_from_official_schema": 0
+  },
+  "attempts": {
+    "cpu_smoke_001": {
+      "status": "FAILED_BEFORE_SQL_PARSE",
+      "failure": "strict legacy-versus-official schema inventory check"
+    },
+    "cpu_smoke_002": {
+      "status": "SMOKE_AUDIT_COMPLETE",
+      "selected_rows": 5,
+      "parse_success_count": 5,
+      "parse_success_rate": 1.0,
+      "join_on_equality_count": 7,
+      "qualified_join_equality_count": 7,
+      "resolved_qualified_join_equality_count": 7,
+      "scope_analysis_error_count": 0,
+      "scored_pair_count": 0,
+      "elapsed_seconds": 0.158967,
+      "cpu_process_seconds": 0.040699,
+      "peak_rss_bytes": 33030144
+    },
+    "cpu_full_002": {
+      "status": "STOP_LABEL_GATE_FAILED",
+      "selected_rows_excluding_smoke": 495,
+      "combined_question_count": 500,
+      "parse_success_count": 500,
+      "parse_failure_count": 0,
+      "parse_success_rate": 1.0,
+      "join_on_count": 661,
+      "join_on_equality_count": 685,
+      "qualified_join_equality_count": 663,
+      "resolved_qualified_join_equality_count": 523,
+      "unresolved_qualified_join_equality_count": 140,
+      "qualified_join_equality_resolution_rate": 0.788839,
+      "scope_analysis_error_count": 0,
+      "scored_pair_count": 48,
+      "scored_database_count": 4,
+      "skipped_invalid_endpoint_mapping_count": 3,
+      "duplicate_mapping_identity_rows_collapsed": 1,
+      "elapsed_seconds": 0.799775,
+      "cpu_process_seconds": 0.783241,
+      "peak_rss_bytes": 36175872
+    }
+  },
+  "label_quality_gate": {
+    "sql_parse_success_rate_min": 0.98,
+    "sql_parse_success_rate": 1.0,
+    "sql_parse_pass": true,
+    "qualified_join_equality_resolution_rate_min": 0.95,
+    "qualified_join_equality_resolution_rate": 0.788839,
+    "resolution_pass": false,
+    "full_scored_pair_min": 30,
+    "full_scored_pair_count": 48,
+    "scored_pair_pass": true,
+    "full_scored_database_min": 3,
+    "full_scored_database_count": 4,
+    "database_count_pass": true,
+    "scope_analysis_error_count": 0,
+    "scope_analysis_pass": true,
+    "overall_status": "STOP_LABEL_GATE_FAILED"
+  },
+  "ranking_stage": {
+    "g_reasoner": "not_run_label_gate_failed",
+    "dense_cosine": "not_run_label_gate_failed",
+    "bm25": "not_run_label_gate_failed",
+    "local_model_inference": false,
+    "external_api_requests": 0
+  },
+  "resource_and_usage": {
+    "environment": "think2sql_20260909",
+    "python": "3.12.14",
+    "sqlglot": "28.0.0",
+    "sqlite": "3.53.2",
+    "execution_device": "CPU",
+    "gpu_time_seconds": 0,
+    "confirmed_input_tokens": 0,
+    "confirmed_output_tokens": 0,
+    "confirmed_total_tokens": 0,
+    "requests_without_usage": 0,
+    "estimated_model_api_cost_CNY": "0",
+    "verified_billed_cost_CNY": null,
+    "billed_cost_verified": false
+  },
+  "privacy": {
+    "contains_raw_question_or_gold_sql": false,
+    "contains_question_ids": false,
+    "contains_database_or_table_names": false,
+    "contains_mapping_ids": false,
+    "contains_per_question_labels_or_scores": false
+  }
+}

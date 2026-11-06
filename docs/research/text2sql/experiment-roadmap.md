@@ -212,3 +212,5 @@ Smoke_002 通过；Full 完成55个问题×表对、123个mapping候选。A1 对
 先在 CPU-only 环境解析 5 题 Smoke，再完成其余题的单次 SQL 覆盖审计。只有 SQL parse ≥98%、限定 JOIN 等式的列解析 ≥95%、排除 Smoke 后至少 30 个可评分问题×表对且覆盖至少 3 个数据库，才运行冻结 G-reasoner 与 Dense 的一次 Smoke/Full 排序比较。质量门失败即归档停止；无同一数据上的调参、图结构扫描或扩样。成功筛选门是 G-reasoner Mapping@1 至少 +5pp、净救回 ≥4，且至少两个各 n≥5 的数据库净救回为正。完整预算、字段边界、环境、版本与复现步骤见[预注册方案](plans/p0_minidev_sql_fk_mapping_rank_20261106.md)及[配置](../../../configs/text2sql/p0_minidev_sql_fk_mapping_rank_20261106.json)。
 
 执行修订：`cpu_smoke_001` 在 SQL 解析前因旧 `dev_tables.json` 与 2026 官方 DDL 表数量不同而停止；未读取标签。旧表列清单对官方 DDL 中对应表/列均一致，官方 DDL 额外包含一张表。已在 amendment 001 登记以官方 DDL 为权威并保留旧清单子集检查，唯一工程恢复为 5 题 `cpu_smoke_002`；不再重试。
+
+最终结果：Smoke 5/5 parse、7/7 JOIN 等式解析；Full 495 题完成。完整 500 题 parse 为 500/500，限定 JOIN 等式解析率 523/663=78.88%，低于 95% 质量门。48 个可评分题×表对、4 个数据库的数量门通过，作用域错误为 0；最终 `STOP_LABEL_GATE_FAILED`。未运行 G-reasoner/Dense/BM25，也未调用模型/API。此次停止针对标签解析覆盖，不代表排序器性能负面结果。报告和匿名聚合见[实验报告](reports/p0_minidev_sql_fk_mapping_rank_20261106_01/README.md)与[聚合](reports/p0_minidev_sql_fk_mapping_rank_20261106_01/aggregate_summary.json)。不自动重试或扩展该排序实验；如后续研究 140 个无法解析的限定等式，须另立有界 parser error taxonomy 预注册。
