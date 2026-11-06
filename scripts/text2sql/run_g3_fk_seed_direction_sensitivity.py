@@ -1,5 +1,3 @@
- scripts/text2sql/run_g3_fk_seed_direction_sensitivity.py | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
 #!/usr/bin/env python3
 """Run the preregistered label-free G3 seed-direction sensitivity diagnostic."""
 from __future__ import annotations
