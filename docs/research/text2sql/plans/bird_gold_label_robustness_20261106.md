@@ -65,3 +65,24 @@ P1.6/P2c-R 的 Table、Column 与 Complete Schema 指标由 BIRD 原 Gold SQL �
 - 运行代码：`scripts/text2sql/audit_bird_gold_label_robustness.py`。
 - Smoke/Full 独立配置与本地日志、结果 manifest、失败回执和聚合 JSON 保存在相应私有目录。
 - GitHub 报告：`docs/research/text2sql/reports/p0_bird_gold_label_robustness_20261106_01/README.md` 与匿名 `aggregate_summary.json`；原始问题、SQL 和逐题输出不上传。
+
+## 执行前修订 A1：历史标签解析器兼容门与环境（2026-11-06，Smoke 前）
+
+### 修订原因
+
+- 复核发现，旧 P0 全量审计只归档了摘要与代码哈希；它记录 `SQLGlot read=sqlite`、Python 3.10.21、SQLGlot 30.12.0、1,534/1,534 SQL 可解析、1,460 题列引用完整。产生该审计的 `run_p0_audit.py` 当前未保留。
+- P1/P1.6 runner 直接读取历史 `per_question_private.jsonl` 中已冻结的表/列标签，不从 SQL 重新提取标签。因而当前不能声称能够逐字节复用原标签解析实现。
+- 原协议预设的 `think2sql_20260909` 安装 SQLGlot 28.0.0，与旧 P0 记录的 SQLGlot 30.12.0 不同。继续使用该环境会把解析器版本变化混入唯一干预。
+
+### 冻结修订
+
+- 解析使用本机现有 `qes_rear_refine` 环境中的 Python 3.10.22 与 SQLGlot 30.12.0；不安装或升级依赖。`conda run -n qes_rear_refine python3` 在本机解析到 Python 3.9，因此命令须通过该环境的绝对 `python` 解释器启动，并记录此运行入口偏差。
+- 新增历史兼容门：对每个精确匹配的原始 SQL 重新提取表/列标签，并与 P1 冻结逐题标签对照。Smoke 的 5 题必须全部逐项一致；498 个匹配原始 SQL 的逐题集合一致率须至少 98%，原始 SQL 与 corrected SQL 的解析率、非空表标签率和列标签完整率也须分别至少 98%。任一门未过，停止指标比较并把差异作为解析兼容问题报告，不调整解析器追逐结果。
+- 指标对照始终使用同一 SQLGlot 30.12 解析器分别处理原 SQL 与 corrected SQL。若原始标签的逐题兼容率未达到上述门槛，不把重解析的结果称为 P1.6 指标复算。
+- Smoke 的原 Gold 标签重新计算出的 Table/Column Top-K 命中和 Complete@1024 必须与 P1.6 封存逐题结果一致。Full 不包含 Smoke 的 5 题。
+- Full 同时报告各标签源自身的列资格分母，以及两边均列资格问题上的配对指标；列资格变化单独计数，不静默排除。
+- 数据、模型/向量、排序、主要敏感性门槛、停止条件、CPU-only 预算和隐私边界不变。Bootstrap 固定为数据库簇、10,000 次、seed `20261106`；不足 5 个有效数据库簇时不报告 bootstrap 区间。
+
+### 审计结论边界
+
+本修订使用归档的 P0 摘要和逐题冻结标签作为兼容证据。由于原始标签提取源码缺失，即使兼容门通过，也只称“逐题标签兼容重建”，不声称恢复了原始脚本或其全部解析行为。原/修正 SQL 标签比较仍是本实验唯一科学干预。
