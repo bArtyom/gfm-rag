@@ -200,3 +200,7 @@ Smoke_002 通过；Full 完成55个问题×表对、123个mapping候选。A1 对
 ## 2026-11-06 P0 代理排序错误归因完成
 
 冻结结果的只读分层没有发现 G-reasoner 的正向子组：38个可区分单元中 G-reasoner Accepted@1 为7/38，Dense为27/38，配对净差−20。2候选与3候选分层、无列重叠与单端点重叠分层均未出现 G-reasoner 正向净差；没有复合FK或多接受 mapping 样本可供评估。按预注册规则停止该代理标签排序方向，不进行同数据调参或结构扫描。结果不代表人工 FK Role 准确率，也不证明因果机制。报告：[错误归因说明](reports/p0_fk_mapping_proxy_error_analysis_20261106_01/README.md)、[匿名聚合](reports/p0_fk_mapping_proxy_error_analysis_20261106_01/aggregate_summary.json)。
+
+## 2026-11-06 下一阶段决策
+
+模型代理审阅及其唯一探索排序已完成；排序为 G-reasoner 7/38、Dense 27/38，错误分层没有发现已观察到的正向子群；G3 起点诊断为 INCONCLUSIVE。结合 P2c-R 的离线 Schema 覆盖收益尚无 SQL EX 支持、P2d.2 错误主要集中在 SQL 结构与作用域、P2d.3 受限修复未达到效用门，当前 BIRD-dev 排序/通用修复分支停止扩展，转入错误模式综合和新核心问题筛选。不得把模型代理多数当作人工标签。候选筛选和重启条件见[下一阶段决策记录](plans/next_step_evidence_synthesis_20261106.md)。
