@@ -1,6 +1,6 @@
 # G3：真实 FK mapping 图的起点敏感性诊断
 
-**状态：预注册，待实现与执行。日期：2026-11-06。**
+**状态：预注册并已完成（2026-11-06）；Full 判定 INCONCLUSIVE，按停止规则结束。**
 
 ## 研究问题
 
@@ -54,6 +54,12 @@ P0 冻结 G-reasoner 在模型代理可区分样本上明显落后于 Dense。�
 - 独立 runner：scripts/text2sql/run_g3_fk_seed_direction_sensitivity.py。
 - 结果报告：docs/research/text2sql/reports/g3_fk_seed_direction_sensitivity_20261106_01/。
 - 私有逐题分数、输入清单和日志只保留在本机受限结果目录；GitHub 只提交匿名聚合、计划、配置和复现代码。
+
+## 执行结果（不改变冻结方案）
+
+- Smoke_001 因 `conda run` 启动了 Python 3.9 而非冻结环境的 Python 3.12，在 PyG 导入前停止；未加载模型、未产生推理 token。保留失败目录后，Smoke_002 使用目标环境 Python 3.12 的绝对路径通过，5 对、12 个候选、20 次 forward 均通过有限值检查。
+- Full_001 完成55对、123个候选及220次 forward。A1 对 A0 的 Top-1 变化为4/55（7.27%）、候选对顺序反转为6/81（7.41%）；A2 为6/55（10.91%）和7/81（8.64%）。A0 重复最大误差0，最高分并列0。
+- 两个单端条件均未同时达到机制信号门；又因 Top-1 变化率超过5%，不满足无实质排序影响门。结果为 INCONCLUSIVE，不推断哪个 seed 更正确，也不追加本支线实验。运行、资源、token 和局限详见[完整报告](../reports/g3_fk_seed_direction_sensitivity_20261106_01/README.md)与[匿名聚合](../reports/g3_fk_seed_direction_sensitivity_20261106_01/aggregate_summary.json)。
 
 ## 主要局限
 
