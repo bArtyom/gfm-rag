@@ -1,0 +1,60 @@
+experiment_id: g3_fk_seed_direction_sensitivity_20261106
+status: preregistered
+project_repository: bArtyom/gfm-rag
+base_commit: b7d64ecde544e5bfcb20d311a0316b6d8bebeff5
+dataset:
+  name: BIRD dev FK mapping packet
+  packet_root: /mnt/liansp3/sources/results/gfmrag_p0_fk_mapping_pair_level_blind_review_20261106_01/full_001
+  split_manifest: /mnt/liansp3/sources/results/gfmrag_p0_fk_mapping_model_proxy_rank_pilot_20261106_01/preflight/split_manifest_private.json
+  expected_questions: 60
+  smoke_questions: 5
+  full_pairs: 55
+  full_mapping_candidates: 123
+  reviewer_labels_loaded: false
+  gold_sql_loaded: false
+models:
+  g_reasoner:
+    path: /mnt/liansp3/sources/models/g-reasoner-34m
+    revision: a3a4ed2c62281e1c3e0551bd42f2072d9204674f
+    train: false
+  embedding:
+    path: /mnt/liansp3/sources/models/qwen3-embedding-0.6b
+    dimension: 1024
+    local_only: true
+    external_api: false
+conditions:
+  - id: A0
+    seed_policy: both_sorted_table_endpoints
+  - id: A1
+    seed_policy: first_sorted_table_endpoint
+  - id: A2
+    seed_policy: second_sorted_table_endpoint
+  baseline_repeat_count: 1
+metrics:
+  primary:
+    - top1_flip_rate_vs_A0
+    - candidate_pair_order_reversal_rate_vs_A0
+  secondary:
+    - per_graph_score_range
+    - top_score_ties
+    - A0_repeat_max_absolute_error
+decision_thresholds:
+  mechanism_signal:
+    top1_flip_rate_min: 0.20
+    pair_order_reversal_rate_min: 0.10
+  no_material_order_effect:
+    top1_flip_rate_max: 0.05
+    pair_order_reversal_rate_max: 0.05
+  interpretation: operational sensitivity thresholds, not accuracy or significance tests
+resources:
+  gpu: 1
+  max_gpu_allocated_gib: 8
+  max_rss_gib: 8
+  max_cpu_seconds: 900
+  max_wall_seconds: 1200
+output:
+  private_root: /mnt/liansp3/sources/results/gfmrag_g3_fk_seed_direction_sensitivity_20261106_01
+  log_root: /mnt/liansp3/logs/gfmrag_g3_fk_seed_direction_sensitivity_20261106_01
+  public_report_dir: docs/research/text2sql/reports/g3_fk_seed_direction_sensitivity_20261106_01
+  public_raw_question_data: false
+  public_per_case_scores: false
