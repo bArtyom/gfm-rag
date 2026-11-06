@@ -1,0 +1,56 @@
+{
+  "experiment_id": "p0_bird_gold_label_robustness_20261106_01",
+  "status": "STOP_SMOKE_GATE",
+  "stage_reached": "smoke_metadata_match_gate",
+  "scientific_metric_result": null,
+  "full_run": "NOT_RUN",
+  "smoke_attempts": [
+    {
+      "run_id": "smoke_001",
+      "status": "STOP_OUTPUT_EXISTS",
+      "rows_processed": 0,
+      "reason": "runner output directory was pre-created by the launcher"
+    },
+    {
+      "run_id": "smoke_002",
+      "status": "STOP_MATCH_GATE",
+      "rows_label_extracted": 0,
+      "reason": "not all source rows exactly match the local BIRD metadata"
+    }
+  ],
+  "metadata_alignment": {
+    "corrected_rows": 498,
+    "question_id_found_in_original": 498,
+    "duplicate_question_ids": 0,
+    "db_id_exact_matches": 498,
+    "question_exact_matches": 414,
+    "evidence_exact_matches": 407,
+    "evidence_matches_after_trim": 423,
+    "all_fields_exact_matches": 351,
+    "rows_with_any_metadata_mismatch": 147,
+    "preregistered_requirement": "498 of 498 exact matches",
+    "gate_passed": false
+  },
+  "inputs": {
+    "corrected_source_commit": "fe766045c55b6875a43b30e9ac7683df5582f8cf",
+    "corrected_source_sha256": "e7bf76408f99266506ea558d84982c69422e5db3dfecab5f08a3a8d3900e8395",
+    "original_dev_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "schema_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "archived_labels_sha256": "1b501810f0247999de1210fc807f3c39e60c2fab498cd104f8eb60f815269525",
+    "p1_6_rows_sha256": "6b28af7400cb70e0ab88a00b56654235571a074022fd8ea52b3f9744a844c4e9",
+    "p1_6_nodes_sha256": "81ccc51c442c9d4771a16f600340c37f2673887fc0672d8179ecc20d39296754",
+    "p1_6_aggregate_sha256": "925a7116835080b78f0752b3915f9bdf056e173434bd5b176111f7830c91c504"
+  },
+  "resources": {
+    "cpu_only": true,
+    "gpu_used": false,
+    "model_calls": 0,
+    "api_calls": 0,
+    "sql_executions": 0,
+    "dependency_changes": 0,
+    "environment": "qes_rear_refine",
+    "python": "3.10.22",
+    "sqlglot": "30.12.0"
+  },
+  "interpretation": "The exact metadata matching gate failed before SQL label extraction. No retrieval metrics were measured, and this result does not establish label robustness or sensitivity."
+}
