@@ -1,6 +1,6 @@
 # Model-proxy FK mapping ranking pilot (G-reasoner)
 
-**Status: preregistered exploratory diagnostic; first Smoke attempt failed before model loading or ranking inference.** This branch implements a separate path explicitly chosen by the user to use models as reviewers. Its labels are three-model proxies only. It does not replace the original two-human-reviewer gate and cannot support a claim about human Role accuracy.
+**Status: completed exploratory diagnostic; NO-GO.** The first Smoke attempt failed before model loading; corrected Smoke and Full completed. The three-model labels remain proxies only. This branch does not replace the original two-human-reviewer gate and cannot support a claim about human Role accuracy.
 
 ## Research question and core hypothesis
 
@@ -23,6 +23,8 @@ The hypothesis is intentionally narrow: query-conditioned message passing over r
 **Smoke attempt `..._smoke_001` (2026-11-06):** input loading stopped before model initialization because one packet question serialized a line break as the literal `<br>` while the private manifest retained a newline. Diagnostic checks found 59 exact text matches and one such serialization-only difference; replacing that exact `<br>` with a newline matches the canonical private text. The affected pair is in Full and in the model-proxy-distinguishable subset. No model was loaded, no embeddings or G-reasoner forwards ran, and no inference tokens were consumed. The failed launch log is retained locally. No data, labels, split, candidate set, model, graph, metric, or threshold changed.
 
 **Protocol revision v3, before retry:** validate the one frozen `<br>`→newline serialization exception explicitly and reject any additional or different mismatch. Query embeddings and BM25 use the canonical private-manifest question text; the prior model-review labels remain tied to the immutable blind packet as reviewed. The Full report will include a predeclared sensitivity result excluding this one distinguishable pair (denominator 37) alongside the primary 38-pair metric. Run IDs advance to `..._smoke_002` and `..._full_002`; the failed `smoke_001` is never reused. The source text anomaly and label provenance will be disclosed; no labels are promoted to human truth.
+
+**Outcome:** Smoke_002 passed. Full_002 scored 55 pairs, including 38 distinguishable proxy-labeled pairs. G-reasoner Accepted@1 was 7/38 versus Dense Cosine 27/38 (−52.63 pp), with paired net rescue −20 and zero anonymous databases having positive net rescue. Excluding the one serialization-anomaly pair gives 7/37 versus 27/37 (−54.05 pp), same direction. All registered positive-screen gates failed. Per the stop rule, no GFM ablation, parameter search, or additional run was launched. Full report and sanitized aggregate are archived at [the experiment report](../reports/p0_fk_mapping_model_proxy_rank_pilot_20261106_01/README.md) and [aggregate summary](../reports/p0_fk_mapping_model_proxy_rank_pilot_20261106_01/aggregate_summary.json).
 
 ## Frozen source and inputs
 
@@ -67,7 +69,7 @@ Candidate ordering is score descending, then stable mapping ID ascending. This d
 - Plan and YAML config in this repository before inference.
 - Runner and sanitized public aggregation code in `scripts/text2sql/` before inference.
 - Separate Smoke/Full logs, manifests, private per-pair predictions, and sanitized aggregate under the reserved local result tree; never upload private data.
-- Final report and aggregate under `docs/research/text2sql/reports/p0_fk_mapping_model_proxy_rank_pilot_20261106_01/`, with a separate run ID, assumptions, code/config hashes, exact results, anomalies, interpretation, limitations, and GitHub commit/link.
+- Final report and sanitized aggregate are archived under `docs/research/text2sql/reports/p0_fk_mapping_model_proxy_rank_pilot_20261106_01/`, with separate run IDs, assumptions, code/config hashes, exact results, anomalies, interpretation, limitations, and GitHub commit/link.
 
 ## Interpretation boundary
 

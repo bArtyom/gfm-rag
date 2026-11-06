@@ -1,0 +1,356 @@
+{
+  "all_adjudicable_metrics_on_51_pairs": {
+    "bm25_okapi": {
+      "accepted_at_1": {
+        "correct": 35,
+        "denominator": 51,
+        "rate": 0.686275
+      },
+      "accepted_at_3": {
+        "correct": 51,
+        "denominator": 51,
+        "rate": 1.0
+      },
+      "mrr_first_accepted": 0.826797,
+      "top_tie_units": 51
+    },
+    "dense_cosine": {
+      "accepted_at_1": {
+        "correct": 40,
+        "denominator": 51,
+        "rate": 0.784314
+      },
+      "accepted_at_3": {
+        "correct": 51,
+        "denominator": 51,
+        "rate": 1.0
+      },
+      "mrr_first_accepted": 0.892157,
+      "top_tie_units": 0
+    },
+    "g_reasoner": {
+      "accepted_at_1": {
+        "correct": 20,
+        "denominator": 51,
+        "rate": 0.392157
+      },
+      "accepted_at_3": {
+        "correct": 51,
+        "denominator": 51,
+        "rate": 1.0
+      },
+      "mrr_first_accepted": 0.683007,
+      "top_tie_units": 0
+    },
+    "stable_mapping_id_order": {
+      "accepted_at_1": {
+        "correct": 35,
+        "denominator": 51,
+        "rate": 0.686275
+      },
+      "accepted_at_3": {
+        "correct": 51,
+        "denominator": 51,
+        "rate": 1.0
+      },
+      "mrr_first_accepted": 0.826797,
+      "top_tie_units": 51
+    }
+  },
+  "conclusion": "NO_GO_OR_INCONCLUSIVE",
+  "dataset": "previously exposed BIRD dev subset; fixed FK candidates conditioned on table pairs",
+  "experiment_id": "p0_fk_mapping_model_proxy_rank_pilot_20261106_01",
+  "full": {
+    "candidate_count_scored": 123,
+    "g_reasoner_forward_count": 55,
+    "g_reasoner_forward_seconds_total": 0.977522,
+    "pairs_scored": 55,
+    "peak_gpu_allocated_bytes": 2979721216,
+    "peak_rss_bytes": 4716544000,
+    "qwen_input_tokens": 2695,
+    "qwen_output_tokens": 0,
+    "run_id": "p0_fk_mapping_model_proxy_rank_pilot_20261106_full_002",
+    "status": "NO_GO_OR_INCONCLUSIVE",
+    "wall_seconds": 9.328245
+  },
+  "g_reasoner_minus_dense_accepted_at_1": -0.526315,
+  "interpretation_limit": "Proxy-label ranking diagnostic only; no human gold, SQL execution, end-to-end JOIN discovery, or cross-database claim.",
+  "label_source": "three_model_high_confidence_exact_majority_proxy_only",
+  "models": {
+    "embedding_dimension": 1024,
+    "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
+    "embedding_weights_sha256": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd",
+    "g_reasoner_revision": "a3a4ed2c62281e1c3e0551bd42f2072d9204674f",
+    "g_reasoner_weights_sha256": "2f2a1a2d2f5725133428941b785f3898255666b06041b58420f75e60599d387d"
+  },
+  "paired_g_reasoner_vs_dense": {
+    "both_correct": 6,
+    "both_wrong": 10,
+    "dense_only_correct": 21,
+    "g_reasoner_only_correct": 1,
+    "net_rescue": -20
+  },
+  "per_anonymous_database": {
+    "db_01": {
+      "dense_cosine_accepted_at_1": {
+        "correct": 5,
+        "denominator": 10,
+        "rate": 0.5
+      },
+      "distinguishable_pairs": 10,
+      "g_reasoner_accepted_at_1": {
+        "correct": 1,
+        "denominator": 10,
+        "rate": 0.1
+      },
+      "paired_g_reasoner_vs_dense": {
+        "both_correct": 1,
+        "both_wrong": 5,
+        "dense_only_correct": 4,
+        "g_reasoner_only_correct": 0,
+        "net_rescue": -4
+      }
+    },
+    "db_02": {
+      "dense_cosine_accepted_at_1": {
+        "correct": 4,
+        "denominator": 10,
+        "rate": 0.4
+      },
+      "distinguishable_pairs": 10,
+      "g_reasoner_accepted_at_1": {
+        "correct": 1,
+        "denominator": 10,
+        "rate": 0.1
+      },
+      "paired_g_reasoner_vs_dense": {
+        "both_correct": 0,
+        "both_wrong": 5,
+        "dense_only_correct": 4,
+        "g_reasoner_only_correct": 1,
+        "net_rescue": -3
+      }
+    },
+    "db_03": {
+      "dense_cosine_accepted_at_1": {
+        "correct": 13,
+        "denominator": 13,
+        "rate": 1.0
+      },
+      "distinguishable_pairs": 13,
+      "g_reasoner_accepted_at_1": {
+        "correct": 2,
+        "denominator": 13,
+        "rate": 0.153846
+      },
+      "paired_g_reasoner_vs_dense": {
+        "both_correct": 2,
+        "both_wrong": 0,
+        "dense_only_correct": 11,
+        "g_reasoner_only_correct": 0,
+        "net_rescue": -11
+      }
+    },
+    "db_04": {
+      "dense_cosine_accepted_at_1": {
+        "correct": 5,
+        "denominator": 5,
+        "rate": 1.0
+      },
+      "distinguishable_pairs": 5,
+      "g_reasoner_accepted_at_1": {
+        "correct": 3,
+        "denominator": 5,
+        "rate": 0.6
+      },
+      "paired_g_reasoner_vs_dense": {
+        "both_correct": 3,
+        "both_wrong": 0,
+        "dense_only_correct": 2,
+        "g_reasoner_only_correct": 0,
+        "net_rescue": -2
+      }
+    }
+  },
+  "positive_anonymous_database_count": 0,
+  "positive_screen_thresholds": {
+    "accepted_at_1_gain_at_least_5pp": false,
+    "net_rescue_at_least_4": false,
+    "two_eligible_databases_positive": false
+  },
+  "primary_metrics_on_38_distinguishable_pairs": {
+    "bm25_okapi": {
+      "accepted_at_1": {
+        "correct": 22,
+        "denominator": 38,
+        "rate": 0.578947
+      },
+      "accepted_at_3": {
+        "correct": 38,
+        "denominator": 38,
+        "rate": 1.0
+      },
+      "mrr_first_accepted": 0.767544,
+      "top_tie_units": 38
+    },
+    "dense_cosine": {
+      "accepted_at_1": {
+        "correct": 27,
+        "denominator": 38,
+        "rate": 0.710526
+      },
+      "accepted_at_3": {
+        "correct": 38,
+        "denominator": 38,
+        "rate": 1.0
+      },
+      "mrr_first_accepted": 0.855263,
+      "top_tie_units": 0
+    },
+    "g_reasoner": {
+      "accepted_at_1": {
+        "correct": 7,
+        "denominator": 38,
+        "rate": 0.184211
+      },
+      "accepted_at_3": {
+        "correct": 38,
+        "denominator": 38,
+        "rate": 1.0
+      },
+      "mrr_first_accepted": 0.574561,
+      "top_tie_units": 0
+    },
+    "stable_mapping_id_order": {
+      "accepted_at_1": {
+        "correct": 22,
+        "denominator": 38,
+        "rate": 0.578947
+      },
+      "accepted_at_3": {
+        "correct": 38,
+        "denominator": 38,
+        "rate": 1.0
+      },
+      "mrr_first_accepted": 0.767544,
+      "top_tie_units": 38
+    }
+  },
+  "privacy": {
+    "contains_case_pair_or_mapping_ids": false,
+    "contains_database_or_table_names": false,
+    "contains_gold_sql_or_reference_join": false,
+    "contains_per_case_labels_or_rankings": false,
+    "contains_question_text": false,
+    "contains_raw_model_outputs": false
+  },
+  "protocol": {
+    "adjudicable_count": 51,
+    "anonymous_database_count": 4,
+    "distinguishable_count": 38,
+    "distinguishable_counts_per_anonymous_database": [
+      5,
+      10,
+      10,
+      13
+    ],
+    "full_candidate_count": 123,
+    "full_question_pair_count": 55,
+    "packet_question_serialization_normalizations": 1,
+    "seed": 20261106,
+    "smoke_question_count": 5
+  },
+  "serialization_anomaly_sensitivity": {
+    "excluded_anomaly_count": 1,
+    "g_reasoner_minus_dense_accepted_at_1": -0.540541,
+    "metrics": {
+      "bm25_okapi": {
+        "accepted_at_1": {
+          "correct": 22,
+          "denominator": 37,
+          "rate": 0.594595
+        },
+        "accepted_at_3": {
+          "correct": 37,
+          "denominator": 37,
+          "rate": 1.0
+        },
+        "mrr_first_accepted": 0.774775,
+        "top_tie_units": 37
+      },
+      "dense_cosine": {
+        "accepted_at_1": {
+          "correct": 27,
+          "denominator": 37,
+          "rate": 0.72973
+        },
+        "accepted_at_3": {
+          "correct": 37,
+          "denominator": 37,
+          "rate": 1.0
+        },
+        "mrr_first_accepted": 0.864865,
+        "top_tie_units": 0
+      },
+      "g_reasoner": {
+        "accepted_at_1": {
+          "correct": 7,
+          "denominator": 37,
+          "rate": 0.189189
+        },
+        "accepted_at_3": {
+          "correct": 37,
+          "denominator": 37,
+          "rate": 1.0
+        },
+        "mrr_first_accepted": 0.576577,
+        "top_tie_units": 0
+      },
+      "stable_mapping_id_order": {
+        "accepted_at_1": {
+          "correct": 22,
+          "denominator": 37,
+          "rate": 0.594595
+        },
+        "accepted_at_3": {
+          "correct": 37,
+          "denominator": 37,
+          "rate": 1.0
+        },
+        "mrr_first_accepted": 0.774775,
+        "top_tie_units": 37
+      }
+    },
+    "paired_g_reasoner_vs_dense": {
+      "both_correct": 6,
+      "both_wrong": 9,
+      "dense_only_correct": 21,
+      "g_reasoner_only_correct": 1,
+      "net_rescue": -20
+    },
+    "primary_denominator": 37
+  },
+  "smoke": {
+    "candidate_count_scored": 12,
+    "g_reasoner_forward_count": 5,
+    "pairs_scored": 5,
+    "peak_gpu_allocated_bytes": 2531396608,
+    "peak_rss_bytes": 4720988160,
+    "qwen_input_tokens": 528,
+    "qwen_output_tokens": 0,
+    "run_id": "p0_fk_mapping_model_proxy_rank_pilot_20261106_smoke_002",
+    "status": "SMOKE_PASS",
+    "wall_seconds": 19.041922
+  },
+  "software": {
+    "config_sha256": "93ad60fbe32c6b26aea39fe2ddea5845b640a65362dd30efdf314a7d3beab1bb",
+    "experiment_code_commit": "f39292ec035963c55a4370622bb8881c1bc2b291",
+    "project_branch": "research/p0-model-proxy-rank-pilot-20261106",
+    "python": "3.12.15",
+    "sentence_transformers": "5.1.1",
+    "torch": "2.8.0+cu128",
+    "torch_geometric": "2.6.1",
+    "transformers": "4.56.1"
+  },
+  "trusted_human_role_labels": 0
+}
