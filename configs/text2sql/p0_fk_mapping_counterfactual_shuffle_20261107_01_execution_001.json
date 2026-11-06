@@ -1,0 +1,54 @@
+{
+  "experiment_id": "p0_fk_mapping_counterfactual_shuffle_20261107_01",
+  "status": "frozen_execution_config_before_run",
+  "parent_config_sha256": "75579568bf3d16d010e5a5c6bbd137521e552799d8ce718cd25ba0cd0a830d76",
+  "prior_aggregate_sha256": "27d3411496e5fd4fb829c30c110018ea33b2275c751bccc437f5dd0835dac582",
+  "prior_runner_sha256": "99245f972de3f8827c812ec0fc5f89e3d269ea9b80bfb5a1c1bad03ce81adc3c",
+  "prior_source_commit": "e0d3e0d0d617cbedc02ef317f3578057b36b28ee",
+  "reconstructed_source_expectations": {
+    "expected_complete_units": 94,
+    "expected_alternative_comparisons": 144,
+    "expected_fixed_pairs": 55,
+    "expected_complete_units_by_anonymous_db": {
+      "DB-A": 21,
+      "DB-B": 54,
+      "DB-C": 10,
+      "DB-D": 9
+    },
+    "expected_equal_alternative_units_by_anonymous_db": {
+      "DB-A": 0,
+      "DB-B": 44,
+      "DB-C": 1,
+      "DB-D": 9
+    }
+  },
+  "permutations": {
+    "seeds_inclusive": [20261107, 20261126],
+    "count": 20,
+    "max_rejection_attempts_per_seed": 100,
+    "sample_order": "ascending SHA256(experiment_id || private_pair_identity)"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "sqlite": "3.53.2",
+    "sqlglot": "28.0.0",
+    "max_cpu_threads": 8,
+    "max_cpu_seconds": 1800,
+    "max_wall_seconds": 3600,
+    "max_rss_gib": 4,
+    "query_timeout_seconds": 10,
+    "row_limit": 50000,
+    "byte_limit": 67108864,
+    "sqlite_heap_limit_bytes": 268435456
+  },
+  "coverage_and_decisions": {
+    "minimum_eligible_pairs_before_smoke": 40,
+    "minimum_informative_pairs_for_primary_metric": 40,
+    "minimum_anonymous_databases": 3,
+    "positive_threshold": 0.5,
+    "weak_threshold": 0.25,
+    "smoke_pairs": 5,
+    "stop_after_one_full": true
+  },
+  "privacy": "Only anonymous aggregate counts and rates may be published; all identifiers, questions, SQL, values, paths, and pair-level records remain local."
+}
