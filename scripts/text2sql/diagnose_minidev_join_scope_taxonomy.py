@@ -360,6 +360,8 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--mode", choices=("smoke", "full"), required=True)
+    parser.add_argument("--attempt", type=int, default=1)
+    parser.add_argument("--smoke-attempt", type=int, default=1)
     parser.add_argument("--expected-commit", required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--smoke-private", type=Path)
@@ -377,6 +379,7 @@ def main() -> int:
     config = json.loads(args.config.read_text(encoding="utf-8"))
     require(config["experiment_id"] == EXPERIMENT_ID, "experiment ID mismatch")
     require(config["environment"]["sqlglot"] == EXPECTED_SQLGLOT, "frozen SQLGlot mismatch")
+    require(args.attempt >= 1 and args.smoke_attempt >= 1, "attempt number must be positive")
     require(git_value("rev-parse", "HEAD") == args.expected_commit, "source commit mismatch")
     require(git_value("branch", "--show-current") == config["project"]["branch"], "source branch mismatch")
     fixture_summary = run_logic_fixtures()
@@ -401,12 +404,12 @@ def main() -> int:
     if args.mode == "smoke":
         require(args.smoke_private is None, "smoke cannot consume prior summary")
         selected = [row for row in dataset if (str(row["db_id"]), str(row["question_id"])) in smoke_keys]
-        run_id = f"{EXPERIMENT_ID}_cpu_smoke_001"
+        run_id = f"{EXPERIMENT_ID}_cpu_smoke_{args.attempt:03d}"
     else:
         require(args.smoke_private is not None and args.smoke_private.is_file(), "full requires smoke summary")
         smoke_payload = json.loads(args.smoke_private.read_text(encoding="utf-8"))
         require(smoke_payload["experiment_id"] == EXPERIMENT_ID, "smoke experiment ID mismatch")
-        require(smoke_payload["run_id"] == f"{EXPERIMENT_ID}_cpu_smoke_001", "smoke run ID mismatch")
+        require(smoke_payload["run_id"] == f"{EXPERIMENT_ID}_cpu_smoke_{args.smoke_attempt:03d}", "smoke run ID mismatch")
         require(smoke_payload["mode"] == "smoke", "smoke mode mismatch")
         require(smoke_payload["input_hashes"] == expected_hashes, "smoke input hash mismatch")
         smoke_row_digests = {row["question_key_digest"] for row in smoke_payload["question_rows"]}
@@ -420,7 +423,7 @@ def main() -> int:
         )
         selected = [row for row in dataset if (str(row["db_id"]), str(row["question_id"])) not in smoke_keys]
         require(len(selected) == EXPECTED_ROWS - SMOKE_QUESTIONS, "full row count mismatch")
-        run_id = f"{EXPERIMENT_ID}_cpu_full_001"
+        run_id = f"{EXPERIMENT_ID}_cpu_full_{args.attempt:03d}"
 
     args.output_dir.mkdir(parents=True, mode=0o700)
     args.output_dir.chmod(0o700)
@@ -429,6 +432,8 @@ def main() -> int:
     attempt = {
         "experiment_id": EXPERIMENT_ID,
         "run_id": run_id,
+        "attempt_number": args.attempt,
+        "smoke_attempt_number": args.smoke_attempt if args.mode == "full" else None,
         "mode": args.mode,
         "source_commit": git_value("rev-parse", "HEAD"),
         "source_branch": git_value("branch", "--show-current"),
