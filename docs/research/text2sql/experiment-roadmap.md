@@ -179,3 +179,7 @@ $$
 ### 2026-11-06 新增用户选择的模型审阅代理轨道
 
 用户明确选择本地模型代替人类提供初始审阅。独立 `exploratory` 实验 `p0_fk_mapping_model_review_proxy_20261106_01` 已完成：Smoke_001 未通过（Qwen2.5-Coder 5/5，Qwen3-4B 3/5）；一次非空候选提示澄清后，Smoke_002 两模型均 5/5。Full 有 28 个双方高置信、决定和接受集合完全一致的可裁定单元，低于 30 个先决门；23 个可区分单元覆盖4库。结论为 `STOP_INSUFFICIENT_MODEL_PROXY_LABELS`，不跑排序、不扩样。模型标签不覆盖人工 CSV、不构成可信人工标签，也不解锁原 Accepted@1 主 Pilot。详见[模型审阅代理实验计划](plans/p0_fk_mapping_model_review_proxy_20261106.md)与[报告](reports/p0_fk_mapping_model_review_proxy_20261106_01/README.md)。
+
+### 2026-11-06 第三模型审阅结果与独立探索排序诊断
+
+用户明确选择由模型进行审阅后，按已单独预注册方案运行 Gemma 4 E4B-it。vLLM GPU 初始化受 PyTorch CUDA 13 / 驱动 CUDA 12.4 不兼容阻断；没有生成 token，也没有修改驱动或依赖。CPU 恢复 Smoke 5/5、Full 60/60。三模型高置信精确多数为56个，其中41个可区分、覆盖4库。按稳定问题哈希选出5题 Smoke 并把其问题级样本全部排除后，Full 保留51个可裁定、38个可区分、覆盖4库，通过独立 exploratory 排序诊断的模型代理数据门。该结果仅许可另行预注册一次模型代理 Accepted@1 诊断；原双人真实审阅门与可信人工 Role 标签仍为0，不得把代理多数描述成金标准。见[GPU失败记录](reports/p0_fk_mapping_model_review_third_proxy_gpu_20261106_01/README.md)、[CPU恢复与聚合报告](reports/p0_fk_mapping_model_review_third_proxy_cpu_20261106_01/README.md)。
