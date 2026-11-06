@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 11533)
-Total output lines: 209
-
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
 > **最新决策（2026-11-06）**：用户选择的本地模型审阅代理路线、一次 G-reasoner 排序诊断、起点敏感性诊断及错误分层均已完成。代理排序为 7/38 对 27/38，错误分层未发现正向子群；G3 为 inconclusive。按停止规则，当前 BIRD-dev GFM 排序支线不再扩展，进入错误模式综合和新问题筛选。模型标签仍不是人工 Role 真值。见[下一阶段决策记录](plans/next_step_evidence_synthesis_20261106.md)。
@@ -84,7 +81,31 @@ Total output lines: 209
 | [P2d.2 `_01` 启动记录](reports/p2d2_frozen_failure_attribution_20261105_01/README.md) | 预注册代码 10/10 合成自检；未读取样本 | **STOP：准备包路径误填；保留失败回执** |
 | [P2d.2 `_02` recovery 报告](reports/p2d2_frozen_failure_attribution_20261105_02/README.md) | 固定 90 条封存预测的失败归因 | **Full 完成；28/28 可分类；未发现上下文缺字段，生成引用错误候选待新样本验证** |
 | [P2d.3 检索上下文约束修复（最终报告）](reports/p2d3_context_bounded_repair_20261105_01/README.md) | 66题 Full 比较不修复、完整 Schema 修复和 V00 上下文约束修复；匿名聚合随报告归档 | **已完成；A0/A1/A2 Set EX=27.27%/30.30%/25.76%；NO_GO_OR_INCONCLUSIVE，不扩样** |
-| [P2d.3 authorizer 候选归因](reports/p2d3_authorizer_counterfactual_audit_20261106_01/README.md) | 对冻结的6个初始拒绝与8个修复拒绝候选做完整 Schema 只读回放 | **Full 完成；发现2个可执行且正确的修复候选；候选级归…1533 tokens truncated…r对照、同义重标记不变性、FK Role Label Gate及Go/No-go | 2026-10-23完成；按原门槛 G1-A NO-GO，见G1报告 |
+| [P2d.3 authorizer 候选归因](reports/p2d3_authorizer_counterfactual_audit_20261106_01/README.md) | 对冻结的6个初始拒绝与8个修复拒绝候选做完整 Schema 只读回放 | **Full 完成；发现2个可执行且正确的修复候选；候选级归因，不修改原系统准确率** |
+| [P0 FK候选定义对账报告](reports/p0_fk_candidate_definition_reconciliation_20261105_01/README.md) | 对账 956/174、970/197、1043/176 三组不一致计数 | **STOP_INVALID_SMOKE；未启动 Full** |
+| [P0 FK候选定义对账恢复](reports/p0_fk_candidate_definition_recovery_20261105_01/README.md) | 对上次 Smoke 增加不含 SQL 内容的异常位置回执，并重过三臂小样本门 | **已预注册；Smoke/Full 尚未运行** |
+| [P0 FK候选定义哈希诊断恢复计划](plans/p0_fk_candidate_definition_recovery_v2_20261105.md) | 记录同一受控文件句柄的摘要、文件身份和解析字节；新 run ID 重跑三臂 Smoke | **已预注册；尚未读取实验输入** |
+| [P0 FK候选定义哈希诊断恢复报告](reports/p0_fk_candidate_definition_recovery_v2_20261105_01/README.md) | 同句柄/旧 helper 摘要一致，但与冻结摘要不同；记录 smoke 停止门 | **STOP_INVALID_SMOKE；未运行 Full** |
+| [P0 FK候选定义哈希更正 v3 计划](plans/p0_fk_candidate_definition_recovery_v3_20261105.md) | 新实验 ID 冻结经独立确认的 FK artifact 摘要，重跑 smoke / 条件式 full | **2026-11-05 已执行；结果见报告** |
+| [P0 FK候选定义哈希更正 v3 执行报告](reports/p0_fk_candidate_definition_recovery_v3_20261105_01/README.md) | v3 注册、Smoke/Full 与 crosswalk 运行结果；追加适配层代码复核 | 已完成；原始 FK 适配差异由后续 canonical crosswalk 复核，语义 Role 标签仍缺 |
+| [P0 canonical P1.5 FK crosswalk 报告](reports/p0_fk_canonical_crosswalk_20261105_01/README.md) | valid-only FK adapter 与 packet-28 / v3 P1.5 的匿名逐题对账 | **完成；过滤无标签影响；实现定义差异仍在，Role Gate NO-GO** |
+| [P0 FK 分歧双人盲审材料准备计划](plans/p0_fk_disagreement_blind_review_20261105.md) | 对 packet-only ambiguous/unmatched、canonical-only FK/multi-FK 与正向控制分层抽样，准备匿名本地 A/B 包 | **已按计划执行；Full 通过，等待人工审阅** |
+| [P0 FK 分歧双人盲审材料准备报告](reports/p0_fk_disagreement_blind_review_20261105_01/README.md) | 材料生成、映射完整性和隐私门；不产出人类标签 | **49题/51表对；等待两位审阅者；Role 标签仍为0** |
+| [P0 BIRD FK 图 hop-depth 结构审计](plans/p0_bird_fk_hop_profile_20261105.md) | 检查 BIRD dev 声明 FK 表图上的精确最小 Steiner hop 分布及高跳数样本覆盖 | **已预注册；CPU-only；不涉及 Role/JOIN 方法准确率** |
+| [P0 BIRD FK hop v1 报告](reports/p0_bird_fk_hop_profile_20261105_01/README.md) | 初次 Smoke/Full 匿名画像及 CTE 作用域解析风险 | v1 保留；`SUPERSEDED_PENDING_SCOPE_CORRECTION` |
+| [P0 BIRD FK hop v2 修正方案](plans/p0_bird_fk_hop_profile_v2_correction_20261105.md) | 只将 CTE 过滤改为 SQLGlot 作用域感知基础表解析，其他定义冻结 | Smoke/Full 已按计划完成 |
+| [P0 BIRD FK hop v2 完整报告](reports/p0_bird_fk_hop_profile_20261105_02/README.md) | v2匿名结构画像、v1聚合对照、SchemaScope比例差异及停止决定 | **FULL_COMPLETED；不再扩展高跳数方法** |
+| [双人标签后 FK 映射排序 Pilot 候选](plans/p0_fk_mapping_rank_pilot_candidate_20261105.md) | 在固定表对/映射候选上比较冻结 GFM 与 Dense、BM25、结构顺序；报告接受集合排序与错误交集 | **仅候选；方法新颖性未知；必须先通过真实双人标签门，不得提前运行** |
+| [FK 映射排序文献更新](plans/p0_fk_mapping_rank_literature_update_20261106.md) | 将 JoinGR、MDB-Link 等近邻纳入 novelty audit，明确候选只作 G-reasoner 迁移/证伪测试 | **盲审回复未更新；按路线图等待，不启动模型实验** |
+| [FK 映射排序前沿复核](plans/p0_fk_mapping_rank_frontier_check_20261106.md) | 核对双向检索、joinable-table扩展和多解释歧义评测等新近邻，说明为何保留同一映射级 Pilot | **未发现可替代盲审门的独立实验；A/B可信标签仍为0** |
+| [FK 映射 Pilot 设计审计](plans/p0_fk_mapping_rank_pilot_design_audit_20261106.md) | 纳入近期修复/检索/压缩文献，冻结主基线、可区分标签分母、Smoke/Full 隔离和小样本成功门 | **设计收敛；仍待双人标签；未注册、未运行** |
+| [FK mapping 候选容量审计计划](plans/p0_fk_mapping_candidate_capacity_audit_20261106.md) | 检查冻结 BIRD dev 的表对级有效 FK 候选容量 | **已执行；解析子集超过必要容量门，完整总体有 13 个解析缺口** |
+| [FK mapping 候选容量审计报告](reports/p0_fk_mapping_candidate_capacity_20261106_01/README.md) | 匿名统计表对级 FK mapping 候选、Smoke 后结构容量范围 | **完成；1,208 个 FK-bearing 对、176 个多映射对、4 个数据库；未运行模型** |
+| [FK mapping pair-level 双人盲审方案](plans/p0_fk_mapping_pair_level_blind_review_20261106.md) | 用新的独立样本包补足映射级双审候选，保留旧包和阈值 | **材料已生成：60 个问题×表对、135 个 mapping；等待独立审阅，可信标签仍为 0** |
+| [G-reasoner Query 指令兼容性审计](plans/p0_gfm_embedding_instruction_compatibility_audit_20261106.md) | 对照 checkpoint、G0 与 P1.6 的 Query 指令，冻结 FK mapping Pilot 的向量兼容要求 | **只读审计；不推翻历史结果；仍待双人标签，未运行模型** |
+| [FK 映射 Pilot 输入语义审计](plans/p0_fk_mapping_rank_pilot_input_semantics_audit_20261106.md) | 基于官方 seed-mask 接口与 G0 代码，冻结条件式表对任务的共享起点语义 | **设计澄清；仍待双人标签；未注册、未运行** |
+| [2026-10-23 P2d.1 + G0 跨分支复核（当前）](reports/p2d1_g0_cross_branch_review_20261023/README.md) | 读取分支的真实结果，区分 evaluator v2、元数据未被模型读取及方法结论边界 | 已完成静态分析；非新实验 |
+| [G1关系通道×FK Instance保真](plans/g1_relation_channel_and_fk_instance_gate_20261023.md) | 8次合成前向/多种edge_type/rel_attr对照、同义重标记不变性、FK Role Label Gate及Go/No-go | 2026-10-23完成；按原门槛 G1-A NO-GO，见G1报告 |
 | [2026-10-24全局实验复核与G1结构对称性分析](reports/current_results_review_20261024/README.md) | 从P1/P2到G1/G2及FK Instance Gate结果、失败机制和下一步 | **静态复核附Gate结果更新** |
 | [G2非对称关系通道识别实验](plans/g2_asymmetric_relation_channel_identifiability_20261024.md) | 新synthetic fixture、CPU多重集合强Gate、8次前向、FK Instance质量工作包 | **2026-10-24完成；G2-A PASS；报告在研究分支** |
 | [G2非对称关系通道实验报告](reports/g2_asymmetric_relation_20261024_01/README.md) | 预注册、CUDA首次启动故障与修复、CPU Gate、8条件结果与结论边界 | **G2-A PASS；branch commit `d234507`** |
