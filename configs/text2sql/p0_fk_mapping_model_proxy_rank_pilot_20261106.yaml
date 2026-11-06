@@ -1,0 +1,51 @@
+experiment_id: p0_fk_mapping_model_proxy_rank_pilot_20261106_01
+level: exploratory_model_proxy_only
+seed: 20261106
+split:
+  method: sha256_seed_and_question_key_hash
+  smoke_questions: 5
+  exclude_all_smoke_question_pairs_from_full: true
+  full_pairs_expected: 55
+  full_adjudicable_expected: 51
+  full_distinguishable_expected: 38
+  anonymous_databases_expected: 4
+models:
+  g_reasoner:
+    name: rmanluo/G-reasoner-34M
+    revision: a3a4ed2c62281e1c3e0551bd42f2072d9204674f
+    weights_sha256: 2f2a1a2d2f5725133428941b785f3898255666b06041b58420f75e60599d387d
+    config_sha256: 75d14b97d6a077ebc17b09a21170a3d9272251db59f7ac8cc853165efb2efd5
+    dimension: 1024
+  embedding:
+    name: Qwen/Qwen3-Embedding-0.6B
+    local_snapshot: /mnt/liansp3/sources/models/qwen3-embedding-0.6b
+    dimension: 1024
+    normalize: true
+    query_instruction: "Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery: "
+    passage_instruction: null
+methods:
+  primary: [reified_g_reasoner, dense_cosine]
+  secondary: [bm25_okapi, stable_mapping_id_order]
+  bm25:
+    k1: 1.5
+    b: 0.75
+  tie_break: mapping_id_ascending
+metrics:
+  primary: accepted_at_1_distinguishable_full
+  secondary: [accepted_at_3, mrr_first_accepted, accepted_at_1_adjudicable_full, paired_rescue_damage]
+  proxy_consensus:
+    exact_decision_and_accepted_mapping_set: true
+    min_supporter_confidence: 2
+    minimum_supporting_models: 2
+resource_budget:
+  gpu_count: 1
+  max_gpu_memory_bytes: 1073741824
+  max_rss_bytes: 8589934592
+  max_wall_seconds: 1200
+run_ids:
+  smoke: p0_fk_mapping_model_proxy_rank_pilot_20261106_smoke_001
+  full: p0_fk_mapping_model_proxy_rank_pilot_20261106_full_001
+private_inputs:
+  source: locally_stored_blind_review_packet_and_three_model_outputs
+  question_text_or_case_ids_in_repository: false
+  raw_outputs_in_repository: false
