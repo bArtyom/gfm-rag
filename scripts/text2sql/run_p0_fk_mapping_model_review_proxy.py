@@ -97,6 +97,8 @@ def build_messages(item: dict[str, Any]) -> list[dict[str, str]]:
         "for cannot_determine or no_declared_fk return an empty ID list. "
         "confidence must be integer 1, 2, or 3. rationale_code must be question_explicit, context_supports, "
         "role_ambiguity, schema_conflict, or other. Do not include explanations or markdown fences."
+        " Every review unit in this packet lists at least two declared mappings. Therefore no_declared_fk is "
+        "not an applicable decision here; do not select it."
     )
     mappings = "\n".join(f"- {m['mapping_id']}: {m['expression']}" for m in item["mappings"])
     user = (
