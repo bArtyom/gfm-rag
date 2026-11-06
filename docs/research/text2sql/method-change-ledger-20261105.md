@@ -73,6 +73,14 @@ G2 只改变合成拓扑以打破上述对称：两个关系角色分别走 `0�
 
 **结果与边界：** 60/60 对目标表对都不在对应参考 SQL 的已解析显式 `JOIN ON` 等式中；76/76 个限定 JOIN 等式解析且作用域错误为0。两种 matcher 在60/60上一致且都无 mapping ID。故 0/5 的直接原因是这批问题×表对与显式 SQL-used 评测目标不对齐，而不是两套身份 matcher 不一致。本审计没有 G-reasoner/Dense 排名指标，也不能判断这些表对是否通过 WHERE、USING 或其他 SQL 结构关联。停止复用这批样本。详见[报告](reports/p0_fk_candidate_sql_identity_alignment_20261107_01/README.md)。
 
+### P0：SQL-used FK mapping 独立注册 03（2026-11-07）
+
+**原排序方法：** 冻结 G-reasoner-34M 在显式 FK mapping 候选图上传播；Dense cosine 复用同一 Qwen3-Embedding-0.6B 向量。前序 7/38 对 27/38 的对照使用三模型代理语义标签，但这些代理不是人工 Role 真值；本注册不改图、编码器、checkpoint、消息传递、排序公式或训练。
+
+**本次实际改动：** 只更换评测样本与目标：从参考 SQL 中已解析的显式 `JOIN ON` 表对重新筛选新样本，把 SQL-used 完整 FK mapping 当离线标签；同时按用户要求让两名本地 Qwen 模型作盲审次要代理。Smoke/Full 由新 experiment ID 确定，排除原60题审阅包。
+
+**结果与边界：** CPU 标签门通过，5题 Smoke +108题 Full、覆盖4个匿名数据库，候选覆盖174/176。A/B 各有5/5有效输出，但只有2/5高置信精确一致，未达4/5门，模型审阅 Full 停止。随后 G-reasoner Smoke 在模型导入前因 CPU manifest 缺少运行器要求的样本计数键而停止；没有 embedding/GFM 前向或排名指标。这是实现契约错误，不是模型正负结果。按连续工程错误暂停规则不重用失败 run ID。详见[独立报告](reports/p0_fk_sql_used_mapping_rank_20261107_03/README.md)和[匿名聚合](reports/p0_fk_sql_used_mapping_rank_20261107_03/aggregate_summary.json)。
+
 ### FK 结构 Gate 与身份政策
 
 对11个 BIRD dev SQLite schema 的结构审计得到103条原始 FK、100条有效、3条无效。100条有效声明中有一对结构完全重复，因此内容唯一 mapping 是99个。映射级身份方案保留99个唯一映射、198条方向边，并另存1个重复声明的 multiplicity；声明 multiset 方案保留100个 ID、200条方向边，但完全重复项的出现序号不能稳定绑定回具体 PRAGMA 组。原 Gate 因身份碰撞仍为 NO-GO；这解决的是“如何表示重复映射”，没有生成角色标签。
