@@ -19,9 +19,9 @@ import sqlglot
 from sqlglot import exp
 from sqlglot.optimizer.scope import Scope, traverse_scope
 
-EXPERIMENT_ID = "gfm_minidev_schema_retrieval_transfer_20261106_01"
+EXPERIMENT_ID = "gfm_minidev_schema_retrieval_transfer_20261106_02"
 EXPECTED_QUESTIONS_SHA256 = "926af2a0d1b47e5d0d15a7aa8a34d4721007f4550a881555b6a89496b54a2606"
-EXPECTED_SCHEMA_SHA256 = "5176e324a72e80a8a37a12285596d123e0ba6c310dceaa9f13e1a413ee88ff5b"
+EXPECTED_SCHEMA_SHA256 = "5176e324a72e80a8a37a12285596d123e0ba6c310dceaa9f13a1e413ee88ff5b"
 MIN_PARSE_COVERAGE = 0.98
 MIN_TABLE_LABELED = 495
 MIN_FULL_TABLE_LABELED = 490
@@ -327,6 +327,13 @@ def main() -> None:
     parser.add_argument("--expected-commit", required=True)
     args = parser.parse_args()
 
+    if (
+        Path(sys.prefix).name != "think2sql_20260909"
+        or platform.python_version() != "3.12.14"
+        or sqlglot.__version__ != "28.0.0"
+    ):
+        raise RuntimeError("CPU label audit requires think2sql_20260909, Python 3.12.14, and SQLGlot 28.0.0")
+
     started_wall = time.perf_counter()
     started_cpu = time.process_time()
     source_commit = git_output("rev-parse", "HEAD")
@@ -463,11 +470,15 @@ def main() -> None:
     write_json(args.output_dir / "cpu_label_audit.json", audit)
     preparation_manifest = {
         "experiment_id": EXPERIMENT_ID,
-        "run_id": "gfm_minidev_schema_retrieval_transfer_20261106_labels_001",
+        "run_id": "gfm_minidev_schema_retrieval_transfer_20261106_labels_002",
         "source_commit": source_commit,
         "source_tree": source_tree,
         "command_argv": [sys.executable, *sys.argv],
-        "environment": {"python": platform.python_version(), "sqlglot": sqlglot.__version__},
+        "environment": {
+            "conda_environment": Path(sys.prefix).name,
+            "python": platform.python_version(),
+            "sqlglot": sqlglot.__version__,
+        },
         "resources_preflight": {
             "captured_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "nvidia_smi": command_output([

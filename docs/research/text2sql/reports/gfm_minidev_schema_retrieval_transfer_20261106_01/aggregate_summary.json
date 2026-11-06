@@ -1,0 +1,23 @@
+{
+  "experiment_id": "gfm_minidev_schema_retrieval_transfer_20261106_01",
+  "run_id": "gfm_minidev_schema_retrieval_transfer_20261106_labels_001",
+  "status": "STOP_INPUT_HASH_MISMATCH",
+  "failure_stage": "pre-parse input verification",
+  "dataset_question_count": 500,
+  "database_count": 11,
+  "question_hash_match": true,
+  "schema_hash_match": false,
+  "schema_hash_expected": "5176e324a72e80a8a37a12285596d123e0ba6c310dceaa9f13e1a413ee88ff5b",
+  "schema_hash_observed": "5176e324a72e80a8a37a12285596d123e0ba6c310dceaa9f13a1e413ee88ff5b",
+  "sql_parse_count": 0,
+  "label_count": 0,
+  "model_loaded": false,
+  "gpu_forward_count": 0,
+  "external_inference_api_calls": 0,
+  "local_model_input_tokens": 0,
+  "local_model_output_tokens": 0,
+  "metrics": null,
+  "hypothesis_tested": false,
+  "rerun_same_run_id": false,
+  "contains_private_questions_sql_evidence_or_predictions": false
+}

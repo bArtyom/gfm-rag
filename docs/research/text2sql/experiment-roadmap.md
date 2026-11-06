@@ -190,6 +190,10 @@ $$
 
 ### 2026-11-06 Mini-Dev 2026 reviewed Schema 检索迁移筛查
 
+首次登记 `_01` 在读取问题和 schema 文件哈希时停止：question 哈希匹配，SQLite schema 的配置摘要误录；同时发现 `conda run -n ... python3` 解析到 Python 3.9.20。SQL 解析、标签、向量和模型都未启动。原始记录见[报告 `_01`](reports/gfm_minidev_schema_retrieval_transfer_20261106_01/README.md)。
+
+Amendment 001 注册了独立 `_02`，修正观察到的 schema 哈希并分开 CPU/GPU 环境：CPU 标签使用 `think2sql_20260909` / Python 3.12.14 / SQLGlot 28.0.0；模型运行使用 `gfmrag_greasoner_20261022` / Python 3.12.15。研究问题和指标不变。Recovery CPU 标签审计尚未运行。见[amendment](plans/gfm_minidev_schema_retrieval_transfer_20261106_amendment_001.md)和[配置 `_02`](../../../configs/text2sql/gfm_minidev_schema_retrieval_transfer_20261106_02.json)。
+
 模型代理 FK 排序已完成且为 NO-GO；同一代理标签上的调参、增加审阅模型或图结构扫描均停止。原 BIRD-dev 全 Schema 检索尝试在模型加载前停止，没有科学结果；其恢复额度已用完。本项使用 BIRD Mini-Dev 2026 reviewed release 的新问题集合，回答一个不同于已知表对内 FK 排序的筛选问题：冻结 G-reasoner 是否改善整库表/列召回。由于数据库仍是原有 11 库，本项只算 query-set transfer，不能写成跨库独立复现或算法新颖性结果。
 
 近期相关工作已覆盖通用 Schema linking 和图结构扩展（Rethinking Schema Linking、Graph-Link、REaR、DSR-SQL、MDB-Link），通用静态错误诊断与 SQL 修复也由 Post-SQLFix 和 SCOPE-SQL 研究；本实验只验证 checkpoint transfer。比较 D0 Dense、G1 Top-1 graph anchors、G3 Top-3 graph anchors；Gold 由参考 SQL 静态解析，`evidence` 与 SQL 不进入模型特征。CPU 标签门先于任何 GPU/模型载入；随后 5 题/5 库 Smoke，成功才运行剩余 495 题一次 Full。G3 需要同时达到 Column R@10 +2pp、数据库簇 bootstrap CI 下界 >0、相对 G1 +1pp，且 Table R@10 下降不超过1pp；失败即停止。

@@ -26,7 +26,7 @@ MAX_GPU_BYTES = 8 * 1024**3
 MAX_RSS_BYTES = 8 * 1024**3
 BOOTSTRAP_DRAWS = 10_000
 BOOTSTRAP_SEED = 20261106
-EXPERIMENT_ID = "gfm_minidev_schema_retrieval_transfer_20261106_01"
+EXPERIMENT_ID = "gfm_minidev_schema_retrieval_transfer_20261106_02"
 QUERY_INSTRUCTION = (
     "Instruct: Given a web search query, retrieve relevant passages that answer the query\n"
     "Query: "
@@ -426,6 +426,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         }
         expected_versions = {key: value for key, value in EXPECTED.items() if key in actual_versions}
         require(actual_versions == expected_versions, "Model environment versions differ from the frozen environment")
+        require(Path(sys.prefix).name == "gfmrag_greasoner_20261022", "Model run requires gfmrag_greasoner_20261022")
         require(torch.cuda.is_available() and torch.cuda.device_count() == 1, "Exactly one visible CUDA device is required")
         device = torch.device(args.device)
         torch.cuda.set_device(device)
@@ -437,6 +438,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         selected_questions, nodes, schemas, audit, preparation_manifest = read_private_inputs(
             args.prepared_dir.resolve(strict=True), args.mode, commit
         )
+        require(audit["input_sha256"]["questions"] == config["dataset"]["question_sha256"], "Question input hash differs from recovery config")
+        require(audit["input_sha256"]["sqlite_schema"] == config["dataset"]["sqlite_schema_sha256"], "Schema input hash differs from recovery config")
         if smoke_summary is not None:
             require(smoke_summary.get("prepared_audit_sha256") == sha256_file(args.prepared_dir / "cpu_label_audit.json"), "Smoke and Full prepared inputs differ")
         shared_root = os.environ.get("GFM_SHARED_CODE_ROOT")

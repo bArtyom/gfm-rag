@@ -1,0 +1,169 @@
+{
+  "experiment_id": "gfm_minidev_schema_retrieval_transfer_20261106_02",
+  "status": "preregistered_not_run",
+  "layer": "exploratory frozen-checkpoint query-set transfer screen",
+  "repository": "https://github.com/bArtyom/gfm-rag",
+  "branch": "research/gfm-minidev-schema-retrieval-20261106",
+  "base_commit": "719efad69fd6adf88d138c3f86b263a8d0dce799",
+  "recovery_of": "gfm_minidev_schema_retrieval_transfer_20261106_01",
+  "recovery_reason": "The first registration stopped before parsing because its frozen schema SHA-256 was mistyped and its launcher resolved Python 3.9. This registration pins the observed input hash, uses the existing SQL CPU environment for labels, and invokes explicit interpreters for both stages.",
+  "dataset": {
+    "name": "BIRD Mini-Dev 2026 reviewed SQLite",
+    "license": "CC BY-SA 4.0",
+    "hub_repository": "birdsql/bird_mini_dev",
+    "hub_revision": "38818fcbc46038129592680c51b2c8b597aac27c",
+    "manifest_release": "Mini-Dev 1024",
+    "manifest_revision": "colleague_review_fixes_20261025",
+    "questions": 500,
+    "databases": 11,
+    "question_sha256": "926af2a0d1b47e5d0d15a7aa8a34d4721007f4550a881555b6a89496b54a2606",
+    "sqlite_schema_sha256": "5176e324a72e80a8a37a12285596d123e0ba6c310dceaa9f13a1e413ee88ff5b",
+    "question_source_alias": "sources/datasets/bird_mini_dev_2026_reviewed/mini_dev_sqlite.jsonl",
+    "schema_source_alias": "sources/datasets/bird_mini_dev_2026_reviewed/sqlite_schema.json",
+    "features_use_question_evidence": false,
+    "scope": "same 11 databases as earlier BIRD resources; query-set transfer only"
+  },
+  "core_hypothesis": "Frozen G-reasoner propagation from Dense Top-3 table and column anchors improves Column Recall@10 on the 2026 human-reviewed Mini-Dev question release over matched Dense cosine and the Top-1-anchor G-reasoner condition without materially reducing Table Recall@10.",
+  "conditions": {
+    "D0": {"scorer": "Qwen3 dense cosine", "start_nodes": null},
+    "G1": {"scorer": "frozen G-reasoner", "dense_anchor_top_k_per_type": 1},
+    "G3": {"scorer": "frozen G-reasoner", "dense_anchor_top_k_per_type": 3}
+  },
+  "feature_contract": {
+    "query_text": "raw current question only; no evidence, SQL, or dialogue context",
+    "query_instruction": "Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery: ",
+    "schema_node_text": "DDL-only table name; column name, declared type, and owning table name for columns; no Values or database rows",
+    "relation_texts": [
+      "Relation: table contains column.",
+      "Relation: column belongs to table."
+    ],
+    "graph_nodes": "database-local table and column nodes",
+    "graph_edges": [
+      {"source": "table", "target": "column", "relation_id": 0},
+      {"source": "column", "target": "table", "relation_id": 1}
+    ],
+    "excluded_from_features_and_masks": [
+      "Gold table and column labels",
+      "Gold SQL",
+      "BIRD evidence",
+      "database rows",
+      "foreign-key edges",
+      "business-role annotations",
+      "model-review proxy outputs"
+    ],
+    "gold_read_policy": "GPU runner loads private Gold labels only after prediction rankings are fixed and written"
+  },
+  "labels": {
+    "source": "reference SQL in the pinned reviewed release",
+    "parser": "SQLGlot SQLite AST with scope-aware physical table/column resolution",
+    "unresolved_or_ambiguous_columns": "exclude the entire question from column metrics and report the count",
+    "wildcard_only_or_using_join": "table labels retained; column-ineligible",
+    "model_review_used_for_labels": false
+  },
+  "split": {
+    "smoke_questions": 5,
+    "smoke_databases": 5,
+    "selection": "stable SHA-256 ordering by experiment id, db_id, and source question key, at most one question per database",
+    "full_questions": 495,
+    "smoke_excluded_from_full": true
+  },
+  "label_gates_before_model_load": {
+    "sql_parse_coverage_minimum": 0.98,
+    "table_labeled_questions_minimum": 495,
+    "full_column_eligible_questions_minimum": 450,
+    "full_table_labeled_questions_minimum": 490,
+    "full_database_clusters_minimum": 11,
+    "smoke_table_labeled_questions_minimum": 5,
+    "smoke_column_eligible_questions_minimum": 4,
+    "fail_action": "stop after CPU-only audit; no Qwen/G-reasoner load"
+  },
+  "metrics": {
+    "primary": "query-macro Column Recall@10 on eligible Full questions",
+    "secondary": [
+      "Table Recall@5",
+      "Table Recall@10",
+      "Column Recall@5",
+      "Column Recall@20",
+      "Column Precision@10",
+      "per-database rescue and damage"
+    ],
+    "bootstrap": {"unit": "database cluster", "draws": 10000, "seed": 20261106}
+  },
+  "success_criteria": {
+    "G3_minus_D0_column_recall_at_10_minimum_pp": 2.0,
+    "G3_minus_D0_database_cluster_bootstrap_95ci_lower_bound": "> 0",
+    "G3_minus_G1_column_recall_at_10_minimum_pp": 1.0,
+    "G3_minus_D0_table_recall_at_10_minimum_pp": -1.0,
+    "all_conditions_required": true,
+    "pass_means": "eligible only for a separately registered independent-database replication design"
+  },
+  "resource_budget": {
+    "gpu": "one idle RTX 4090; explicitly pin one physical GPU",
+    "max_gpu_allocated_gib": 8,
+    "cpu_threads": 8,
+    "max_process_rss_gib": 8,
+    "max_process_cpu_seconds_per_stage": 900,
+    "max_wall_seconds_per_stage": 1200,
+    "external_api_requests": 0,
+    "dependency_install_or_upgrade": false,
+    "training_or_finetuning": false,
+    "sql_execution": false
+  },
+  "models": {
+    "embedding": {
+      "name": "Qwen3-Embedding-0.6B",
+      "dimension": 1024,
+      "weight_sha256": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd",
+      "file_manifest_sha256": "b89ec1366231e37e92c64eaff3f98edce0f0c6af15cc8c7991ed900520143c68",
+      "file_manifest_source_alias": "quadgraph_20261014_p0_model_files_sha256",
+      "path_alias": "sources/models/qwen3-embedding-0.6b"
+    },
+    "g_reasoner": {
+      "name": "G-reasoner-34M",
+      "parameters": 34640897,
+      "model_pth_sha256": "2f2a1a2d2f5725133428941b785f3898255666b06041b58420f75e60599d387d",
+      "config_sha256": "75d14b97d6a077ebc17b09a21170a3ad9272251db59f7ac8cc853165efb2efd5",
+      "layers": 6,
+      "modified_or_trained": false,
+      "path_alias": "sources/models/g-reasoner-34m"
+    },
+    "upstream_repository": "https://github.com/RManLuo/gfm-rag",
+    "upstream_commit": "b3e43219c49929da505244df4f0ba54c0947e4c4",
+    "upstream_license": "Apache-2.0"
+  },
+  "environments": {
+    "cpu_label_audit": {
+      "conda_environment": "think2sql_20260909",
+      "python": "3.12.14",
+      "sqlglot": "28.0.0"
+    },
+    "model_runs": {
+      "conda_environment": "gfmrag_greasoner_20261022",
+      "python": "3.12.15",
+      "pytorch": "2.8.0",
+      "torch_geometric": "2.6.1",
+      "transformers": "4.56.1",
+      "sentence_transformers": "5.1.1"
+    }
+  },
+  "run_ids": {
+    "label_audit": "gfm_minidev_schema_retrieval_transfer_20261106_labels_002",
+    "smoke": "gfm_minidev_schema_retrieval_transfer_20261106_smoke_002",
+    "full": "gfm_minidev_schema_retrieval_transfer_20261106_full_002"
+  },
+  "private_output_aliases": {
+    "prepared": "sources/results/gfmrag_minidev_schema_retrieval_20261106_02/prepared_002",
+    "smoke": "sources/results/gfmrag_minidev_schema_retrieval_20261106_02/smoke_002",
+    "full": "sources/results/gfmrag_minidev_schema_retrieval_20261106_02/full_002",
+    "logs": "logs/gfmrag_minidev_schema_retrieval_20261106_02/"
+  },
+  "report_path": "docs/research/text2sql/reports/gfm_minidev_schema_retrieval_transfer_20261106_02/README.md",
+  "stop_conditions": [
+    "input or model hash mismatch",
+    "CPU parse/label quality gate failure",
+    "question, evidence, Gold SQL, or Gold labels enter model features or anchor masks",
+    "invalid membership graph or non-finite vector/score",
+    "Smoke gate failure or resource cap breach",
+    "Full completion; no additional K, seed, graph, relation-text, checkpoint, or prompt scan"
+  ]
+}
