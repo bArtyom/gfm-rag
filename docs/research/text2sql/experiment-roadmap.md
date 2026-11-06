@@ -187,9 +187,8 @@ $$
 ### 2026-11-06 模型代理映射排序诊断已预注册
 
 单独的 exploratory 分支 `research/p0-model-proxy-rank-pilot-20261106` 已完成一次冻结 G-reasoner FK mapping 排序诊断。唯一主比较为共用 Qwen3 Query/mapping vectors 的 G-reasoner 对 Dense Cosine；BM25 和稳定 mapping-ID 顺序是次级控制。5题 Smoke 通过；排除 Smoke 后，Full 为55对、51个可裁定、38个可区分、4个匿名数据库。首次 Smoke_001 在模型加载前发现一条 `<br>`/换行序列化差异并停止；Smoke_002 与 Full_002 在预注册的唯一规范化修正后完成。主 Accepted@1 为 G-reasoner 7/38（18.42%），Dense 27/38（71.05%），差−52.63 pp；净救回−20，4库均为负，排除异常项后的差值−54.05 pp。所有正向门失败，按停止条件标记 `NO-GO`，不追加同一代理标签的图变体或调参。模型代理标签不是人类真值，可信人工 Role 标签仍为0。见[预注册方案](plans/p0_fk_mapping_model_proxy_rank_pilot_20261106.md)、[完整报告](reports/p0_fk_mapping_model_proxy_rank_pilot_20261106_01/README.md)和[匿名聚合结果](reports/p0_fk_mapping_model_proxy_rank_pilot_20261106_01/aggregate_summary.json)。
+## 2026-11-06 G3：起点敏感性机制诊断（预注册）
 
-## 2026-11-06 G3: seed-direction sensitivity diagnostic (preregistered)
+模型代理 Accepted@1 Pilot 已按原计划完成并为 NO-GO；同一标签上不得继续调参或挑图结构。当前只保留一个不同问题的有限机制核查：在完全相同的 55 个 Full 问题×表对和 FK mapping 候选上，比较两个端点同时为 query seed、仅第一个端点为 seed、仅第二个端点为 seed。审阅标签和 Gold SQL 不读取，指标仅为 seed 条件间的 Top-1 变化率与候选对顺序反转率。
 
-After the model-proxy Accepted@1 pilot ended NO-GO, the same labels will not be used for more tuning or graph variants. One limited mechanism check compares the same 55 Full question/table-pairs and FK candidates under both-endpoint seeds, first-endpoint-only seeds, and second-endpoint-only seeds. It does not load review labels or Gold SQL; its metrics are only top-1 changes and candidate-pair order reversals.
-
-This exploratory diagnosis does not measure Role Accuracy, method quality, or a paper-main result. A ranking change cannot tell which condition is correct. See the [G3 plan](plans/g3_fk_seed_direction_sensitivity_20261106.md) and [frozen config](../../../configs/text2sql/g3_fk_seed_direction_sensitivity_20261106.yaml). Run one 5-pair Smoke followed by one 55-pair Full only if Smoke passes, then stop this branch; accuracy still requires trusted labels.
+这是基于现有报告提出的探索性机制诊断，不是 Role Accuracy、方法改进或论文主线结果；无论排序变化与否，都不能判定正确性。计划：[G3 方案](plans/g3_fk_seed_direction_sensitivity_20261106.md)，配置：[G3 冻结配置](../../../configs/text2sql/g3_fk_seed_direction_sensitivity_20261106.yaml)。执行规则为 5 对 Smoke 通过后运行一次 55 对 Full；之后停止该支线，真实准确率仍需可信标签。
