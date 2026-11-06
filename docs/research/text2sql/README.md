@@ -191,3 +191,5 @@ G2、FK Gate、身份策略、G0及P0复核均各自保留运行ID与结果，�
 
 
 > **2026-11-06 第三模型审阅 GPU 失败与 CPU 恢复（完成）**：GPU 预注册运行在生成前失败，原因是 vLLM 环境的 PyTorch CUDA 13 与系统 CUDA 12.4 驱动不兼容；第一次 conda run 还曾解析到 Python 3.9，未产生任何模型 token。没有升级驱动或依赖。独立 CPU 恢复使用同一 Gemma4 checkpoint、冻结样本与标签门，Smoke 5/5、Full 60/60。三方高置信精确多数56个、可区分41个，覆盖4库；仍为模型代理标签，可信人工 Role 标签为0。排除固定问题级 Smoke 后，模型代理排序门剩51个可裁定、38个可区分、覆盖4库，允许另行注册一次探索性排序诊断。见[GPU失败记录](reports/p0_fk_mapping_model_review_third_proxy_gpu_20261106_01/README.md)、[CPU恢复报告](reports/p0_fk_mapping_model_review_third_proxy_cpu_20261106_01/README.md)和[恢复预注册](plans/p0_fk_mapping_model_review_third_proxy_cpu_20261106.md)。
+
+G3 checkpoint: preregistered a no-label seed-direction sensitivity diagnostic after the proxy-label ranking NO-GO. This is not an accuracy test and does not reuse reviewer labels. See the [G3 plan](plans/g3_fk_seed_direction_sensitivity_20261106.md) and [frozen config](../../../configs/text2sql/g3_fk_seed_direction_sensitivity_20261106.yaml). Smoke and Full have not run yet.
