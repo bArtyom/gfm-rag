@@ -4,7 +4,7 @@
 
 ## 先说结论
 
-目前没有改 QuadGraph/G-reasoner 的核心图消息传播算法、模型权重或训练目标。已完成的大部分 Text2SQL 对照使用 Qwen3-Embedding-0.6B 对表/列文本做稠密检索；主要变化发生在向量维度、候选排序、字段文本、返回上下文长度，以及 P2d.3 的一次 SQL 修复流程。G0/G1/G2 是小型合成图的 FK 实例表示与关系输入敏感性实验，没有接入真实 BIRD 查询的 G-reasoner 准确率评测。P2d.3 Full 已完成并判为 NO-GO；它验证了 authorizer 的越界阻断，但没有达到受限修复的准确率增益门槛。
+目前没有改 QuadGraph/G-reasoner 的核心图消息传播算法、模型权重或训练目标。已完成的大部分 Text2SQL 对照使用 Qwen3-Embedding-0.6B 对表/列文本做稠密检索；主要变化发生在向量维度、候选排序、字段文本、返回上下文长度，以及 P2d.3 的一次 SQL 修复流程。G0/G1/G2 是小型合成图的 FK 实例表示与关系输入敏感性实验；G3 把同一冻结 G-reasoner 用于真实 BIRD dev 的条件式候选图，但只变更 query seed mask。G3 发现部分排序受起点影响，但预设机制门为 INCONCLUSIVE；没有正确性标签，不能宣称图传播或方法变好。P2d.3 Full 已完成并判为 NO-GO；它验证了 authorizer 的越界阻断，但没有达到受限修复的准确率增益门槛。
 
 因此，目前最有证据的正向结果是 **P2c-R 在固定预算下提高离线 Schema 节点覆盖**。它还没有证明 SQL Set EX、JOIN 角色准确率或图推理提升。
 
@@ -52,6 +52,12 @@
 G1 固定 checkpoint、Query、起点和五节点合成图，分别扰动 metadata、`edge_type`、`rel_attr`、一致 ID 重标、起点与 Query。G1 的两条关系边同源同目标，交换关系后送入每个目标的消息多重集合没有变化；置换不变的 sum 等聚合自然可能输出不变。因此 C2/C3 的 delta=0 使 G1 预注册门 NO-GO，但不能据此说模型不读关系通道。
 
 G2 只改变合成拓扑以打破上述对称：两个关系角色分别走 `0→1` 和 `0→4`，同时保留反向边及 FK instance 结构。官方 checkpoint 对关系 ID/关系向量干预的分数变化分别为0.7588和3.7813；metadata-only 负控与同步语义重标保持0。G2-A PASS 仅表示此非对称 fixture 上分数对关系输入敏感，所有条件的 top-1 都未改变；没有真实 JOIN 角色准确率或 SQL EX。
+
+### G3：固定 FK 候选图上的起点敏感性
+
+**原始 QuadGraph 机制：** 查询先取得图中的 query-linked entity/start node，再由 G-reasoner 沿关系传播并给节点打分。**此前的 Text2SQL 适配：** 已知表对的两个表端点都标为 seed，FK mapping 节点通过四条有向边连到端点；这只是给定表对后的 mapping 诊断，不是论文的端到端实体发现。**G3 实际改动：** A0 保持双端 seed，A1 只 seed 稳定字典序第一端，A2 只 seed 第二端；只改 `start_nodes_mask`。Query/mapping/table/relation embeddings、mapping 候选、图边、G-reasoner checkpoint、参数和排序 tie-break 全部冻结，没有改 GNN、训练或 loss。
+
+**结果：** Full 55 对、123 个候选。A1 相对 A0 改变 Top-1 4/55（7.27%），反转候选对6/81（7.41%）；A2 为6/55（10.91%）和7/81（8.64%）。A0 重复误差0、最高分并列0。信号门要求同一条件同时达到 Top-1 改变≥20%及候选对反转≥10%；无实质影响门要求两单端条件两项指标都≤5%。本次两门都未满足，判定 `INCONCLUSIVE` 并停止。因为没有读人工/模型审阅标签，不能知道任何变化是纠正还是损坏；这不是准确率或方法收益。详见[G3完整报告](reports/g3_fk_seed_direction_sensitivity_20261106_01/README.md)。
 
 ### FK 结构 Gate 与身份政策
 
