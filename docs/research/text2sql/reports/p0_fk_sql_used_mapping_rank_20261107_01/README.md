@@ -1,6 +1,6 @@
 # P0 SQL-used FK mapping rank：执行报告
 
-**状态：`STOPPED_BEFORE_PARSE`。** 本报告记录预注册实验在输入完整性门失败后的结果，不是 G-reasoner 排序结果。没有读入或解析题目、SQL、schema 内容，没有建立样本，也没有运行模型审阅或排名。
+**状态：`STOPPED_BEFORE_PARSE`。** 本报告记录预注册实验在输入完整性门失败后的结果，不是 G-reasoner 排序结果。冻结文件只被读取以计算 SHA-256；未反序列化数据集、未读取题目或 SQL 字段、未解析 SQL/schema，也没有建立样本或运行模型审阅与排名。
 
 ## 研究问题与预注册判据
 
