@@ -16,17 +16,24 @@ from typing import Any
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-LEDGER_ROOT = Path("/mnt/liansp3/sources/code")
-if str(LEDGER_ROOT) not in sys.path:
-    sys.path.insert(0, str(LEDGER_ROOT))
-from api_usage_ledger import record_request  # noqa: E402
-
-
 CASE_RE = re.compile(r"(?m)^## Case ([A-Za-z0-9_-]+)\s*$")
 PAIR_RE = re.compile(r"(?m)^### Pair ([A-Za-z0-9_-]+): (.+?)\s*$")
 MAPPING_RE = re.compile(r"(?m)^\|\s*(M[0-9A-F]+)\s*\|\s*(.*?)\s*\|\s*$")
 DECISIONS = {"single_mapping", "multiple_mappings", "cannot_determine", "no_declared_fk", "other"}
 RATIONALES = {"question_explicit", "context_supports", "role_ambiguity", "schema_conflict", "other"}
+
+
+def ledger_record_request(**kwargs: Any) -> None:
+    """Load the shared private ledger from an environment-configured local directory."""
+    ledger_dir = os.environ.get("GFM_SHARED_CODE_ROOT")
+    if not ledger_dir or not Path(ledger_dir).is_dir():
+        raise RuntimeError("set GFM_SHARED_CODE_ROOT to the local shared-code directory")
+    ledger_root = Path(ledger_dir)
+    if str(ledger_root) not in sys.path:
+        sys.path.insert(0, str(ledger_root))
+    from api_usage_ledger import record_request
+
+    record_request(**kwargs)
 
 
 def parse_packet(path: Path) -> tuple[list[dict[str, Any]], str]:
@@ -256,7 +263,7 @@ def main() -> None:
                 valid, invalid_reason = validate_answer(answer, ordered_item)
                 input_tokens_total += prompt_count
                 output_tokens_total += completion_count
-                record_request(
+                ledger_record_request(
                     call_id=call_id,
                     provider="local_transformers",
                     project="gfm-rag",
@@ -283,7 +290,7 @@ def main() -> None:
                     "generation_seconds": round(time.perf_counter() - request_started, 6),
                 }
             except Exception as error:
-                record_request(
+                ledger_record_request(
                     call_id=call_id,
                     provider="local_transformers",
                     project="gfm-rag",

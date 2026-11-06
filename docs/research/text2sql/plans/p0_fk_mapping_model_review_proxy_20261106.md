@@ -1,6 +1,6 @@
 # P0 FK mapping 双本地模型审阅代理实验
 
-**状态：预注册；Smoke_001 失败、A1 后 Smoke_002 通过，进入 Full。** 实验 ID：`p0_fk_mapping_model_review_proxy_20261106_01`。本计划是用户明确选择模型审阅后新增的独立探索轨道，不修改原双人盲审方案、CSV 或其“可信人工标签为 0”的结论。
+**状态：Full 完成；模型代理标签数量门未通过，停止后续排序。** 实验 ID：`p0_fk_mapping_model_review_proxy_20261106_01`。本计划是用户明确选择模型审阅后新增的独立探索轨道，不修改原双人盲审方案、CSV 或其“可信人工标签为 0”的结论。
 
 ## 研究问题与假设
 
@@ -21,6 +21,7 @@
 ## 冻结输入与盲法
 
 - 输入只来自本地私有审阅包 `sources/results/gfmrag_p0_fk_mapping_pair_level_blind_review_20261106_01/full_001/reviewer_{A,B}_packet.md`。A、B 的案例与候选显示顺序各自冻结；Reviewer A 用模型一，Reviewer B 用模型二。两个进程互不读取对方输出。
+- 表对由参考 SQL 的 JOIN 派生；模型不见 SQL，但该设置只评价已知表对条件下的 mapping 审阅，不是端到端 Gold-free 任务。
 - 两模型只见自然语言问题、表对名称和完整 FK mapping 表达式及匿名 mapping ID；不提供 Gold SQL、参考 JOIN/ON、数据库 ID、模型排名或原方法结果。
 - 提示要求逐个 mapping 判定、允许多映射接受集、返回决定类别/ID 集/自评置信度/理由码的 JSON。温度关闭，单案例独立上下文，每案例单次请求；无输出重试、无人工修订。
 - Smoke 使用 Full A 包前 5 个冻结案例，并在 Smoke 与 Full 中分目录重跑。两次运行各自计入本地 token 用量；Smoke 输出不混入 Full 统计。
@@ -29,8 +30,8 @@
 
 | 角色 | 本地模型 | 模型入口 | 环境 / GPU |
 |---|---|---|---|
-| A | Qwen2.5-Coder-7B-Instruct | `/mnt/liansp3/sources/models/qwen25-coder-7b` | `think2sql_20260909`，物理 GPU 1 |
-| B | Qwen3-4B-Think2SQL | `/mnt/liansp3/sources/models/qwen3-4b-think2sql` | `think2sql_20260909`，物理 GPU 2 |
+| A | Qwen2.5-Coder-7B-Instruct | `sources/models/qwen25-coder-7b` | `think2sql_20260909`，物理 GPU 1 |
+| B | Qwen3-4B-Think2SQL | `sources/models/qwen3-4b-think2sql` | `think2sql_20260909`，物理 GPU 2 |
 
 预检时 GPU 1 与 GPU 2 各有约 24 GiB 空闲显存；GPU 0 与 3 有其他进程占用，不使用。RAM 可用约 446 GiB，CPU 192 核。模型文件已在本地，不下载权重、不安装或升级依赖。执行前后记录 torch 峰值显存、进程耗时与 GPU 状态；不声称本地推理没有资源成本。
 
@@ -51,7 +52,7 @@
 ## 结果归档
 
 - 私有输入：`sources/results/gfmrag_p0_fk_mapping_pair_level_blind_review_20261106_01/full_001/`。
-- 新私有输出根：`sources/results/gfmrag_p0_fk_mapping_model_review_proxy_20261106_01/`；运行日志放入 `sources/logs/` 下独立目录。
+- 新私有输出根：`sources/results/gfmrag_p0_fk_mapping_model_review_proxy_20261106_01/`；运行日志位于 `logs/gfmrag_p0_fk_mapping_model_review_proxy_20261106_01/`。
 - 公开报告：`docs/research/text2sql/reports/p0_fk_mapping_model_review_proxy_20261106_01/README.md` 与匿名 `aggregate_summary.json`。
 - 源数据、模型文本输出、逐题标签和 Gold 相关内容不得提交。
 
@@ -62,3 +63,10 @@
 修订原因是提示没有明确声明当前 60 个冻结单元均为非空 FK 候选集。A1 仅补充一句约束：本包每个单元都列出至少两个 mapping，因此 `no_declared_fk` 不适用。模型、样本、候选次序、决策规则、置信度门、采样设置均不变。修订 Smoke 使用新 run ID `p0_fk_mapping_model_review_proxy_20261106_smoke_002`，仍只跑原冻结的 5 个 Smoke 单元；不读取旧 A/B 回复，不复用 `smoke_001` 输出。通过后才可跑独立 Full；Smoke_002 是最后一次提示调整。
 
 Smoke_002 已通过：两模型各 5/5 输出均通过 JSON 与候选语义校验。Full 使用相同 A1 提示、完整冻结的 60 个单元与独立 `full_001` 输出目录；不混用 Smoke 标签。
+
+## Full_001 执行后结果
+
+- Qwen2.5-Coder-7B-Instruct 有效 59/60；Qwen3-4B-Think2SQL 有效 58/60。双方均有效 57 个单元，其中决定与接受集合精确一致 28 个；28 个均达到双方置信度≥2。
+- 28 个模型共识单元可裁定；23 个至少拒绝一个 mapping，覆盖 4 个匿名数据库。预注册排序先决门要求≥30 个可裁定、≥20 个可区分、≥3 库。本次 23/20 与 4/3 两项通过，28/30 可裁定数量门失败。
+- 预注册结论：`STOP_INSUFFICIENT_MODEL_PROXY_LABELS`。不运行 G-reasoner/Dense 排序、不补样、不再调整提示。该门仅针对模型代理标签的独立探索路线，原真人双审门仍未满足。
+- Full 资源和 token 统计见[完整报告](../reports/p0_fk_mapping_model_review_proxy_20261106_01/README.md)及匿名[聚合结果](../reports/p0_fk_mapping_model_review_proxy_20261106_01/aggregate_summary.json)。

@@ -30,6 +30,8 @@
 
 > **2026-11-06 Pilot 输入语义澄清**：代码核对发现 G0 合成探针固定从 FK source table 起步，而真实表对的候选 FK 方向可能不同。为避免候选得到不同起点，条件式映射排序 Pilot 暂定将表对两个端点作为所有候选共享的 binary seeds；这不是官方端到端 NER/EL 流程，也未解除人工标签门。见[输入语义审计](plans/p0_fk_mapping_rank_pilot_input_semantics_audit_20261106.md)。
 
+> **2026-11-06 模型审阅代理实验完成**：用户选择由本地 Qwen2.5-Coder-7B 与 Qwen3-4B 分别审阅 A/B 包。Full 有 28 个双方高置信、决定与接受集合完全一致的可裁定单元，低于独立探索排序所需的 30 个；23 个可区分单元、覆盖4库。按预注册规则停止，不运行 G-reasoner 排序、不扩样；这不是人工标签，原可信人工 Role 标签仍为0。见[完整报告](reports/p0_fk_mapping_model_review_proxy_20261106_01/README.md)。
+
 > **2026-11-06 P2d.3 authorizer 候选归因（完成）**：只读回放 6 个初始上下文拒绝与 8 个被拒修复候选；6/6 初始 SQL 在完整 Schema 下可执行、2 条正确；8 个修复候选中 6 条可执行，其中 2 条 Set/Bag 正确，2 条在完整 Schema 编译失败。支持“安全边界拒绝了少量正确候选”这一候选级判断，但不更新 P2d.3 的 A0/A1/A2 系统分数，也不证明取消边界会提升总体 EX。无模型/GPU调用。见[预注册与最终报告](reports/p2d3_authorizer_counterfactual_audit_20261106_01/README.md)及[匿名聚合](reports/p2d3_authorizer_counterfactual_audit_20261106_01/aggregate_summary.json)。
 
 > **2026-11-06 Query 指令兼容性审计**：G-reasoner-34M checkpoint/G0 使用的 Query 指令与 P1.6 表列检索指令不同。后续 FK 映射 Pilot 的 G-reasoner 与 Dense 主比较须共享 checkpoint 兼容的 Query 向量和相同映射候选文本；不得直接复用 P1.6 Query cache。本审计不修改 P1.6 历史结果；双人标签仍为0，Pilot 未运行。见[兼容性审计](plans/p0_gfm_embedding_instruction_compatibility_audit_20261106.md)。

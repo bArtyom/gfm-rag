@@ -1,0 +1,49 @@
+{
+  "experiment_id": "p0_fk_mapping_model_review_proxy_20261106_01",
+  "run_id": "p0_fk_mapping_model_review_proxy_20261106_full_001",
+  "mode": "full_model_review_proxy",
+  "human_consensus_labels_used": false,
+  "trusted_human_role_labels_created": 0,
+  "gold_sql_or_reference_join_used_by_aggregator": false,
+  "review_unit_count": 60,
+  "candidate_mapping_count": 135,
+  "models": {
+    "A": {
+      "model": "Qwen2.5-Coder-7B-Instruct",
+      "valid_outputs": 59
+    },
+    "B": {
+      "model": "Qwen3-4B-Think2SQL",
+      "valid_outputs": 58
+    }
+  },
+  "invalid_output_reasons": {
+    "A": {
+      "no_declared_fk_with_candidates": 1
+    },
+    "B": {
+      "multiple_mappings_cardinality": 1,
+      "accepted_id_unknown": 1
+    }
+  },
+  "both_valid_count": 57,
+  "exact_decision_and_set_agreement_count": 28,
+  "exact_agreement_rate_all_units": 0.466667,
+  "exact_agreement_rate_both_valid": 0.491228,
+  "exact_agreement_with_both_confidence_at_least_2": 28,
+  "qualified_consensus_decision_counts": {
+    "multiple_mappings": 6,
+    "single_mapping": 22
+  },
+  "model_consensus_adjudicable_count": 28,
+  "model_consensus_distinguishable_count": 23,
+  "anonymous_database_count_for_distinguishable_consensus": 4,
+  "separate_exploratory_ranking_registration_gate": "STOP_INSUFFICIENT_MODEL_PROXY_LABELS",
+  "input_sha256": {
+    "reviewer_a_packet": "0b6102f38c9a60afa9434091ce3b9c94e35460c47e105de804cfd119d826cfa2",
+    "reviewer_b_packet": "a30230c9562f95e00c0af88e7cd0277d6d27e9f26eca2863ca968540b944dfdb",
+    "private_manifest": "14d3e65e53bbc29c03d312fb32227c47b568242502e30bc3c4d4656b97521ed7",
+    "reviewer_a_outputs": "f3d2beb21290c49790679e53ac0bf8dc50084b7b34ee228843f06330ac120883",
+    "reviewer_b_outputs": "2b49a5772f061ed70f02ea21811e392fd6afd086fa7030aca9fe737c2c8af077"
+  }
+}
