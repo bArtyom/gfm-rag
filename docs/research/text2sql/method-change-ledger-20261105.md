@@ -1,6 +1,6 @@
 # 方法变更台账：QuadGraph 原方法与 Text2SQL 实验改动
 
-**更新时间：2026-11-06。** 本文按“原始方法 → 本研究实际改动 → 证据与边界”说明目前做过的工作。重点是区分算法修改、检索/上下文改动、评测诊断和仅在合成图上的机制探针。
+**更新时间：2026-11-07。** 本文按“原始方法 → 本研究实际改动 → 证据与边界”说明目前做过的工作。重点是区分算法修改、检索/上下文改动、评测诊断和仅在合成图上的机制探针。
 
 ## 先说结论
 
@@ -64,6 +64,14 @@ G2 只改变合成拓扑以打破上述对称：两个关系角色分别走 `0�
 **本轮原方法/改动：** 不改上一轮的排序器；只对冻结的 G-reasoner、Dense Cosine、BM25 和稳定 ID 排序做预注册分层。分析38个可区分的 Full 单元，使用三模型高置信精确多数作为探索性代理标签；不读 Gold SQL、参考 JOIN 或 SQL 执行。
 
 **结果：** G-reasoner Accepted@1 为7/38（18.42%），Dense为27/38（71.05%），配对净差−20。2候选和3候选两层，以及无列重叠/单端点重叠两层，G-reasoner 均无正向净差。全部38题都只有一个接受 mapping，且没有复合FK，故不能分析多正确 mapping 或复合FK。按预注册停止，不在同一代理标签上继续调参或挑图结构。该结果不估计真实FK Role准确率。见[归因报告](reports/p0_fk_mapping_proxy_error_analysis_20261106_01/README.md)及[匿名聚合](reports/p0_fk_mapping_proxy_error_analysis_20261106_01/aggregate_summary.json)。
+
+### P0：SQL-used 候选—目标身份对齐诊断（2026-11-07）
+
+**原方法/问题：** 上一轮将模型审阅包里的问题×表对样本，直接拿对应 BIRD 参考 SQL 的显式 `JOIN ON` FK mapping 作标签；Smoke 的 SQL 解析成功，但 0/5 对齐到候选映射，因而不能评分。
+
+**本轮实际改动：** 不改候选图、G-reasoner、Dense、分数或任何模型审阅输出。固定同一 60 对，新增一条 CPU 审计路径：从参考 SQL 按 JOIN 和 alias pair 直接抽取已解析列等式，与冻结 mapping 的完整有序列对身份逐一比较；同时运行旧的候选过滤 matcher，并比较两套 mapping ID。复合 FK 要在同一 JOIN/alias pair 内完整匹配。WHERE 和 USING 不纳入本轮标签。
+
+**结果与边界：** 60/60 对目标表对都不在对应参考 SQL 的已解析显式 `JOIN ON` 等式中；76/76 个限定 JOIN 等式解析且作用域错误为0。两种 matcher 在60/60上一致且都无 mapping ID。故 0/5 的直接原因是这批问题×表对与显式 SQL-used 评测目标不对齐，而不是两套身份 matcher 不一致。本审计没有 G-reasoner/Dense 排名指标，也不能判断这些表对是否通过 WHERE、USING 或其他 SQL 结构关联。停止复用这批样本。详见[报告](reports/p0_fk_candidate_sql_identity_alignment_20261107_01/README.md)。
 
 ### FK 结构 Gate 与身份政策
 
