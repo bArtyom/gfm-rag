@@ -187,3 +187,6 @@ G2、FK Gate、身份策略、G0及P0复核均各自保留运行ID与结果，�
 
 
 > **2026-11-06 第三模型审阅代理已单独预注册**：用户选择继续用模型审阅后，为检验双 Qwen 审阅口径分歧是否能由不同家族的独立意见减少，新增 Gemma 4 E4B-it 盲审方案。三方代理标签使用精确决定与接受 mapping 集合多数、且至少两票置信度≥2；仅当 ≥30 可裁定、≥20 可区分、覆盖 ≥3 匿名数据库时，才允许另行登记探索性排序。当前仅计划已提交，Smoke/Full 尚未运行。仍不能将模型多数称为人工标签。见[预注册方案](plans/p0_fk_mapping_model_review_third_proxy_20261106.md)。
+
+
+> **2026-11-06 第三模型审阅 GPU smoke 停止并转 CPU 恢复**：GPU 预注册运行在生成前失败，原因是 vLLM 环境的 PyTorch CUDA 13 与系统 CUDA 12.4 驱动不兼容；第一次 conda run 还曾解析到 Python 3.9，均未产生任何模型 token。没有升级驱动或依赖。已在独立分支登记 Transformers CPU 恢复方案，复用同一 Gemma4 checkpoint、冻结样本与标签门，Smoke/Full 尚未启动。见[恢复预注册](plans/p0_fk_mapping_model_review_third_proxy_cpu_20261106.md)。
