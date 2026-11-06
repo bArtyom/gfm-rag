@@ -1,6 +1,7 @@
 {
   "experiment_id": "p0_fk_candidate_sql_identity_alignment_20261107_01",
   "status": "amendment_001_full_pending",
+  "final_status": "FULL_DIAGNOSTIC_COMPLETE",
   "amendments": [
     {
       "id": "001",

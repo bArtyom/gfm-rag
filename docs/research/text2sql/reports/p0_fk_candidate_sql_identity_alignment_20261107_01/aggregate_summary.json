@@ -1,13 +1,14 @@
 {
   "experiment_id": "p0_fk_candidate_sql_identity_alignment_20261107_01",
-  "status": "SMOKE_TECHNICAL_GATE_PASS_FULL_PENDING_AMENDMENT_001",
+  "status": "FULL_DIAGNOSTIC_COMPLETE",
+  "layer": "exploratory_data_integrity_diagnostic",
+  "initial_preregistration_commit": "d4341a3c20bf43b6a98305c612affe8bdc37979d",
+  "amendment_001_commit": "dc2a20274855d0089b2979324e3864351d17e64a",
   "smoke": {
     "run_id": "p0_fk_candidate_sql_identity_alignment_20261107_01_smoke_001",
     "status": "SMOKE_TECHNICAL_GATE_PASS",
     "selected_pair_count": 5,
-    "row_class_counts": {
-      "NO_TARGET_PAIR_EQUALITY_IN_EXPLICIT_ON": 5
-    },
+    "row_class_counts": {"NO_TARGET_PAIR_EQUALITY_IN_EXPLICIT_ON": 5},
     "fully_resolved_pair_count": 5,
     "independent_exact_candidate_match_count": 0,
     "legacy_independent_id_agreement_count": 5,
@@ -34,9 +35,68 @@
     "confirmed_total_tokens": 0,
     "gpu_used": false
   },
-  "full": null,
-  "private_pair_level_data_uploaded": false,
-  "model_calls": 0,
-  "external_api_calls": 0,
-  "gpu_used": false
+  "full": {
+    "run_id": "p0_fk_candidate_sql_identity_alignment_20261107_01_full_001",
+    "status": "FULL_DIAGNOSTIC_COMPLETE",
+    "selected_pair_count": 55,
+    "row_class_counts": {"NO_TARGET_PAIR_EQUALITY_IN_EXPLICIT_ON": 55},
+    "fully_resolved_pair_count": 55,
+    "independent_exact_candidate_match_count": 0,
+    "legacy_independent_id_agreement_count": 55,
+    "legacy_independent_id_disagreement_count": 0,
+    "resolved_target_pair_on_equality_count": 0,
+    "parser_counters": {
+      "join_count": 68,
+      "join_on_equality_count": 68,
+      "qualified_join_equality_count": 68,
+      "resolved_qualified_join_equality_count": 68,
+      "unresolved_qualified_join_equality_count": 0,
+      "using_join_count": 0
+    },
+    "by_anonymous_database": {
+      "DB-A": {"exact_identity_match_count": 0, "fully_resolved_count": 14, "legacy_independent_id_agreement_count": 14, "pair_count": 14, "row_class_counts": {"NO_TARGET_PAIR_EQUALITY_IN_EXPLICIT_ON": 14}},
+      "DB-B": {"exact_identity_match_count": 0, "fully_resolved_count": 15, "legacy_independent_id_agreement_count": 15, "pair_count": 15, "row_class_counts": {"NO_TARGET_PAIR_EQUALITY_IN_EXPLICIT_ON": 15}},
+      "DB-C": {"exact_identity_match_count": 0, "fully_resolved_count": 13, "legacy_independent_id_agreement_count": 13, "pair_count": 13, "row_class_counts": {"NO_TARGET_PAIR_EQUALITY_IN_EXPLICIT_ON": 13}},
+      "DB-D": {"exact_identity_match_count": 0, "fully_resolved_count": 13, "legacy_independent_id_agreement_count": 13, "pair_count": 13, "row_class_counts": {"NO_TARGET_PAIR_EQUALITY_IN_EXPLICIT_ON": 13}}
+    },
+    "selected_pair_ids_sha256": "ed566d90b68758b59f94128111aa21df756e68ce811ff72d56e7ff85dad95848",
+    "resources": {"wall_seconds": 0.114961, "cpu_seconds": 0.098878, "peak_rss_gib": 0.634277},
+    "local_model_calls": 0,
+    "external_api_calls": 0,
+    "confirmed_input_tokens": 0,
+    "confirmed_output_tokens": 0,
+    "confirmed_total_tokens": 0,
+    "gpu_used": false
+  },
+  "combined": {
+    "selected_pair_count": 60,
+    "anonymous_database_count": 4,
+    "pairs_per_anonymous_database": {"DB-A": 15, "DB-B": 15, "DB-C": 15, "DB-D": 15},
+    "row_class_counts": {"NO_TARGET_PAIR_EQUALITY_IN_EXPLICIT_ON": 60},
+    "fully_resolved_pair_count": 60,
+    "independent_exact_candidate_match_count": 0,
+    "legacy_independent_id_agreement_count": 60,
+    "legacy_independent_id_disagreement_count": 0,
+    "qualified_join_equality_count": 76,
+    "resolved_qualified_join_equality_count": 76,
+    "unresolved_qualified_join_equality_count": 0,
+    "resolved_target_pair_on_equality_count": 0,
+    "gpu_used": false,
+    "local_model_calls": 0,
+    "external_api_calls": 0,
+    "confirmed_input_tokens": 0,
+    "confirmed_output_tokens": 0,
+    "confirmed_total_tokens": 0,
+    "combined_wall_seconds": 0.16016,
+    "combined_process_cpu_seconds": 0.127518,
+    "peak_rss_gib": 0.634277
+  },
+  "interpretation": {
+    "reference_sql_used_mapping_is_not_unique_semantic_gold": true,
+    "exact_candidate_match_is_identity_coverage_not_ranking_accuracy": true,
+    "target_pair_not_in_explicit_on_does_not_prove_absence_from_where_or_other_sql_constructs": true,
+    "ranking_metrics_computed": false,
+    "private_pair_level_data_uploaded": false
+  },
+  "decision": "Stop this diagnostic. Do not use the existing 60 review-packet pairs for SQL-used mapping ranking. Any corrected ranking evaluation requires a new independently preregistered sample derived from resolved SQL JOIN pairs."
 }
