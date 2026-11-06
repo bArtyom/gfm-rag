@@ -1,6 +1,6 @@
 # P0 FK mapping 双本地模型审阅代理实验
 
-**状态：Smoke_001 未通过；已公开登记一次提示澄清，等待 Smoke_002。** 实验 ID：`p0_fk_mapping_model_review_proxy_20261106_01`。
+**状态：Smoke_001 未通过；A1 后 Smoke_002 通过，Full 已登记并待执行。** 实验 ID：`p0_fk_mapping_model_review_proxy_20261106_01`。
 
 本报告登记用户选择“用模型来审阅”后的独立探索轨道。它不修改原双人盲审 CSV，不将模型判定称为人工标签或可信 Role 标签；原人类审阅门仍为 0。详细冻结方案见[实验计划](../../plans/p0_fk_mapping_model_review_proxy_20261106.md)。
 
@@ -23,3 +23,13 @@
 ## 修订与下一步
 
 修订 A1 只在提示中明确：该审阅包的每个单元都列有至少两个声明 mapping，因此 `no_declared_fk` 不适用。该修订已在 Full 启动前单独登记，Run ID 为 `p0_fk_mapping_model_review_proxy_20261106_smoke_002`；模型、样本、候选顺序和校验规则均不变。若任一模型仍少于 4/5 通过，就停止此模型审阅路线，不再改提示或换模型。详见[修订记录](../../plans/p0_fk_mapping_model_review_proxy_20261106.md#执行时修订-a1-2026-11-06发生在任何-full-运行之前)。
+
+## Smoke_002：通过
+
+- Run ID：`p0_fk_mapping_model_review_proxy_20261106_smoke_002`；与 Smoke_001 使用相同冻结的 5 个单元和 A/B 包 hash，按 A/B 各自候选显示顺序分别运行。
+- Qwen2.5-Coder-7B-Instruct（GPU 1）：5/5 通过；输入 1,674、输出 238、总计 1,912 tokens；峰值已分配显存 15.31 GB；模型加载 6.41 秒，生成 7.06 秒。
+- Qwen3-4B-Think2SQL（GPU 2）：5/5 通过；输入 1,694、输出 260、总计 1,954 tokens；峰值已分配显存 8.14 GB；模型加载 4.63 秒，生成 8.19 秒。
+- 合计输入 3,368、输出 498、总计 3,866 个本地 token。模型间标签一致性不作为 Smoke 门，也未在此阶段用于排序。
+- 两个 Transformers 进程均提示模型 generation config 中存在 temperature/top-p/top-k 旗标但当前 `do_sample=False` 不使用这些采样旗标；所有结构和语义检查通过。
+
+**结论：** 最终 Smoke 门通过；可启动唯一一次冻结 Full（两模型各 60 单元）。Full 的标签和排序资格仍以报告中的模型代理规则判断，不能解释为人工共识。

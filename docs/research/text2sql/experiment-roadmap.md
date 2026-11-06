@@ -178,4 +178,4 @@ $$
 
 ### 2026-11-06 新增用户选择的模型审阅代理轨道
 
-用户明确选择本地模型代替人类提供初始审阅。为保留原研究门和结果语义，新增独立 `exploratory` 实验 `p0_fk_mapping_model_review_proxy_20261106_01`：两个不同规模的本地 Qwen 模型分别处理冻结 A/B 包，报告其模型间一致性。Smoke_001 未通过：Qwen2.5-Coder 5/5，Qwen3-4B 3/5（两次在有候选时错误选择 `no_declared_fk`）；未启动 Full。只登记一次明确指出非空候选条件的提示修订，Smoke_002 是最后复验门。此轨道不会覆盖人类 CSV、不会产生可信人工标签，也不会自动启动或解锁原 Accepted@1 主 Pilot。只有通过 Smoke_002 且满足另行冻结的数量门后，才考虑独立登记一个模型共识代理标签上的探索性排序诊断。详见[模型审阅代理实验计划](plans/p0_fk_mapping_model_review_proxy_20261106.md)与[报告](reports/p0_fk_mapping_model_review_proxy_20261106_01/README.md)。
+用户明确选择本地模型代替人类提供初始审阅。为保留原研究门和结果语义，新增独立 `exploratory` 实验 `p0_fk_mapping_model_review_proxy_20261106_01`：两个不同规模的本地 Qwen 模型分别处理冻结 A/B 包，报告其模型间一致性。Smoke_001 未通过（Qwen2.5-Coder 5/5，Qwen3-4B 3/5）；只登记一次非空候选提示澄清，Smoke_002 两模型均 5/5 通过，Full 随后按冻结配置运行。此轨道不会覆盖人类 CSV、不会产生可信人工标签，也不会自动启动或解锁原 Accepted@1 主 Pilot。即使达到数量门，任何模型共识代理标签上的排序诊断也须单独注明 `exploratory`。详见[模型审阅代理实验计划](plans/p0_fk_mapping_model_review_proxy_20261106.md)与[报告](reports/p0_fk_mapping_model_review_proxy_20261106_01/README.md)。
