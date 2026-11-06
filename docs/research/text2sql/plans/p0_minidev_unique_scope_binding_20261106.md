@@ -1,6 +1,6 @@
 # P0 Mini-Dev：唯一作用域列绑定恢复诊断
 
-**状态：首个 Smoke 在读取 SQL 前因配置中的 schema SHA-256 转录错误停止；已登记一次修正哈希后的新 Smoke attempt 002，尚未运行。** 实验 ID：`p0_minidev_scope_binding_recovery_20261106_01`。本实验是一次有界的 CPU-only 标签可用性诊断，不是 FK Role 方法实验，也不自动解锁模型排序。失败记录和唯一一次恢复方案见 `plans/amendments/p0_minidev_scope_binding_recovery_amendment_001.md`。
+**状态：`smoke_002` 在样本 SQL 分析前因正向逻辑夹具失败而停止；依 amendment 不再重试，Full 未运行。** 实验 ID：`p0_minidev_scope_binding_recovery_20261106_01`。本实验是一次有界的 CPU-only 标签可用性诊断，不是 FK Role 方法实验，也不自动解锁模型排序。失败记录见[报告](../reports/p0_minidev_scope_binding_recovery_20261106_01/README.md)；唯一一次恢复方案见 `plans/amendments/p0_minidev_scope_binding_recovery_amendment_001.md`。
 
 ## 痛点与核心假设
 
@@ -37,7 +37,7 @@ SQLite authorizer 在语句编译期间收到 `SQLITE_READ(table, column)` 事�
 - Smoke selection source: previous scope-taxonomy private aggregate `.../p0_minidev_join_scope_taxonomy_20261106_01/full_001/private_summary.json`; only aggregate metrics and anonymous key digests are used for the deterministic Smoke split.
 - 环境：`think2sql_20260909`，Python 3.12.14、SQLGlot 28.0.0、SQLite 3.53.2；仅使用既有依赖。
 - 资源：本轮开始前 GPU 4×RTX 4090 空闲；192 逻辑 CPU；450 GiB RAM available；112 TiB 磁盘 available；Swap 2 GiB 已用。任务 CPU-only，最多 8 线程、4 GiB RSS。
-- `smoke_001` 仅留启动日志 `/mnt/liansp3/logs/gfmrag_p0_minidev_scope_binding_recovery_20261106_01/smoke_001.log`，在输入哈希断言处退出；无 SQL 读取、无输出目录、无 manifest。修正哈希后的 Smoke 使用 `smoke_002/` 和 `smoke_002.log`；若且仅若 smoke gate 通过，唯一一次 Full 使用 `full_002/` 和 `full_002.log`。不得覆盖旧 attempt 或既有 Mini-Dev run。
+- `smoke_001` 仅留启动日志 `/mnt/liansp3/logs/gfmrag_p0_minidev_scope_binding_recovery_20261106_01/smoke_001.log`，在输入哈希断言处退出；无 JSONL 读取、无输出目录、无 manifest。修正哈希后的 `smoke_002` 读取了冻结 JSONL 并做确定性样本选择，但在 `unique_unqualified_direct_projection` 正向夹具未通过时停止，未进入任何样本 SQL 分析；输出目录与 manifest 未创建，日志为 `smoke_002.log`。按 amendment，Full 不运行且不再重试。
 - 公开材料只含方案、脚本、配置、匿名聚合和报告；不得上传问题、Gold SQL、问题键、数据库/表/列名、逐题标签、manifest 或日志。
 
 ## 预期产物
@@ -46,3 +46,7 @@ SQLite authorizer 在语句编译期间收到 `SQLITE_READ(table, column)` 事�
 - 新执行器：`scripts/text2sql/diagnose_minidev_unique_scope_binding.py`。
 - 配置：`configs/text2sql/p0_minidev_unique_scope_binding_20261106.json`。
 - 若 Smoke 通过：完整匿名报告归档到 `docs/research/text2sql/reports/p0_minidev_scope_binding_recovery_20261106_01/`，并同步更新项目研究状态和 `/mnt/liansp3/sources.md`。
+
+## 终止记录
+
+`smoke_002` 的冻结输入哈希均通过，但 `run_logic_fixtures()` 在第一个正向夹具 `unique_unqualified_direct_projection` 处抛出 `ValueError`（预期 resolver 给出唯一物理绑定，实际为 `None`）。该检查发生在 `analyze_question()` 和输出目录创建之前；没有生成逐题结果、聚合指标或 attempt manifest。由于 amendment 只允许这一个恢复 Smoke，状态改为 `STOP_LOGIC_FIXTURE_FAILED`，不修补后复跑本注册，不运行 Full。具体环境、命令、分母和证据边界见实验报告。

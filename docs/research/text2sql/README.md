@@ -209,3 +209,7 @@ G2、FK Gate、身份策略、G0及P0复核均各自保留运行ID与结果，�
 ### 2026-11-06：Mini-Dev JOIN 直接投影覆盖诊断（已完成，未过门槛）
 
 针对上一轮 SQL 解析覆盖 523/663 的 140 个缺口，单独注册并完成唯一直接投影 lineage 诊断。Smoke 5/5、Full 495/495，7/7 逻辑夹具通过；500/500 SQL 可解析。新增直接 CTE/派生表列投影追踪恢复 46 项、0 回归，合计 569/663（85.82%），低于预设 630/663（95%）门槛；剩余 94 项主要是 alias/相关引用以及表达式/UNION。按预注册停止，不启动模型排序或新 SQL 生成/执行；此结果不改变已停止的 G-reasoner 代理排序结论。首个 `smoke_001` 因配置中 schema hash 转置而在数据读取前失败，原日志保留；更正配置后 `smoke_002` 成功。详情见[完整报告](reports/p0_minidev_join_scope_taxonomy_20261106_01/README.md)、[匿名聚合](reports/p0_minidev_join_scope_taxonomy_20261106_01/aggregate_summary.json)和[预注册计划](plans/p0_minidev_join_scope_taxonomy_20261106.md)。
+
+### 2026-11-07：唯一作用域列绑定恢复诊断（Smoke 实现门失败，停止）
+
+为上一轮剩余的 94 个未解析 JOIN 等式，登记了“只恢复当前 scope 中恰有一个来源的未限定直接投影列”诊断。`smoke_001` 因配置 schema SHA 转录错误在输入哈希门停止；唯一 amendment 修正哈希后，`smoke_002` 通过输入校验，但第一个正向逻辑夹具 `unique_unqualified_direct_projection` 返回空绑定，未进入 5 题 SQL 分析。按恢复协议停止；Full 未启动，核心假设未检验，禁止本注册再重试。详见[报告](reports/p0_minidev_scope_binding_recovery_20261106_01/README.md)、[匿名状态汇总](reports/p0_minidev_scope_binding_recovery_20261106_01/aggregate_summary.json)、[方案](plans/p0_minidev_unique_scope_binding_20261106.md)及[Amendment 001](plans/amendments/p0_minidev_scope_binding_recovery_amendment_001.md)。

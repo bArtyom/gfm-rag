@@ -1,6 +1,6 @@
 {
   "experiment_id": "p0_minidev_scope_binding_recovery_20261106_01",
-  "status": "amended_cpu_smoke_attempt_002_pending",
+  "status": "stopped_logic_fixture_failed_attempt_002",
   "project": {
     "repository": "https://github.com/bArtyom/gfm-rag",
     "branch": "research/gfm-minidev-scope-binding-20261106",
@@ -86,6 +86,14 @@
     "reason": "The first Smoke attempt stopped at the frozen input-hash check because the registered schema SHA-256 contained a transcription error. Independent hashing confirms the source files; no SQL was read and no output directory was created.",
     "next_attempt": 2,
     "preserve_original_gates_and_budget": true
+  },
+  "terminal_attempt": {
+    "run_id": "p0_minidev_scope_binding_recovery_20261106_01_cpu_smoke_002",
+    "status": "STOP_LOGIC_FIXTURE_FAILED",
+    "failed_fixture": "unique_unqualified_direct_projection",
+    "sample_analysis_started": false,
+    "full_started": false,
+    "further_retry_allowed": false
   },
   "public_artifacts": [
     "preregistration",

@@ -1,0 +1,54 @@
+{
+  "experiment_id": "p0_minidev_scope_binding_recovery_20261106_01",
+  "status": "STOP_LOGIC_FIXTURE_FAILED",
+  "scientific_hypothesis_evaluated": false,
+  "attempts": {
+    "smoke_001": {
+      "status": "STOP_INPUT_HASH_MISMATCH",
+      "dataset_read": false,
+      "sample_sql_analysis_started": false,
+      "output_directory_created": false,
+      "model_requests": 0,
+      "external_api_requests": 0
+    },
+    "smoke_002": {
+      "status": "STOP_LOGIC_FIXTURE_FAILED",
+      "input_hashes_passed": true,
+      "dataset_rows": 500,
+      "planned_smoke_questions": 5,
+      "sample_questions_analyzed": 0,
+      "failed_fixture": "unique_unqualified_direct_projection",
+      "failure_class": "ValueError",
+      "output_directory_created": false,
+      "model_requests": 0,
+      "external_api_requests": 0
+    },
+    "full_002": {
+      "status": "NOT_STARTED"
+    }
+  },
+  "baseline": {
+    "qualified_join_equalities": 663,
+    "resolved_before_this_experiment": 569,
+    "resolution_rate_before_this_experiment": 0.85822
+  },
+  "resources": {
+    "gpu_used": false,
+    "local_model_requests": 0,
+    "external_api_requests": 0,
+    "confirmed_input_tokens": 0,
+    "confirmed_output_tokens": 0,
+    "confirmed_total_tokens": 0,
+    "estimated_api_cost_CNY": "0",
+    "billed_cost_verified": false,
+    "sample_sql_analysis_rows": 0
+  },
+  "privacy": {
+    "raw_questions_published": false,
+    "gold_sql_published": false,
+    "database_names_published": false,
+    "per_question_labels_published": false,
+    "logs_published": false
+  },
+  "decision": "STOP_NO_FURTHER_RETRY_UNDER_THIS_REGISTRATION"
+}
