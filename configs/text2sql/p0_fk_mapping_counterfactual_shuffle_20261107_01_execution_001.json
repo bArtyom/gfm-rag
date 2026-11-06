@@ -1,12 +1,12 @@
 {
   "experiment_id": "p0_fk_mapping_counterfactual_shuffle_20261107_01",
-  "status": "recovery_execution_config_before_sql_run_after_argparse_stop",
+  "status": "recovery_execution_config_before_sql_run_after_nested_strata_lookup_stop",
   "parent_config_sha256": "75579568bf3d16d010e5a5c6bbd137521e552799d8ce718cd25ba0cd0a830d76",
   "prior_aggregate_sha256": "27d3411496e5fd4fb829c30c110018ea33b2275c751bccc437f5dd0835dac582",
   "prior_runner_sha256": "99245f972de3f8827c812ec0fc5f89e3d269ea9b80bfb5a1c1bad03ce81adc3c",
   "prior_source_commit": "e0d3e0d0d617cbedc02ef317f3578057b36b28ee",
   "run_ids": {
-    "smoke": "p0_fk_mapping_counterfactual_shuffle_20261107_01_smoke_005_20261107_03",
+    "smoke": "p0_fk_mapping_counterfactual_shuffle_20261107_01_smoke_005_20261107_04",
     "full": "p0_fk_mapping_counterfactual_shuffle_20261107_01_full_055_20261107_01"
   },
   "recovery_note": {
@@ -20,6 +20,14 @@
       "reason": "required --mode, --run-id, and --config arguments were omitted from the invocation",
       "stage": "argparse exited before run(); no input data was read, no SQL was parsed, no SQLite connection was opened, and no output directory was created",
       "change": "registered a fresh Smoke run ID and corrected the command to match the runner CLI",
+      "protocol_sample_thresholds_seed_range_and_permutation_budget_changed": false
+    },
+    "nested_strata_lookup_stop": {
+      "previous_smoke_run_id": "p0_fk_mapping_counterfactual_shuffle_20261107_01_smoke_005_20261107_03",
+      "reason": "EXECUTION_STRATA_ASSERTION_MISMATCH",
+      "stage": "input hashes passed; manifest, prior metrics, BIRD questions/schema, and 55 fixed pairs were loaded/reconstructed; stopped before SQL parsing and before any SQLite connection",
+      "diagnosis": "the same reconstructed_source_expectations object was used for aggregate assertions but per-database strata were incorrectly looked up at the execution-config top level",
+      "change": "read both frozen per-database expectation maps from reconstructed_source_expectations and register a fresh Smoke run ID",
       "protocol_sample_thresholds_seed_range_and_permutation_budget_changed": false
     }
   },

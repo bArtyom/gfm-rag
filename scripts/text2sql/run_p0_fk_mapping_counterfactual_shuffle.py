@@ -1301,8 +1301,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "EXECUTION_SAMPLE_ASSERTION_MISMATCH",
     )
     require(
-        execution_config.get("expected_complete_units_by_anonymous_db") == prior_reconstruction_summary["complete_units_by_anonymous_db"]
-        and execution_config.get("expected_equal_alternative_units_by_anonymous_db") == prior_reconstruction_summary["units_with_equal_alternative_by_anonymous_db"],
+        expected_source.get("expected_complete_units_by_anonymous_db") == prior_reconstruction_summary["complete_units_by_anonymous_db"]
+        and expected_source.get("expected_equal_alternative_units_by_anonymous_db") == prior_reconstruction_summary["units_with_equal_alternative_by_anonymous_db"],
         "EXECUTION_STRATA_ASSERTION_MISMATCH",
     )
 
