@@ -1,6 +1,6 @@
 # P0：多 FK 映射的实例级可区分性审计
 
-**状态：预注册；未运行。** 这是一次 CPU-only exploratory diagnostic，不是新的 GFM 排序方法实验。
+**状态：原始 Smoke_001 通过；Full_001 停止。Amendment 001 已登记，Recovery 尚未运行。** 这是一次 CPU-only exploratory diagnostic，不是新的 GFM 排序方法实验。原 Full 的失败和唯一恢复边界见[Amendment 001](amendments/p0_fk_mapping_instance_equivalence_amendment_001.md)。
 
 ## 痛点与研究问题
 

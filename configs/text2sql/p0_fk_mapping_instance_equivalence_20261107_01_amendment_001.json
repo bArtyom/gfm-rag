@@ -1,0 +1,70 @@
+{
+  "experiment_id": "p0_fk_mapping_instance_equivalence_20261107_01",
+  "status": "preregistered",
+  "layer": "exploratory_diagnostic",
+  "hypothesis": "At least 10% of structurally substitutable, nonempty-answer Full units have a non-SQL-used FK mapping whose replacement produces the same result bag on the frozen BIRD database instance.",
+  "data": {
+    "dataset": "BIRD dev",
+    "question_count": 1534,
+    "dev_json_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "dev_tables_json_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "source_manifest_sha256": "cc6dd6263f4b3a50c444c4f8ea82d9923f8b2dea5eac46d2ade5201a62550ad0",
+    "source_manifest_experiment": "p0_fk_sql_used_mapping_rank_20261107_03",
+    "source_manifest_units": 113,
+    "smoke_units": 5,
+    "full_units": 108,
+    "full_anonymous_databases": 4,
+    "candidate_mapping_rows": 359
+  },
+  "transformation": {
+    "dialect": "sqlite",
+    "target": "one explicit JOIN-ON alias pair with exactly one SQL-used canonical FK mapping",
+    "allowed_predicates": "direct qualified column equalities in the top-level AND conjunction",
+    "operation": "replace all target mapping column equalities as one bundle; preserve every other JOIN-ON term and the rest of the SQL AST",
+    "unsupported_cases": [
+      "multiple SQL-used targets",
+      "zero or multiple matching JOIN alias groups",
+      "target equality nested under OR or a non-column expression",
+      "missing or duplicate target equality term",
+      "ambiguous table alias resolution",
+      "unreadable or unsupported SQL execution"
+    ]
+  },
+  "execution": {
+    "read_only": true,
+    "sqlite_uri_mode": "ro&immutable=1",
+    "authorizer": "existing p2d_sql_evaluator SQLite read-only allowlist",
+    "per_query_timeout_seconds": 10,
+    "row_limit": 50000,
+    "byte_limit": 67108864,
+    "sqlite_heap_limit_bytes": 268435456,
+    "max_wall_seconds": 600,
+    "max_cpu_seconds": 300,
+    "max_rss_gib": 4,
+    "cpu_threads": 8,
+    "gpu": 0,
+    "model_calls": 0,
+    "external_api_calls": 0
+  },
+  "decision": {
+    "smoke_gate": "All 5 Smoke units must be structurally substitutable; every original Gold SQL and every candidate variant must execute under the read-only evaluator; the SQL-used target replay must match the original Gold result in both Set and Bag comparison, with identical output columns.",
+    "full_gate": "At least 80 of 108 Full units must have complete candidate results, spanning at least 3 anonymous databases; otherwise report insufficient coverage and stop.",
+    "positive_signal": "At least 10% of complete nonempty-answer Full units have an alternative mapping with Bag equality to the original Gold SQL result.",
+    "weak_signal": "At most 5% of complete nonempty-answer Full units have such an alternative.",
+    "inconclusive": "The primary rate is greater than 5% and less than 10%, or the full coverage gate is not met.",
+    "stop": "Do not alter the SQL sample, FK candidate set, mapping identities, query skeleton, SQL evaluator, or thresholds; do not call more reviewers or rank GFM in this experiment."
+  },
+  "interpretation_limit": "Same execution output on one static database instance is not a proof of semantic equivalence or business-role correctness. This audit does not establish human labels or evaluate G-reasoner ranking.",
+  "amendment": {
+    "id": "001",
+    "parent_config_sha256": "e3de85ed6210566fe6d5fa56ea98b631c465ef980e44211e34d7152c0a8a231",
+    "parent_registration_commit": "2a8523c599d8846ec452281de8ddc970afd32e4a",
+    "reason": "The original Full runner aborted when a selected unit declared zero or multiple SQL-used mapping IDs, although the registered protocol classifies that structure as unsupported and calls for reporting insufficient coverage.",
+    "new_run_ids": {
+      "smoke": "p0_fk_mapping_instance_equivalence_20261107_01_smoke_002",
+      "full": "p0_fk_mapping_instance_equivalence_20261107_01_full_002"
+    },
+    "source_manifest_sha256": "cc6dd6263f4b3a50c444c4f8ea82d9923f8b2dea5eac46d2ade5201a62550ad0",
+    "scope": "Keep the frozen sample, candidate set, SQL transformation, read-only evaluator, limits, thresholds, and hypothesis unchanged. Record unsupported target cardinality per unit. Emit aggregate results when Full coverage is insufficient."
+  }
+}

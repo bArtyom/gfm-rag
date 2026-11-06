@@ -1,6 +1,6 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
-> **2026-11-07 下一项诊断已预注册、尚未运行**：多 FK 候选映射的实例级可区分性审计。它对固定 Gold SQL 做安全的 FK 等式替换并比较当前 SQLite 结果，只回答静态实例是否能区分候选；不增加 Qwen/Gemma 投票，不构成人工 Role 标签，也不运行 GFM 排序。见[方案](plans/p0_fk_mapping_instance_equivalence_20261107.md)、[配置](../../../configs/text2sql/p0_fk_mapping_instance_equivalence_20261107_01.json)。
+> **2026-11-07 多 FK 映射实例级可区分性审计：原 Full 停止，唯一恢复已预注册**。Smoke_001 的5题全部完成，1/5有一个替代 FK 候选在该静态实例上返回相同 Bag；该 pilot 不作 Full 结论。Full_001 首次因 Python 入口选中3.9而在输入前停止；指定 Python 3.12 后，runner 在第40/108个单元、36个完整单元后遇到多 SQL-used mapping cardinality，未按方案将其记为不可评分项，故无 Full 指标。Amendment 001 只补齐该排除处理与不足覆盖汇总，不改样本、候选、SQL变换、只读评测器或阈值；Recovery 使用新 Smoke_002/Full_002 ID，须先通过 Smoke。见[方案](plans/p0_fk_mapping_instance_equivalence_20261107.md)、[Amendment 001](plans/amendments/p0_fk_mapping_instance_equivalence_amendment_001.md)及[恢复配置](../../../configs/text2sql/p0_fk_mapping_instance_equivalence_20261107_01_amendment_001.json)。
 
 > **2026-11-07 SQL-used FK mapping 独立注册 03：执行停止，主排序无指标**。CPU 数据门通过，生成5题 Smoke和108题 Full（4库）；Qwen A/B 各有5/5有效输出，但高置信精确一致为2/5，未达到4/5，模型 Full 按规则停止。G-reasoner Smoke 因 CPU manifest 缺少运行器校验的样本计数字段，在模型导入前停止；无Embedding/G-reasoner前向或排名指标。失败 run ID 不重用。详见[完整报告](reports/p0_fk_sql_used_mapping_rank_20261107_03/README.md)和[匿名聚合](reports/p0_fk_sql_used_mapping_rank_20261107_03/aggregate_summary.json)、[预注册方案](plans/p0_fk_sql_used_mapping_rank_20261107_03.md)、[主配置](../../../configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03.json)及[模型审阅配置](../../../configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03_model_review.json)。
 

@@ -291,3 +291,9 @@ Qwen A/B 与 Gemma C 的模型审阅已经完成；新增模型票不会建立�
 主标签原定为 SQLGlot 从 BIRD dev 参考 SQL 显式 `JOIN ON` 推出的完整 SQL-used FK mapping；模型 A/B 原定只作次要代理判断，不能替代人工真值。执行 `p0_fk_sql_used_mapping_rank_20261107_02_cpu_001` 时，启动参数的 `--expected-commit` 为 `ca73a0a4a894d1960362fcf514725c5fe567fe08`，本地 HEAD 实为 `ca73a0afd92c72373b9a12858b508fe9dbf53c2f`。运行器因此在数据输入哈希检查前停止，未读取题目/SQL、未生成 Smoke/Full 或 A/B packet、未加载模型。按停止规则关闭此注册，不重放该 run ID。报告：[执行报告](reports/p0_fk_sql_used_mapping_rank_20261107_02/README.md)，[匿名聚合](reports/p0_fk_sql_used_mapping_rank_20261107_02/aggregate_summary.json)。
 
 失败回执和命令日志留在 `/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_rank_20261107_02/cpu_001/` 与 `/mnt/liansp3/logs/gfmrag_p0_fk_sql_used_mapping_rank_20261107_02/cpu_001.log`。未产生模型 token、GPU 前向或科学指标。此次错误来自启动参数人工抄写；当前按实验室规则暂停这条注册，不直接追加新 run。
+
+## 2026-11-07：FK mapping 静态实例可区分性审计（Amendment 001 已登记）
+
+原始 Smoke_001 5/5 完成；该 Smoke 中1/5个非空 Gold 输出单元存在至少一个 Bag 相同的替代 FK 候选，仅作试运行观察。Full_001 的首次调用因 python3 落到 Python 3.9、与冻结 SQLGlot 28.0.0 不符，在读取输入前停止。使用环境内明确的 python3.12 后，Full 读取了固定样本并执行到 40/108；36 个单元完整，随后 manifest 中某单元的 SQL-used target 数量不是1，runner 以 SQL_USED_TARGET_NOT_SINGLETON 终止整轮。只留失败回执，没有聚合结果，不能给出 Full 科学结论。
+
+根因与原方案的 unsupported-case 契约不一致：方案要求把非单目标映射作为不可替换单元，并在 Full coverage 未达80题/3库时报告覆盖不足；原 runner 却将目标数非1作为致命 run error，且在输出聚合前就强制检查 Full coverage。Amendment 001 只增加 reason-coded not_substitutable 处理与不足覆盖状态汇总，固定原108个样本、359个候选映射行、SQL变换、SQLite只读 evaluator、资源预算及10%/5%门槛。Recovery 只允许 Smoke_002 5题与其后至多一次 Full_002；Smoke失败即停，Recovery再遇其他 run-level error 不做第三次尝试。无模型/API/GPU调用。详见[Amendment 001](plans/amendments/p0_fk_mapping_instance_equivalence_amendment_001.md)及[恢复配置](../../../configs/text2sql/p0_fk_mapping_instance_equivalence_20261107_01_amendment_001.json)。

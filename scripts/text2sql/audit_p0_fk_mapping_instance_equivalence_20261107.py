@@ -50,6 +50,7 @@ EXPECTED_BRANCH = "research/p0-sql-used-proxy-alignment-20261107"
 EXPECTED_SQLGLOT = "28.0.0"
 EXPECTED_SMOKE_COUNT = 5
 EXPECTED_FULL_COUNT = 108
+EXPECTED_RUN_ATTEMPT = "002"
 MAX_WALL_SECONDS = 600.0
 MAX_CPU_SECONDS = 300.0
 MAX_RSS_GIB = 4.0
@@ -395,7 +396,17 @@ def run_unit(
     ids = [str(row.get("mapping_id", "")) for row in candidates]
     require(all(ids) and len(ids) == len(set(ids)), "CANDIDATE_MAPPING_ID_INVALID")
     target_ids = unit.get("sql_used_mapping_ids")
-    require(isinstance(target_ids, list) and len(target_ids) == 1, "SQL_USED_TARGET_NOT_SINGLETON")
+    if not isinstance(target_ids, list) or len(target_ids) != 1:
+        return (
+            {
+                "unit_hash": unit_identity(unit),
+                "anonymous_db": anonymous_db,
+                "status": "not_substitutable",
+                "reason": "SQL_USED_TARGET_NOT_SINGLETON",
+                "candidate_count": len(candidates),
+            },
+            {},
+        )
     target_id = str(target_ids[0])
     by_id = {str(row["mapping_id"]): row for row in candidates}
     require(target_id in by_id, "SQL_USED_TARGET_NOT_IN_CANDIDATES")
@@ -578,11 +589,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     require(git_value(repo_root, "branch", "--show-current") == EXPECTED_BRANCH, "BRANCH_MISMATCH")
     require(not git_value(repo_root, "status", "--porcelain"), "WORKTREE_NOT_CLEAN")
     source_commit = git_value(repo_root, "rev-parse", "HEAD")
-    require(args.run_id == f"{EXPERIMENT_ID}_{'smoke' if args.mode == 'smoke' else 'full'}_001", "RUN_ID_MISMATCH")
+    require(args.run_id == f"{EXPERIMENT_ID}_{'smoke' if args.mode == 'smoke' else 'full'}_{EXPECTED_RUN_ATTEMPT}", "RUN_ID_MISMATCH")
     require(not args.output_dir.exists(), "OUTPUT_DIRECTORY_ALREADY_EXISTS")
 
     config = read_json(args.config)
     require(config.get("experiment_id") == EXPERIMENT_ID, "CONFIG_EXPERIMENT_MISMATCH")
+    require(config.get("amendment", {}).get("id") == "001", "AMENDMENT_CONFIG_MISMATCH")
     require(sqlglot.__version__ == EXPECTED_SQLGLOT, "SQLGLOT_VERSION_MISMATCH")
     execution = config.get("execution", {})
     require(int(execution.get("per_query_timeout_seconds", -1)) == int(QUERY_TIMEOUT_SECONDS), "QUERY_TIMEOUT_CONFIG_MISMATCH")
@@ -677,8 +689,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         require(smoke_pass, "SMOKE_COVERAGE_GATE_FAILED")
     else:
         complete_labels = {row["anonymous_db"] for row in unit_rows if row.get("status") == "complete"}
-        require(summary["complete_units"] >= 80, "FULL_COVERAGE_GATE_FAILED")
-        require(len(complete_labels) >= 3, "FULL_DATABASE_COVERAGE_GATE_FAILED")
+        if summary["complete_units"] < 80:
+            coverage_status = "INCONCLUSIVE_FULL_COVERAGE"
+        elif len(complete_labels) < 3:
+            coverage_status = "INCONCLUSIVE_DATABASE_COVERAGE"
+        else:
+            coverage_status = None
 
     total_wall = time.perf_counter() - wall_start
     total_cpu = total_cpu_seconds()
@@ -691,6 +707,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     positive_rate = summary["nonempty_gold_units"]["bag_rate"]
     if args.mode == "smoke":
         status = "SMOKE_PASS"
+    elif coverage_status is not None:
+        status = coverage_status
     elif full_nonempty == 0:
         status = "INCONCLUSIVE_NO_NONEMPTY_GOLD"
     elif positive_rate is not None and positive_rate >= 0.10:
