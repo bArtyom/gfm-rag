@@ -4,7 +4,7 @@
 
 **Recovery registration:** `gfm_minidev_schema_retrieval_transfer_20261106_02`
 
-**Status:** amendment registered; recovery CPU label audit not yet run.
+**Status:** executed; recovery stopped at the preregistered Full column-label coverage gate. See [report `_02`](../reports/gfm_minidev_schema_retrieval_transfer_20261106_02/README.md).
 
 ## Why the first registration stopped
 
