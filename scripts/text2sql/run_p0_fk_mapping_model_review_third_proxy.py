@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import os
 from pathlib import Path
@@ -31,15 +30,8 @@ from run_p0_fk_mapping_model_review_proxy import (  # noqa: E402
 EXPECTED_PACKET_A = "0b6102f38c9a60afa9434091ce3b9c94e35460c47e105de804cfd119d826cfa2"
 EXPECTED_PACKET_B = "a30230c9562f95e00c0af88e7cd0277d6d27e9f26eca2863ca968540b944dfdb"
 EXPECTED_MODEL_SHA256 = "cfbd3d2f1cd71bd471c37fe2bf8546d5028d41e5736f64e1ca6c6b8893125503"
+EXPECTED_MODEL_BYTES = 15992595884
 MODEL_REVISION = "c53e9d33178b12afbad4a48334d21e19b8c29761"
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for block in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest()
 
 
 def record_local_request(*, call_id: str, run_id: str, model_name: str,
@@ -109,6 +101,8 @@ def main() -> None:
     model_file = model_dir / "model.safetensors"
     if not model_file.is_file():
         raise FileNotFoundError("local model.safetensors is missing")
+    if model_file.stat().st_size != EXPECTED_MODEL_BYTES:
+        raise ValueError("local model checkpoint size differs from the preflighted artifact")
     if args.model_file_sha256 != EXPECTED_MODEL_SHA256:
         raise ValueError("registered model artifact SHA-256 mismatch")
 
