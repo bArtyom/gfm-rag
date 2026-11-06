@@ -1,0 +1,39 @@
+{
+  "experiment_id": "p0_fk_sql_used_mapping_alignment_20261107_02",
+  "run_id": "p0_fk_sql_used_mapping_alignment_20261107_02_smoke_001",
+  "status": "STOP_SMOKE_GATE",
+  "mode": "smoke",
+  "selected_pair_count": 5,
+  "sql_parse_success_count": 5,
+  "scope_analysis_error_count": 0,
+  "qualified_join_equality_count": 8,
+  "resolved_qualified_join_equality_count": 8,
+  "questions_with_complete_qualified_join_equality_resolution": 5,
+  "pairs_with_complete_resolution_and_sql_used_candidate_mapping": 0,
+  "required_candidate_coverage_min": 4,
+  "full_run_started": false,
+  "ranking_metrics": null,
+  "pre_registration_commit": "5f2dcbfdc5d79c0b769914478b549905b7bf3a0f",
+  "runner_sha256": "1c1b2230ed3cb5531b612d1b0a69513f21bdac6cc85704d687852ad940da42cd",
+  "source_input_sha256": {
+    "dev_json": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "dev_tables_json": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "private_pair_manifest": "14d3e65e53bbc29c03d312fb32227c47b568242502e30bc3c4d4656b97521ed7",
+    "rank_predictions_full": "d06f07b2b1000e40dbc0614e9bdbe224a79130010011721b97eccaf3dd9b2484",
+    "rank_split": "40234d6c3430b1cede8a1d5cdcdfce7c10a6834c136f38f31ff716cff98f14c0"
+  },
+  "resources": {
+    "wall_seconds": 0.043952,
+    "cpu_seconds": 0.02685,
+    "peak_rss_gib": 0.631207,
+    "gpu_used": false
+  },
+  "local_model_calls": 0,
+  "external_api_calls": 0,
+  "confirmed_input_tokens": 0,
+  "confirmed_output_tokens": 0,
+  "confirmed_total_tokens": 0,
+  "estimated_api_cost_cny": "0.00",
+  "bill_verified": false,
+  "limitation": "No ranking metric was computed because zero of five Smoke pairs had a SQL-used mapping in the frozen candidate set. The aggregate does not distinguish absent candidate mappings from identity/pair alignment issues."
+}
