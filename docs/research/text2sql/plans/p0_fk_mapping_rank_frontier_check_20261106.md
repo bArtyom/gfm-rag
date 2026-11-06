@@ -65,3 +65,12 @@ A follow-up search found [Learning to Recover Bridge Path for SQL Schema Linking
 This further closes off a generic “recover missing bridge paths” experiment as a distinct contribution. The local open question is narrower: for a fixed, already-known table pair with several declared FK mappings, can the frozen G-reasoner rank a mapping in the independent human-accepted set above the Dense baseline? BPR-TAP’s bridge-path objective does not supply the required business-role labels or validate that mapping-level claim. It therefore does not remove the existing two-reviewer gate or change the next-experiment decision.
 
 This addendum is a literature review only. No model, SQL, GPU, or API run was performed. The 60-unit pair-level review packet remains pending independent human responses; the Accepted@1 Pilot remains the sole retained GFM candidate and is not started until its frozen label and sample gates pass.
+
+
+## Local neighboring role-map experiments cross-check (2026-11-06)
+
+A read-only check of the workspace's separate synthetic, policy-constrained Text2SQL line (EXP-129–143) found prior work on schema-role maps, lexical alignment, graph-based path repair, verifier feedback, and sampled candidate augmentation. This line has different tasks, generated schemas, and release criteria; its results are adjacent evidence and are not GFM-RAG/BIRD role-mapping scores.
+
+The most relevant transfer result is EXP-142 versus EXP-143: on the EXP-138 split, lexical candidates scored 16/30 utility and lexical-plus-sampled role-map candidates 18/30; on the second database-disjoint split, the lexical arm scored 9/30 and the union also scored 9/30, while raw Qwen role maps scored 1/30 and the sampled role-map arm 2/30. The one-split candidate-augmentation gain did not transfer. The same local line reports that visible-graph role repair did not recover intended fact/dimension grain. These results argue against adding another generic role-map generation, graph-repair, or stochastic-candidate experiment here.
+
+The task mismatch remains material: these local pilots generate policy-constrained SQL role maps over synthetic schemas, whereas the retained GFM question is whether a frozen graph checkpoint ranks a human-accepted declared FK mapping for a fixed BIRD table pair. The neighboring results do not replace the two-reviewer labels or answer that ranking question. The current Accepted@1 Pilot remains the sole GFM candidate and stays gated; no model experiment was run for this cross-check.
