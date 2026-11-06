@@ -6,6 +6,11 @@ import argparse
 import hashlib
 import json
 import os
+import platform
+import resource
+import subprocess
+import sys
+import time
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
@@ -48,6 +53,21 @@ def write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
         for row in rows:
             stream.write(json.dumps(row, ensure_ascii=False, sort_keys=True, allow_nan=False) + "\n")
     os.chmod(path, 0o600)
+
+
+def command_output(command: list[str]) -> str:
+    result = subprocess.run(command, capture_output=True, text=True)
+    return result.stdout.strip() if result.returncode == 0 else "unavailable"
+
+
+def git_output(*arguments: str) -> str:
+    repo_root = Path(__file__).resolve().parents[2]
+    return subprocess.run(
+        ["git", "-C", str(repo_root), *arguments],
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
 
 
 def normalize(value: str) -> str:
@@ -304,7 +324,15 @@ def main() -> None:
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--expected-questions-sha256", default=EXPECTED_QUESTIONS_SHA256)
     parser.add_argument("--expected-schema-sha256", default=EXPECTED_SCHEMA_SHA256)
+    parser.add_argument("--expected-commit", required=True)
     args = parser.parse_args()
+
+    started_wall = time.perf_counter()
+    started_cpu = time.process_time()
+    source_commit = git_output("rev-parse", "HEAD")
+    source_tree = git_output("rev-parse", "HEAD^{tree}")
+    if source_commit != args.expected_commit or git_output("status", "--porcelain"):
+        raise RuntimeError("CPU label audit requires the registered clean source commit")
 
     if args.output_dir.exists():
         raise FileExistsError(f"Refusing to reuse prepared output directory: {args.output_dir}")
@@ -396,7 +424,6 @@ def main() -> None:
     write_json(args.output_dir / "schema_manifest_private.json", manifest)
     audit = {
         "experiment_id": EXPERIMENT_ID,
-        "status": "LABEL_GATE_PASS" if gate_pass else "STOP_LABEL_GATE_FAILED",
         "questions": len(questions),
         "databases": len(manifest),
         "parsed_questions": parse_success,
@@ -422,9 +449,39 @@ def main() -> None:
         "sqlglot_version": sqlglot.__version__,
         "contains_raw_question_sql_database_names_or_row_results": False,
     }
+    cpu_seconds = time.process_time() - started_cpu
+    wall_seconds = time.perf_counter() - started_wall
+    max_rss_bytes = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024)
+    resource_pass = cpu_seconds <= 900 and wall_seconds <= 1200 and max_rss_bytes <= 8 * 1024**3
+    audit["status"] = "LABEL_GATE_PASS" if gate_pass and resource_pass else "STOP_LABEL_OR_RESOURCE_GATE_FAILED"
+    audit["resource_gate"] = {
+        "within_budget": resource_pass,
+        "process_cpu_seconds": cpu_seconds,
+        "wall_seconds": wall_seconds,
+        "peak_rss_bytes": max_rss_bytes,
+    }
     write_json(args.output_dir / "cpu_label_audit.json", audit)
+    preparation_manifest = {
+        "experiment_id": EXPERIMENT_ID,
+        "run_id": "gfm_minidev_schema_retrieval_transfer_20261106_labels_001",
+        "source_commit": source_commit,
+        "source_tree": source_tree,
+        "command_argv": [sys.executable, *sys.argv],
+        "environment": {"python": platform.python_version(), "sqlglot": sqlglot.__version__},
+        "resources_preflight": {
+            "captured_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "nvidia_smi": command_output([
+                "nvidia-smi", "--query-gpu=index,name,memory.total,memory.used,utilization.gpu",
+                "--format=csv,noheader,nounits",
+            ]),
+            "free_h": command_output(["free", "-h"]),
+            "nproc": command_output(["nproc"]),
+        },
+        "timing": {"wall_seconds": wall_seconds, "process_cpu_seconds": cpu_seconds, "peak_rss_bytes": max_rss_bytes},
+    }
+    write_json(args.output_dir / "preparation_manifest_private.json", preparation_manifest)
     print(json.dumps(audit, ensure_ascii=False, allow_nan=False), flush=True)
-    if not gate_pass:
+    if not gate_pass or not resource_pass:
         raise SystemExit(2)
 
 

@@ -154,16 +154,26 @@ def check_budget(wall_start: float, cpu_start: float, torch: Any, device: Any) -
     require(rss <= MAX_RSS_BYTES, f"Process RSS exceeded: {rss / 1024**3:.2f} GiB")
 
 
-def read_private_inputs(prepared_dir: Path, mode: str) -> tuple[list[dict[str, Any]], list[SchemaNode], list[dict[str, Any]], dict[str, Any]]:
+def read_private_inputs(
+    prepared_dir: Path,
+    mode: str,
+    source_commit: str,
+) -> tuple[list[dict[str, Any]], list[SchemaNode], list[dict[str, Any]], dict[str, Any], dict[str, Any]]:
     audit_path = prepared_dir / "cpu_label_audit.json"
+    preparation_manifest_path = prepared_dir / "preparation_manifest_private.json"
     question_path = prepared_dir / "questions_label_free.jsonl"
     node_path = prepared_dir / "schema_nodes_private.jsonl"
     schema_path = prepared_dir / "schema_manifest_private.json"
-    for path in (audit_path, question_path, node_path, schema_path):
+    for path in (audit_path, preparation_manifest_path, question_path, node_path, schema_path):
         require(path.is_file(), "A prepared private experiment input is missing")
     audit = json.loads(audit_path.read_text(encoding="utf-8"))
+    preparation_manifest = json.loads(preparation_manifest_path.read_text(encoding="utf-8"))
     require(audit.get("status") == "LABEL_GATE_PASS", "CPU label gate did not pass")
     require(audit.get("experiment_id") == EXPERIMENT_ID, "CPU audit belongs to a different experiment")
+    require(preparation_manifest.get("source_commit") == source_commit, "CPU audit and model runner source commits differ")
+    require(preparation_manifest.get("source_tree") == subprocess.run(
+        ["git", "-C", str(REPO_ROOT), "rev-parse", "HEAD^{tree}"], check=True, capture_output=True, text=True
+    ).stdout.strip(), "CPU audit and model runner source trees differ")
     require(audit.get("contains_raw_question_sql_database_names_or_row_results") is False, "Public-safety audit flag mismatch")
     questions = read_jsonl(question_path)
     raw_nodes = read_jsonl(node_path)
@@ -189,7 +199,7 @@ def read_private_inputs(prepared_dir: Path, mode: str) -> tuple[list[dict[str, A
     if mode == "smoke":
         require(len({row["db_id"] for row in selected}) == 5, "Smoke does not cover five databases")
         require(audit["smoke_column_eligible_questions"] >= 4 and audit["smoke_table_labeled_questions"] == 5, "Smoke label gates failed")
-    return selected, nodes, schemas, audit
+    return selected, nodes, schemas, audit, preparation_manifest
 
 
 def build_graphs(
@@ -424,7 +434,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         torch.set_num_interop_threads(MAX_THREADS)
         torch.cuda.reset_peak_memory_stats(device)
 
-        selected_questions, nodes, schemas, audit = read_private_inputs(args.prepared_dir.resolve(strict=True), args.mode)
+        selected_questions, nodes, schemas, audit, preparation_manifest = read_private_inputs(
+            args.prepared_dir.resolve(strict=True), args.mode, commit
+        )
         if smoke_summary is not None:
             require(smoke_summary.get("prepared_audit_sha256") == sha256_file(args.prepared_dir / "cpu_label_audit.json"), "Smoke and Full prepared inputs differ")
         shared_root = os.environ.get("GFM_SHARED_CODE_ROOT")
@@ -596,6 +608,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "source_tree": attempt["source_tree"],
             "config_sha256": attempt["config_sha256"],
             "prepared_audit_sha256": sha256_file(args.prepared_dir / "cpu_label_audit.json"),
+            "preparation_manifest_sha256": sha256_file(args.prepared_dir / "preparation_manifest_private.json"),
             "prepared_questions_sha256": sha256_file(args.prepared_dir / "questions_label_free.jsonl"),
             "prepared_schema_nodes_sha256": sha256_file(args.prepared_dir / "schema_nodes_private.jsonl"),
             "metrics": aggregate,
