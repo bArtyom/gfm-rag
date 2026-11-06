@@ -1,6 +1,6 @@
 # G-reasoner 表/列 Schema 检索迁移诊断
 
-**状态：预注册；Smoke/Full 尚未运行。** 实验 ID：`gfm_schema_retrieval_transfer_20261106_01`。这是一次 BIRD-dev 上的探索性 checkpoint-transfer 诊断，不是新算法主张、独立测试、FK Role 准确率或 SQL EX 实验。
+**状态：原始 `smoke_001` 在环境解释器入口处失败；Amendment 1 登记的 `smoke_002` 待运行，Full 尚未运行。** 失败在读取数据、载入模型或任何前向计算之前；无模型 token、外部 API 或 GPU 推理。详见[Amendment 1](gfm_schema_retrieval_transfer_20261106_amendment1.md)。实验 ID：`gfm_schema_retrieval_transfer_20261106_01`。这是一次 BIRD-dev 上的探索性 checkpoint-transfer 诊断，不是新算法主张、独立测试、FK Role 准确率或 SQL EX 实验。
 
 ## 痛点与研究问题
 
