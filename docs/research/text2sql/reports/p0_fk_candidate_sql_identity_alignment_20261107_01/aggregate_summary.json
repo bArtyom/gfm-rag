@@ -1,0 +1,10 @@
+{
+  "experiment_id": "p0_fk_candidate_sql_identity_alignment_20261107_01",
+  "status": "preregistered_not_run",
+  "smoke": null,
+  "full": null,
+  "private_pair_level_data_uploaded": false,
+  "model_calls": 0,
+  "external_api_calls": 0,
+  "gpu_used": false
+}

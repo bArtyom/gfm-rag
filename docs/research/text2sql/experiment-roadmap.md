@@ -1,3 +1,7 @@
+# 2026-11-07 bounded candidate–SQL identity diagnosis
+
+The prior SQL-used mapping Smoke stopped at 0/5 candidate coverage after successful SQL and qualified-column parsing. Its aggregate did not locate whether the selected table pair was absent from explicit SQL joins, the frozen FK candidate set lacked the SQL-used column identity, or the candidate-filtered matcher disagreed with direct identity comparison. One separate CPU-only diagnostic is preregistered at `docs/research/text2sql/plans/p0_fk_candidate_sql_identity_alignment_20261107.md`. It uses the same frozen 60 pairs, no rankings or model-review outputs, and reports anonymous coverage/error categories only. It does not reopen model ranking. Smoke and the single Full pass are bounded by the registered technical gates; no retry, parser tuning, or sample expansion is allowed.
+
 # 阶段实验方案：Dimension → Similarity → Role/Path → Text2SQL
 
 > **研究指导 v1（2026-10-14 制订；2026-10-16 迁入主仓库；原文保留，后续进展以状态更新为准）**。任务是找出“表示维度 vs 评分方法 vs 业务 JOIN 角色”各自可归因的影响；先使用最小可复现检索实验，再决定是否接入 GFM/GNN。
