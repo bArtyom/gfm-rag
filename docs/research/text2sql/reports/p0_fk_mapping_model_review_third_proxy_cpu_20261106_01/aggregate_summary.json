@@ -1,0 +1,68 @@
+{
+  "experiment_id": "p0_fk_mapping_model_review_third_proxy_20261106_01",
+  "run_id": "p0_fk_mapping_model_review_three_proxy_cpu_20261106_full_001",
+  "review_unit_count": 60,
+  "candidate_mapping_count": 135,
+  "human_labels_used": false,
+  "gold_sql_or_reference_join_used_by_aggregator": false,
+  "trusted_human_role_labels_created": 0,
+  "valid_outputs": {
+    "A": 59,
+    "B": 58,
+    "C": 60
+  },
+  "pairwise_exact_agreement": {
+    "A_B": {
+      "jointly_valid": 57,
+      "exact_decision_and_set_agreements": 28,
+      "agreement_rate": 0.491228
+    },
+    "A_C": {
+      "jointly_valid": 59,
+      "exact_decision_and_set_agreements": 40,
+      "agreement_rate": 0.677966
+    },
+    "B_C": {
+      "jointly_valid": 58,
+      "exact_decision_and_set_agreements": 34,
+      "agreement_rate": 0.586207
+    }
+  },
+  "three_valid_reviewer_units_unanimous": 23,
+  "three_valid_reviewer_units_two_of_three_pattern": 31,
+  "valid_vote_cardinality_pattern_counts": {
+    "1": 25,
+    "2": 32,
+    "3": 3
+  },
+  "high_confidence_exact_majority_count": 56,
+  "high_confidence_vote_pair_counts": {
+    "A+B": 5,
+    "A+B+C": 23,
+    "A+C": 17,
+    "B+C": 11
+  },
+  "high_confidence_majority_decision_counts": {
+    "multiple_mappings": 16,
+    "single_mapping": 40
+  },
+  "model_consensus_adjudicable_count": 56,
+  "model_consensus_distinguishable_count": 41,
+  "anonymous_database_count_for_distinguishable_consensus": 4,
+  "separate_exploratory_ranking_registration_gate": "PASS_MODEL_PROXY_ONLY",
+  "input_sha256": {
+    "reviewer_a_packet": "0b6102f38c9a60afa9434091ce3b9c94e35460c47e105de804cfd119d826cfa2",
+    "reviewer_b_packet": "a30230c9562f95e00c0af88e7cd0277d6d27e9f26eca2863ca968540b944dfdb",
+    "private_manifest": "14d3e65e53bbc29c03d312fb32227c47b568242502e30bc3c4d4656b97521ed7",
+    "reviewer_a_outputs": "f3d2beb21290c49790679e53ac0bf8dc50084b7b34ee228843f06330ac120883",
+    "reviewer_b_outputs": "2b49a5772f061ed70f02ea21811e392fd6afd086fa7030aca9fe737c2c8af077",
+    "reviewer_c_outputs": "88c5b79785af76896055378ece4776b523bdb036588304cd63305db51a10d333"
+  },
+  "privacy": {
+    "contains_questions_or_schema_names": false,
+    "contains_pair_or_case_ids": false,
+    "contains_mapping_ids": false,
+    "contains_model_raw_outputs": false,
+    "contains_gold_sql_or_human_review": false
+  }
+}
