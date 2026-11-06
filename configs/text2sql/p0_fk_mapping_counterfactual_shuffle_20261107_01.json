@@ -1,0 +1,46 @@
+{
+  "experiment_id": "p0_fk_mapping_counterfactual_shuffle_20261107_01",
+  "status": "preregistered",
+  "source_commit": "3efabf6318c67a34d9893233ccc700c2e727d0b8",
+  "branch": "research/p0-sql-used-proxy-alignment-20261107",
+  "dataset": {
+    "name": "BIRD dev local snapshot",
+    "source_experiment": "p0_fk_sql_used_mapping_rank_20261107_03",
+    "prior_experiment": "p0_fk_mapping_instance_equivalence_20261107_01",
+    "source_full_units": 94,
+    "source_equal_candidate_pairs": 55,
+    "source_anonymous_databases": 4,
+    "sample_policy": "fixed 55 candidate comparisons; no resampling"
+  },
+  "intervention": {
+    "kind": "counterfactual read-only temp-view overlay",
+    "mutated_fields": "eligible single-column FK child values only",
+    "permutations_per_pair": 20,
+    "seed_start": 20261107,
+    "seed_end_inclusive": 20261126,
+    "seed_count": 20,
+    "preserve": ["column value multiset", "NULL count", "referenced parent-key domain", "applicable uniqueness constraints", "source DB bytes"],
+    "exclude": ["composite FK", "overlapping changed FK fields", "no stable row key", "unique-constraint violation"]
+  },
+  "metrics": {
+    "primary": "EverBagDiverged@20",
+    "positive_threshold": 0.5,
+    "weak_threshold": 0.25,
+    "minimum_eligible_pairs": 40,
+    "minimum_anonymous_databases": 3
+  },
+  "execution": {
+    "smoke_pairs": 5,
+    "max_cpu_threads": 8,
+    "max_cpu_seconds": 1800,
+    "max_wall_seconds": 3600,
+    "max_rss_gib": 4,
+    "external_api_calls": 0,
+    "sql_diagnostic_gpu_seconds": 0,
+    "model_protocol_reviewers": [
+      "Qwen2.5-Coder-7B-Instruct",
+      "Qwen3-4B-Think2SQL"
+    ]
+  },
+  "privacy": "Questions, SQL, mappings, row values, database names, row-level outputs, and model prompts remain local. Only protocol, code, and anonymous aggregate are public."
+}
