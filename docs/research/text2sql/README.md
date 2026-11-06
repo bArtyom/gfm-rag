@@ -2,6 +2,8 @@
 
 > **最新决策（2026-11-06）**：用户选择的本地模型审阅代理路线、一次 G-reasoner 排序诊断、起点敏感性诊断及错误分层均已完成。代理排序为 7/38 对 27/38，错误分层未发现正向子群；G3 为 inconclusive。按停止规则，当前 BIRD-dev GFM 排序支线不再扩展，进入错误模式综合和新问题筛选。模型标签仍不是人工 Role 真值。见[下一阶段决策记录](plans/next_step_evidence_synthesis_20261106.md)。
 
+> **2026-11-06 后续迁移诊断预注册**：用户要求从现有痛点继续寻找下一项实验。FK mapping 代理排序保持 NO-GO；新问题改为 G-reasoner 是否能在其原始表/列检索任务中提供增量。已登记一次 BIRD-dev exploratory checkpoint-transfer 诊断：Dense 与 G1/G3 共用 checkpoint 兼容 Query 指令、同一 Qwen3 向量、values-free R1 Schema 候选；仅沿双向 table/column membership 图传播，不输入 FK 或 Gold。该方向与 REaR、Graph-Link、Rethinking Schema Linking、JoinGR 有近邻，因此不作新算法主张。当前只有预注册，Smoke/Full 尚未运行；见[方案](plans/gfm_schema_retrieval_transfer_20261106.md)及[冻结配置](../../../configs/text2sql/gfm_schema_retrieval_transfer_20261106.json)。
+
 > **唯一主仓库：[`bArtyom/gfm-rag`](https://github.com/bArtyom/gfm-rag)。生效日期：2026-10-16。**
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。

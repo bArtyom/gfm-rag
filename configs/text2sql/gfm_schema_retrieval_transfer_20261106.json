@@ -1,0 +1,150 @@
+{
+  "experiment_id": "gfm_schema_retrieval_transfer_20261106_01",
+  "status": "preregistered_not_run",
+  "layer": "exploratory G-reasoner schema-retrieval transfer diagnostic",
+  "repository": "https://github.com/bArtyom/gfm-rag",
+  "branch": "research/gfm-schema-retrieval-transfer-20261106",
+  "base_commit": "6d640f07e9b52081d24e1eed2611d0e2629ac8fb",
+  "official_upstream": {
+    "repository": "https://github.com/RManLuo/gfm-rag",
+    "commit": "b3e43219c49929da505244df4f0ba54c0947e4c4",
+    "license": "Apache-2.0"
+  },
+  "core_hypothesis": "With matched Qwen3 inputs and the same BIRD table/column candidates, frozen G-reasoner propagation from Dense Top-3 table and column anchors improves Column Recall@10 over matched Dense cosine and over the Top-1-anchor G-reasoner condition, without materially reducing Table Recall@10.",
+  "scope": {
+    "claim_type": "checkpoint-transfer diagnostic only",
+    "not_claimed": [
+      "novel schema-linking method",
+      "independent-dataset generalization",
+      "FK role or JOIN path accuracy",
+      "SQL execution accuracy",
+      "causal mechanism proof"
+    ],
+    "prior_stopped_line": "BIRD-dev FK mapping model-proxy ranking",
+    "task_difference": "whole-schema table/column retrieval rather than ranking FK mappings for a fixed table pair"
+  },
+  "data": {
+    "dataset": "BIRD dev",
+    "questions": 1534,
+    "databases": 11,
+    "table_nodes": 75,
+    "column_nodes": 798,
+    "column_eligible_questions": 1460,
+    "gold_column_elements": 6523,
+    "question_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "schema_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "p0_audit_sha256": "0f3f104638e1a37c579db81c453aa514188e0a40341938b92964db833410ebcf",
+    "gold_labels_sha256": "1b501810f0247999de1210fc807f3c39e60c2fab498cd104f8eb60f815269525",
+    "p1_6_input_manifest_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a",
+    "ordered_r0_node_manifest_sha256": "4e930d3b906d46d77381edbfee8bfb57ab04fc09d47b9e90fc6272986cceaa5a",
+    "ordered_r1_node_text_sha256": "73c59126b931fb72b7c09ba06de76327057e32832e2aeef0c8175b8956ed3e3c",
+    "split": "all 1534 rows in source order; BIRD dev is development data and all outcomes remain exploratory"
+  },
+  "feature_contract": {
+    "query_instruction": "Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery: ",
+    "query_vectors": "re-encode raw BIRD question text with the exact checkpoint query instruction; never reuse P1.6/P2c query cache",
+    "schema_node_text": "P2b/P2c-R R1 ordered schema text; Values removed; same vectors shared by Dense/G1/G3",
+    "relation_texts": [
+      "Relation: table contains column.",
+      "Relation: column belongs to table."
+    ],
+    "relation_vector_instruction": null,
+    "graph_nodes": "only frozen tables and columns, database-local",
+    "graph_edges": [
+      {"source": "table", "target": "column", "relation_id": 0},
+      {"source": "column", "target": "table", "relation_id": 1}
+    ],
+    "excluded_from_features_and_masks": [
+      "Gold tables and columns",
+      "Gold SQL and joins",
+      "database rows",
+      "foreign-key edges",
+      "Values text",
+      "business-role annotations"
+    ]
+  },
+  "models": {
+    "embedding": {
+      "name": "Qwen3-Embedding-0.6B",
+      "dimension": 1024,
+      "file_manifest_sha256": "b89ec1366231e37e92c64eaff3f98edce0f0c6af15cc8c7991ed900520143c68",
+      "weight_sha256": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd",
+      "path_alias": "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+      "device": "local GPU"
+    },
+    "g_reasoner": {
+      "name": "G-reasoner-34M",
+      "parameters": 34640897,
+      "model_pth_sha256": "2f2a1a2d2f5725133428941b785f3898255666b06041b58420f75e60599d387d",
+      "config_sha256": "75d14b97d6a077ebc17b09a21170a3d9272251db59f7ac8cc853165efb2efd5",
+      "layers": 6,
+      "modified_or_trained": false,
+      "path_alias": "/mnt/liansp3/sources/models/g-reasoner-34m"
+    }
+  },
+  "conditions": {
+    "D0": {"scorer": "cosine", "start_nodes": null},
+    "G1": {"scorer": "frozen G-reasoner", "dense_anchor_top_k_per_type": 1},
+    "G3": {"scorer": "frozen G-reasoner", "dense_anchor_top_k_per_type": 3}
+  },
+  "metrics": {
+    "primary": "query-macro Column Recall@10 over 1460 eligible questions",
+    "guards": [
+      "Table Recall@10",
+      "Column Precision@10",
+      "per-database rescue and damage"
+    ],
+    "bootstrap": {"unit": "database cluster", "draws": 10000, "seed": 20261106}
+  },
+  "success_criteria": {
+    "G3_minus_D0_column_recall_at_10_minimum_pp": 2.0,
+    "G3_minus_D0_database_cluster_bootstrap_95ci_lower_bound": "> 0",
+    "G3_minus_G1_column_recall_at_10_minimum_pp": 1.0,
+    "G3_minus_D0_table_recall_at_10_minimum_pp": -1.0,
+    "all_conditions_required": true,
+    "pass_means": "eligible only for a separately registered independent-data replication design"
+  },
+  "resource_budget": {
+    "gpu": "one idle RTX 4090; physical GPU 0",
+    "max_gpu_allocated_gib": 8,
+    "cpu_threads": 8,
+    "max_process_rss_gib": 8,
+    "max_process_cpu_seconds_per_stage": 900,
+    "max_wall_seconds_per_stage": 1200,
+    "external_api_requests": 0,
+    "dependency_install_or_upgrade": false,
+    "training_or_finetuning": false,
+    "sql_execution": false
+  },
+  "environment": {
+    "conda_environment": "gfmrag_greasoner_20261022",
+    "python": "3.12.15",
+    "pytorch": "2.8.0",
+    "torch_geometric": "2.6.1",
+    "transformers": "4.56.1",
+    "sentence_transformers": "5.1.1"
+  },
+  "run_ids": {
+    "smoke": "gfm_schema_retrieval_transfer_20261106_smoke_001",
+    "full": "gfm_schema_retrieval_transfer_20261106_full_001"
+  },
+  "private_output_dirs": {
+    "smoke": "/mnt/liansp3/sources/results/gfmrag_gfm_schema_retrieval_transfer_20261106_01/smoke_001",
+    "full": "/mnt/liansp3/sources/results/gfmrag_gfm_schema_retrieval_transfer_20261106_01/full_001"
+  },
+  "report_path": "docs/research/text2sql/reports/gfm_schema_retrieval_transfer_20261106_01/README.md",
+  "stop_conditions": [
+    "any dataset, label, node-order, R1-text, checkpoint, or query-instruction hash mismatch",
+    "Gold leakage into encoding, seed selection, graph construction, or ranking",
+    "non-finite vectors/scores, invalid masks, or graph/device-transfer corruption",
+    "Smoke failure or resource cap breach",
+    "any source/dependency/input change between Smoke and Full",
+    "Full completion; no further anchor, edge, relation-text, checkpoint, or instruction scan"
+  ],
+  "related_work_boundary": [
+    "https://aclanthology.org/2026.acl-long.1826/",
+    "https://proceedings.mlr.press/v306/zhong26s.html",
+    "https://aclanthology.org/2026.findings-eacl.236/",
+    "https://arxiv.org/abs/2610.01064"
+  ]
+}
