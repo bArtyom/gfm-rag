@@ -246,4 +246,8 @@ REaR、Graph-Link、Rethinking Schema Linking、JoinGR 已覆盖多类图式/结
 
 Amendment 001 在任何 SQL 解析前把评测资格收紧为“该问题所有 qualified JOIN-ON 等式均已解析”，因为当前复用 helper 只提供 query-level resolution counters；这会牺牲覆盖率以避免不完整 SQL mapping 集进入主指标。
 
-设备检查显示 4 张 RTX 4090 当前约 80–82% 使用；本实验限定 CPU、不加载模型、无需 GPU。代码与报告使用独立 run IDs 和目录。预注册提交地址、输入哈希、实现 commit、环境和命令均归档在[实验方案](plans/p0_fk_sql_used_proxy_alignment_20261107.md)与[配置](../../../configs/text2sql/p0_fk_sql_used_mapping_alignment_20261107.json)；当前尚未执行任何样本解析或指标计算。
+设备检查显示 4 张 RTX 4090 当前约 80–82% 使用；本实验限定 CPU、不加载模型、无需 GPU。代码与报告使用独立 run IDs 和目录。预注册提交地址、输入哈希、实现 commit、环境和命令均归档在[实验方案](plans/p0_fk_sql_used_proxy_alignment_20261107.md)与[配置](../../../configs/text2sql/p0_fk_sql_used_mapping_alignment_20261107.json)。
+
+### 2026-11-07 执行结果：SQL-used FK 映射复核在 Smoke 预检停止
+
+运行准备提前创建了 `smoke_001/` 输出目录，触发运行器的 `OUTPUT_DIRECTORY_ALREADY_EXISTS` 保护；运行器在输入读取前停止，未解析 SQL、未计算任何排名指标，Full 未运行。按冻结规则不重试该注册，核心假设未检验。完整记录见[执行报告](reports/p0_fk_sql_used_mapping_alignment_20261107_01/README.md)和[匿名汇总](reports/p0_fk_sql_used_mapping_alignment_20261107_01/aggregate_summary.json)。

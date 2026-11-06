@@ -1,6 +1,6 @@
 # P0：冻结 FK 排序对参考 SQL 映射的配对复核
 
-**状态：预注册；尚未读取 Gold SQL、解析标签或运行 Smoke。** 结果只回答参考 SQL 明确使用的 FK mapping 排序，不回答唯一语义正确的业务关系。
+**状态：已停止；Smoke 在读取 Gold SQL 或解析标签前触发输出目录门。** 结果只回答参考 SQL 明确使用的 FK mapping 排序，不回答唯一语义正确的业务关系。
 
 ## 研究问题与核心假设
 
@@ -66,3 +66,7 @@ This audit can show whether the previously observed G-reasoner/Dense ordering tr
 ## Amendment 001 — freeze complete-equality eligibility before execution
 
 Before any sample SQL was parsed, the Full eligibility rule was tightened to require that every qualified explicit JOIN-ON equality in a question resolves. The parser helper returns query-level resolution counters, not counters isolated to the selected table pair; therefore this conservative rule may drop a question because of an unrelated join, but it avoids treating a partially extracted mapping set as complete. No input, sample, model, ranking, success threshold, run budget, or result was read or changed. This is the only pre-execution amendment.
+
+## 执行记录（2026-11-07）
+
+`p0_fk_sql_used_mapping_alignment_20261107_smoke_001` 在运行器第一道输出目录检查处停止，状态 `OUTPUT_DIRECTORY_ALREADY_EXISTS`。运行准备阶段提前创建了 `smoke_001/` 空目录；运行器要求该路径不存在，并由运行器自行创建。日志保留在 `/mnt/liansp3/logs/gfmrag_p0_fk_sql_used_mapping_alignment_20261107_01/smoke_001.log`。本次没有读取任何输入、SQL 或预测，没有解析样本、没有 SQLGlot 检查、没有模型/API/GPU 调用；Full 未启动。按冻结停止规则，此注册不重试。详见[执行报告](../reports/p0_fk_sql_used_mapping_alignment_20261107_01/README.md)与[匿名状态汇总](../reports/p0_fk_sql_used_mapping_alignment_20261107_01/aggregate_summary.json)。
