@@ -1,0 +1,99 @@
+{
+  "experiment_id": "p0_minidev_sql_fk_mapping_rank_20261106_01",
+  "status": "preregistered_cpu_label_gate_pending",
+  "project": {
+    "repository": "https://github.com/bArtyom/gfm-rag",
+    "branch": "research/minidev-sql-fk-use-rank-20261106",
+    "registration_base_commit": "b73df4669d7ddb20e29226f8b0a9d0d8fa8bc704",
+    "upstream_method_repository": "https://github.com/RManLuo/gfm-rag",
+    "upstream_method_commit": "b3e43219c49929da505244df4f0ba54c0947e4c4"
+  },
+  "data": {
+    "dataset_repository": "https://huggingface.co/datasets/birdsql/bird_mini_dev",
+    "dataset_revision": "38818fcbc46038129592680c51b2c8b597aac27c",
+    "split": "data/mini_dev_sqlite.jsonl",
+    "local_path": "/mnt/liansp3/sources/datasets/bird_mini_dev_2026_reviewed/mini_dev_sqlite.jsonl",
+    "sha256": "926af2a0d1b47e5d0d15a7aa8a34d4721007f4550a881555b6a89496b54a2606",
+    "rows": 500,
+    "license": "CC-BY-SA-4.0",
+    "official_schema_file": "baseline_inference/schemas/sqlite.json",
+    "official_schema_local_path": "/mnt/liansp3/sources/datasets/bird_mini_dev_2026_reviewed/sqlite_schema.json",
+    "official_schema_sha256": "5176e324a72e80a8a37a12285596d123e0ba6c310dceaa9f13a1e413ee88ff5b",
+    "bird_dev_tables_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "fk_artifact": "/mnt/liansp3/sources/results/gfmrag_p1_5_diagnosis_20261016/full_03/fk_gate_private.json",
+    "fk_artifact_sha256": "5bc60f6d64429215fa92d3c3a42f1a4881dc77c09839729153fb55a119555060",
+    "dev_tables_path": "/mnt/liansp3/sources/datasets/bird/dev/dev_tables.json"
+  },
+  "labels": {
+    "definition": "complete declared FK mapping identity whose ordered column pairs all appear in a Gold SQL explicit JOIN ON condition",
+    "sqlglot_version": "28.0.0",
+    "dialect": "sqlite",
+    "implicit_where_joins": "exclude_and_count",
+    "using_joins": "exclude_and_count",
+    "unresolved_aliases_or_columns": "exclude_and_count",
+    "composite_fk_match": "all ordered column pairs must be present",
+    "duplicate_mapping_identity": "collapse_case_insensitive_complete_identity_keep_lexicographically_smallest_mapping_id",
+    "equality_scope": "within_one_join_on_and_one_alias_pair",
+    "multiple_gold_mappings": "accept_all_exact_matches",
+    "gold_sql_used_for_query_features": false,
+    "evidence_used_for_query_features": false
+  },
+  "label_quality_gate": {
+    "sql_parse_success_rate_min": 0.98,
+    "qualified_join_equality_resolution_rate_min": 0.95,
+    "resolution_denominator": "JOIN ON equality with two qualified column operands"
+  },
+  "label_audit_environment": {
+    "environment": "think2sql_20260909",
+    "python": "3.12.14",
+    "sqlglot": "28.0.0",
+    "execution": "CPU only; reuse the pre-existing environment; no dependency changes"
+  },
+  "split": {
+    "smoke_question_count": 5,
+    "selection": "ascending SHA256(experiment_id + db_id + question_id)",
+    "smoke_excluded_from_full": true,
+    "min_full_scored_pairs": 30,
+    "min_full_databases": 3
+  },
+  "methods": {
+    "primary": ["g_reasoner", "dense_cosine"],
+    "secondary": ["bm25_okapi", "stable_mapping_id_order"],
+    "primary_metric": "gold_sql_mapping_at_1",
+    "secondary_metrics": ["gold_sql_mapping_at_3", "mrr_first_gold_mapping", "paired_net_rescue"],
+    "positive_screen": {
+      "g_reasoner_minus_dense_at_1_pp_at_least": 5.0,
+      "net_rescues_at_least": 4,
+      "positive_databases_with_n_at_least_5": 2
+    },
+    "g_reasoner_checkpoint": "/mnt/liansp3/sources/models/g-reasoner-34m",
+    "g_reasoner_model_sha256": "2f2a1a2d2f5725133428941b785f3898255666b06041b58420f75e60599d387d",
+    "g_reasoner_config_sha256": "75d14b97d6a077ebc17b09a21170a3ad9272251db59f7ac8cc853165efb2efd5",
+    "embedding_model": "/mnt/liansp3/sources/models/qwen3-embedding-0.6b",
+    "embedding_model_sha256": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd",
+    "embedding_config_sha256": "b5bf1f51fc45be473a54718cef92448d90a1be001bf9b9a44b8c7f10a19feaa9",
+    "query_text": "question_only",
+    "query_instruction": "Instruct: Given a web search query, retrieve relevant passages that answer the query\\nQuery: ",
+    "graph": "same_reified_four_relation_type_dual_table_seed_as_2026_11_06_proxy_pilot",
+    "training": false
+  },
+  "resources": {
+    "environment": "gfmrag_greasoner_20261022",
+    "python": "3.12.15",
+    "torch": "2.8.0",
+    "torch_geometric": "2.6.1",
+    "transformers": "4.56.1",
+    "sentence_transformers": "5.1.1",
+    "gpu_count": 1,
+    "max_gpu_bytes": 8589934592,
+    "max_rss_bytes": 17179869184,
+    "max_wall_seconds": 1200,
+    "full_attempts": 1,
+    "smoke_attempts": 1,
+    "external_api_calls": 0
+  },
+  "privacy": {
+    "public_report_contains_raw_question_sql_or_database_names": false,
+    "public_report_contains_mapping_ids_or_per_question_ranks": false
+  }
+}

@@ -188,6 +188,10 @@ G2、FK Gate、身份策略、G0及P0复核均各自保留运行ID与结果，�
 
 **下一次接到“看最新报告、分析下一轮、保存到 GitHub”时：先看本仓库，再给出可归因分析，并提交新版本指导。**
 
+### 2026-11-06：新版 BIRD Mini-Dev SQL 映射迁移诊断（预注册）
+
+旧 BIRD-dev 模型代理映射排序已按 NO-GO 停止；本计划使用官方 2026 reviewed Mini-Dev 新题集与冻结的 FK 候选，测试一个更窄的问题：Gold SQL 显式 `JOIN ON` 实际使用的已声明 mapping 能否被冻结 G-reasoner 排在 Dense 之前。这个标签只代表参考 SQL 采用的 mapping，不是真实人类 Role 标签；数据沿用同一组 11 个数据库，因此不作为跨库泛化证据。先做 CPU-only SQL 解析与标签覆盖门，未通过就停止、不加载模型。见[预注册方案](plans/p0_minidev_sql_fk_mapping_rank_20261106.md)和[冻结配置](../../../configs/text2sql/p0_minidev_sql_fk_mapping_rank_20261106.json)。
+
 
 > **2026-11-06 双模型审阅分歧归因**：只读审计 60 个匿名问题×表对，双方有效 57 个，精确决定与接受集合一致 28 个；23 个分歧来自“单映射/多映射”决定不同，候选顺序分组一致率接近。两模型自报置信度高并未解决分歧。排序门仍未通过，模型输出不是人工金标准。用户选择继续用模型审阅；下一步候选为单独预注册一个不同模型家族的盲审，并预先冻结三方代理共识规则，是否进入探索性排序仍需看新门槛。见[分歧归因报告](reports/p0_fk_model_review_disagreement_audit_20261106_01/README.md)及[匿名聚合](reports/p0_fk_model_review_disagreement_audit_20261106_01/aggregate_summary.json)。
 

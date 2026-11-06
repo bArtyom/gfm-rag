@@ -204,3 +204,9 @@ Smoke_002 通过；Full 完成55个问题×表对、123个mapping候选。A1 对
 ## 2026-11-06 下一阶段决策
 
 模型代理审阅及其唯一探索排序已完成；排序为 G-reasoner 7/38、Dense 27/38，错误分层没有发现已观察到的正向子群；G3 起点诊断为 INCONCLUSIVE。结合 P2c-R 的离线 Schema 覆盖收益尚无 SQL EX 支持、P2d.2 错误主要集中在 SQL 结构与作用域、P2d.3 受限修复未达到效用门，当前 BIRD-dev 排序/通用修复分支停止扩展，转入错误模式综合和新核心问题筛选。不得把模型代理多数当作人工标签。候选筛选和重启条件见[下一阶段决策记录](plans/next_step_evidence_synthesis_20261106.md)。
+
+## 2026-11-06 新版 BIRD Mini-Dev Gold-SQL mapping 迁移诊断（单次、有界）
+
+本项不是重开旧 BIRD-dev 代理标签排序，也不是宣称拿到了人类 FK Role 标签。官方 2026 reviewed Mini-Dev 给出新的人工复核参考 SQL；标签被严格定义为“在参考 SQL 显式 `JOIN ... ON` 中出现的已声明 FK mapping”。它只验证已知端点后的 mapping 排序，11 个数据库与既有 BIRD 资源相同，不能支持跨数据库泛化或 QuadGraph 整体性能主张。
+
+先在 CPU-only 环境解析 5 题 Smoke，再完成其余题的单次 SQL 覆盖审计。只有 SQL parse ≥98%、限定 JOIN 等式的列解析 ≥95%、排除 Smoke 后至少 30 个可评分问题×表对且覆盖至少 3 个数据库，才运行冻结 G-reasoner 与 Dense 的一次 Smoke/Full 排序比较。质量门失败即归档停止；无同一数据上的调参、图结构扫描或扩样。成功筛选门是 G-reasoner Mapping@1 至少 +5pp、净救回 ≥4，且至少两个各 n≥5 的数据库净救回为正。完整预算、字段边界、环境、版本与复现步骤见[预注册方案](plans/p0_minidev_sql_fk_mapping_rank_20261106.md)及[配置](../../../configs/text2sql/p0_minidev_sql_fk_mapping_rank_20261106.json)。
