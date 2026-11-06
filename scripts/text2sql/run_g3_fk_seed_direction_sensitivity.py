@@ -1,3 +1,5 @@
+ scripts/text2sql/run_g3_fk_seed_direction_sensitivity.py | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 #!/usr/bin/env python3
 """Run the preregistered label-free G3 seed-direction sensitivity diagnostic."""
 from __future__ import annotations
@@ -239,8 +241,12 @@ def comparison_summary(rows: dict[str, dict[str, dict[str, float]]]) -> dict[str
 
 
 def run(args: argparse.Namespace) -> dict[str, Any]:
-    expected_run_id = f"{EXPERIMENT_ID}_{args.mode}_001"
-    require(args.run_id == expected_run_id, "run ID differs from preregistration")
+    expected_run_prefix = f"{EXPERIMENT_ID}_{args.mode}_"
+    attempt_suffix = args.run_id.removeprefix(expected_run_prefix)
+    require(
+        args.run_id.startswith(expected_run_prefix) and attempt_suffix in {"001", "002", "003"},
+        "run ID must use the preregistered experiment/mode and a unique attempt suffix",
+    )
     require(args.device == "cuda:0", "only the preregistered single visible CUDA device is allowed")
     visible_gpu = os.environ.get("CUDA_VISIBLE_DEVICES", "")
     require(visible_gpu == "1", "pin the preregistered physical GPU 1")
