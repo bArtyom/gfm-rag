@@ -292,8 +292,14 @@ Qwen A/B 与 Gemma C 的模型审阅已经完成；新增模型票不会建立�
 
 失败回执和命令日志留在 `/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_rank_20261107_02/cpu_001/` 与 `/mnt/liansp3/logs/gfmrag_p0_fk_sql_used_mapping_rank_20261107_02/cpu_001.log`。未产生模型 token、GPU 前向或科学指标。此次错误来自启动参数人工抄写；当前按实验室规则暂停这条注册，不直接追加新 run。
 
-## 2026-11-07：FK mapping 静态实例可区分性审计（Amendment 001 已登记）
+## 2026-11-07：FK mapping 静态实例可区分性审计（Amendment 001 与完成结果）
 
 原始 Smoke_001 5/5 完成；该 Smoke 中1/5个非空 Gold 输出单元存在至少一个 Bag 相同的替代 FK 候选，仅作试运行观察。Full_001 的首次调用因 python3 落到 Python 3.9、与冻结 SQLGlot 28.0.0 不符，在读取输入前停止。使用环境内明确的 python3.12 后，Full 读取了固定样本并执行到 40/108；36 个单元完整，随后 manifest 中某单元的 SQL-used target 数量不是1，runner 以 SQL_USED_TARGET_NOT_SINGLETON 终止整轮。只留失败回执，没有聚合结果，不能给出 Full 科学结论。
 
 根因与原方案的 unsupported-case 契约不一致：方案要求把非单目标映射作为不可替换单元，并在 Full coverage 未达80题/3库时报告覆盖不足；原 runner 却将目标数非1作为致命 run error，且在输出聚合前就强制检查 Full coverage。Amendment 001 只增加 reason-coded not_substitutable 处理与不足覆盖状态汇总，固定原108个样本、359个候选映射行、SQL变换、SQLite只读 evaluator、资源预算及10%/5%门槛。Recovery 只允许 Smoke_002 5题与其后至多一次 Full_002；Smoke失败即停，Recovery再遇其他 run-level error 不做第三次尝试。无模型/API/GPU调用。详见[Amendment 001](plans/amendments/p0_fk_mapping_instance_equivalence_amendment_001.md)及[恢复配置](../../../configs/text2sql/p0_fk_mapping_instance_equivalence_20261107_01_amendment_001.json)。
+
+### Recovery 完成：Full_002 达到覆盖门并发现正向实例信号
+
+Smoke_002 5/5 完整。Full_002 从固定108单元重新运行，94个完整、4个匿名库，达到≥80单元/≥3库覆盖门。主指标54/94（57.45%）非空完整单元至少有一个替代 FK mapping 在该静态数据库实例上与 Gold SQL Bag 相同；Wilson 95%区间47.35%–66.96%，超过预注册10%信号门。数据库分层分别为DB-A 0/21、DB-B 44/54、DB-C 1/10、DB-D 9/9。14个单元不完整，原因及计数见[报告](reports/p0_fk_mapping_instance_equivalence_20261107_01/README.md)和[匿名汇总](reports/p0_fk_mapping_instance_equivalence_20261107_01/aggregate_summary.json)。
+
+结论只涉及当前静态实例的输出不可区分性，不证明语义等价、Gold错误、人工 Role 或 G-reasoner 排名。此注册停止；不追加模型票或 GFM 排序。若需进一步区分数据巧合与跨实例稳定性，应先为独立的受控多实例实验预注册数据构造与判据。

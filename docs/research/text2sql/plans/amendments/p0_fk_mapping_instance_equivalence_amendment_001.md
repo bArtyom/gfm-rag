@@ -1,6 +1,6 @@
 # Amendment 001：恢复多目标 SQL-used mapping 的 Full 单元处理
 
-**登记状态：已预注册；尚未运行。** 本 amendment 从原注册提交 2a8523c599d8846ec452281de8ddc970afd32e4a 派生。原注册的失败记录保留，不重用 smoke_001 或 full_001。
+**状态：Recovery Smoke_002 与 Full_002 已完成。** Amendment 从原注册提交 2a8523c599d8846ec452281de8ddc970afd32e4a 派生；旧失败记录保留，完整恢复结果见[实验报告](../../reports/p0_fk_mapping_instance_equivalence_20261107_01/README.md)。恢复未重用 smoke_001 或 full_001。
 
 ## 触发原因
 

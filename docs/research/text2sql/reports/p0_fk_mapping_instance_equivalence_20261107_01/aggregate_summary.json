@@ -1,0 +1,110 @@
+{
+  "experiment_id": "p0_fk_mapping_instance_equivalence_20261107_01",
+  "status": "POSITIVE_INSTANCE_EQUIVALENCE_SIGNAL",
+  "repository": "bArtyom/gfm-rag",
+  "branch": "research/p0-sql-used-proxy-alignment-20261107",
+  "initial_registration_commit": "2a8523c599d8846ec452281de8ddc970afd32e4a",
+  "recovery_amendment_commit": "e0d3e0d0d617cbedc02ef317f3578057b36b28ee",
+  "recovery_source_commit": "e0d3e0d0d617cbedc02ef317f3578057b36b28ee",
+  "runner_sha256": "99245f972de3f8827c812ec0fc5f89e3d269ea9b80bfb5a1c1bad03ce81adc3c",
+  "config_sha256": "7be0192548346e1d3bb7e554b779c459bda7334f4cb97d83cca5d021f5bd502b",
+  "inputs": {
+    "bird_dev_json_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "bird_dev_tables_json_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "frozen_manifest_sha256": "cc6dd6263f4b3a50c444c4f8ea82d9923f8b2dea5eac46d2ade5201a62550ad0"
+  },
+  "runs": {
+    "smoke_001": {
+      "status": "SMOKE_PASS",
+      "selected_units": 5,
+      "complete_units": 5,
+      "alternative_candidate_comparisons": 26,
+      "units_with_any_bag_equal_alternative": 1
+    },
+    "full_001_startup_attempt": {
+      "status": "STOPPED_BEFORE_INPUT_READ",
+      "reason": "SQLGLOT_VERSION_MISMATCH",
+      "detail": "The python3 command resolved to Python 3.9 through the inherited PATH."
+    },
+    "full_001_execution_attempt": {
+      "status": "STOPPED_RUNNER_CONTRACT_ERROR",
+      "reason": "SQL_USED_TARGET_NOT_SINGLETON",
+      "last_progress_selected": 40,
+      "complete_before_stop": 36,
+      "aggregate_written": false
+    },
+    "smoke_002": {
+      "status": "SMOKE_PASS",
+      "source_commit": "e0d3e0d0d617cbedc02ef317f3578057b36b28ee",
+      "selected_units": 5,
+      "complete_units": 5,
+      "alternative_candidate_comparisons": 26,
+      "units_with_any_bag_equal_alternative": 1,
+      "wall_seconds": 3.139465,
+      "cpu_seconds_including_children": 17.485133,
+      "peak_rss_gib_largest_child": 0.628193
+    },
+    "full_002": {
+      "status": "POSITIVE_INSTANCE_EQUIVALENCE_SIGNAL",
+      "source_commit": "e0d3e0d0d617cbedc02ef317f3578057b36b28ee",
+      "selected_units": 108,
+      "candidate_mapping_rows": 328,
+      "anonymous_databases": 4,
+      "complete_units": 94,
+      "wall_seconds": 35.879721,
+      "cpu_seconds_including_children": 46.754454,
+      "peak_rss_gib_parent": 0.631348,
+      "peak_rss_gib_largest_child": 0.639286
+    }
+  },
+  "full_metrics": {
+    "coverage_gate": "PASS",
+    "complete_unit_gate": "94/108 (required at least 80)",
+    "database_coverage_gate": "4 (required at least 3)",
+    "complete_nonempty_gold_units": 94,
+    "complete_gold_empty_units": 0,
+    "units_with_any_alternative_bag_equal": 54,
+    "alternative_bag_equal_rate": 0.574468,
+    "wilson_95_percent_interval": [0.473532, 0.669556],
+    "units_with_any_alternative_set_equal": 54,
+    "alternative_candidate_comparisons": 144,
+    "candidate_level_bag_equal": 55,
+    "candidate_level_set_equal": 55,
+    "status_counts": {
+      "complete": 94,
+      "not_substitutable": 7,
+      "gold_execution_unknown": 4,
+      "candidate_execution_incomplete": 3
+    },
+    "reason_counts": {
+      "MULTIPLE_TARGET_JOIN_GROUPS": 4,
+      "SQL_USED_TARGET_NOT_SINGLETON": 3,
+      "unsafe_sql": 4,
+      "one_or_more_candidates_not_comparable": 3
+    },
+    "by_anonymous_database": {
+      "DB-A": {"complete_units": 21, "nonempty_gold_units": 21, "units_with_bag_equal_alternative": 0, "rate": 0.0},
+      "DB-B": {"complete_units": 54, "nonempty_gold_units": 54, "units_with_bag_equal_alternative": 44, "rate": 0.814815},
+      "DB-C": {"complete_units": 10, "nonempty_gold_units": 10, "units_with_bag_equal_alternative": 1, "rate": 0.1},
+      "DB-D": {"complete_units": 9, "nonempty_gold_units": 9, "units_with_bag_equal_alternative": 9, "rate": 1.0}
+    }
+  },
+  "resources": {
+    "environment": "think2sql_20260909",
+    "python": "3.12.14",
+    "sqlglot": "28.0.0",
+    "sqlite": "3.53.2",
+    "cpu_threads": 8,
+    "gpu_seconds": 0,
+    "model_requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "external_api_requests": 0,
+    "external_api_cost_cny": "0.00",
+    "full_002_wall_seconds": 35.879721,
+    "full_002_cpu_seconds_including_children": 46.754454,
+    "full_002_peak_rss_gib_largest_child": 0.639286
+  },
+  "interpretation_limit": "A result match on one frozen SQLite instance is not proof of general SQL semantic equivalence, business-role correctness, user intent, human labels, or G-reasoner ranking quality. The Wilson interval is unit-level descriptive and does not account for within-database clustering.",
+  "privacy": "This public aggregate omits questions, SQL, mapping IDs, row-level outputs, database names, private file paths, and logs."
+}

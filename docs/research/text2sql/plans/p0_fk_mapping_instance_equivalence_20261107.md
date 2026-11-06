@@ -1,6 +1,6 @@
 # P0：多 FK 映射的实例级可区分性审计
 
-**状态：原始 Smoke_001 通过；Full_001 停止。Amendment 001 已登记，Recovery 尚未运行。** 这是一次 CPU-only exploratory diagnostic，不是新的 GFM 排序方法实验。原 Full 的失败和唯一恢复边界见[Amendment 001](amendments/p0_fk_mapping_instance_equivalence_amendment_001.md)。
+**状态：完成，POSITIVE_INSTANCE_EQUIVALENCE_SIGNAL。** Smoke_002 通过；Full_002 完整94/108，覆盖4个匿名数据库，54/94（57.45%）出现结果 Bag 相同的替代 mapping。原 Full_001 失败与唯一恢复的完整过程见[报告](../reports/p0_fk_mapping_instance_equivalence_20261107_01/README.md)和[Amendment 001](amendments/p0_fk_mapping_instance_equivalence_amendment_001.md)。这是一次 CPU-only exploratory diagnostic，不是新的 GFM 排序方法实验。
 
 ## 痛点与研究问题
 
