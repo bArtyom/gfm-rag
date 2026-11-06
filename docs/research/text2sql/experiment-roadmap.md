@@ -251,3 +251,9 @@ Amendment 001 在任何 SQL 解析前把评测资格收紧为“该问题所有 
 ### 2026-11-07 执行结果：SQL-used FK 映射复核在 Smoke 预检停止
 
 运行准备提前创建了 `smoke_001/` 输出目录，触发运行器的 `OUTPUT_DIRECTORY_ALREADY_EXISTS` 保护；运行器在输入读取前停止，未解析 SQL、未计算任何排名指标，Full 未运行。按冻结规则不重试该注册，核心假设未检验。完整记录见[执行报告](reports/p0_fk_sql_used_mapping_alignment_20261107_01/README.md)和[匿名汇总](reports/p0_fk_sql_used_mapping_alignment_20261107_01/aggregate_summary.json)。
+
+### 2026-11-07 独立注册 02：冻结排名的 SQL-used 标签复核
+
+旧注册 `_01` 不重试。其 Smoke 在输入读取前因运行准备提前创建受保护的结果目录而停止，旧报告明确：若未来仍要回答该问题，必须使用新注册。另建 `_02`，使用新的 runner、config、Smoke/Full run IDs、结果根和日志根；冻结数据、样本、排名与 SQL-used 标签规则不变。该复核可判断旧的 7/38 对 27/38 模型代理排序是否依赖标签目标，但参考 SQL-used 仍不是唯一语义真值，也不构成新方法主张。
+
+Qwen A/B 与 Gemma C 的模型审阅已经完成；新增模型票不会建立人工金标准，所以本轮不做模型推理，只用现有代理集合做次要描述指标。正式执行前推送并核对本预注册；Smoke 全部通过后才运行唯一一次 CPU Full，否则停止。详细边界、门槛和预算见[注册方案](plans/p0_fk_sql_used_proxy_alignment_20261107_02.md)、[冻结配置](../../../configs/text2sql/p0_fk_sql_used_mapping_alignment_20261107_02.json)及[独立报告](reports/p0_fk_sql_used_mapping_alignment_20261107_02/README.md)。
