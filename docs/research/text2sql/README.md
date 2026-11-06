@@ -44,6 +44,7 @@
 |---|---|---|
 | [方法变更台账（当前）](method-change-ledger-20261105.md) | 逐项区分 QuadGraph 原方法、Text2SQL 检索/上下文改动、SQL评测变化及 G0/G1/G2 图探针 | 2026-11-06 更新，含 P2d.3 authorizer 候选归因；不把候选级结果写成系统收益 |
 | [P0 FK mapping pair-level 盲审材料报告](reports/p0_fk_mapping_pair_level_blind_review_20261106_01/README.md) | 60 个多 mapping 问题×表对的 A/B 双人审阅材料准备；不含人工标签或模型结果 | Smoke/Full 通过；等待两位真实审阅者；Role Pilot 仍未启动 |
+| [模型代理 FK mapping 排序预注册](plans/p0_fk_mapping_model_proxy_rank_pilot_20261106.md) | 用三模型高置信多数代理标签，对固定 FK mapping 候选做一次 G-reasoner vs Dense 探索性 Accepted@1 诊断 | 已单独注册；标签不是人工真值；Smoke/Full 模型推理尚未启动 |
 | [论文与代码审计](paper-and-code-audit.md) | QuadGraph 四层图、Qwen3 Embedding 输出维度、GraphReasoner 投影约束、相似度归一化 | 讨论版，待按当前 fork commit 复核 |
 | [实验路线图](experiment-roadmap.md) | P0 数据审计 → P1 维度消融 → P2 评分消融 → P3 Text2SQL EX → P4 可选 GFM 适配 | 研究指导 v1，尚未按本路线图执行 |
 | [数据与复现规范](reproducibility-contract.md) | Gold 约束、FK 实例标识、反泄漏、缓存版本、评测模板与 Go/No-go | 待实现/执行 |
