@@ -1,0 +1,527 @@
+{
+  "analysis_type": "read_only_descriptive_proxy_label_error_analysis",
+  "created_at_utc": "2026-11-06T06:04:58.838643+00:00",
+  "denominators": {
+    "adjudicable_full": 51,
+    "anonymous_database_count": 4,
+    "distinguishable_primary": 38,
+    "full_pairs": 55,
+    "smoke_pairs_excluded": 5
+  },
+  "experiment_id": "p0_fk_mapping_proxy_error_analysis_20261106_01",
+  "input_sha256": {
+    "private_manifest": "14d3e65e53bbc29c03d312fb32227c47b568242502e30bc3c4d4656b97521ed7",
+    "private_predictions": "d06f07b2b1000e40dbc0614e9bdbe224a79130010011721b97eccaf3dd9b2484",
+    "reviewer_a": "f3d2beb21290c49790679e53ac0bf8dc50084b7b34ee228843f06330ac120883",
+    "reviewer_b": "2b49a5772f061ed70f02ea21811e392fd6afd086fa7030aca9fe737c2c8af077",
+    "reviewer_c": "88c5b79785af76896055378ece4776b523bdb036588304cd63305db51a10d333",
+    "split_manifest": "40234d6c3430b1cede8a1d5cdcdfce7c10a6834c136f38f31ff716cff98f14c0"
+  },
+  "mode": "full",
+  "overall": {
+    "methods": {
+      "bm25_okapi": {
+        "accepted_at_1": 22,
+        "accepted_at_3": 38,
+        "accepted_vs_rejected_score_margin": {
+          "negative": 0,
+          "positive": 0,
+          "zero": 38
+        },
+        "first_accepted_rank": {
+          "mean": 1.552632,
+          "median": 1.0
+        },
+        "mrr_first_accepted": 0.767544
+      },
+      "dense_cosine": {
+        "accepted_at_1": 27,
+        "accepted_at_3": 38,
+        "accepted_vs_rejected_score_margin": {
+          "negative": 11,
+          "positive": 27,
+          "zero": 0
+        },
+        "first_accepted_rank": {
+          "mean": 1.289474,
+          "median": 1.0
+        },
+        "mrr_first_accepted": 0.855263
+      },
+      "g_reasoner": {
+        "accepted_at_1": 7,
+        "accepted_at_3": 38,
+        "accepted_vs_rejected_score_margin": {
+          "negative": 31,
+          "positive": 7,
+          "zero": 0
+        },
+        "first_accepted_rank": {
+          "mean": 1.921053,
+          "median": 2.0
+        },
+        "mrr_first_accepted": 0.574561
+      },
+      "stable_mapping_id_order": {
+        "accepted_at_1": 22,
+        "accepted_at_3": 38,
+        "accepted_vs_rejected_score_margin": {
+          "negative": 0,
+          "positive": 0,
+          "zero": 38
+        },
+        "first_accepted_rank": {
+          "mean": 1.552632,
+          "median": 1.0
+        },
+        "mrr_first_accepted": 0.767544
+      }
+    },
+    "n": 38,
+    "paired_g_reasoner_vs_dense": {
+      "both_correct": 6,
+      "both_wrong": 10,
+      "dense_only_correct": 21,
+      "g_reasoner_only_correct": 1,
+      "net_rescue": -20
+    }
+  },
+  "privacy": {
+    "contains_case_ids": false,
+    "contains_database_names": false,
+    "contains_gold_sql_or_execution_results": false,
+    "contains_mapping_ids_or_identities": false,
+    "contains_question_text": false,
+    "contains_raw_model_outputs": false,
+    "small_cells_suppressed_or_merged": true
+  },
+  "resources": {
+    "external_api_requests": 0,
+    "gpu_or_model_inference": false,
+    "peak_rss_bytes": 20447232,
+    "process_cpu_seconds": 0.02086,
+    "wall_seconds": 0.129707
+  },
+  "run_id": "p0_fk_mapping_proxy_error_analysis_20261106_full_001",
+  "source_commit": "b3a1f892464947b20ce5af7b3d503c640a7406e4",
+  "source_pilot_run_id": "p0_fk_mapping_model_proxy_rank_pilot_20261106_full_002",
+  "status": "ANALYSIS_COMPLETE",
+  "strata": {
+    "accepted_set_size": {
+      "single": {
+        "methods": {
+          "bm25_okapi": {
+            "accepted_at_1": 22,
+            "accepted_at_3": 38,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 0,
+              "positive": 0,
+              "zero": 38
+            },
+            "first_accepted_rank": {
+              "mean": 1.552632,
+              "median": 1.0
+            },
+            "mrr_first_accepted": 0.767544
+          },
+          "dense_cosine": {
+            "accepted_at_1": 27,
+            "accepted_at_3": 38,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 11,
+              "positive": 27,
+              "zero": 0
+            },
+            "first_accepted_rank": {
+              "mean": 1.289474,
+              "median": 1.0
+            },
+            "mrr_first_accepted": 0.855263
+          },
+          "g_reasoner": {
+            "accepted_at_1": 7,
+            "accepted_at_3": 38,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 31,
+              "positive": 7,
+              "zero": 0
+            },
+            "first_accepted_rank": {
+              "mean": 1.921053,
+              "median": 2.0
+            },
+            "mrr_first_accepted": 0.574561
+          },
+          "stable_mapping_id_order": {
+            "accepted_at_1": 22,
+            "accepted_at_3": 38,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 0,
+              "positive": 0,
+              "zero": 38
+            },
+            "first_accepted_rank": {
+              "mean": 1.552632,
+              "median": 1.0
+            },
+            "mrr_first_accepted": 0.767544
+          }
+        },
+        "n": 38,
+        "paired_g_reasoner_vs_dense": {
+          "both_correct": 6,
+          "both_wrong": 10,
+          "dense_only_correct": 21,
+          "g_reasoner_only_correct": 1,
+          "net_rescue": -20
+        }
+      }
+    },
+    "candidate_count": {
+      "2": {
+        "methods": {
+          "bm25_okapi": {
+            "accepted_at_1": 17,
+            "accepted_at_3": 25,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 0,
+              "positive": 0,
+              "zero": 25
+            },
+            "first_accepted_rank": {
+              "mean": 1.32,
+              "median": 1
+            },
+            "mrr_first_accepted": 0.84
+          },
+          "dense_cosine": {
+            "accepted_at_1": 14,
+            "accepted_at_3": 25,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 11,
+              "positive": 14,
+              "zero": 0
+            },
+            "first_accepted_rank": {
+              "mean": 1.44,
+              "median": 1
+            },
+            "mrr_first_accepted": 0.78
+          },
+          "g_reasoner": {
+            "accepted_at_1": 5,
+            "accepted_at_3": 25,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 20,
+              "positive": 5,
+              "zero": 0
+            },
+            "first_accepted_rank": {
+              "mean": 1.8,
+              "median": 2
+            },
+            "mrr_first_accepted": 0.6
+          },
+          "stable_mapping_id_order": {
+            "accepted_at_1": 17,
+            "accepted_at_3": 25,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 0,
+              "positive": 0,
+              "zero": 25
+            },
+            "first_accepted_rank": {
+              "mean": 1.32,
+              "median": 1
+            },
+            "mrr_first_accepted": 0.84
+          }
+        },
+        "n": 25,
+        "paired_g_reasoner_vs_dense": {
+          "both_correct": 4,
+          "both_wrong": 10,
+          "dense_only_correct": 10,
+          "g_reasoner_only_correct": 1,
+          "net_rescue": -9
+        }
+      },
+      "3": {
+        "methods": {
+          "bm25_okapi": {
+            "accepted_at_1": 5,
+            "accepted_at_3": 13,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 0,
+              "positive": 0,
+              "zero": 13
+            },
+            "first_accepted_rank": {
+              "mean": 2.0,
+              "median": 2
+            },
+            "mrr_first_accepted": 0.628205
+          },
+          "dense_cosine": {
+            "accepted_at_1": 13,
+            "accepted_at_3": 13,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 0,
+              "positive": 13,
+              "zero": 0
+            },
+            "first_accepted_rank": {
+              "mean": 1.0,
+              "median": 1
+            },
+            "mrr_first_accepted": 1.0
+          },
+          "g_reasoner": {
+            "accepted_at_1": 2,
+            "accepted_at_3": 13,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 11,
+              "positive": 2,
+              "zero": 0
+            },
+            "first_accepted_rank": {
+              "mean": 2.153846,
+              "median": 2
+            },
+            "mrr_first_accepted": 0.525641
+          },
+          "stable_mapping_id_order": {
+            "accepted_at_1": 5,
+            "accepted_at_3": 13,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 0,
+              "positive": 0,
+              "zero": 13
+            },
+            "first_accepted_rank": {
+              "mean": 2.0,
+              "median": 2
+            },
+            "mrr_first_accepted": 0.628205
+          }
+        },
+        "n": 13,
+        "paired_g_reasoner_vs_dense": {
+          "both_correct": 2,
+          "both_wrong": 0,
+          "dense_only_correct": 11,
+          "g_reasoner_only_correct": 0,
+          "net_rescue": -11
+        }
+      }
+    },
+    "column_overlap": {
+      "none": {
+        "methods": {
+          "bm25_okapi": {
+            "accepted_at_1": 7,
+            "accepted_at_3": 10,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 0,
+              "positive": 0,
+              "zero": 10
+            },
+            "first_accepted_rank": {
+              "mean": 1.3,
+              "median": 1.0
+            },
+            "mrr_first_accepted": 0.85
+          },
+          "dense_cosine": {
+            "accepted_at_1": 5,
+            "accepted_at_3": 10,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 5,
+              "positive": 5,
+              "zero": 0
+            },
+            "first_accepted_rank": {
+              "mean": 1.5,
+              "median": 1.5
+            },
+            "mrr_first_accepted": 0.75
+          },
+          "g_reasoner": {
+            "accepted_at_1": 1,
+            "accepted_at_3": 10,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 9,
+              "positive": 1,
+              "zero": 0
+            },
+            "first_accepted_rank": {
+              "mean": 1.9,
+              "median": 2.0
+            },
+            "mrr_first_accepted": 0.55
+          },
+          "stable_mapping_id_order": {
+            "accepted_at_1": 7,
+            "accepted_at_3": 10,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 0,
+              "positive": 0,
+              "zero": 10
+            },
+            "first_accepted_rank": {
+              "mean": 1.3,
+              "median": 1.0
+            },
+            "mrr_first_accepted": 0.85
+          }
+        },
+        "n": 10,
+        "paired_g_reasoner_vs_dense": {
+          "both_correct": 1,
+          "both_wrong": 5,
+          "dense_only_correct": 4,
+          "g_reasoner_only_correct": 0,
+          "net_rescue": -4
+        }
+      },
+      "one_endpoint": {
+        "methods": {
+          "bm25_okapi": {
+            "accepted_at_1": 15,
+            "accepted_at_3": 28,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 0,
+              "positive": 0,
+              "zero": 28
+            },
+            "first_accepted_rank": {
+              "mean": 1.642857,
+              "median": 1.0
+            },
+            "mrr_first_accepted": 0.738095
+          },
+          "dense_cosine": {
+            "accepted_at_1": 22,
+            "accepted_at_3": 28,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 6,
+              "positive": 22,
+              "zero": 0
+            },
+            "first_accepted_rank": {
+              "mean": 1.214286,
+              "median": 1.0
+            },
+            "mrr_first_accepted": 0.892857
+          },
+          "g_reasoner": {
+            "accepted_at_1": 6,
+            "accepted_at_3": 28,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 22,
+              "positive": 6,
+              "zero": 0
+            },
+            "first_accepted_rank": {
+              "mean": 1.928571,
+              "median": 2.0
+            },
+            "mrr_first_accepted": 0.583333
+          },
+          "stable_mapping_id_order": {
+            "accepted_at_1": 15,
+            "accepted_at_3": 28,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 0,
+              "positive": 0,
+              "zero": 28
+            },
+            "first_accepted_rank": {
+              "mean": 1.642857,
+              "median": 1.0
+            },
+            "mrr_first_accepted": 0.738095
+          }
+        },
+        "n": 28,
+        "paired_g_reasoner_vs_dense": {
+          "both_correct": 5,
+          "both_wrong": 5,
+          "dense_only_correct": 17,
+          "g_reasoner_only_correct": 1,
+          "net_rescue": -16
+        }
+      }
+    },
+    "has_composite_fk": {
+      "False": {
+        "methods": {
+          "bm25_okapi": {
+            "accepted_at_1": 22,
+            "accepted_at_3": 38,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 0,
+              "positive": 0,
+              "zero": 38
+            },
+            "first_accepted_rank": {
+              "mean": 1.552632,
+              "median": 1.0
+            },
+            "mrr_first_accepted": 0.767544
+          },
+          "dense_cosine": {
+            "accepted_at_1": 27,
+            "accepted_at_3": 38,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 11,
+              "positive": 27,
+              "zero": 0
+            },
+            "first_accepted_rank": {
+              "mean": 1.289474,
+              "median": 1.0
+            },
+            "mrr_first_accepted": 0.855263
+          },
+          "g_reasoner": {
+            "accepted_at_1": 7,
+            "accepted_at_3": 38,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 31,
+              "positive": 7,
+              "zero": 0
+            },
+            "first_accepted_rank": {
+              "mean": 1.921053,
+              "median": 2.0
+            },
+            "mrr_first_accepted": 0.574561
+          },
+          "stable_mapping_id_order": {
+            "accepted_at_1": 22,
+            "accepted_at_3": 38,
+            "accepted_vs_rejected_score_margin": {
+              "negative": 0,
+              "positive": 0,
+              "zero": 38
+            },
+            "first_accepted_rank": {
+              "mean": 1.552632,
+              "median": 1.0
+            },
+            "mrr_first_accepted": 0.767544
+          }
+        },
+        "n": 38,
+        "paired_g_reasoner_vs_dense": {
+          "both_correct": 6,
+          "both_wrong": 10,
+          "dense_only_correct": 21,
+          "g_reasoner_only_correct": 1,
+          "net_rescue": -20
+        }
+      }
+    }
+  }
+}

@@ -196,3 +196,7 @@ $$
 ### 2026-11-06 G3 执行结果与路线决定
 
 Smoke_002 通过；Full 完成55个问题×表对、123个mapping候选。A1 对 A0 改变 Top-1 4/55（7.27%）、反转6/81个候选对（7.41%）；A2 改变6/55（10.91%）、反转7/81（8.64%）。A0 确定性重复误差为0。结果没有满足机制信号门，也没有达到无实质影响门，故为 `INCONCLUSIVE`。本支线按计划停止，不继续调整seed、模型或图结构；不读取审阅标签的设计不能判断哪一组排序更正确。Smoke_001 的 Python 3.9 环境错配仅造成一次模型加载前失败，随后在同一冻结环境用 Python 3.12 重跑通过。详见[G3报告](reports/g3_fk_seed_direction_sensitivity_20261106_01/README.md)和[聚合结果](reports/g3_fk_seed_direction_sensitivity_20261106_01/aggregate_summary.json)。可信人工 Role 标签仍为0；如果研究问题仍是 FK Role 准确率，仍需独立可信标签，模型代理结果不可替代。
+
+## 2026-11-06 P0 代理排序错误归因完成
+
+冻结结果的只读分层没有发现 G-reasoner 的正向子组：38个可区分单元中 G-reasoner Accepted@1 为7/38，Dense为27/38，配对净差−20。2候选与3候选分层、无列重叠与单端点重叠分层均未出现 G-reasoner 正向净差；没有复合FK或多接受 mapping 样本可供评估。按预注册规则停止该代理标签排序方向，不进行同数据调参或结构扫描。结果不代表人工 FK Role 准确率，也不证明因果机制。报告：[错误归因说明](reports/p0_fk_mapping_proxy_error_analysis_20261106_01/README.md)、[匿名聚合](reports/p0_fk_mapping_proxy_error_analysis_20261106_01/aggregate_summary.json)。

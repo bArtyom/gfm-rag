@@ -59,6 +59,12 @@ G2 只改变合成拓扑以打破上述对称：两个关系角色分别走 `0�
 
 **结果：** Full 55 对、123 个候选。A1 相对 A0 改变 Top-1 4/55（7.27%），反转候选对6/81（7.41%）；A2 为6/55（10.91%）和7/81（8.64%）。A0 重复误差0、最高分并列0。信号门要求同一条件同时达到 Top-1 改变≥20%及候选对反转≥10%；无实质影响门要求两单端条件两项指标都≤5%。本次两门都未满足，判定 `INCONCLUSIVE` 并停止。因为没有读人工/模型审阅标签，不能知道任何变化是纠正还是损坏；这不是准确率或方法收益。详见[G3完整报告](reports/g3_fk_seed_direction_sensitivity_20261106_01/README.md)。
 
+### P0：模型代理 mapping 排序错误归因
+
+**本轮原方法/改动：** 不改上一轮的排序器；只对冻结的 G-reasoner、Dense Cosine、BM25 和稳定 ID 排序做预注册分层。分析38个可区分的 Full 单元，使用三模型高置信精确多数作为探索性代理标签；不读 Gold SQL、参考 JOIN 或 SQL 执行。
+
+**结果：** G-reasoner Accepted@1 为7/38（18.42%），Dense为27/38（71.05%），配对净差−20。2候选和3候选两层，以及无列重叠/单端点重叠两层，G-reasoner 均无正向净差。全部38题都只有一个接受 mapping，且没有复合FK，故不能分析多正确 mapping 或复合FK。按预注册停止，不在同一代理标签上继续调参或挑图结构。该结果不估计真实FK Role准确率。见[归因报告](reports/p0_fk_mapping_proxy_error_analysis_20261106_01/README.md)及[匿名聚合](reports/p0_fk_mapping_proxy_error_analysis_20261106_01/aggregate_summary.json)。
+
 ### FK 结构 Gate 与身份政策
 
 对11个 BIRD dev SQLite schema 的结构审计得到103条原始 FK、100条有效、3条无效。100条有效声明中有一对结构完全重复，因此内容唯一 mapping 是99个。映射级身份方案保留99个唯一映射、198条方向边，并另存1个重复声明的 multiplicity；声明 multiset 方案保留100个 ID、200条方向边，但完全重复项的出现序号不能稳定绑定回具体 PRAGMA 组。原 Gate 因身份碰撞仍为 NO-GO；这解决的是“如何表示重复映射”，没有生成角色标签。
