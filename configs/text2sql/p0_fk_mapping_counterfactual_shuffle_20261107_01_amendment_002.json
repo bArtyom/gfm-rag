@@ -1,0 +1,20 @@
+{
+  "experiment_id": "p0_fk_mapping_counterfactual_shuffle_20261107_01",
+  "amendment": "002",
+  "status": "preregistered_before_sql_or_database_read",
+  "hash_capture": {
+    "bird_dev_json_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "bird_dev_tables_json_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "source_manifest_sha256": "cc6dd6263f4b3a50c444c4f8ea82d9923f8b2dea5eac46d2ade5201a62550ad0",
+    "prior_private_full_metrics_sha256": "f996213f2d6e657f518c5440843eaa7f61e6f91fd57e5d0393d8022d6d5a4337",
+    "private_metrics_bytes": 121137,
+    "phase": "hash bytes only; no SQL parse or SQLite connection"
+  },
+  "sqlite_files_by_anonymous_database": {
+    "DB-A": {"bytes": 481419264, "sha256": "92101be6d2a9f6adceea59d38f6d1c556087f9eea1432432a21268cb1348036d"},
+    "DB-B": {"bytes": 597754880, "sha256": "e4d361dbeec6591a4b315877c0c481da05c8ff5a3d389b34d6e17b6f15bee4e0"},
+    "DB-C": {"bytes": 237568, "sha256": "75e94a2c3236ee3bb2c01fb97a1c4b4c1c269bcefd4eab1d04be323d2d0825b1"},
+    "DB-D": {"bytes": 2678784, "sha256": "f5fa7f21af1ad878ff8fef1b0582b8cb2d7ed63dbac65ff16d2ba05667650c5b"}
+  },
+  "required_checks": ["verify all listed hashes before reading private metric content", "verify SQLite hashes again after Full"]
+}
