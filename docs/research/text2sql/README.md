@@ -1,5 +1,7 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
+> **2026-11-07 下一项诊断已预注册、尚未运行**：多 FK 候选映射的实例级可区分性审计。它对固定 Gold SQL 做安全的 FK 等式替换并比较当前 SQLite 结果，只回答静态实例是否能区分候选；不增加 Qwen/Gemma 投票，不构成人工 Role 标签，也不运行 GFM 排序。见[方案](plans/p0_fk_mapping_instance_equivalence_20261107.md)、[配置](../../../configs/text2sql/p0_fk_mapping_instance_equivalence_20261107_01.json)。
+
 > **2026-11-07 SQL-used FK mapping 独立注册 03：执行停止，主排序无指标**。CPU 数据门通过，生成5题 Smoke和108题 Full（4库）；Qwen A/B 各有5/5有效输出，但高置信精确一致为2/5，未达到4/5，模型 Full 按规则停止。G-reasoner Smoke 因 CPU manifest 缺少运行器校验的样本计数字段，在模型导入前停止；无Embedding/G-reasoner前向或排名指标。失败 run ID 不重用。详见[完整报告](reports/p0_fk_sql_used_mapping_rank_20261107_03/README.md)和[匿名聚合](reports/p0_fk_sql_used_mapping_rank_20261107_03/aggregate_summary.json)、[预注册方案](plans/p0_fk_sql_used_mapping_rank_20261107_03.md)、[主配置](../../../configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03.json)及[模型审阅配置](../../../configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03_model_review.json)。
 
 > **2026-11-07 独立注册 02 已停止（来源提交门失败）**：CPU_001 的启动参数把本地 HEAD SHA 抄错，运行器在任何输入哈希或 SQL 读取前以 `SOURCE_COMMIT_MISMATCH` 停止。没有样本、模型审阅或排名结果；按停止规则不重放该 run ID。完整报告见[执行报告](reports/p0_fk_sql_used_mapping_rank_20261107_02/README.md)和[匿名聚合](reports/p0_fk_sql_used_mapping_rank_20261107_02/aggregate_summary.json)。用户选择的 Qwen A/B 次要代理审阅已写入预注册，但未运行。
