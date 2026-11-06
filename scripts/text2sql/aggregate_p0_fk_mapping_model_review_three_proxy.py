@@ -53,6 +53,12 @@ def normalized_label(row: dict[str, Any]) -> tuple[str, tuple[str, ...]] | None:
         return None
     if len(accepted) != len(set(accepted)) or type(confidence) is not int or confidence not in {1, 2, 3}:
         return None
+    if decision == "single_mapping" and len(accepted) != 1:
+        return None
+    if decision == "multiple_mappings" and len(accepted) < 2:
+        return None
+    if decision in {"cannot_determine", "no_declared_fk"} and accepted:
+        return None
     return decision, tuple(sorted(accepted))
 
 
@@ -74,6 +80,8 @@ def main() -> None:
     units_b = {row["pair_id"]: row for row in packet_b}
     if len(units_a) != 60 or set(units_a) != set(units_b):
         raise ValueError("frozen A/B packet coverage mismatch")
+    if sum(len(row["mappings"]) for row in units_a.values()) != 135:
+        raise ValueError("frozen candidate count differs from the preregistered 135")
     if any({m["mapping_id"] for m in units_a[p]["mappings"]} !=
            {m["mapping_id"] for m in units_b[p]["mappings"]} for p in units_a):
         raise ValueError("frozen A/B candidate sets differ")
@@ -111,7 +119,7 @@ def main() -> None:
             "agreement_rate": round(exact / jointly_valid, 6) if jointly_valid else 0.0,
         }
 
-    winner_counts: Counter[str] = Counter()
+    high_confidence_vote_counts: Counter[str] = Counter()
     high_confidence_majority = 0
     adjudicable: list[str] = []
     distinguishable: list[str] = []
@@ -148,8 +156,8 @@ def main() -> None:
             continue
         (decision, accepted_tuple), members = majority[0]
         high_confidence_majority += 1
-        winner_counts["+".join(sorted(reviewer for reviewer, confidence in members
-                                     if confidence >= 2))] += 1
+        high_confidence_vote_counts["+".join(sorted(reviewer for reviewer, confidence in members
+                                                    if confidence >= 2))] += 1
         decision_counts[decision] += 1
         if decision not in {"single_mapping", "multiple_mappings"}:
             continue
@@ -177,7 +185,7 @@ def main() -> None:
         "three_valid_reviewer_units_two_of_three_pattern": two_of_three,
         "valid_vote_cardinality_pattern_counts": dict(sorted(vote_cardinality_patterns.items())),
         "high_confidence_exact_majority_count": high_confidence_majority,
-        "majority_vote_pair_counts": dict(sorted(winner_counts.items())),
+        "high_confidence_vote_pair_counts": dict(sorted(high_confidence_vote_counts.items())),
         "high_confidence_majority_decision_counts": dict(sorted(decision_counts.items())),
         "model_consensus_adjudicable_count": len(adjudicable),
         "model_consensus_distinguishable_count": len(distinguishable),
@@ -209,4 +217,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
