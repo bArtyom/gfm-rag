@@ -1,0 +1,65 @@
+{
+  "experiment_id": "p0_fk_sql_used_mapping_rank_20261107_03",
+  "status": "STOPPED_BEFORE_RANKING",
+  "source_commit": "566b8e2d9bb244d8868372ae39c887de02f703e9",
+  "data": {
+    "dataset": "BIRD dev",
+    "dataset_question_count": 1534,
+    "joined_questions": 1140,
+    "parsed_sql_questions": 1140,
+    "fully_resolved_questions": 1128,
+    "qualified_join_equalities": 1431,
+    "resolved_qualified_join_equalities": 1417,
+    "unresolved_qualified_join_equalities": 14,
+    "scope_analysis_errors": 0,
+    "multi_fk_join_alias_groups": 185,
+    "candidate_eligible_multi_fk_join_pair_groups": 176,
+    "candidate_covered_multi_fk_join_groups": 174,
+    "candidate_uncovered_multi_fk_join_groups": 2,
+    "candidate_coverage_denominator": 176,
+    "candidate_coverage_rate": 0.988636
+  },
+  "sample": {
+    "eligible_units_after_exclusion": 113,
+    "smoke_units": 5,
+    "full_units": 108,
+    "full_anonymous_databases": 4,
+    "cpu_data_gate_pass": true
+  },
+  "reviewer_smoke": {
+    "reviewer_a": "Qwen2.5-Coder-7B-Instruct",
+    "reviewer_b": "Qwen3-4B-Think2SQL",
+    "valid_outputs_a": 5,
+    "valid_outputs_b": 5,
+    "high_confidence_exact_agreement": 2,
+    "required_agreement": 4,
+    "full_review_started": false,
+    "status": "MODEL_REVIEW_SMOKE_STOP",
+    "input_tokens": 4452,
+    "output_tokens": 791,
+    "total_tokens": 5243,
+    "external_api_requests": 0,
+    "local_gpu_seconds": {
+      "model_loading": 10.172142,
+      "generation": 26.405564
+    }
+  },
+  "ranker_smoke": {
+    "run_id": "p0_fk_sql_used_mapping_rank_20261107_03_smoke_001",
+    "status": "STOPPED_BEFORE_MODEL_IMPORT",
+    "reason_code": "SELECTED_UNIT_COUNT_MISMATCH",
+    "cause": "CPU private manifest stores smoke_unit_ids/full_unit_ids but omits smoke_unit_count/full_unit_count, which the ranker validates.",
+    "embedding_inference_started": false,
+    "g_reasoner_loaded": false,
+    "scored_units": 0,
+    "ranking_metrics": null,
+    "run_id_reused": false
+  },
+  "interpretation": "No evidence for or against G-reasoner versus Dense ranking. SQL-used labels are not human semantic Role gold.",
+  "privacy": {
+    "question_sql_schema_content_included": false,
+    "database_question_ids_included": false,
+    "mapping_ids_or_per_unit_rankings_included": false,
+    "raw_model_outputs_included": false
+  }
+}
