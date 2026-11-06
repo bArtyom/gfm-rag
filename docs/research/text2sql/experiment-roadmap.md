@@ -175,3 +175,7 @@ $$
 候选容量审计从 1,127 个可解析的 JOIN-ON 问题中找到 176 个多 mapping 问题×表对，涉及 4 个数据库。独立 pair-level 材料准备已通过 Smoke（5题）和 Full（60个问题×表对、135个 mapping 候选）；A/B 候选集合一致，展示顺序已打乱。材料只用于人工判断，不产生 Role 标签或模型成绩，题目和回复表留在本地私有目录。详情见[容量审计报告](reports/p0_fk_mapping_candidate_capacity_20261106_01/README.md)、[盲审材料报告](reports/p0_fk_mapping_pair_level_blind_review_20261106_01/README.md)。
 
 **下一项模型实验仍是同一项受限迁移/证伪 Pilot**：在两位审阅者一致接受的 mapping 集合上，比较冻结 G-reasoner 与 Dense Cosine 的 Accepted@1；BM25 和 query-independent 结构排序只作次级控制。由于表对来自参考 JOIN，这只测给定表对后的 FK mapping 排序，不测端到端 JOIN 发现、SQL EX 或跨库泛化。启动前必须满足：两位审阅者的决定与接受 mapping 集合完全一致、双方置信度均至少为 2；排除问题级 Smoke 后，至少 30 个可裁定单元、20 个结构可区分单元、覆盖至少 3 个数据库。若样本门通过，成功筛选门为 Accepted@1 比 Dense 高至少 5 个百分点、净救回至少 4 个单元，且至少两个各自有不少于 5 个可区分单元的数据库净救回方向为正；满足后仅升级为独立复现候选。未通过标签或模型门则停止该方向。当前可信标签仍为 0，故不运行模型、SQL 或 GPU，也不让模型代标。正式执行仍须另行注册并完成当轮资源预检。
+
+### 2026-11-06 新增用户选择的模型审阅代理轨道
+
+用户明确选择本地模型代替人类提供初始审阅。为保留原研究门和结果语义，新增独立 `exploratory` 实验 `p0_fk_mapping_model_review_proxy_20261106_01`：两个不同规模的本地 Qwen 模型分别处理冻结 A/B 包，报告其模型间一致性。此轨道不会覆盖人类 CSV、不会产生可信人工标签，也不会自动启动或解锁原 Accepted@1 主 Pilot。只有满足另行冻结的数量门后，才考虑独立登记一个模型共识代理标签上的探索性排序诊断。详见[模型审阅代理实验计划](plans/p0_fk_mapping_model_review_proxy_20261106.md)与[报告](reports/p0_fk_mapping_model_review_proxy_20261106_01/README.md)。

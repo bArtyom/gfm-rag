@@ -1,0 +1,56 @@
+# P0 FK mapping 双本地模型审阅代理实验
+
+**状态：预注册；等待 5 单元 Smoke。** 实验 ID：`p0_fk_mapping_model_review_proxy_20261106_01`。本计划是用户明确选择模型审阅后新增的独立探索轨道，不修改原双人盲审方案、CSV 或其“可信人工标签为 0”的结论。
+
+## 研究问题与假设
+
+**问题：** 两个独立运行的本地模型，能否在固定 BIRD 问题×表对与全部已声明 FK mapping 上，产出足够一致且可区分的接受集合？
+
+**核心假设：** 若两个模型对接受集合与决定类型给出完全一致的答案，并各自给出至少中等置信度，则这 60 个单元中会有足够的“模型共识代理标签”支持一次仅供探索的后续排序诊断。此结果只反映两模型一致性，不能证明标签正确、不能代替两位人工审阅者，也不能解除论文主实验的人类标签门。
+
+## 所属层级、预算和成功 / 停止条件
+
+- 层级：主实验前的 `exploratory` 模型标注可行性门；不是 G-reasoner 主方法实验。
+- 数据预算：同一冻结盲审 Full 包的 60 个问题×表对、135 个完整 mapping 候选、4 个匿名数据库。先跑 5 单元 Smoke，Smoke 通过后单独重跑 60 单元 Full；Smoke 不计入 Full 指标。
+- 模型预算：两种本地模型各 5 次 Smoke 请求和 60 次 Full 请求；不联网、不使用付费 API、不自动重试格式错误。
+- 主指标：Full 上两模型决定类型与接受 mapping ID 集合的精确一致率；通过冻结置信度规则的模型共识可裁定数、其中至少拒绝一个候选的可区分数及匿名数据库覆盖数。
+- 探索性后续门：只有 Full 中至少 30 个精确共识、双模型置信度均≥2的可裁定单元，其中至少 20 个接受集合未覆盖全部候选，且覆盖至少 3 个匿名数据库，才可另行启动**独立登记**的模型代理标签排序实验。此门只决定能否做诊断，不赋予模型标签金标准地位。
+- Smoke 停止：输入解析或候选 ID 校验失败、任一模型无法本地加载、前 5 个案例中有效 JSON 少于 4 个/每模型、或出现数据串行/提示泄漏时，停止 Full，保留现场并报告。
+- Full 停止：环境/模型异常连续失败、可用显存低于安全边界、运行超出每模型 90 分钟、输出覆盖风险或任一输入 hash 改变时停止；不换模型、不改提示、不追加样本。
+
+## 冻结输入与盲法
+
+- 输入只来自本地私有审阅包 `sources/results/gfmrag_p0_fk_mapping_pair_level_blind_review_20261106_01/full_001/reviewer_{A,B}_packet.md`。A、B 的案例与候选显示顺序各自冻结；Reviewer A 用模型一，Reviewer B 用模型二。两个进程互不读取对方输出。
+- 两模型只见自然语言问题、表对名称和完整 FK mapping 表达式及匿名 mapping ID；不提供 Gold SQL、参考 JOIN/ON、数据库 ID、模型排名或原方法结果。
+- 提示要求逐个 mapping 判定、允许多映射接受集、返回决定类别/ID 集/自评置信度/理由码的 JSON。温度关闭，单案例独立上下文，每案例单次请求；无输出重试、无人工修订。
+- Smoke 使用 Full A 包前 5 个冻结案例，并在 Smoke 与 Full 中分目录重跑。两次运行各自计入本地 token 用量；Smoke 输出不混入 Full 统计。
+
+## 模型、实现和资源
+
+| 角色 | 本地模型 | 模型入口 | 环境 / GPU |
+|---|---|---|---|
+| A | Qwen2.5-Coder-7B-Instruct | `/mnt/liansp3/sources/models/qwen25-coder-7b` | `think2sql_20260909`，物理 GPU 1 |
+| B | Qwen3-4B-Think2SQL | `/mnt/liansp3/sources/models/qwen3-4b-think2sql` | `think2sql_20260909`，物理 GPU 2 |
+
+预检时 GPU 1 与 GPU 2 各有约 24 GiB 空闲显存；GPU 0 与 3 有其他进程占用，不使用。RAM 可用约 446 GiB，CPU 192 核。模型文件已在本地，不下载权重、不安装或升级依赖。执行前后记录 torch 峰值显存、进程耗时与 GPU 状态；不声称本地推理没有资源成本。
+
+代码：`scripts/text2sql/run_p0_fk_mapping_model_review_proxy.py`。Torch/Transformers 版本取运行环境已安装版本；`local_files_only=True` 禁止从外网取模型。每次生成请求在私有共享用量账本中记录模型名、run ID、输入/输出 token；本地 GPU 时间单独报告，不折算 API 费用。
+
+## 分析与解释边界
+
+1. JSON 必须通过决定、理由码、mapping ID 子集和集合基数校验，否则计为无效；不重试。
+2. 两模型仅当决定类型与接受 ID 集合完全相同，且双方置信度都≥2，才形成模型共识标签。精确一致率的分母同时报告双方均有效的单元；无效输出另报。
+3. 排序后续门只接受 `single_mapping` 或 `multiple_mappings` 的非空共识接受集，且集合不等于全部候选。`cannot_determine`、`no_declared_fk`、`other` 不进入排序可裁定集。
+4. 即使满足数目门，也只能称为**模型共识代理标签上的探索性结果**。模型共享 Qwen 家族偏差，且 Qwen3-4B 为 Think2SQL 微调模型；模型间一致既非独立人工共识，也不是准确率证据。
+5. 所有逐题问题、候选身份、原始模型输出、CSV、清单及日志留在本地私有目录。GitHub 只公开代码、协议、匿名汇总和可复现资源说明。
+
+## 依据与偏离
+
+本实验沿用项目 [`README`](../README.md)、[`experiment-roadmap`](../experiment-roadmap.md) 与 [`reproducibility-contract`](../reproducibility-contract.md) 对私有输入、独立 run ID、Smoke、匿名公开汇总和结果报告的要求。它**有意偏离**原计划“必须有两位真实审阅者后才能启动 GFM Accepted@1 Pilot”的门控：用户选择模型代审，因此本轮只进行模型审阅并产出单独的模型代理标签；人工金标准门与原 Pilot 定义维持不变。若启动任何模型代理标签上的 G-reasoner 排序，必须另建实验 ID、计划和报告，不与本轮合并。
+
+## 结果归档
+
+- 私有输入：`sources/results/gfmrag_p0_fk_mapping_pair_level_blind_review_20261106_01/full_001/`。
+- 新私有输出根：`sources/results/gfmrag_p0_fk_mapping_model_review_proxy_20261106_01/`；运行日志放入 `sources/logs/` 下独立目录。
+- 公开报告：`docs/research/text2sql/reports/p0_fk_mapping_model_review_proxy_20261106_01/README.md` 与匿名 `aggregate_summary.json`。
+- 源数据、模型文本输出、逐题标签和 Gold 相关内容不得提交。
