@@ -169,3 +169,9 @@ $$
 - P2d.3不评真实FK Role、JOIN Path角色或Jev；可信双人Role标签仍为0，相关准确率和训练实验继续等候人工审阅门。
 - 2026-11-06 对 P2d.3 被拒候选的只读反事实审计发现 8 个修复候选中 2 个完整 Schema 下可执行且正确，但不改变 66 题系统分数；按新近 Post-SQLFix / DSR-SQL 近邻和本项目既定停止规则，不新增通用 SQL 修复实验。下一项唯一 GFM 方法试验仍是冻结 checkpoint 的 FK 映射排序 Pilot，必须先通过两位真实审阅者的标签与样本门。当前标签数为 0，未启动模型运行；详见[2026-11-06 路线更新](plans/p0_fk_mapping_rank_literature_update_20261106.md#6-p2d3-反事实审计后的路线更新-2026-11-06)。
 - 2026-11-06 前沿复核另核对了 Rethinking Schema Linking、REaR、ARCS 与 FLINT：一般双向检索和 joinable 表扩展已有直接近邻；ARCS 多解释标注不能直接替代 BIRD 的 FK mapping 双人接受标签。未发现可绕开现有人工门且能回答同一科学问题的新分支，故唯一保留项仍是受限的冻结 G-reasoner Accepted@1 Pilot；实验尚未运行。详见[前沿复核](plans/p0_fk_mapping_rank_frontier_check_20261106.md)。
+
+### 2026-11-06 后续执行状态：映射级盲审材料已准备
+
+候选容量审计从 1,127 个可解析的 JOIN-ON 问题中找到 176 个多 mapping 问题×表对，涉及 4 个数据库。独立 pair-level 材料准备已通过 Smoke（5题）和 Full（60个问题×表对、135个 mapping 候选）；A/B 候选集合一致，展示顺序已打乱。材料只用于人工判断，不产生 Role 标签或模型成绩，题目和回复表留在本地私有目录。详情见[容量审计报告](reports/p0_fk_mapping_candidate_capacity_20261106_01/README.md)、[盲审材料报告](reports/p0_fk_mapping_pair_level_blind_review_20261106_01/README.md)。
+
+**下一项模型实验仍是同一项受限迁移/证伪 Pilot**：在两位审阅者一致接受的 mapping 集合上，比较冻结 G-reasoner 与 Dense Cosine 的 Accepted@1；BM25 和 query-independent 结构排序只作次级控制。由于表对来自参考 JOIN，这只测给定表对后的 FK mapping 排序，不测端到端 JOIN 发现、SQL EX 或跨库泛化。启动前必须满足：两位审阅者的决定与接受 mapping 集合完全一致、双方置信度均至少为 2；排除问题级 Smoke 后，至少 30 个可裁定单元、20 个结构可区分单元、覆盖至少 3 个数据库。若样本门通过，成功筛选门为 Accepted@1 比 Dense 高至少 5 个百分点、净救回至少 4 个单元，且至少两个各自有不少于 5 个可区分单元的数据库净救回方向为正；满足后仅升级为独立复现候选。未通过标签或模型门则停止该方向。当前可信标签仍为 0，故不运行模型、SQL 或 GPU，也不让模型代标。正式执行仍须另行注册并完成当轮资源预检。
