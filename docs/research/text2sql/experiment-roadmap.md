@@ -187,6 +187,14 @@ $$
 ### 2026-11-06 模型代理映射排序诊断已预注册
 
 单独的 exploratory 分支 `research/p0-model-proxy-rank-pilot-20261106` 已完成一次冻结 G-reasoner FK mapping 排序诊断。唯一主比较为共用 Qwen3 Query/mapping vectors 的 G-reasoner 对 Dense Cosine；BM25 和稳定 mapping-ID 顺序是次级控制。5题 Smoke 通过；排除 Smoke 后，Full 为55对、51个可裁定、38个可区分、4个匿名数据库。首次 Smoke_001 在模型加载前发现一条 `<br>`/换行序列化差异并停止；Smoke_002 与 Full_002 在预注册的唯一规范化修正后完成。主 Accepted@1 为 G-reasoner 7/38（18.42%），Dense 27/38（71.05%），差−52.63 pp；净救回−20，4库均为负，排除异常项后的差值−54.05 pp。所有正向门失败，按停止条件标记 `NO-GO`，不追加同一代理标签的图变体或调参。模型代理标签不是人类真值，可信人工 Role 标签仍为0。见[预注册方案](plans/p0_fk_mapping_model_proxy_rank_pilot_20261106.md)、[完整报告](reports/p0_fk_mapping_model_proxy_rank_pilot_20261106_01/README.md)和[匿名聚合结果](reports/p0_fk_mapping_model_proxy_rank_pilot_20261106_01/aggregate_summary.json)。
+
+### 2026-11-06 Mini-Dev 2026 reviewed Schema 检索迁移筛查
+
+模型代理 FK 排序已完成且为 NO-GO；同一代理标签上的调参、增加审阅模型或图结构扫描均停止。原 BIRD-dev 全 Schema 检索尝试在模型加载前停止，没有科学结果；其恢复额度已用完。本项使用 BIRD Mini-Dev 2026 reviewed release 的新问题集合，回答一个不同于已知表对内 FK 排序的筛选问题：冻结 G-reasoner 是否改善整库表/列召回。由于数据库仍是原有 11 库，本项只算 query-set transfer，不能写成跨库独立复现或算法新颖性结果。
+
+近期相关工作已覆盖通用 Schema linking 和图结构扩展（Rethinking Schema Linking、Graph-Link、REaR、DSR-SQL、MDB-Link），通用静态错误诊断与 SQL 修复也由 Post-SQLFix 和 SCOPE-SQL 研究；本实验只验证 checkpoint transfer。比较 D0 Dense、G1 Top-1 graph anchors、G3 Top-3 graph anchors；Gold 由参考 SQL 静态解析，`evidence` 与 SQL 不进入模型特征。CPU 标签门先于任何 GPU/模型载入；随后 5 题/5 库 Smoke，成功才运行剩余 495 题一次 Full。G3 需要同时达到 Column R@10 +2pp、数据库簇 bootstrap CI 下界 >0、相对 G1 +1pp，且 Table R@10 下降不超过1pp；失败即停止。
+
+预注册方案：[gfm_minidev_schema_retrieval_transfer_20261106.md](plans/gfm_minidev_schema_retrieval_transfer_20261106.md)；配置：[JSON](../../../configs/text2sql/gfm_minidev_schema_retrieval_transfer_20261106.json)。
 ## 2026-11-06 G3：起点敏感性机制诊断（预注册）
 
 模型代理 Accepted@1 Pilot 已按原计划完成并为 NO-GO；同一标签上不得继续调参或挑图结构。当前只保留一个不同问题的有限机制核查：在完全相同的 55 个 Full 问题×表对和 FK mapping 候选上，比较两个端点同时为 query seed、仅第一个端点为 seed、仅第二个端点为 seed。审阅标签和 Gold SQL 不读取，指标仅为 seed 条件间的 Top-1 变化率与候选对顺序反转率。
