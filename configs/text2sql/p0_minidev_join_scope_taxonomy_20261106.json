@@ -1,0 +1,65 @@
+{
+  "experiment_id": "p0_minidev_join_scope_taxonomy_20261106_01",
+  "status": "preregistered",
+  "project": {
+    "repository": "https://github.com/bArtyom/gfm-rag",
+    "branch": "research/minidev-sql-fk-use-rank-20261106",
+    "upstream_method_repository": "https://github.com/RManLuo/gfm-rag",
+    "upstream_method_commit": "b3e43219c49929da505244df4f0ba54c0947e4c4"
+  },
+  "data": {
+    "dataset_revision": "38818fcbc46038129592680c51b2c8b597aac27c",
+    "dataset_path": "/mnt/liansp3/sources/datasets/bird_mini_dev_2026_reviewed/mini_dev_sqlite.jsonl",
+    "dataset_sha256": "926af2a0d1b47e5d0d15a7aa8a34d4721007f4550a881555b6a89496b54a2606",
+    "dataset_rows": 500,
+    "schema_path": "/mnt/liansp3/sources/datasets/bird_mini_dev_2026_reviewed/sqlite_schema.json",
+    "schema_sha256": "5176e324a72e80a8a37a12285596d123e0ba6c310dceaa9f13e1a413ee88ff5b"
+  },
+  "baseline": {
+    "qualified_join_on_equality_count": 663,
+    "resolved_count": 523,
+    "unresolved_count": 140,
+    "resolution_gate": 0.95
+  },
+  "resolver": {
+    "allowed": "unique, direct SELECT-column projection lineage through CTEs and derived tables to official SQLite DDL columns",
+    "disallowed": [
+      "expression or function lineage",
+      "UNION branch inference",
+      "star expansion",
+      "fuzzy name matching",
+      "duplicate or ambiguous aliases",
+      "unqualified intermediate references",
+      "model-based interpretation"
+    ],
+    "success_min_resolved_equalities": 630,
+    "required_new_resolutions_from_baseline": 107
+  },
+  "split": {
+    "smoke_questions": 5,
+    "full_questions": 495,
+    "smoke_full_disjoint": true,
+    "selection": "ascending SHA256(experiment_id + db_id + question_id)"
+  },
+  "environment": {
+    "conda_env": "think2sql_20260909",
+    "python": "3.12.14",
+    "sqlglot": "28.0.0",
+    "sqlite": "3.53.2",
+    "device": "CPU only",
+    "network_models_or_api": false,
+    "install_or_upgrade_dependencies": false
+  },
+  "resources": {
+    "max_threads": 8,
+    "max_rss_bytes": 4294967296,
+    "max_wall_seconds_per_split": 1200,
+    "attempts_per_split": 1
+  },
+  "outputs": {
+    "private_root": "/mnt/liansp3/sources/results/gfmrag_p0_minidev_join_scope_taxonomy_20261106_01",
+    "logs_root": "/mnt/liansp3/logs/gfmrag_p0_minidev_join_scope_taxonomy_20261106_01",
+    "public_report": "docs/research/text2sql/reports/p0_minidev_join_scope_taxonomy_20261106_01/README.md",
+    "public_aggregate": "docs/research/text2sql/reports/p0_minidev_join_scope_taxonomy_20261106_01/aggregate_summary.json"
+  }
+}
