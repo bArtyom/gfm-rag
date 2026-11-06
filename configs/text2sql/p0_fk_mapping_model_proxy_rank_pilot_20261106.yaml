@@ -39,8 +39,8 @@ metrics:
     minimum_supporting_models: 2
 resource_budget:
   gpu_count: 1
-  max_gpu_memory_bytes: 1073741824
-  max_rss_bytes: 8589934592
+  max_gpu_memory_bytes: 8589934592
+  max_rss_bytes: 17179869184
   max_wall_seconds: 1200
 run_ids:
   smoke: p0_fk_mapping_model_proxy_rank_pilot_20261106_smoke_001
