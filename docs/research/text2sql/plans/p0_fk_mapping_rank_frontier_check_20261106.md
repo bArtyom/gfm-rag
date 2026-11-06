@@ -56,3 +56,12 @@ ARCS 的多解释标注是有用的旁证，但它回答的是“问题有哪些
 - [G0-02 合成 FK mapping 报告](../reports/g0_fk_instance_node_20261024_02/README.md)
 - [G2 非对称关系通道报告](../reports/g2_asymmetric_relation_20261024_01/README.md)
 - [P2d.3 authorizer 反事实审计](../reports/p2d3_authorizer_counterfactual_audit_20261106_01/README.md)
+
+
+## BPR-TAP literature addendum (2026-11-06)
+
+A follow-up search found [Learning to Recover Bridge Path for SQL Schema Linking via Tentative Answer Profiling (BPR-TAP)](https://aclanthology.org/2026.findings-emnlp.965/), published in Findings of EMNLP 2026. Its abstract identifies missing bridge paths as a schema-linking failure and describes a learned ranking stage guided by tentative answer profiles; the paper reports BIRD and Spider evaluations.
+
+This further closes off a generic “recover missing bridge paths” experiment as a distinct contribution. The local open question is narrower: for a fixed, already-known table pair with several declared FK mappings, can the frozen G-reasoner rank a mapping in the independent human-accepted set above the Dense baseline? BPR-TAP’s bridge-path objective does not supply the required business-role labels or validate that mapping-level claim. It therefore does not remove the existing two-reviewer gate or change the next-experiment decision.
+
+This addendum is a literature review only. No model, SQL, GPU, or API run was performed. The 60-unit pair-level review packet remains pending independent human responses; the Accepted@1 Pilot remains the sole retained GFM candidate and is not started until its frozen label and sample gates pass.
