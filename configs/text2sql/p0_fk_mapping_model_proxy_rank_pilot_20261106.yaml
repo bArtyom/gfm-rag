@@ -43,9 +43,12 @@ resource_budget:
   max_rss_bytes: 17179869184
   max_wall_seconds: 1200
 run_ids:
-  smoke: p0_fk_mapping_model_proxy_rank_pilot_20261106_smoke_001
-  full: p0_fk_mapping_model_proxy_rank_pilot_20261106_full_001
+  failed_pre_inference_smoke: p0_fk_mapping_model_proxy_rank_pilot_20261106_smoke_001
+  smoke: p0_fk_mapping_model_proxy_rank_pilot_20261106_smoke_002
+  full: p0_fk_mapping_model_proxy_rank_pilot_20261106_full_002
 private_inputs:
   source: locally_stored_blind_review_packet_and_three_model_outputs
+  canonical_query_source: private_manifest
+  frozen_packet_br_to_newline_serialization_anomalies: 1
   question_text_or_case_ids_in_repository: false
   raw_outputs_in_repository: false

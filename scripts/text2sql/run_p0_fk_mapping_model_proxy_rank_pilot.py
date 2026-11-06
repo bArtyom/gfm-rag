@@ -166,13 +166,27 @@ def load_private_inputs(args: argparse.Namespace) -> dict[str, Any]:
         require(set(outputs[reviewer]) == set(items), f"reviewer {reviewer} coverage mismatch")
 
     labels = {}
+    packet_question_serialization_normalization_count = 0
+    packet_question_serialization_anomaly_pair_ids = []
     for pair_id, item in items.items():
         candidate_ids = {mapping["mapping_id"] for mapping in item["mappings"]}
         labels[pair_id] = get_proxy_consensus(pair_id, candidate_ids, outputs)
         require(len(candidate_ids) >= 2, "every frozen pair must have multiple candidate mappings")
-        require(item["question"] == manifest_rows[pair_id]["private_question_text"], "packet/manifest question mismatch")
+        packet_question = item["question"]
+        canonical_question = manifest_rows[pair_id]["private_question_text"]
+        if packet_question != canonical_question:
+            require(
+                packet_question.replace("<br>", "\n") == canonical_question,
+                "packet/manifest question mismatch beyond the frozen <br>-to-newline serialization",
+            )
+            packet_question_serialization_normalization_count += 1
+            packet_question_serialization_anomaly_pair_ids.append(pair_id)
         ids_from_manifest = {mapping["mapping_id"] for mapping in manifest_rows[pair_id]["mapping_identities"]}
         require(ids_from_manifest == candidate_ids, "packet/manifest mapping identity mismatch")
+    require(
+        packet_question_serialization_normalization_count == 1,
+        "frozen packet serialization anomaly count changed",
+    )
 
     split = json.loads(args.split_manifest.read_text(encoding="utf-8"))
     smoke_pairs, full_pairs, smoke_questions = make_frozen_split(items, manifest_rows)
@@ -196,6 +210,8 @@ def load_private_inputs(args: argparse.Namespace) -> dict[str, Any]:
         "manifest_rows": manifest_rows,
         "outputs": outputs,
         "labels": labels,
+        "packet_question_serialization_normalization_count": packet_question_serialization_normalization_count,
+        "packet_question_serialization_anomaly_pair_ids": packet_question_serialization_anomaly_pair_ids,
         "smoke_pairs": smoke_pairs,
         "full_pairs": full_pairs,
         "full_adjudicable": full_adjudicable,
@@ -575,6 +591,14 @@ def create_full_summary(
     metrics_distinguishable = metric_summary(rows, private["labels"], distinguishable)
     metrics_adjudicable = metric_summary(rows, private["labels"], adjudicable)
     paired = paired_comparison(rows, private["labels"], distinguishable)
+    serialization_anomaly_ids = set(private["packet_question_serialization_anomaly_pair_ids"])
+    sensitivity_pair_ids = [pair_id for pair_id in distinguishable if pair_id not in serialization_anomaly_ids]
+    sensitivity_metrics = metric_summary(rows, private["labels"], sensitivity_pair_ids)
+    sensitivity_paired = paired_comparison(rows, private["labels"], sensitivity_pair_ids)
+    sensitivity_difference = (
+        sensitivity_metrics["g_reasoner"]["accepted_at_1"]["rate"]
+        - sensitivity_metrics["dense_cosine"]["accepted_at_1"]["rate"]
+    )
     gfm_rate = metrics_distinguishable["g_reasoner"]["accepted_at_1"]["rate"]
     dense_rate = metrics_distinguishable["dense_cosine"]["accepted_at_1"]["rate"]
     difference = gfm_rate - dense_rate
@@ -593,6 +617,13 @@ def create_full_summary(
         "secondary_metrics_adjudicable": metrics_adjudicable,
         "paired_g_reasoner_vs_dense_primary": paired,
         "g_reasoner_minus_dense_accepted_at_1": round(difference, 6),
+        "packet_serialization_anomaly_sensitivity": {
+            "excluded_anomaly_count": len(serialization_anomaly_ids.intersection(distinguishable)),
+            "primary_denominator_after_exclusion": len(sensitivity_pair_ids),
+            "metrics": sensitivity_metrics,
+            "paired_g_reasoner_vs_dense": sensitivity_paired,
+            "g_reasoner_minus_dense_accepted_at_1": round(sensitivity_difference, 6),
+        },
         "databases_with_at_least_5_pairs_and_positive_net_rescue": eligible_db_positive,
         "per_anonymous_database": per_db,
         "positive_screen_thresholds": {
@@ -618,7 +649,7 @@ def write_json(path: Path, value: Any) -> None:
 
 
 def run(args: argparse.Namespace) -> dict[str, Any]:
-    expected_run = f"p0_fk_mapping_model_proxy_rank_pilot_20261106_{args.mode}_001"
+    expected_run = f"p0_fk_mapping_model_proxy_rank_pilot_20261106_{args.mode}_002"
     require(args.run_id == expected_run, "run ID does not match preregistered mode")
     source_commit = git_commit()
     require(source_commit == args.expected_commit, "source commit differs from frozen pre-run commit")
@@ -804,6 +835,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 "device": torch.cuda.get_device_name(device),
                 "cuda_visible_devices": visible_gpu,
                 "pairs_scored": len(selected_pairs),
+                "packet_question_serialization_normalization_count": inputs["packet_question_serialization_normalization_count"],
                 "candidate_count_scored": sum(len(inputs["items"][pair_id]["mappings"]) for pair_id in selected_pairs),
                 "g_reasoner_forward_count": len(selected_pairs),
                 "g_reasoner_forward_seconds_total": round(sum(forward_seconds), 6),
