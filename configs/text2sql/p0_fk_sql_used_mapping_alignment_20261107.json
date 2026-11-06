@@ -2,6 +2,10 @@
   "experiment_id": "p0_fk_sql_used_mapping_alignment_20261107_01",
   "status": "preregistered_not_run",
   "layer": "exploratory_label_target_audit",
+  "runner": {
+    "path": "scripts/text2sql/audit_p0_fk_sql_used_mapping_alignment.py",
+    "sha256": "a8b22d7733c5fcd6e3111cdcc42e9dd0ed1d365de2f72b677776a96bae057e53"
+  },
   "core_hypothesis": "On the same 55 non-smoke pairs and frozen ranking scores, G-reasoner reaches SQL-used Mapping@1 at least 5 percentage points above Dense, with at least four net rescues and positive net rescue in at least two databases with n>=5.",
   "data": {
     "dataset": "BIRD dev original local snapshot",

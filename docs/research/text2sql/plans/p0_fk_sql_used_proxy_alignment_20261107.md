@@ -51,6 +51,8 @@ The public repository will contain only the protocol, runner, sanitized aggregat
 ## Environment and execution record
 
 - CPU environment: existing `think2sql_20260909`, Python 3.12.14, SQLGlot 28.0.0. No dependency installation or changes.
+- Runner: `scripts/text2sql/audit_p0_fk_sql_used_mapping_alignment.py`; frozen configuration: `configs/text2sql/p0_fk_sql_used_mapping_alignment_20261107.json`.
+- Runner SHA-256: `a8b22d7733c5fcd6e3111cdcc42e9dd0ed1d365de2f72b677776a96bae057e53`; the runner checks this lock and the exact committed source before reading any SQL.
 - Expected use: CPU-only. At preflight, all four RTX 4090 GPUs were 80–82% occupied (about 15.9–16.3 GiB used per GPU); this experiment must not request any GPU. RAM available was 447 GiB, 192 logical CPUs, disk free 112 TiB.
 - Initial project commit: `7f7779480084ccc2a068088579b3a78aaf4a6386`; current runner/config commit will be recorded before the first Smoke and pinned by `--expected-commit`.
 - No local or hosted model/API calls are planned; confirmed inference tokens and API cost for this run are expected to be 0. CPU wall time and peak RSS will be recorded separately.
