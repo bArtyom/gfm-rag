@@ -36,6 +36,7 @@ A0 另重复一次，用于检查确定性。三种 seed 条件共用相同的 Q
 - G-reasoner checkpoint revision `a3a4ed2c62281e1c3e0551bd42f2072d9204674f`；`model.pth` SHA-256 `2f2a1a2d2f5725133428941b785f3898255666b06041b58420f75e60599d387d`，`config.json` SHA-256 `75d14b97d6a077ebc17b09a21170a3ad9272251db59f7ac8cc853165efb2efd5`。
 - Embedding：本地 Qwen/Qwen3-Embedding-0.6B，1024 维；权重 SHA-256 `0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd`。完整 snapshot 指纹在本地 run manifest。仅本地加载，未发外部 API 请求。
 - 固定 conda 环境 `gfmrag_greasoner_20261022`：Python 3.12.15、PyTorch 2.8.0、PyG 2.6.1、Transformers 4.56.1、Sentence Transformers 5.1.1。随机 seed `20261106`；只用物理 GPU 1，进程内 `cuda:0`。
+- 资源预检：4 张 RTX 4090 均空闲，GPU 1 可用显存约24,196–24,199 MiB；主机可用内存约444–446 GiB、192 CPU、磁盘剩余112 TiB。Swap 为2 GiB且已用满，但主机可用内存充足，运行期间没有资源错误。
 
 ## 运行记录和异常
 
@@ -43,7 +44,13 @@ A0 另重复一次，用于检查确定性。三种 seed 条件共用相同的 Q
 2. `..._smoke_002` 改用目标环境内的 Python 3.12 绝对解释器后通过：5/5 图、12 个候选、20 次 forward 均产生有限分数；A0 重复最大绝对误差为0。峰值 GPU 分配 2,531,396,608 bytes，峰值 RSS 4,721,029,120 bytes；墙钟10.04秒、CPU 13.62秒。Qwen 编码输入528 token、输出0。
 3. `..._full_001` 完成：55/55 图、123 个候选、220 次 forward；墙钟10.64秒、CPU14.96秒，峰值 GPU 分配2,979,721,216 bytes，峰值 RSS4,719,513,600 bytes。预算上限为 GPU/RSS各8 GiB、CPU900秒、wall1200秒，均未超限。Qwen 编码输入2,695 token、输出0。
 
-实际运行命令使用 `conda run -n gfmrag_greasoner_20261022 /root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3 scripts/text2sql/run_g3_fk_seed_direction_sensitivity.py`，其余参数由冻结配置和本地私有输入路径提供；Smoke 与 Full 的 run ID、完整 argv、环境变量和输入指纹保存在本地 `attempt_manifest.json` / `run_manifest.json`。外部 API 与 SQL 执行均为0。
+实际 Full 命令如下；Smoke_002 参数相同，仅将模式、run ID 和输出目录换为 `smoke`、`g3_fk_seed_direction_sensitivity_20261106_smoke_002` 与 `.../smoke_002`。这些输入路径指向本机私有材料：
+
+```bash
+CUDA_VISIBLE_DEVICES=1 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 GFM_SHARED_CODE_ROOT=/mnt/liansp3/sources/code conda run -n gfmrag_greasoner_20261022 /root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3 scripts/text2sql/run_g3_fk_seed_direction_sensitivity.py --mode full --run-id g3_fk_seed_direction_sensitivity_20261106_full_001 --expected-commit 1d37a9fd7407ed31103f4e464c2e31d83b00c2bc --config configs/text2sql/g3_fk_seed_direction_sensitivity_20261106.yaml --packet-a /mnt/liansp3/sources/results/gfmrag_p0_fk_mapping_pair_level_blind_review_20261106_01/full_001/reviewer_A_packet.md --packet-b /mnt/liansp3/sources/results/gfmrag_p0_fk_mapping_pair_level_blind_review_20261106_01/full_001/reviewer_B_packet.md --private-manifest /mnt/liansp3/sources/results/gfmrag_p0_fk_mapping_pair_level_blind_review_20261106_01/full_001/private_manifest.json --split-manifest /mnt/liansp3/sources/results/gfmrag_p0_fk_mapping_model_proxy_rank_pilot_20261106_01/preflight/split_manifest_private.json --checkpoint /mnt/liansp3/sources/models/g-reasoner-34m --embedding-model /mnt/liansp3/sources/models/qwen3-embedding-0.6b --device cuda:0 --output-dir /mnt/liansp3/sources/results/gfmrag_g3_fk_seed_direction_sensitivity_20261106_01/full_001
+```
+
+Smoke 与 Full 的完整 argv、环境变量和输入指纹保存在本地 `attempt_manifest.json` / `run_manifest.json`。外部 API 与 SQL 执行均为0。
 
 ## Full 结果
 
