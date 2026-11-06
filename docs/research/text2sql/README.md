@@ -24,7 +24,7 @@
 
 > **方法变更台账**：为避免把检索、上下文打包、SQL评测和图传播探针混为“QuadGraph方法改进”，逐项列出原方法、实际改动、结果及证据边界，见[方法变更台账](method-change-ledger-20261105.md)。
 
-> **2026-11-06 文献与下一步门更新**：新近的 JoinGR 已覆盖 join-graph 遍历及可选边级监督，MDB-Link 已覆盖分层表/列选择与预算 Schema 构造；当前 FK mapping pilot 只保留为冻结 G-reasoner 的小样本迁移/证伪测试，不主张新算法。盲审 A/B 回复文件元数据仍停留在材料生成时间，故按路线图暂不启动模型实验，等待两位真实审阅者提交。见[文献更新与候选门](plans/p0_fk_mapping_rank_literature_update_20261106.md)。
+> **2026-11-06 文献与下一步门更新**：新近的 JoinGR 已覆盖 join-graph 遍历及可选边级监督，MDB-Link 已覆盖分层表/列选择与预算 Schema 构造；当前 FK mapping pilot 只保留为冻结 G-reasoner 的小样本迁移/证伪测试，不主张新算法。旧盲审包的回复元数据仍停留在材料生成时间；另一个面向多 mapping 对的独立 60 单元盲审包已准备完成，尚无审阅标签，模型实验仍停止。见[文献更新与候选门](plans/p0_fk_mapping_rank_literature_update_20261106.md)和[新盲审包报告](reports/p0_fk_mapping_pair_level_blind_review_20261106_01/README.md)。
 
 > **2026-11-06 Pilot 设计审计**：新核对的 Post-SQLFix、CORE-T、DBCC、BASS 与 PASCAL 进一步覆盖通用修复、相干表检索、上下文压缩、预算搜索及交互式证据获取；不新增相邻 SQL 修复或普通 Schema packing 实验。FK 映射 Pilot 的主对照、可区分标签分母、Smoke/Full 不重叠和数据库级成功门已明确；仍须等待两位真实审阅者，未注册、未运行。见[设计审计](plans/p0_fk_mapping_rank_pilot_design_audit_20261106.md)。
 
@@ -34,13 +34,14 @@
 
 > **2026-11-06 Query 指令兼容性审计**：G-reasoner-34M checkpoint/G0 使用的 Query 指令与 P1.6 表列检索指令不同。后续 FK 映射 Pilot 的 G-reasoner 与 Dense 主比较须共享 checkpoint 兼容的 Query 向量和相同映射候选文本；不得直接复用 P1.6 Query cache。本审计不修改 P1.6 历史结果；双人标签仍为0，Pilot 未运行。见[兼容性审计](plans/p0_gfm_embedding_instruction_compatibility_audit_20261106.md)。
 
-> **2026-11-06 FK mapping 样本容量审计完成**：已解析 1,127/1,140 个 JOIN-ON 问题，提取 1,391 个问题×表对，其中 1,208 对含有效 FK 候选、176 对含多个 mapping，覆盖 4 个数据库；13 题仍有表对解析缺口。即使排除任意 5 个已解析问题，解析子集的保守下界仍为 1,189 个 FK-bearing 对、170 个多映射对、4 个数据库，超过 30/20/3 容量必要门。可准备新的独立 pair-level 双人盲审包；可信人工标签仍为 0，模型 Pilot 未启动。见[审计报告](reports/p0_fk_mapping_candidate_capacity_20261106_01/README.md)、[容量审计计划](plans/p0_fk_mapping_candidate_capacity_audit_20261106.md)和[新盲审方案](plans/p0_fk_mapping_pair_level_blind_review_20261106.md)。
+> **2026-11-06 FK mapping 样本容量与盲审材料准备完成**：已解析 1,127/1,140 个 JOIN-ON 问题，176 个多映射表对涉及 175 道问题和 4 个数据库。新的 pair-level 盲审包 Smoke 5 题、Full 60 题均通过；Full 为每个匿名数据库 15 题、共 135 个完整 mapping 候选，A/B 候选集合一致且展示顺序打乱。旧包保持原样。材料本地私有，尚无人工标签；G-reasoner Pilot 仍未启动。见[容量审计报告](reports/p0_fk_mapping_candidate_capacity_20261106_01/README.md)、[预注册方案](plans/p0_fk_mapping_pair_level_blind_review_20261106.md)和[材料准备报告](reports/p0_fk_mapping_pair_level_blind_review_20261106_01/README.md)。
 
 ## 现有研究文档
 
 | 文档 | 作用 | 状态 |
 |---|---|---|
 | [方法变更台账（当前）](method-change-ledger-20261105.md) | 逐项区分 QuadGraph 原方法、Text2SQL 检索/上下文改动、SQL评测变化及 G0/G1/G2 图探针 | 2026-11-06 更新，含 P2d.3 authorizer 候选归因；不把候选级结果写成系统收益 |
+| [P0 FK mapping pair-level 盲审材料报告](reports/p0_fk_mapping_pair_level_blind_review_20261106_01/README.md) | 60 个多 mapping 问题×表对的 A/B 双人审阅材料准备；不含人工标签或模型结果 | Smoke/Full 通过；等待两位真实审阅者；Role Pilot 仍未启动 |
 | [论文与代码审计](paper-and-code-audit.md) | QuadGraph 四层图、Qwen3 Embedding 输出维度、GraphReasoner 投影约束、相似度归一化 | 讨论版，待按当前 fork commit 复核 |
 | [实验路线图](experiment-roadmap.md) | P0 数据审计 → P1 维度消融 → P2 评分消融 → P3 Text2SQL EX → P4 可选 GFM 适配 | 研究指导 v1，尚未按本路线图执行 |
 | [数据与复现规范](reproducibility-contract.md) | Gold 约束、FK 实例标识、反泄漏、缓存版本、评测模板与 Go/No-go | 待实现/执行 |
@@ -121,7 +122,7 @@
 
 论文与代码审计、实验路线图、复现规范从旧仓库**迁移**，部分路径/迁移日期调整；迁移本身不产生新实验结论。上表的 P1 报告记录了 2026-10-14 实际运行，但其范围仅为表/列筛查，FK/角色未测；不得视作当前路线图下 P0 通过或完整 P1 完成。
 
-> **2026-11-06 路线更新**：P2d.3 authorizer 只读反事实审计在 8 个被拒修复候选中发现 2 个完整 Schema 下可执行且正确，但不改变原 A2 的 17/66 系统分数。通用 SQL 修复和双 Schema 路线已有近期工作覆盖，本分支不继续追加此类实验。当前唯一可启动的 GFM 方法 Pilot 仍需两位真实审阅者完成现有 A/B 映射审阅；最新文件状态仍是 0 个可信标签，所以不运行 Smoke/Full、不让模型代标。见[审计报告](reports/p2d3_authorizer_counterfactual_audit_20261106_01/README.md)、[映射排序文献更新](plans/p0_fk_mapping_rank_literature_update_20261106.md)和[设计审计](plans/p0_fk_mapping_rank_pilot_design_audit_20261106.md)。
+> **2026-11-06 路线更新**：P2d.3 authorizer 只读反事实审计在 8 个被拒修复候选中发现 2 个完整 Schema 下可执行且正确，但不改变原 A2 的 17/66 系统分数。通用 SQL 修复和双 Schema 路线已有近期工作覆盖，本分支不继续追加此类实验。FK 映射 Pilot 仍必须等两位真实审阅者；针对多 mapping 候选的新 60 单元 A/B 包已准备完成，但目前可信标签仍为 0，所以不运行模型 Smoke/Full，也不让模型代标。见[审计报告](reports/p2d3_authorizer_counterfactual_audit_20261106_01/README.md)、[新盲审材料报告](reports/p0_fk_mapping_pair_level_blind_review_20261106_01/README.md)、[映射排序文献更新](plans/p0_fk_mapping_rank_literature_update_20261106.md)和[设计审计](plans/p0_fk_mapping_rank_pilot_design_audit_20261106.md)。
 
 > **2026-11-06 前沿复核补充**：Rethinking Schema Linking 已覆盖 table-first/column-first 检索，REaR 已覆盖检索后按列向量扩展 joinable 表；ARCS 的人工多解释标签并非 BIRD FK mapping 业务角色标签。未发现能在不重复已有工作、也不替代双人审阅的可执行新实验，因此保留同一 Accepted@1 映射级证伪 Pilot，不另开支线。详见[前沿复核](plans/p0_fk_mapping_rank_frontier_check_20261106.md)。
 

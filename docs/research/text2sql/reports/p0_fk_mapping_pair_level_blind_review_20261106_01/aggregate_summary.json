@@ -1,0 +1,82 @@
+{
+  "api_calls": 0,
+  "experiment_id": "p0_fk_mapping_pair_level_blind_review_20261106_01",
+  "frozen_candidate_census": {
+    "ambiguous_database_count": 4,
+    "ambiguous_question_table_pairs": 176,
+    "ambiguous_questions_by_anonymous_database": {
+      "db_01": 42,
+      "db_02": 28,
+      "db_03": 80,
+      "db_04": 25
+    },
+    "join_on_questions": 1140,
+    "parse_failures_by_reason": {
+      "JOIN_PAIR_EXTRACTION_INCOMPLETE": 13
+    },
+    "parsed_questions": 1127,
+    "unique_ambiguous_questions": 175
+  },
+  "full_mapping_count_histogram": {
+    "2": 45,
+    "3": 15
+  },
+  "full_pair_count_by_anonymous_database": {
+    "db_01": 15,
+    "db_02": 15,
+    "db_03": 15,
+    "db_04": 15
+  },
+  "gpu_seconds": 0,
+  "human_review_completed": false,
+  "input_sha256": {
+    "canonical_full": "746e6366831b5924fedd309af4c96f71ab49d6f3462ad2d054cfd427fb2f33ed",
+    "crosswalk_private": "7acdbecca557d8ce49283adca174e1caacd9dc77929e1f6ad819b75299a9938e",
+    "dev.json": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "dev_tables.json": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "fk_artifact": "5bc60f6d64429215fa92d3c3a42f1a4881dc77c09839729153fb55a119555060"
+  },
+  "mode": "full",
+  "model_calls": 0,
+  "prepared_full_database_count": 4,
+  "prepared_full_question_pair_count": 60,
+  "privacy": {
+    "database_ids_in_review_packets": false,
+    "gold_sql_in_review_packets": false,
+    "mapping_identities_in_public_summary": false,
+    "method_labels_in_review_packets": false,
+    "question_ids_in_review_packets": false,
+    "question_table_pair_keys_in_public_summary": false
+  },
+  "python_version": "3.12.14",
+  "render_checks": {
+    "cases_with_different_mapping_display_order": 31,
+    "packet_a_sha256": "0b6102f38c9a60afa9434091ce3b9c94e35460c47e105de804cfd119d826cfa2",
+    "packet_b_sha256": "a30230c9562f95e00c0af88e7cd0277d6d27e9f26eca2863ca968540b944dfdb",
+    "reviewer_case_order_differs": true,
+    "reviewer_mapping_sets_match": true,
+    "reviewer_pair_sets_match": true
+  },
+  "resources": {
+    "cpu_seconds": 0.845503,
+    "limits": {
+      "cpu_seconds": 300.0,
+      "peak_rss_gib": 4.0,
+      "wall_seconds": 600.0
+    },
+    "peak_rss_gib": 0.033691,
+    "wall_seconds": 0.855841
+  },
+  "reviewer_response_files_read": false,
+  "run_id": "p0_fk_mapping_pair_level_blind_review_20261106_01",
+  "runner_sha256": "83be039b8cb2a377974cebff065786d45fbef96f38a89d90f341d051b8c5110c",
+  "seed": 20261106,
+  "smoke_full_question_overlap": 0,
+  "smoke_question_count": 5,
+  "source_commit": "0077db570a5c1f68dbb74598777593a75b3d1d27",
+  "sql_execution_calls": 0,
+  "sqlglot_version": "28.0.0",
+  "started_at_utc": "2026-11-05T23:52:57Z",
+  "status": "REVIEW_PACKET_READY_PENDING_HUMANS",
+  "trusted_role_label_count": 0
+}

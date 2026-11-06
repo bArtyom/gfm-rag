@@ -1,0 +1,99 @@
+{
+  "experiment_id": "p0_fk_mapping_pair_level_blind_review_20261106_01",
+  "status": "REVIEW_PACKET_READY_PENDING_HUMANS",
+  "experiment_layer": "P0 label preparation; exploratory materials preparation only",
+  "research_question": "Given a table pair extracted from a reference JOIN, can two independent reviewers agree on the accepted set of valid FK mappings well enough to evaluate a frozen G-reasoner Accepted@1 pilot?",
+  "core_hypothesis": "The frozen, identity-stable candidate pool can support 60 unique question-table-pair review units with blinded A/B ordering and enough cross-review agreement to make a small mapping-ranking pilot evaluable.",
+  "success_criteria_for_material_preparation": [
+    "All five frozen input hashes match",
+    "Exactly 60 unique full question-table-pair units after a disjoint 5-question preparation smoke",
+    "At least three anonymous databases in Full",
+    "A/B case and candidate mapping sets match exactly",
+    "A/B display order differs and complete FK column-pair mappings are preserved",
+    "Gold SQL, question IDs, database IDs, source labels, and model ranks are absent from reviewer packets",
+    "Private files are mode 0600 and directories are mode 0700"
+  ],
+  "stop_conditions": [
+    "Any frozen input hash or candidate census mismatch",
+    "Fewer than 60 unique eligible questions after the separate 5-question smoke",
+    "Fewer than three databases in Full",
+    "A/B candidate-set or mapping-identity mismatch",
+    "Privacy scan or private file permission failure",
+    "Any output directory already exists"
+  ],
+  "preregistered_plan": "docs/research/text2sql/plans/p0_fk_mapping_pair_level_blind_review_20261106.md",
+  "preregistration_parent_commit": "8082da5bdb5dc7e5047ef6e10c6cfd9c7ce13880",
+  "execution_repository": "https://github.com/bArtyom/gfm-rag",
+  "execution_branch": "research/p0-fk-mapping-review-packet-20261106",
+  "execution_code_commit": "0077db570a5c1f68dbb74598777593a75b3d1d27",
+  "data_source": "BIRD dev (repeatedly used development/diagnostic data, not an independent test set)",
+  "runner": "scripts/text2sql/prepare_p0_fk_mapping_pair_level_review_packet.py",
+  "runner_sha256": "83be039b8cb2a377974cebff065786d45fbef96f38a89d90f341d051b8c5110c",
+  "seed": 20261106,
+  "sample_unit": "One question and one unordered endpoint table pair with at least two distinct complete valid FK mappings; at most one pair per question",
+  "smoke": {
+    "size": 5,
+    "database_coverage": 4,
+    "full_overlap": 0,
+    "output_alias": "sources/results/gfmrag_p0_fk_mapping_pair_level_blind_review_20261106_01/smoke_001/"
+  },
+  "full": {
+    "size": 60,
+    "database_count": 4,
+    "pairs_per_anonymous_database": 15,
+    "mapping_candidate_count": 135,
+    "pair_mapping_count_histogram": {
+      "2": 45,
+      "3": 15
+    },
+    "output_alias": "sources/results/gfmrag_p0_fk_mapping_pair_level_blind_review_20261106_01/full_001/"
+  },
+  "frozen_candidate_census": {
+    "join_on_questions": 1140,
+    "parsed_questions": 1127,
+    "parse_failures": 13,
+    "ambiguous_question_table_pairs": 176,
+    "unique_ambiguous_questions": 175,
+    "ambiguous_databases": 4
+  },
+  "input_sha256": {
+    "dev.json": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "dev_tables.json": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "fk_artifact": "5bc60f6d64429215fa92d3c3a42f1a4881dc77c09839729153fb55a119555060",
+    "crosswalk_private": "7acdbecca557d8ce49283adca174e1caacd9dc77929e1f6ad819b75299a9938e",
+    "canonical_full": "746e6366831b5924fedd309af4c96f71ab49d6f3462ad2d054cfd427fb2f33ed"
+  },
+  "environment": {
+    "conda_environment": "think2sql_20260909",
+    "python": "3.12.14",
+    "sqlglot": "28.0.0",
+    "execution_device": "CPU-only",
+    "resource_limits": {
+      "wall_seconds": 600,
+      "cpu_seconds": 300,
+      "peak_rss_gib": 4
+    }
+  },
+  "usage": {
+    "external_api_input_tokens": 0,
+    "external_api_output_tokens": 0,
+    "external_api_total_tokens": 0,
+    "external_api_unknown_usage_requests": 0,
+    "external_api_cost_cny": "0.00",
+    "local_model_requests": 0,
+    "gpu_seconds": 0,
+    "sql_execution_calls": 0,
+    "training_runs": 0,
+    "dependency_installs": 0
+  },
+  "privacy": {
+    "reviewer_packets_published": false,
+    "raw_questions_published": false,
+    "gold_sql_published": false,
+    "database_or_question_ids_published": false,
+    "mapping_identities_published": false,
+    "old_reviewer_response_files_read": false,
+    "human_review_completed": false,
+    "trusted_role_label_count": 0
+  }
+}

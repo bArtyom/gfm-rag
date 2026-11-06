@@ -1,6 +1,6 @@
 # P0 FK mapping pair-level 双人盲审材料准备方案
 
-**状态：独立材料准备方案；尚未执行、未生成新材料、未联系人类审阅者。** 实验 ID：`p0_fk_mapping_pair_level_blind_review_20261106_01`。这不是模型方法 Pilot 的正式注册；模型 Pilot 仍需后续满足双人标签门。
+**登记时状态：独立材料准备方案；当时尚未执行、未生成新材料、未联系人类审阅者。** 实验 ID：`p0_fk_mapping_pair_level_blind_review_20261106_01`。这不是模型方法 Pilot 的正式注册；模型 Pilot 仍需后续满足双人标签门。2026-11-06 的执行结果见[材料准备报告](../reports/p0_fk_mapping_pair_level_blind_review_20261106_01/README.md)。
 
 ## 为什么需要新版本
 
@@ -47,3 +47,9 @@
 - [FK mapping Pilot 设计审计](p0_fk_mapping_rank_pilot_design_audit_20261106.md)
 - [原始 Pilot 候选方案](p0_fk_mapping_rank_pilot_candidate_20261105.md)
 - 代码预计在 `scripts/text2sql/prepare_p0_fk_mapping_pair_level_review_packet.py` 独立实现；不修改旧材料生成器。
+
+## 执行状态追加（2026-11-06）
+
+按本方案完成了独立 Smoke 与 Full：Smoke 5 题通过；Full 准备了 60 个唯一问题×表对，覆盖 4 个匿名数据库各 15 个，合计 135 个候选 mapping。Smoke 与 Full 不重叠；A/B 案例和候选集合一致，案例顺序不同，31/60 个案例的 mapping 展示顺序不同。完整输入、资源、权限和失败边界见[报告](../reports/p0_fk_mapping_pair_level_blind_review_20261106_01/README.md)。
+
+**材料准备成功，但审阅和方法实验尚未完成。** 本轮没有联系人类审阅者，也没有读取旧 A/B 回复内容；新包仅在本地私有保存，可信 Role 标签仍为 0。没有启动 G-reasoner/Dense Pilot。下一步必须先取得两位真实审阅者的独立决定、接受集合和置信度，再按本方案第“材料准备门、停止条件与后续 Pilot 门”核验模型 Pilot 的样本门。

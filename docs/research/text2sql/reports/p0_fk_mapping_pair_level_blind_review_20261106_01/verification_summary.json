@@ -1,0 +1,59 @@
+{
+  "experiment_id": "p0_fk_mapping_pair_level_blind_review_20261106_01",
+  "status": "VERIFIED_MATERIALS_READY_PENDING_HUMAN_REVIEW",
+  "execution_commit": "0077db570a5c1f68dbb74598777593a75b3d1d27",
+  "runner_sha256": "83be039b8cb2a377974cebff065786d45fbef96f38a89d90f341d051b8c5110c",
+  "smoke": {
+    "status": "SMOKE_PASS",
+    "question_count": 5,
+    "database_coverage": 4,
+    "summary_sha256": "b7d45b0a11fb5701fb3f11abc61dd9186cc2a7bd92dc4d4094f8a7821eae3f9c"
+  },
+  "full": {
+    "status": "REVIEW_PACKET_READY_PENDING_HUMANS",
+    "unique_question_count": 60,
+    "question_table_pair_count": 60,
+    "database_count": 4,
+    "pairs_per_anonymous_database": 15,
+    "smoke_full_question_overlap": 0,
+    "mapping_candidate_count": 135,
+    "pair_mapping_count_histogram": {
+      "2": 45,
+      "3": 15
+    },
+    "composite_fk_mapping_count_in_selected_sample": 0,
+    "packet_case_count_per_reviewer": 60,
+    "packet_pair_count_per_reviewer": 60,
+    "empty_response_row_count_per_reviewer": 60,
+    "reviewer_case_order_differs": true,
+    "cases_with_different_mapping_order": 31,
+    "reviewer_pair_sets_match": true,
+    "reviewer_mapping_sets_match": true,
+    "private_artifact_checksum_verification": "PASS",
+    "result_directory_mode": "0700",
+    "private_file_mode": "0600",
+    "aggregate_sha256": "a0948f2842834e209082fafac9a0491890e7b09ea7ef31bc254cc8fd7cc1cac7"
+  },
+  "privacy_and_scope": {
+    "gold_sql_in_reviewer_packets": false,
+    "question_ids_in_reviewer_packets": false,
+    "database_ids_in_reviewer_packets": false,
+    "method_source_labels_in_reviewer_packets": false,
+    "old_reviewer_response_files_read": false,
+    "human_review_completed": false,
+    "trusted_role_label_count": 0,
+    "model_calls": 0,
+    "external_api_calls": 0,
+    "gpu_calls": 0,
+    "sql_execution_calls": 0
+  },
+  "resource_usage": {
+    "full_wall_seconds": 0.855841,
+    "full_cpu_seconds": 0.845503,
+    "full_peak_rss_gib": 0.033691,
+    "external_api_input_tokens": 0,
+    "external_api_output_tokens": 0,
+    "external_api_total_tokens": 0,
+    "external_api_cost_cny": "0.00"
+  }
+}
