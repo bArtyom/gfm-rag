@@ -1,0 +1,88 @@
+{
+  "experiment_id": "p0_fk_sql_used_mapping_alignment_20261107_01",
+  "status": "preregistered_not_run",
+  "layer": "exploratory_label_target_audit",
+  "core_hypothesis": "On the same 55 non-smoke pairs and frozen ranking scores, G-reasoner reaches SQL-used Mapping@1 at least 5 percentage points above Dense, with at least four net rescues and positive net rescue in at least two databases with n>=5.",
+  "data": {
+    "dataset": "BIRD dev original local snapshot",
+    "question_count": 1534,
+    "selected_question_table_pairs": 60,
+    "smoke_pairs": 5,
+    "full_pairs": 55,
+    "split_source": "existing frozen proxy-rank pilot split_manifest_private.json",
+    "smoke_full_overlap_allowed": false
+  },
+  "inputs": {
+    "dev_json": {
+      "path": "/mnt/liansp3/sources/datasets/bird/dev/dev.json",
+      "sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06"
+    },
+    "dev_tables_json": {
+      "path": "/mnt/liansp3/sources/datasets/bird/dev/dev_tables.json",
+      "sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97"
+    },
+    "private_pair_manifest": {
+      "path": "/mnt/liansp3/sources/results/gfmrag_p0_fk_mapping_pair_level_blind_review_20261106_01/full_001/private_manifest.json",
+      "sha256": "14d3e65e53bbc29c03d312fb32227c47b568242502e30bc3c4d4656b97521ed7"
+    },
+    "rank_predictions_full": {
+      "path": "/mnt/liansp3/sources/results/gfmrag_p0_fk_mapping_model_proxy_rank_pilot_20261106_01/full_002/private_predictions.jsonl",
+      "sha256": "d06f07b2b1000e40dbc0614e9bdbe224a79130010011721b97eccaf3dd9b2484"
+    },
+    "rank_split": {
+      "path": "/mnt/liansp3/sources/results/gfmrag_p0_fk_mapping_model_proxy_rank_pilot_20261106_01/preflight/split_manifest_private.json",
+      "sha256": "40234d6c3430b1cede8a1d5cdcdfce7c10a6834c136f38f31ff716cff98f14c0"
+    },
+    "reviewer_a": {
+      "path": "/mnt/liansp3/sources/results/gfmrag_p0_fk_mapping_model_review_proxy_20261106_01/full_001/reviewer_A/reviewer_A.jsonl",
+      "sha256": "f3d2beb21290c49790679e53ac0bf8dc50084b7b34ee228843f06330ac120883"
+    },
+    "reviewer_b": {
+      "path": "/mnt/liansp3/sources/results/gfmrag_p0_fk_mapping_model_review_proxy_20261106_01/full_001/reviewer_B/reviewer_B.jsonl",
+      "sha256": "2b49a5772f061ed70f02ea21811e392fd6afd086fa7030aca9fe737c2c8af077"
+    },
+    "reviewer_c": {
+      "path": "/mnt/liansp3/sources/results/gfmrag_p0_fk_mapping_model_review_third_proxy_cpu_20261106_01/full_001/reviewer_C/reviewer_C.jsonl",
+      "sha256": "88c5b79785af76896055378ece4776b523bdb036588304cd63305db51a10d333"
+    }
+  },
+  "sql_label_rule": {
+    "parser": "SQLGlot 28.0.0",
+    "dialect": "sqlite",
+    "accepted_source": "explicit JOIN ON qualified cross-table column equalities",
+    "composite_fk": "all ordered column pairs must occur in the same JOIN ON and alias pair",
+    "excluded_sources": ["WHERE", "USING", "unresolved aliases or columns"],
+    "interpretation": "reference-SQL-used mapping only; not unique semantic gold"
+  },
+  "metrics": {
+    "primary": "set-valued SQL-used Mapping@1, G-reasoner versus Dense",
+    "secondary": [
+      "Mapping@3",
+      "MRR to first SQL-used mapping",
+      "proxy accepted-set SQL inclusion rate",
+      "proxy accepted-set exact equality rate"
+    ]
+  },
+  "gates": {
+    "smoke_sql_parse": "5/5",
+    "smoke_scope_errors": 0,
+    "smoke_candidate_mapping_match_min": 4,
+    "full_sql_parse_min": 54,
+    "full_scope_errors": 0,
+    "full_evaluable_pairs_min": 30,
+    "full_anonymous_databases_min": 3,
+    "success_g_reasoner_delta_pp_min": 5,
+    "success_net_rescues_min": 4,
+    "success_positive_databases_min_n5": 2
+  },
+  "resource_budget": {
+    "gpu": 0,
+    "local_model_calls": 0,
+    "external_api_calls": 0,
+    "training": false,
+    "dependency_changes": false,
+    "runs": "one 5-pair CPU smoke then one 55-pair CPU full if smoke passes; no retries"
+  },
+  "output_alias": "/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_alignment_20261107_01/",
+  "log_alias": "/mnt/liansp3/logs/gfmrag_p0_fk_sql_used_mapping_alignment_20261107_01/"
+}

@@ -236,3 +236,12 @@ Smoke_002 通过；Full 完成55个问题×表对、123个mapping候选。A1 对
 首次 `smoke_001` 的 `conda run ... python3` 解析到了 `/root/miniconda3/envs/python39/bin/python3`，在 PyG 导入时停止。Amendment 1 显式指定目标环境解释器后，唯一恢复 Smoke `_002` 又在 G-reasoner `config.json` SHA-256 核验处停止：注册值 `75d14b97d6a077ebc17b09a21170a3d9272251db59f7ac8cc853165efb2efd5`；实际文件值 `75d14b97d6a077ebc17b09a21170a3ad9272251db59f7ac8cc853165efb2efd5`，注册值少一个 `a`。两次均无 Qwen/G-reasoner 模型加载、embedding、前向、token 或 API 请求；`_002` 有 0/5 有效打分。原日志和失败收据保留；没有覆盖数据、模型或旧结果。
 
 REaR、Graph-Link、Rethinking Schema Linking、JoinGR 已覆盖多类图式/结构式 Schema retrieval，因此本项只作冻结 G-reasoner checkpoint-transfer 证伪诊断，不宣称新算法。Amendment 1 的恢复额度已耗尽；按预注册停止规则，不启动第三次 Smoke 或 Full。没有科学指标，核心假设未被支持或否定。完整记录见[失败报告](reports/gfm_schema_retrieval_transfer_20261106_01/README.md)及[匿名汇总](reports/gfm_schema_retrieval_transfer_20261106_01/aggregate_summary.json)。
+# 2026-11-07：冻结 FK 排序对参考 SQL 映射的配对复核（已预注册）
+
+前一轮在三模型代理标签上的 G-reasoner/Dense Mapping@1 为 7/38 对 27/38。为判断该负向诊断是否只由代理标签定义造成，本登记在完全相同的 55 个非 Smoke 问题×表对和冻结排名上，另用原 BIRD dev 参考 SQL 中明确使用的 FK mapping 作为评价标签。模型分数、候选集、数据库和问题均不变；SQL 只进入离线评价，绝不进入 Query 特征、候选生成、分数或排名。
+
+该复核是一次 exploratory label-target audit，而非新增方法或重复模型实验。Primary 为 set-valued SQL-used Mapping@1；Secondary 为 Mapping@3、MRR 与模型代理接受集合对 SQL-used mapping 的覆盖。若参考 SQL 使用多个匹配映射，全部作为正例；若解析后候选集中没有 SQL-used mapping，该行计入候选覆盖损失并从排序分母排除，不能作为排序错误。`SQL-used` 不等于唯一业务正确 Role。
+
+预注册门：5 个非 Full 的 Smoke 样本需全部解析、无 scope error 且至少 4 个匹配候选；Full 至少 54/55 SQL 可解析、scope error 为 0，至少 30 个 mapping-evaluable 对覆盖至少 3 个匿名库。主信号沿用既有筛选门：G-reasoner 比 Dense 至少 +5pp、净救回≥4，且至少两个各 `n≥5` 的匿名库净救回为正。任一覆盖门失败或信号门未达，均停止，不补样、不调分、不重新调用模型。
+
+设备检查显示 4 张 RTX 4090 当前约 80–82% 使用；本实验限定 CPU、不加载模型、无需 GPU。代码与报告使用独立 run IDs 和目录。运行前提交地址、输入哈希、实现 commit、环境和命令均归档在[实验方案](plans/p0_fk_sql_used_proxy_alignment_20261107.md)与[配置](../../../configs/text2sql/p0_fk_sql_used_mapping_alignment_20261107.json)；本次注册提交尚未执行任何样本解析或指标计算。
