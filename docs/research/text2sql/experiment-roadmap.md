@@ -269,3 +269,9 @@ Amendment 001 在任何 SQL 解析前把评测资格收紧为“该问题所有 
 Qwen A/B 与 Gemma C 的模型审阅已经完成；新增模型票不会建立人工金标准，所以本轮不做模型推理，只用现有代理集合做次要描述指标。正式执行前推送并核对本预注册；Smoke 全部通过后才运行唯一一次 CPU Full，否则停止。详细边界、门槛和预算见[注册方案](plans/p0_fk_sql_used_proxy_alignment_20261107_02.md)、[冻结配置](../../../configs/text2sql/p0_fk_sql_used_mapping_alignment_20261107_02.json)及[独立报告](reports/p0_fk_sql_used_mapping_alignment_20261107_02/README.md)。
 
 执行结果：Smoke 5/5 SQL parse、8/8 限定 JOIN 等式解析、0 scope error；但 SQL-used mapping 与冻结候选命中 0/5，低于预注册 4/5 门槛。状态 `STOP_SMOKE_GATE`，不启动 Full，不计算 G-reasoner/Dense 排名指标。当前聚合不能区分候选确实缺少参考 SQL 使用的 FK mapping 与候选/映射身份对齐问题；该结果不支持模型效果结论。依停止规则，不重试本注册。见[执行报告](reports/p0_fk_sql_used_mapping_alignment_20261107_02/README.md)及[匿名汇总](reports/p0_fk_sql_used_mapping_alignment_20261107_02/aggregate_summary.json)。
+
+## 2026-11-07：SQL-used FK mapping 独立注册 02（预注册）
+
+此前 SQL-used rank 注册 `_01` 的 CPU_001 与唯一恢复 CPU_002 都在读取 SQL 前因 exclusion-manifest SHA 不符而停止；无样本、审阅包、token 或排名结果。该注册已关闭，不重放原 run IDs。新注册 `_02` 重新核验同一只读输入，采用实际 manifest SHA `14d3e65e53bbc29c03d312fb32227c47b568242502e30bc3c4d4656b97521ed7`，并用新 experiment ID 生成不同的样本哈希、新 Smoke 和独立私有结果目录。此变化只恢复一个未被检验的目标对齐问题，不是第二次科学结果。
+
+主标签仍是 SQLGlot 从 BIRD dev 参考 SQL 显式 `JOIN ON` 推出的完整 SQL-used FK mapping；模型 A/B 只在不见 SQL 与 target 的情况下提供次要代理判断，不能替代人工真值。CPU 数据门必须先证明 Smoke 全通过、Full 至少30个候选覆盖单元且覆盖至少3库；未通过不载入模型。通过后比较冻结 G-reasoner 与共享向量 Dense 的 set-valued Mapping@1，成功筛选门、预算、隐私、资源及停止规则见[独立注册计划](plans/p0_fk_sql_used_mapping_rank_20261107_02.md)、[主配置](../../../configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_02.json)和[审阅配置](../../../configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_02_model_review.json)。计划运行目录为 `/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_rank_20261107_02/`；截至注册时尚未创建，也没有模型请求。
