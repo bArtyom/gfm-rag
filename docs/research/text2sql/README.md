@@ -1,5 +1,7 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
+> **2026-11-07 FK mapping 证据综合完成，BIRD train 容量门已预注册**：当前 BIRD-dev SQL-used rank 中 G-reasoner 43/108、Dense 63/108（−18.52 pp）；Bag 接受集重评分缩小差距但未反转；Spider 官方 test 的52个合格单元未达到冻结60门。下一候选是公开且已有暴露的 BIRD train 数据库迁移容量审计，阶段A仅CPU只读；未过门不启动模型。用户选择的模型审阅按代理标签处理，不是人工共识。见[证据综合](synthesis/fk_mapping_evidence_synthesis_20261107.md)与[容量预注册](plans/p0_bird_train_fk_mapping_capacity_20261107.md)。
+
 > **2026-11-07 Spider 独立迁移容量审计停止**：按预注册完成只读 Full，2,142题 SQL 解析率100%、scope错误0，但仅有52个多FK问题×表对单元，覆盖4个匿名库，低于60单元门槛。未运行本地模型审阅或G-reasoner/Dense排序，也没有GPU或token消耗；不事后降低门槛。该结果只说明本次固定Spider切片容量不足，不是方法负结果。见[执行报告](reports/p0_spider_fk_mapping_candidate_capacity_20261107_01/README.md)、[匿名聚合](reports/p0_spider_fk_mapping_candidate_capacity_20261107_01/aggregate_summary.json)、[预注册](plans/p0_spider_fk_mapping_candidate_capacity_20261107.md)和[Amendment 001](plans/amendments/p0_spider_fk_mapping_candidate_capacity_amendment_001.md)。
 
 > **2026-11-07 SQL-used mapping 目标敏感性重评分完成**：在89个共同完整单元上，按 SQL-used 单目标计分时 G-reasoner/Dense 为33/89对55/89；允许当前 SQLite 实例上 Bag 相同的替代 FK mapping 后为63/89对80/89。相对差距缩小5.62pp，达到预设评价敏感性门，但 G-reasoner 仍低19.10pp，方法排序没有反转。该口径只表示同一静态实例的结果 Bag 相同，不是SQL语义等价、人工Role或跨实例证据；停止本批候选的调参和图变体，转错误证据综合。详见[完整报告](reports/p0_fk_mapping_output_equivalence_rescore_20261107_01/README.md)、[匿名 Full 汇总](reports/p0_fk_mapping_output_equivalence_rescore_20261107_01/aggregate_summary.json)、[注册方案](plans/p0_fk_mapping_output_equivalence_rescore_20261107.md)和[Amendment 001](plans/amendments/p0_fk_mapping_output_equivalence_rescore_amendment_001.md)。

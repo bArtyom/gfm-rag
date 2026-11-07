@@ -4,6 +4,12 @@
 
 **Spider 独立迁移容量审计已按门槛停止。** 按用户选择，模型审阅仍可作为后续代理标签来源，但本次不调用模型：Smoke 001 在数据读取前因选错环境停止，Amendment 001 改用已有 `think2sql_20260909`，Smoke 002 通过；Full 的 2,142 个问题 SQL 解析率为100%，scope错误为0，但只得到52个多FK问题×表对单元（4个匿名库），低于预注册60个容量门。没有模型标签、G-reasoner/Dense排名或GPU结果。不得事后降低该门槛并继续同一批数据；此分支停止，先综合当前负结果。见[执行报告](reports/p0_spider_fk_mapping_candidate_capacity_20261107_01/README.md)、[聚合结果](reports/p0_spider_fk_mapping_candidate_capacity_20261107_01/aggregate_summary.json)、[预注册方案](plans/p0_spider_fk_mapping_candidate_capacity_20261107.md)、[Amendment 001](plans/amendments/p0_spider_fk_mapping_candidate_capacity_amendment_001.md)和[脚本](../../../scripts/text2sql/audit_p0_spider_fk_mapping_candidate_capacity.py)。
 
+### 2026-11-07 FK mapping 证据综合与下一步候选
+
+已完成当前负结果综合：SQL-used BIRD-dev 排名中 G-reasoner 为43/108、Dense 为63/108（−18.52 pp）；允许当前实例 Bag 相同的替代 mapping 后，两者为63/89与80/89（−19.10 pp），差距缩小但排序未反转；54/94单元存在实例级 Bag 相同替代 mapping。模型审阅只能作代理标签，既有 A/B Smoke 高置信精确一致为2/5。Spider test 虽解析率100%、scope错误0，但容量只有52单元/4库，低于冻结60门；没有 Spider 排名结果。细节和边界见[证据综合](synthesis/fk_mapping_evidence_synthesis_20261107.md)。
+
+按用户选择，下一候选仅为一次 BIRD train 数据库迁移容量审计，已在[预注册](plans/p0_bird_train_fk_mapping_capacity_20261107.md)中冻结；BIRD train 是公开训练拆分且曾被其他本地项目使用，故只能称 exploratory。容量阶段不调用模型/GPU、不读 SQLite、不运行 SQL。只有容量门通过后，才另行注册用户指定的本地模型代理审阅；其输出不视作人工 Role 金标准。Spider门槛不变，同一BIRD-dev样本不再调参。
+
 ## 2026-11-07 冻结排名的同实例输出等价重评分（完成）
 
 在静态实例审计认定完整的94个单元中，固定 SHA 排序的5题 Smoke 与 Full 分离，正式 Full 为89题。G-reasoner/Dense 在 SQL-used 单目标下为33/89对55/89；把当前实例上 Bag 相同的替代 mapping 作为次级接受项后为63/89对80/89。G-reasoner−Dense 差值从−24.72pp变为−19.10pp，缩小5.62pp并达到预设敏感性门，但仍明显为负。该重评分改变了负结果的幅度，不改变方法排序。实例 Bag 相同不等于SQL语义、人工业务 Role 或跨实例等价。
