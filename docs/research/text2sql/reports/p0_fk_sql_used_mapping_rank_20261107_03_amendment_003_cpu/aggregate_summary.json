@@ -1,0 +1,70 @@
+{
+  "experiment_id": "p0_fk_sql_used_mapping_rank_20261107_03",
+  "amendment_id": "amendment_003_cpu_execution_fallback",
+  "status": "STOPPED_DURING_MODEL_IMPORT_NO_RANKING",
+  "run_id": "p0_fk_sql_used_mapping_rank_20261107_03_amendment_003_cpu_smoke_001",
+  "source_commit": "27d4bb39ad4fcbcade4ae3fb88198f82723d88a4",
+  "prepared_manifest_source_commit": "566b8e2d9bb244d8868372ae39c887de02f703e9",
+  "prepared_manifest_sha256": "cc6dd6263f4b3a50c444c4f8ea82d9923f8b2dea5eac46d2ade5201a62550ad0",
+  "sample": {
+    "dataset": "BIRD dev",
+    "smoke_units_selected": 5,
+    "smoke_units_scored": 0,
+    "full_units_preselected": 108,
+    "anonymous_database_count": 4,
+    "sample_regenerated": false
+  },
+  "execution": {
+    "backend": "cpu",
+    "cuda_visible_devices": "",
+    "max_cpu_threads": 8,
+    "environment": {
+      "python": "3.12.15",
+      "torch": "2.8.0",
+      "torch_geometric": "2.6.1",
+      "transformers": "4.56.1",
+      "sentence_transformers": "5.1.1"
+    },
+    "preflight_available_memory_gib": 446,
+    "preflight_cpu_count": 192,
+    "preflight_gpu_utilization_percent": [77, 79, 80, 78],
+    "preflight_gpu_3_free_mib": 8108,
+    "registered_gpu_memory_cap_gib": 8
+  },
+  "outcome": {
+    "failure_stage": "G-reasoner/RSPMM import",
+    "reason_code": "RuntimeError:No CUDA GPUs are available",
+    "rspmm_extension_log_seen": true,
+    "embedding_inference_started": false,
+    "g_reasoner_loaded": false,
+    "g_reasoner_forward_count": 0,
+    "ranking_metrics": null,
+    "partial_prediction_count": 0,
+    "private_prediction_file_bytes": 0
+  },
+  "model_review_secondary": {
+    "reviewer_a_valid": 5,
+    "reviewer_b_valid": 5,
+    "high_confidence_exact_agreement": 2,
+    "required_agreement": 4,
+    "reviewer_full_started": false
+  },
+  "usage": {
+    "external_api_requests": 0,
+    "external_api_cost_cny": "0.00",
+    "local_model_input_tokens": 0,
+    "local_model_output_tokens": 0,
+    "local_model_total_tokens": 0,
+    "gpu_inference_seconds": 0,
+    "resource_timing_summary_available": false
+  },
+  "privacy": {
+    "question_text_included": false,
+    "sql_included": false,
+    "schema_content_included": false,
+    "database_or_question_ids_included": false,
+    "mapping_ids_or_rankings_included": false,
+    "raw_model_outputs_included": false
+  },
+  "interpretation": "Execution failure only; no evidence for or against G-reasoner versus Dense."
+}

@@ -331,3 +331,5 @@ Smoke_002 5/5 完整。Full_002 从固定108单元重新运行，94个完整、4
 ### Amendment 003：CPU fallback
 
 Amendment 002 尚未运行。预检时 GPU3 仅有 7,918 MiB 空闲显存，低于 8 GiB 上限；四张卡 GPU 利用率均为 78–80%。为保持已冻结样本和排名方法并避免 GPU 竞争，另行预注册同一 Smoke/Full 组合的 CPU-only 执行，最多 8 线程；Full 仍受 900 CPU 秒、1,800 wall 秒和 8 GiB RSS 上限约束。详见 [CPU amendment](plans/amendments/p0_fk_sql_used_mapping_rank_20261107_03_amendment_003_cpu.md) 和 [配置](../../../configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03_amendment_003_cpu.json)。
+
+Amendment 003 的 5 题 CPU Smoke 已停止：导入 G-reasoner/RSPMM 时错误提示 No CUDA GPUs are available，未开始 Embedding 或 G-reasoner 前向，0/5 评分、无排名指标。CPU-only 路径在当前环境不可用；排序目标仍未回答。详见[执行报告](reports/p0_fk_sql_used_mapping_rank_20261107_03_amendment_003_cpu/README.md)和[匿名汇总](reports/p0_fk_sql_used_mapping_rank_20261107_03_amendment_003_cpu/aggregate_summary.json)。等待 GPU 有足够空闲显存后，再决定是否启动未运行的 GPU Smoke。
