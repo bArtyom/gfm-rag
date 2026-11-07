@@ -1,0 +1,97 @@
+{
+  "experiment_id": "p0_fk_sql_used_rank_displacement_20261107_01",
+  "status": "preregistered_not_run",
+  "layer": "exploratory_retrospective_error_attribution",
+  "repository": {
+    "url": "https://github.com/bArtyom/gfm-rag",
+    "branch": "research/p0-sql-used-proxy-alignment-20261107",
+    "registration_parent_commit": "55166f4e28379cd702cdedee60f230719ca17b80"
+  },
+  "research": {
+    "question": "Among units where Dense ranks a SQL-used mapping first and G-reasoner does not, how often does G-reasoner still rank a valid SQL-used mapping second or third?",
+    "hypothesis": "At least half of Dense-only Top-1 wins have a SQL-used target at G-reasoner rank 2 or 3.",
+    "evidence_boundary": "Retrospective analysis of the same 108 BIRD-dev units; not independent confirmation, human Role accuracy, or authorization for same-data tuning."
+  },
+  "inputs": {
+    "upstream_run_id": "p0_fk_sql_used_mapping_rank_20261107_03_amendment_002_full_001",
+    "upstream_source_commit": "7801d46206a0aeeaaacad05f80e71961297ee475",
+    "upstream_config_sha256": "ccef27daaf32df29b0344c9a0315d73583b2e06572caf1253177a1004fc54360",
+    "prepared_manifest_source_commit": "566b8e2d9bb244d8868372ae39c887de02f703e9",
+    "manifest": {
+      "path": "/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_rank_20261107_03/cpu_001/prepared_manifest_private.json",
+      "sha256": "cc6dd6263f4b3a50c444c4f8ea82d9923f8b2dea5eac46d2ade5201a62550ad0"
+    },
+    "predictions": {
+      "path": "/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_rank_20261107_03_amendment_002/ranker_gpu_full/private_predictions.jsonl",
+      "sha256": "553556a4de85efa48d0b639b899d07b39fa8a35955e6757de0e7a6020308e659"
+    },
+    "upstream_run_manifest": {
+      "path": "/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_rank_20261107_03_amendment_002/ranker_gpu_full/run_manifest.json",
+      "sha256": "eb0c6e0004e1566783bd655862257a9c221fae1af06620259f32425116e06660"
+    }
+  },
+  "sample": {
+    "full_units": 108,
+    "smoke_units": 5,
+    "seed": 20261107,
+    "smoke_rule": "Select the five Full unit IDs with lowest SHA-256 over seed|experiment_id|unit_id.",
+    "full_rule": "Use every upstream full_unit_id, exactly once.",
+    "known_candidate_count_histogram": {
+      "2": 91,
+      "3": 12,
+      "22": 5
+    }
+  },
+  "metrics": {
+    "primary": [
+      "per-method best SQL-used target-rank distribution at rank 1, 2, 3, 4+, and absent",
+      "paired G-reasoner versus Dense Top-1 correctness table",
+      "G-reasoner rank-2-or-3 fraction among Dense-only Top-1 wins",
+      "paired best-target-rank ordering"
+    ],
+    "secondary": [
+      "descriptive candidate-count strata 2, 3, and 4+",
+      "descriptive anonymous-database strata"
+    ],
+    "target_semantics": "The rank is the best rank of any SQL-used target mapping; all target mappings remain in the denominator, including targets absent from the candidate universe.",
+    "tie_handling": "Use the upstream stored deterministic ranked_mapping_ids order; do not recompute scores or alter tie-breaking."
+  },
+  "decision": {
+    "near_miss_signal_min_fraction": 0.5,
+    "no_near_miss_signal_max_fraction_exclusive": 0.2,
+    "intermediate": "MIXED_NEAR_MISS_PATTERN",
+    "zero_denominator": "INCONCLUSIVE_NO_DENSE_ONLY_TOP1_CASES",
+    "follow_up": "A near-miss signal may justify considering a separate independent-data diagnostic; it does not authorize BIRD-dev tuning, reranking, fusion, or graph-parameter search."
+  },
+  "run_ids": {
+    "smoke": "p0_fk_sql_used_rank_displacement_20261107_01_smoke_001",
+    "full": "p0_fk_sql_used_rank_displacement_20261107_01_full_001"
+  },
+  "analysis_runner": {
+    "path": "scripts/text2sql/audit_p0_fk_sql_used_rank_displacement_20261107_01.py",
+    "sha256": "379a328b5ac8d5168ef652b5077d2fda19073992a806786e229b1024f19c645e"
+  },
+  "resources": {
+    "environment": "think2sql_20260909",
+    "python": "3.12.14",
+    "cpu_threads_max": 4,
+    "max_wall_seconds": 180,
+    "max_peak_rss_gib": 2,
+    "gpu": 0,
+    "model_calls": 0,
+    "external_api_calls": 0,
+    "sql_execution": 0,
+    "dependency_changes": false
+  },
+  "paths": {
+    "private_results_root": "/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_rank_displacement_20261107_01",
+    "private_logs_root": "/mnt/liansp3/logs/gfmrag_p0_fk_sql_used_rank_displacement_20261107_01",
+    "public_report_dir": "docs/research/text2sql/reports/p0_fk_sql_used_rank_displacement_20261107_01"
+  },
+  "privacy": {
+    "raw_questions_sql_database_names_mapping_ids_and_row_level_ranks_private": true,
+    "public_outputs_allowed": ["protocol", "code", "anonymized_aggregate_counts", "resource_summary", "hashes"],
+    "publish_private_predictions": false,
+    "publish_private_manifest": false
+  }
+}

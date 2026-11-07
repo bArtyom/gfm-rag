@@ -2,6 +2,8 @@
 
 > **模型代理审阅进度（2026-11-07，Full 尚未启动）**：Amendment 001 已准备好 138 个问题×表对单元、369 个完整 FK constraint 候选，A/B packet-only preflight 通过。模型 Smoke/Full 尚未运行：06:16 UTC 最近检查时 GPU1/GPU2 分别只有 3,853/3,039 MiB 可用且利用率98%/99%，未加载模型。GPU3 也只有 1,041 MiB 可用、利用率77%；此前曾短暂空闲，但未用于本实验。模型仍按冻结协议分配到 GPU1/GPU2。中间报告与状态见[审阅报告](reports/p0_bird_train_fk_model_proxy_review_20261107_01/README.md)、[Amendment 001](plans/amendments/p0_bird_train_fk_model_proxy_review_20261107_01_amendment_001.md)。
 
+> **CPU离线 rank-displacement 归因已预注册（尚未运行）**：复用已有108题 Full 预测，检查 G-reasoner 相对 Dense 的@1损失是目标排在2–3位的近失，还是前3候选缺失；不生成模型输出，也不重开同一 BIRD-dev 的调参。见[独立方案](plans/p0_fk_sql_used_rank_displacement_20261107_01.md)与[冻结配置](../../../configs/text2sql/p0_fk_sql_used_rank_displacement_20261107_01.json)。
+
 > **2026-11-07 模型审阅准备状态更新**：首个本地 packet-preparation run 在冻结输入哈希通过后因配置字段路径错误停止；未生成 packet、未加载模型，也无 token 消耗。Amendment 001 只修复读取路径并使用新的准备 run ID；Smoke/Full 模型 run 尚未启动。见[Amendment 001](plans/amendments/p0_bird_train_fk_model_proxy_review_20261107_01_amendment_001.md)和[修订配置](../../../configs/text2sql/p0_bird_train_fk_model_proxy_review_20261107_01_amendment_001.json)。
 
 > **2026-11-07 BIRD train FK constraint identity Full 完成：容量门通过**。Amendment 001 recovery Smoke/Full 后，379/379 个表对列集合与 SQLite PRAGMA 精确一致；138 个问题×表对有至少2种不同的完整 FK 约束，覆盖8个匿名数据库，超过预设60/4门。首次 Full 的 Smoke 收据比较错误已保留；恢复只修预检并使用新 run ID。无模型、GPU、SQL执行或 API 调用。用户选择以本地模型作审阅代理，已为这138个单元另行预注册模型代理审阅；尚未启动模型或 G-reasoner 排序。见[完整报告](reports/p0_bird_train_fk_constraint_identity_20261107_01/README.md)、[匿名Full汇总](reports/p0_bird_train_fk_constraint_identity_20261107_01/aggregate_summary.json)、[Amendment 001](plans/amendments/p0_bird_train_fk_constraint_identity_20261107_amendment_001.md)及[模型审阅注册](plans/p0_bird_train_fk_model_proxy_review_20261107_01.md)。
