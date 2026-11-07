@@ -1,0 +1,56 @@
+{
+  "experiment_id": "p0_bird_train_fk_mapping_capacity_20261107_01",
+  "repository": "https://github.com/bArtyom/gfm-rag",
+  "branch": "research/p0-sql-used-proxy-alignment-20261107",
+  "dataset": {
+    "name": "BIRD official train split",
+    "questions_path": "/mnt/liansp3/sources/datasets/bird/train/train.json",
+    "train_schema_path": "/mnt/liansp3/sources/datasets/bird/train/train_tables.json",
+    "dev_schema_path": "/mnt/liansp3/sources/datasets/bird/dev/dev_tables.json",
+    "expected_train_question_count": 9428,
+    "expected_train_database_count": 69,
+    "expected_dev_database_count": 11,
+    "private_database_root": "/mnt/liansp3/sources/datasets/bird/train/train_databases"
+  },
+  "environment": {
+    "conda_environment": "think2sql_20260909",
+    "python": "3.12",
+    "sqlglot": "28.0.0",
+    "device": "cpu",
+    "max_threads": 8
+  },
+  "selection": {
+    "smoke_question_count": 5,
+    "smoke_hash": "sha256(experiment_id, db_id, question_id_or_source_row_index)",
+    "full_excludes_smoke": true,
+    "max_candidate_units_per_question": 1,
+    "candidate_unit": "resolved explicit JOIN-ON table pair with at least two distinct declared FK column-pair rows"
+  },
+  "gates": {
+    "train_dev_database_id_intersection": 0,
+    "smoke_parse_success": "5/5",
+    "smoke_scope_errors": 0,
+    "full_parse_rate_minimum": 0.98,
+    "full_scope_errors": 0,
+    "full_capacity_units_minimum": 60,
+    "full_anonymous_database_count_minimum": 4
+  },
+  "resource_limits": {
+    "max_wall_seconds": 600,
+    "max_cpu_seconds": 300,
+    "max_peak_rss_gib": 4,
+    "max_gpu_seconds": 0,
+    "max_model_calls": 0,
+    "max_external_api_calls": 0,
+    "max_sqlite_connections": 0,
+    "max_sql_execution_calls": 0
+  },
+  "runs": {
+    "smoke": "p0_bird_train_fk_mapping_capacity_20261107_01_smoke_001",
+    "full": "p0_bird_train_fk_mapping_capacity_20261107_01_full_001"
+  },
+  "privacy": {
+    "public_outputs": "anonymous aggregates and report only",
+    "private_outputs": "question IDs, text, SQL, mappings, database identities, row-level output, logs"
+  }
+}

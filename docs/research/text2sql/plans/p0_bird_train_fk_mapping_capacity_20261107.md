@@ -4,6 +4,8 @@
 状态：待执行；本文件和运行器须先提交到 `bArtyom/gfm-rag`，再读取任何训练样本 SQL。
 层级：exploratory database-disjoint transfer feasibility；不属于正式隐藏测试或论文主结果。
 
+预注册口径更正见 [Amendment 001](amendments/p0_bird_train_fk_mapping_capacity_amendment_001.md)：它只把 schema FK column-pair 数明确为容量上界，并规定隔离检查先于 train SQL 读取；所有样本量门、预算和停止条件保持不变。
+
 ## 研究问题与核心假设
 
 问题：在排除已测 BIRD-dev 数据库后，公开 BIRD train split 是否提供足够多的、由显式 `JOIN ... ON` 与多个已声明 FK mapping 构成的 question×table-pair 单元，以支持一次有界的模型代理审阅迁移检查？
@@ -14,7 +16,7 @@
 
 - 参考仓库：`https://github.com/bArtyom/gfm-rag`；执行前记录实际分支与 commit，并阅读项目 README、研究 README、路线图和复现契约。
 - 数据：`/mnt/liansp3/sources/datasets/bird/train/train.json`、`train_tables.json`；仅读取对应 schema 元数据。禁止打开 `train_databases/` 下的 SQLite 文件或执行任何 Gold/候选 SQL。
-- 数据库隔离：执行时仅从 train/dev JSON 读取 `db_id` 集合并独立核对交集为 0；若交集非 0，停止且不解析 SQL。
+- 数据库隔离：先只读 `train_tables.json` 与 `dev_tables.json` 的 `db_id` 元数据并核对交集为 0；若交集非 0，停止且不打开 `train.json`。仅确认隔离后才读取 train 问题与 SQL。
 - 暴露：BIRD train 是公开训练拆分；统一资源索引记录该拆分曾被其他本地项目使用。因此任何后续结果只称 exploratory database-disjoint train-split transfer，不称隐藏测试、benchmark 独立复现或无暴露泛化。
 - BIRD 官方 Datasheet 将 train/dev 列为公开数据、test 数据库列为隐藏并说明其设计用于缓解预训练数据暴露：[官方 Datasheet](https://papers.nips.cc/paper/2023/file/83fc8fab1710363050bbd1d4b8cc0021-Paper-Datasets_and_Benchmarks.pdf)。
 
@@ -23,7 +25,7 @@
 1. 输入文件哈希、样本行数、schema 数量和解析环境在读取 SQL 前记录。
 2. 按 `db_id/question_id` 的 SHA-256 确定 5 条容量 Smoke；Smoke 与 Full 严格分离。
 3. 用 SQLGlot SQLite dialect 解析参考 SQL；通过 scope-aware source 解析定位显式 `JOIN ON` 中限定的跨表列等式。
-4. 只保留能够解析物理表对、且 schema 声明该表对至少有 2 个不同 FK 列映射的候选；复合 FK 身份不可从列对列表可靠重建时，不计作独立 mapping。
+4. 只保留能够解析物理表对、且 schema 的 `foreign_keys` 列对列表对该表对声明至少 2 个不同列对候选的单元。该数据格式不保证暴露 FK constraint ID；因此此处只计作**候选容量上界**，不宣称是两个独立 FK constraint。若容量门通过，另行核验复合 FK / constraint identity 后，才可登记模型审阅。
 5. 每个问题最多保留一个合格问题×表对单元，按冻结 SHA 排序选择；Full 不包含 Smoke。
 6. 匿名数据库名只在本地聚合中映射为稳定 `db_01...` 标签；逐题问题文本、SQL、候选映射身份不得写入 GitHub。
 
@@ -33,14 +35,14 @@
 | Smoke SQL parse | 5/5；scope error 0 | 停止，不自动重试 |
 | Full SQL parse | ≥98% | 记录失败数并停止 |
 | Full scope-analysis errors | 0 | 停止 |
-| 合格单元 | ≥60 | `STOP_INSUFFICIENT_CAPACITY`，不运行模型/排序 |
+| 合格候选容量单元（以不同声明 FK 列对计数） | ≥60 | `STOP_INSUFFICIENT_CAPACITY`，不运行模型/排序 |
 | 匿名数据库覆盖 | ≥4 | 同上 |
 
-这些是样本容量门，不是效果阈值。沿用 Spider 的 60 单元门，避免看到新的候选数后降低要求。通过容量门也不自动启动模型：模型审阅的模型版本/提示、token 预算、盲审包哈希、至少 30 个高置信可裁定单元/20 个可区分接受集/3 库门，以及任何 G-reasoner/Dense 排名阶段，都须另行提交预注册和资源记录。
+这些是样本容量门，不是效果阈值。沿用 Spider 的 60 单元门，避免看到新的候选数后降低要求。通过容量门也不自动启动模型：先要单独核验实际 FK constraint / composite identities；之后模型审阅的模型版本/提示、token 预算、盲审包哈希、至少 30 个高置信可裁定单元/20 个可区分接受集/3 库门，以及任何 G-reasoner/Dense 排名阶段，都须另行提交预注册和资源记录。
 
 ## 资源、预算与停止条件
 
-- 阶段 A 为 CPU-only、最多 8 线程；不调用本地/外部模型、API、GPU、SQLite 或 G-reasoner。
+- 阶段 A 为 CPU-only、最多 8 线程；不调用本地/外部模型、API、GPU、SQLite 或 G-reasoner。阶段 A 通过只提供 schema 列对层面的容量上界。
 - 预计最多扫描 9,428 条 train SQL 与 schema 元数据；不复制数据，不安装/升级依赖。
 - Smoke 最多一次，Full 最多一次。启动错误按新 run ID 和 amendment 流程处理；不复用失败 run ID，不覆盖结果。
 - 输入损坏、解析环境不符、哈希变更或数据库隔离门失败时立即停止并保留失败收据。

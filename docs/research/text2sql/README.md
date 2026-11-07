@@ -1,6 +1,6 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
-> **2026-11-07 FK mapping 证据综合完成，BIRD train 容量门已预注册**：当前 BIRD-dev SQL-used rank 中 G-reasoner 43/108、Dense 63/108（−18.52 pp）；Bag 接受集重评分缩小差距但未反转；Spider 官方 test 的52个合格单元未达到冻结60门。下一候选是公开且已有暴露的 BIRD train 数据库迁移容量审计，阶段A仅CPU只读；未过门不启动模型。用户选择的模型审阅按代理标签处理，不是人工共识。见[证据综合](synthesis/fk_mapping_evidence_synthesis_20261107.md)与[容量预注册](plans/p0_bird_train_fk_mapping_capacity_20261107.md)。
+> **2026-11-07 FK mapping 证据综合完成，BIRD train 容量门已预注册**：当前 BIRD-dev SQL-used rank 中 G-reasoner 43/108、Dense 63/108（−18.52 pp）；Bag 接受集重评分缩小差距但未反转；Spider 官方 test 的52个合格单元未达到冻结60门。下一候选是公开且已有暴露的 BIRD train 数据库迁移容量审计，阶段A仅CPU只读；未过门不启动模型。用户选择的模型审阅按代理标签处理，不是人工共识。schema FK 列对只作为容量上界；即使过门，也须先核验 constraint identity。见[证据综合](synthesis/fk_mapping_evidence_synthesis_20261107.md)、[容量预注册](plans/p0_bird_train_fk_mapping_capacity_20261107.md)和[Amendment 001](plans/amendments/p0_bird_train_fk_mapping_capacity_amendment_001.md)。
 
 > **2026-11-07 Spider 独立迁移容量审计停止**：按预注册完成只读 Full，2,142题 SQL 解析率100%、scope错误0，但仅有52个多FK问题×表对单元，覆盖4个匿名库，低于60单元门槛。未运行本地模型审阅或G-reasoner/Dense排序，也没有GPU或token消耗；不事后降低门槛。该结果只说明本次固定Spider切片容量不足，不是方法负结果。见[执行报告](reports/p0_spider_fk_mapping_candidate_capacity_20261107_01/README.md)、[匿名聚合](reports/p0_spider_fk_mapping_candidate_capacity_20261107_01/aggregate_summary.json)、[预注册](plans/p0_spider_fk_mapping_candidate_capacity_20261107.md)和[Amendment 001](plans/amendments/p0_spider_fk_mapping_candidate_capacity_amendment_001.md)。
 
