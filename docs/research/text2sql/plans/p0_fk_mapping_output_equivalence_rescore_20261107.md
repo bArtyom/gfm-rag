@@ -1,6 +1,6 @@
 # P0：冻结 SQL-used GFM 排名的实例输出等价重评分
 
-**状态：预注册，尚未读取逐单元排名或等价结果。** 实验 ID：`p0_fk_mapping_output_equivalence_rescore_20261107_01`。这是对两份已冻结结果的探索性只读重评分，不训练、调用模型、执行 SQL 或调整排序方法。
+**状态：初始注册已执行；首次 Smoke 在 join-key 校验处停止。Amendment 001 已单独登记，待用新 run ID 重跑 Smoke。** 实验 ID：`p0_fk_mapping_output_equivalence_rescore_20261107_01`。这是对两份已冻结结果的探索性只读重评分，不训练、调用模型、执行 SQL 或调整排序方法。
 
 ## 研究问题与痛点
 
@@ -34,3 +34,7 @@
 ## 归档与报告要求
 
 执行脚本、配置和本计划在 Smoke 前提交。输出写入新目录 `/mnt/liansp3/sources/results/gfmrag_p0_fk_mapping_output_equivalence_rescore_20261107_01/`，不覆盖原实验。最终报告放入 `docs/research/text2sql/reports/p0_fk_mapping_output_equivalence_rescore_20261107_01/`，只上传匿名聚合、环境/命令/哈希和报告；不上传问题、Gold SQL、数据库名、mapping ID、逐单元标签或私有预测。完成后推送并从 GitHub 读回核验。
+
+## 执行更正记录
+
+初始登记假设排名输出的 `pair_id` 对应盲审展示字段 `review_pair_id`。初始 Smoke `p0_fk_mapping_output_equivalence_rescore_20261107_smoke_001` 在 `PREDICTION_PAIR_COVERAGE_MISMATCH` 停止；该 run 未计算命中指标，未创建结果目录。现将 join-key 的代码核对和修订单独记录在 [Amendment 001](amendments/p0_fk_mapping_output_equivalence_rescore_amendment_001.md)。原始计划的数据、比较口径、smoke 划分、阈值、预算与停止条件均冻结不变。

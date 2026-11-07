@@ -241,17 +241,15 @@ def main() -> int:
     require(full_id_set <= set(manifest["units"]), "MANIFEST_UNIT_MISSING")
 
     unit_hash_to_unit: dict[str, dict[str, Any]] = {}
-    pair_id_to_unit: dict[str, dict[str, Any]] = {}
+    unit_id_to_unit: dict[str, dict[str, Any]] = {}
     for unit_id in full_ids:
         unit = manifest["units"][unit_id]
         require(str(unit.get("unit_id", "")) == unit_id, "MANIFEST_UNIT_ID_KEY_MISMATCH")
         unit_hash = stable_hash(unit_id)[:20]
-        pair_id = str(unit.get("review_pair_id", ""))
-        require(bool(pair_id), "MANIFEST_PAIR_ID_MISSING")
         require(unit_hash not in unit_hash_to_unit, "UNIT_HASH_COLLISION")
-        require(pair_id not in pair_id_to_unit, "PAIR_ID_COLLISION")
+        require(unit_id not in unit_id_to_unit, "UNIT_ID_COLLISION")
         unit_hash_to_unit[unit_hash] = unit
-        pair_id_to_unit[pair_id] = unit
+        unit_id_to_unit[unit_id] = unit
 
     summary_by_hash: dict[str, dict[str, Any]] = {}
     for row in equivalence["units"]:
@@ -268,12 +266,12 @@ def main() -> int:
         require(unit_hash and unit_hash not in comparisons_by_hash, "CANDIDATE_RECORD_DUPLICATE")
         comparisons_by_hash[unit_hash] = record
 
-    predictions_by_pair: dict[str, dict[str, Any]] = {}
+    predictions_by_unit_id: dict[str, dict[str, Any]] = {}
     for row in predictions:
-        pair_id = str(row.get("pair_id", ""))
-        require(pair_id and pair_id not in predictions_by_pair, "PREDICTION_PAIR_DUPLICATE")
-        predictions_by_pair[pair_id] = row
-    require(set(predictions_by_pair) == set(pair_id_to_unit), "PREDICTION_PAIR_COVERAGE_MISMATCH")
+        unit_id = str(row.get("pair_id", ""))
+        require(unit_id and unit_id not in predictions_by_unit_id, "PREDICTION_UNIT_ID_DUPLICATE")
+        predictions_by_unit_id[unit_id] = row
+    require(set(predictions_by_unit_id) == set(unit_id_to_unit), "PREDICTION_UNIT_ID_COVERAGE_MISMATCH")
 
     eligible: list[dict[str, Any]] = []
     status_counts: Counter[str] = Counter()
@@ -283,8 +281,7 @@ def main() -> int:
             continue
         require(unit_hash in comparisons_by_hash, "ELIGIBLE_CANDIDATE_COMPARISONS_MISSING")
         unit = unit_hash_to_unit[unit_hash]
-        pair_id = str(unit["review_pair_id"])
-        prediction = predictions_by_pair[pair_id]
+        prediction = predictions_by_unit_id[str(unit["unit_id"])]
         candidate_rows = summary_candidate_rows(comparisons_by_hash[unit_hash])
         mapping_id_to_hash = {
             str(candidate["mapping_id"]): candidate_hash(str(candidate["mapping_id"]))

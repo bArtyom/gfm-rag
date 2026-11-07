@@ -1,6 +1,10 @@
 {
   "experiment_id": "p0_fk_mapping_output_equivalence_rescore_20261107_01",
   "analysis_type": "exploratory_frozen_output_rescoring",
+  "amendment_001": {
+    "pair_join_key": "prediction.pair_id equals prepared_manifest.units key unit_id",
+    "rationale": "The frozen ranker serializes the full unit_id in pair_id; review_pair_id is only for the human-facing packet."
+  },
   "expected_inputs": {
     "prepared_manifest_sha256": "cc6dd6263f4b3a50c444c4f8ea82d9923f8b2dea5eac46d2ade5201a62550ad0",
     "private_predictions_sha256": "553556a4de85efa48d0b639b899d07b39fa8a35955e6757de0e7a6020308e659",
