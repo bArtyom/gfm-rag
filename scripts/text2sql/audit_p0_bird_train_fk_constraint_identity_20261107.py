@@ -394,8 +394,7 @@ def run(args: argparse.Namespace) -> dict:
         raise ValueError("capacity_aggregate_path_mismatch")
     if args.mode not in ("smoke", "full"):
         raise ValueError("mode_invalid")
-    expected_suffix = "smoke_001" if args.mode == "smoke" else "full_001"
-    if args.run_id != f"{EXPERIMENT_ID}_{expected_suffix}":
+    if args.run_id != config["runs"][args.mode]:
         raise ValueError("run_id_mismatch")
     if args.output_dir.exists():
         raise ValueError("output_directory_already_exists")
@@ -412,14 +411,20 @@ def run(args: argparse.Namespace) -> dict:
         selected = [candidate for candidate in candidates if candidate_key_hash(candidate) in smoke_hashes]
     else:
         prior = json.loads(args.smoke_summary.read_text(encoding="utf-8"))
-        if (prior.get("run_id") != f"{EXPERIMENT_ID}_smoke_001"
+        required_input_hashes = {
+            "train_json": inputs["train_json_sha256"],
+            "train_schema": inputs["train_schema_sha256"],
+            "dev_schema": inputs["dev_schema_sha256"],
+            "capacity_stage_aggregate": EXPECTED_CAPACITY_AGGREGATE_SHA256,
+            "capacity_stage_runner": EXPECTED_CAPACITY_RUNNER_SHA256,
+        }
+        prior_input_hashes = prior.get("input_hashes", {})
+        if (prior.get("run_id") != config["runs"]["smoke"]
                 or prior.get("decision") != "SMOKE_PASS"
                 or prior.get("source_commit") != args.expected_commit
-                or prior.get("input_hashes") != {
-                    "train_json": inputs["train_json_sha256"],
-                    "train_schema": inputs["train_schema_sha256"],
-                    "dev_schema": inputs["dev_schema_sha256"],
-                }
+                or prior.get("config_sha256") != args.expected_config_sha256
+                or prior.get("runner_sha256") != config["implementation"]["runner_sha256"]
+                or any(prior_input_hashes.get(key) != value for key, value in required_input_hashes.items())
                 or set(prior.get("smoke_candidate_id_hashes", [])) != smoke_hashes):
             raise ValueError("smoke_receipt_mismatch")
         selected = [candidate for candidate in candidates if candidate_key_hash(candidate) not in smoke_hashes]
@@ -452,6 +457,7 @@ def run(args: argparse.Namespace) -> dict:
         "experiment_id": EXPERIMENT_ID,
         "capacity_stage_experiment_id": CAPACITY_ID,
         "run_id": args.run_id,
+        "amendment_id": config.get("amendment_id"),
         "mode": args.mode,
         "status": "COMPLETED",
         "decision": decision,

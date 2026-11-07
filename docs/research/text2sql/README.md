@@ -1,5 +1,7 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
+> **2026-11-07 FK constraint identity Amendment 001 已登记**：原 Smoke 5/5 通过，原 Full 在 SQLite 访问前因 Smoke 收据字段比较错误停止，没有 PRAGMA Full 结果。Amendment 只修复逐字段哈希校验，保留数据、样本、阈值和只读规则；新的 Smoke/Full run ID 尚未执行。用户选择的本地模型审阅仍是代理标签，不是人工共识。见[Amendment 001](plans/amendments/p0_bird_train_fk_constraint_identity_20261107_amendment_001.md)与[恢复配置](../../../configs/text2sql/p0_bird_train_fk_constraint_identity_20261107_01_amendment_001.json)。
+
 > **2026-11-07 FK mapping 证据综合完成**：BIRD-dev SQL-used rank 中 G-reasoner 43/108、Dense 63/108（−18.52 pp）；Bag 接受集重评分缩小差距但未反转；Spider 官方 test 只有52个合格单元，低于冻结60门。BIRD train 列对容量审计得到384个上界单元/12库，不是384个独立 FK constraint。现已预注册只读 PRAGMA constraint identity 核验；用户选定的模型审阅只有在该门通过后才作为代理标签运行，不当作人工共识。见[证据综合](synthesis/fk_mapping_evidence_synthesis_20261107.md)、[容量报告](reports/p0_bird_train_fk_mapping_capacity_20261107_01/README.md)和[constraint identity 预注册](plans/p0_bird_train_fk_constraint_identity_20261107.md)。
 
 > **BIRD train 容量 Full 已完成**：train/dev schema 库 ID 交集0；Full解析9,423/9,423、scope错误0，得到384个列对层面的容量上界单元/12库，超过预设60/4门。没有模型、GPU、SQLite或SQL执行；384不代表独立 FK constraint 数。下一步先独立核验复合 FK/constraint identity，再决定是否做用户指定的模型代理审阅。见[执行报告](reports/p0_bird_train_fk_mapping_capacity_20261107_01/README.md)、[匿名汇总](reports/p0_bird_train_fk_mapping_capacity_20261107_01/aggregate_summary.json)和[Smoke](reports/p0_bird_train_fk_mapping_capacity_20261107_01/smoke_summary.json)。
