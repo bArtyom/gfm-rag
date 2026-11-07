@@ -199,7 +199,9 @@ def main() -> None:
         raise AuditError("UPSTREAM_RUN_ID_MISMATCH")
 
     private_root = Path(config["paths"]["private_results_root"]).resolve()
-    if output_dir.parent != private_root or output_dir.name not in {"smoke_001", "full_001"}:
+    output_suffix = args.run_id.rsplit("_", 1)[-1]
+    expected_output_name = f"{args.mode}_{output_suffix}"
+    if output_dir.parent != private_root or output_dir.name != expected_output_name:
         raise AuditError("OUTPUT_PATH_OUTSIDE_FROZEN_ROOT")
     output_dir.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     os.chmod(output_dir.parent, 0o700)

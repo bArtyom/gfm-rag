@@ -5,7 +5,7 @@
   "repository": {
     "url": "https://github.com/bArtyom/gfm-rag",
     "branch": "research/p0-sql-used-proxy-alignment-20261107",
-    "registration_parent_commit": "92f57b983b9ac6c0b3700e25b3d0dde861d79954"
+    "registration_parent_commit": "498a13b18d864bb3f4b2d88111e13259bdfa2556"
   },
   "research": {
     "question": "Among units where Dense ranks a SQL-used mapping first and G-reasoner does not, how often does G-reasoner still rank a valid SQL-used mapping second or third?",
@@ -69,7 +69,7 @@
   },
   "analysis_runner": {
     "path": "scripts/text2sql/audit_p0_fk_sql_used_rank_displacement_20261107_01.py",
-    "sha256": "4bf5ffbac2be94a19457b517c025d933e432483384634feafaf5f9c412993430"
+    "sha256": "35dac945c3aca381b2e77e6d4d40f23241d56df42efcec7f8a96d5d40b9e2fb3"
   },
   "resources": {
     "environment": "think2sql_20260909",
@@ -106,11 +106,11 @@
     "amendment_id": "amendment_001",
     "parent_config": "configs/text2sql/p0_fk_sql_used_rank_displacement_20261107_01.json",
     "parent_config_sha256": "a926faa6922be065a9e419220592c4493d43508f529b31bfe06e3cbe39c3c281",
-    "registration_parent_commit": "92f57b983b9ac6c0b3700e25b3d0dde861d79954",
+    "registration_parent_commit": "498a13b18d864bb3f4b2d88111e13259bdfa2556",
     "superseded_smoke_run_id": "p0_fk_sql_used_rank_displacement_20261107_01_smoke_001",
     "superseded_smoke_log_sha256": "49392a84167ee74d76e53a5b06f1d1b2bac614853d1687c4a29be3533c7325dd",
     "observed_stop": "Smoke_001 stopped before input hashes because the runner looked for a top-level analysis_runner_sha256 while the frozen config stores analysis_runner.sha256. conda run also resolved python3 to the unrelated python39 environment (3.9.20); the configured target environment direct interpreter is 3.12.14.",
-    "correction_scope": "Read the nested runner hash, accept the run ID from the frozen active config, and invoke the exact target-environment Python executable. No input, sample, metrics, thresholds, or hypotheses change.",
+    "correction_scope": "Read the nested runner hash, accept the run ID from the active config, derive the stage output-directory suffix from that configured run ID, and invoke the exact target-environment Python executable. No input, sample, metrics, thresholds, or hypotheses change.",
     "new_run_ids": {
       "smoke": "p0_fk_sql_used_rank_displacement_20261107_01_smoke_002",
       "full": "p0_fk_sql_used_rank_displacement_20261107_01_full_002"
