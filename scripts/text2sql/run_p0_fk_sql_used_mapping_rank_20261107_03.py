@@ -30,6 +30,7 @@ from g0_fk_instance_node_probe import (  # noqa: E402
 EXPERIMENT_ID = "p0_fk_sql_used_mapping_rank_20261107_03"
 EXPECTED_BRANCH = "research/p0-sql-used-proxy-alignment-20261107"
 EXPECTED_CONFIG = "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03.json"
+AMENDMENT_CONFIG = "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03_amendment_002.json"
 MAX_GPU_BYTES = 8 * 1024**3
 MAX_RSS_BYTES = 8 * 1024**3
 MAX_WALL_SECONDS = 1800
@@ -138,7 +139,21 @@ def full_metrics(rows: dict[str, dict[str, Any]], private: dict[str, Any], selec
 def run(args: argparse.Namespace) -> int:
     cfg = json.loads(args.config.read_text(encoding="utf-8"))
     require(cfg.get("experiment_id") == EXPERIMENT_ID, "CONFIG_EXPERIMENT_ID_MISMATCH")
-    require(args.config.as_posix().endswith(EXPECTED_CONFIG), "CONFIG_PATH_MISMATCH")
+    config_path = args.config.as_posix()
+    is_amendment = config_path.endswith(AMENDMENT_CONFIG)
+    require(is_amendment or config_path.endswith(EXPECTED_CONFIG), "CONFIG_PATH_MISMATCH")
+    if is_amendment:
+        base_config_path = args.config.parent / Path(EXPECTED_CONFIG).name
+        require(sha256_file(base_config_path) == cfg.get("base_config_sha256"), "BASE_CONFIG_HASH_MISMATCH")
+        registered_run_ids = cfg.get("run_ids", {})
+        expected_counts = cfg.get("selected_unit_counts", {})
+        prepared_source_commit = cfg.get("prepared_manifest_source_commit")
+        require(bool(prepared_source_commit), "PREPARED_SOURCE_COMMIT_NOT_PINNED")
+        require(expected_counts == {"smoke": 5, "full": 108}, "AMENDMENT_UNIT_COUNTS_INVALID")
+    else:
+        registered_run_ids = cfg["resource_budget"]["run_ids"]
+        expected_counts = None
+        prepared_source_commit = args.expected_commit
     source_root = args.repo_root.resolve(strict=True)
     current_branch = subprocess.run(["git", "-C", str(source_root), "branch", "--show-current"], check=True, capture_output=True, text=True).stdout.strip()
     current_commit = subprocess.run(["git", "-C", str(source_root), "rev-parse", "HEAD"], check=True, capture_output=True, text=True).stdout.strip()
@@ -146,7 +161,7 @@ def run(args: argparse.Namespace) -> int:
     require(current_branch == EXPECTED_BRANCH, "BRANCH_MISMATCH")
     require(current_commit == args.expected_commit, "SOURCE_COMMIT_MISMATCH")
     require(not git_status.strip(), "WORKTREE_NOT_CLEAN")
-    require(args.run_id == cfg["resource_budget"]["run_ids"][args.mode], "RUN_ID_MISMATCH")
+    require(args.run_id == registered_run_ids[args.mode], "RUN_ID_MISMATCH")
     require(args.device == "cuda:0", "ONLY_VISIBLE_CUDA_ZERO_ALLOWED")
     visible_gpu = os.environ.get("CUDA_VISIBLE_DEVICES", "")
     require(bool(visible_gpu) and "," not in visible_gpu, "PIN_ONE_PHYSICAL_GPU")
@@ -157,10 +172,23 @@ def run(args: argparse.Namespace) -> int:
     manifest_sha = sha256_file(args.prepared_manifest)
     require(prepared.get("status") == "CPU_DATA_GATE_PASS", "CPU_DATA_GATE_NOT_PASSED")
     require(prepared.get("prepared_manifest_sha256") == manifest_sha, "PREPARED_MANIFEST_HASH_MISMATCH")
+    if is_amendment:
+        require(prepared.get("source_commit") == prepared_source_commit, "CPU_SUMMARY_SOURCE_COMMIT_MISMATCH")
     manifest = json.loads(args.prepared_manifest.read_text(encoding="utf-8"))
-    require(manifest.get("source_commit") == args.expected_commit, "PREPARED_SOURCE_COMMIT_MISMATCH")
-    selected_ids = set(manifest[f"{args.mode}_unit_ids"])
-    require(len(selected_ids) == (manifest.get("smoke_unit_count") if args.mode == "smoke" else manifest.get("full_unit_count")), "SELECTED_UNIT_COUNT_MISMATCH")
+    require(manifest.get("source_commit") == prepared_source_commit, "PREPARED_SOURCE_COMMIT_MISMATCH")
+    ids_field = f"{args.mode}_unit_ids"
+    count_field = f"{args.mode}_unit_count"
+    selected_id_list = manifest[ids_field]
+    selected_ids = set(selected_id_list)
+    registered_count = manifest.get(count_field)
+    if registered_count is None and is_amendment:
+        registered_count = len(selected_id_list)
+    if is_amendment:
+        require(registered_count == expected_counts[args.mode], "AMENDMENT_MANIFEST_COUNT_MISMATCH")
+    require(
+        len(selected_id_list) == len(selected_ids) == registered_count,
+        "SELECTED_UNIT_COUNT_MISMATCH",
+    )
     require(not (set(manifest["smoke_unit_ids"]) & set(manifest["full_unit_ids"])), "SMOKE_FULL_OVERLAP")
     private = adapt_private(manifest, selected_ids)
 
@@ -172,6 +200,8 @@ def run(args: argparse.Namespace) -> int:
         "run_id": args.run_id,
         "mode": args.mode,
         "source_commit": current_commit,
+        "prepared_manifest_source_commit": prepared_source_commit,
+        "amendment_id": cfg.get("amendment_id") if is_amendment else None,
         "config_sha256": sha256_file(args.config),
         "cpu_summary_sha256": sha256_file(args.cpu_summary),
         "prepared_manifest_sha256": manifest_sha,

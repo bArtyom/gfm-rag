@@ -1,0 +1,56 @@
+{
+  "amendment_id": "amendment_002_ranker_manifest_count_recovery",
+  "experiment_id": "p0_fk_sql_used_mapping_rank_20261107_03",
+  "base_config": "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03.json",
+  "base_config_sha256": "d965ee4f5250193f5fd3a53d82c59a55ca95c97c9bb0980008d4a907c27b9db4",
+  "prepared_manifest_source_commit": "566b8e2d9bb244d8868372ae39c887de02f703e9",
+  "scope": {
+    "change": "Recover one ranker Smoke stopped before model import because the prepared manifest stores unit ID arrays but omits duplicate count fields.",
+    "unchanged": [
+      "prepared BIRD-dev sample and unit IDs",
+      "SQL-derived labels and candidate universe",
+      "G-reasoner and embedding checkpoints",
+      "graph construction, scoring, seed, metrics, thresholds, and stop rules",
+      "model-review outcome and reviewer Full stop"
+    ],
+    "count_contract": "Use the ID-array length only when the count field is absent; reject duplicate IDs and require the registered 5/108 counts.",
+    "reviewer_scope": "A/B local model review remains a secondary analysis and is closed after 2/5 exact high-confidence agreement; it does not gate the SQL-derived primary rank comparison."
+  },
+  "selected_unit_counts": {
+    "smoke": 5,
+    "full": 108
+  },
+  "run_ids": {
+    "smoke": "p0_fk_sql_used_mapping_rank_20261107_03_amendment_002_smoke_001",
+    "full": "p0_fk_sql_used_mapping_rank_20261107_03_amendment_002_full_001"
+  },
+  "stopping": {
+    "smoke": "One 5-unit invocation. Require finite scores for all candidates and complete candidate coverage. Any failure stops this amendment.",
+    "full": "Run once for all 108 preselected units only after Smoke passes; stop at the existing resource caps or any missing/nonfinite score.",
+    "positive_screen": {
+      "g_reasoner_minus_dense_mapping_at_1_min": 0.05,
+      "net_rescues_min": 4,
+      "positive_databases_min": 2,
+      "positive_database_units_min": 5
+    }
+  },
+  "resources": {
+    "conda_environment": "gfmrag_greasoner_20261022",
+    "physical_gpu": 3,
+    "max_gpu_allocated_bytes": 8589934592,
+    "max_rss_bytes": 8589934592,
+    "max_wall_seconds_per_run": 1800,
+    "max_cpu_seconds_per_run": 900,
+    "downloads": false,
+    "dependency_changes": false,
+    "external_api_calls": false,
+    "sql_execution": false,
+    "training": false
+  },
+  "private_paths": {
+    "cpu_inputs": "/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_rank_20261107_03/cpu_001",
+    "result_alias": "/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_rank_20261107_03_amendment_002",
+    "log_alias": "/mnt/liansp3/logs/gfmrag_p0_fk_sql_used_mapping_rank_20261107_03_amendment_002"
+  },
+  "status": "preregistered_not_run"
+}

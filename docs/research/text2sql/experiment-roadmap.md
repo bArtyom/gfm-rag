@@ -323,3 +323,7 @@ Smoke_002 5/5 完整。Full_002 从固定108单元重新运行，94个完整、4
 ## 2026-11-07 FK-domain 原生核验完成；关闭对应 shuffle 支线
 
 对旧检查器排除的固定 32 对做 CPU-only 核验。Smoke 5/5、Full 32/32 pair-level 判定与 SQLite PRAGMA 一致；但它们只涉及同一匿名数据库内的 2 个唯一外键声明，一个两边均有49条违规，另一个两边均为0。结果说明旧排除没有发现比较器实现偏差，同时不能当作32个独立样本或BIRD全局外键违规率。数据库哈希未变，未运行SQL、模型或G-reasoner。保持旧40对/3库门槛，关闭该shuffle支线，不扩样。完整结果见[报告](reports/p0_fk_domain_violation_crosscheck_20261107_01/README.md)。
+
+## 2026-11-07 SQL-used FK mapping ranker：计数契约恢复已预注册
+
+原 p0_fk_sql_used_mapping_rank_20261107_03 的 SQL 数据门通过，但其排序 Smoke 在模型导入前因 runner 与 manifest 的计数字段契约不一致停止。用户选择的 A/B 本地模型审阅 Smoke 为 2/5 高置信精确一致，未达 4/5 门槛，模型审阅 Full 保持停止。主排序使用 SQL-derived JOIN mapping 作标签，独立于次要 reviewer proxy。已登记一次有界恢复：只在 manifest 计数字段缺失时从 ID 数组长度推导，并校验 Smoke=5、Full=108；不改样本、标签、候选、模型、评分、阈值或预算，使用全新 run ID。Smoke 通过后最多一次 Full。详见 [Amendment 002](plans/amendments/p0_fk_sql_used_mapping_rank_20261107_03_amendment_002.md) 和 [冻结配置](../../../configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03_amendment_002.json)。当前状态为预注册、未运行。
