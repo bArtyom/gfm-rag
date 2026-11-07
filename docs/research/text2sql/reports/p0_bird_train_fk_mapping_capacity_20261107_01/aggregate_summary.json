@@ -1,0 +1,88 @@
+{
+  "counts": {
+    "ambiguous_pair_occurrences_by_declared_fk_column_pairs": 426,
+    "anonymous_database_count": 12,
+    "declared_fk_column_pair_multiplicity_histogram": {
+      "0": 2767,
+      "1": 5982,
+      "2": 370,
+      "3": 22,
+      "4": 34
+    },
+    "eligible_units_by_anonymous_database": {
+      "db_01": 30,
+      "db_02": 27,
+      "db_03": 48,
+      "db_04": 35,
+      "db_05": 13,
+      "db_06": 21,
+      "db_07": 14,
+      "db_08": 13,
+      "db_09": 56,
+      "db_10": 16,
+      "db_11": 1,
+      "db_12": 110
+    },
+    "join_on_equalities": 9671,
+    "join_questions_with_explicit_on": 7184,
+    "one_pair_per_eligible_question_units": 384,
+    "qualified_join_on_equalities": 9647,
+    "questions_in_run": 9423,
+    "resolved_cross_table_equalities": 9396,
+    "resolved_table_pairs_with_one_fk_row": 5982,
+    "resolved_table_pairs_without_fk_rows": 2767,
+    "scope_analysis_failures_by_exception_class": {},
+    "sql_parse_failures_by_exception_class": {},
+    "sql_parse_success": 9423,
+    "unresolved_qualified_equalities": 251,
+    "using_join_count_excluded": 18
+  },
+  "decision": "CAPACITY_SUFFICIENT_FOR_CONSTRAINT_IDENTITY_STAGE",
+  "dev_schema_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+  "experiment_id": "p0_bird_train_fk_mapping_capacity_20261107_01",
+  "gates": {
+    "full_anonymous_databases_minimum": 4,
+    "full_capacity_units_minimum": 60,
+    "parse_rate_minimum": 0.98,
+    "parse_rate_observed": 1.0,
+    "scope_errors_allowed": 0,
+    "train_dev_database_overlap_minimum": 0
+  },
+  "interpretation": "Declared FK column-pair multiplicity is a capacity upper bound; it does not identify whole constraints or independent semantic mappings.",
+  "mode": "full",
+  "privacy": {
+    "database_ids_written": false,
+    "fk_mapping_identity_written": false,
+    "question_ids_written": false,
+    "question_text_written": false,
+    "sql_written": false,
+    "table_or_column_names_written": false
+  },
+  "python_version": "3.12.14",
+  "resources": {
+    "api_calls": 0,
+    "cpu_seconds": 6.707659,
+    "device": "cpu",
+    "gpu_seconds": 0,
+    "max_threads": 8,
+    "model_calls": 0,
+    "peak_rss_gib": 0.043327,
+    "sql_execution_calls": 0,
+    "sqlite_connections": 0,
+    "wall_seconds": 6.722025
+  },
+  "run_id": "p0_bird_train_fk_mapping_capacity_20261107_01_full_001",
+  "runner_sha256": "c98422fa518b0fa5c929ed77c27585f363f075fa3546b707cfd2d52dc9288871",
+  "source_commit": "cfe5b0c330451236e541ae93a0f2aef4db970537",
+  "split_isolation": {
+    "dev_database_count": 11,
+    "overlap_database_count": 0,
+    "train_database_count": 69,
+    "train_json_opened_after_zero_overlap": true
+  },
+  "sqlglot_version": "28.0.0",
+  "started_at_utc": "2026-11-07T04:26:25.097051+00:00",
+  "status": "COMPLETED",
+  "train_json_sha256": "abf17d3def22f56f41b3e139b94bba3fa4a986280abcbf6df2d7f30150695520",
+  "train_schema_sha256": "85300c745b263db88a5e0cdf083e8b2427d90272e954bc8c5f92aa1dc66c836b"
+}

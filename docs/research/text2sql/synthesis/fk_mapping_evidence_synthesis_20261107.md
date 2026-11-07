@@ -32,8 +32,8 @@
 
 ## 下一步候选（尚未执行）
 
-仅考虑一次 BIRD 官方 train split 的数据库迁移容量审计：它与已测 BIRD-dev 使用不同数据库的说法目前来自本地资源索引，正式实验前必须由本次 train/dev `db_id` 元数据独立复核。BIRD train 是公开训练数据，资源索引也记录其被其他本地项目使用；因此结果只能称“数据库分离的 exploratory train-split transfer”，不能称隐藏测试、干净独立 benchmark 或正式复现。BIRD 官方资料将训练/开发数据列为公开数据，并强调隐藏 test databases 是为减轻预训练暴露风险，见[官方数据集说明](https://papers.nips.cc/paper/2023/file/83fc8fab1710363050bbd1d4b8cc0021-Paper-Datasets_and_Benchmarks.pdf)与[BIRD 官方页面](https://bird-bench.github.io/)。
+一次 BIRD train 数据库迁移容量审计已经通过：train/dev schema `db_id` 交集为0；Full 解析9,423/9,423、scope错误0；得到384个列对层面候选容量单元、覆盖12个匿名库。由于 BIRD schema 没有 FK constraint ID，384只是上界，不能直接进入模型审阅。完整结果见[容量报告](../reports/p0_bird_train_fk_mapping_capacity_20261107_01/README.md)。
 
-若独立元数据核验确认 train/dev 数据库交集为 0，且一次只读 CPU 容量审计达到不少于 60 个稳定抽样的多 FK 显式 JOIN 单元、覆盖至少 4 个匿名数据库、SQL 解析率≥98%、scope 错误为 0，才另行注册模型代理审阅。容量审计不得读 SQLite 数据库内容、执行 SQL、加载模型或运行 G-reasoner；若未过门，立即停止。即使容量门通过，后续模型审阅和排名也须另行预注册，并把 BIRD train 的公开暴露作为限制。
+BIRD train 是公开训练数据，资源索引记录它曾被其他本地项目使用；因此后续结果仍只能称“数据库分离的 exploratory train-split transfer”，不能称隐藏测试、干净独立 benchmark 或正式复现。BIRD 官方资料将训练/开发数据列为公开数据，并强调隐藏 test databases 是为减轻预训练暴露风险，见[官方数据集说明](https://papers.nips.cc/paper/2023/file/83fc8fab1710363050bbd1d4b8cc0021-Paper-Datasets_and_Benchmarks.pdf)与[BIRD 官方页面](https://bird-bench.github.io/)。
 
-该候选先回答“是否有足够的新数据库结构供一次有界迁移检查”，不预设 G-reasoner 会改善。若它不能改变核心判断，FK mapping 支线转结果综合与论文边界整理。
+下一步只考虑另行预注册 actual FK constraint / composite identity 核验。需在只读 SQLite PRAGMA 与 metadata 的对齐门后仍有至少60个真多约束单元、覆盖至少4个匿名数据库，才进入用户选择的本地模型代理审阅。该复核仍不预设 G-reasoner 会改善；模型标签不得表述为人工共识。

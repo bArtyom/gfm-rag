@@ -1,7 +1,7 @@
 # BIRD train FK mapping 数据容量审计（预注册）
 
 实验 ID：`p0_bird_train_fk_mapping_capacity_20261107_01`
-状态：待执行；本文件和运行器须先提交到 `bArtyom/gfm-rag`，再读取任何训练样本 SQL。
+状态：已完成；完整报告见 [执行结果](../reports/p0_bird_train_fk_mapping_capacity_20261107_01/README.md)。原始预注册先于任何 train SQL 读取提交。
 层级：exploratory database-disjoint transfer feasibility；不属于正式隐藏测试或论文主结果。
 
 预注册口径更正见 [Amendment 001](amendments/p0_bird_train_fk_mapping_capacity_amendment_001.md)：它只把 schema FK column-pair 数明确为容量上界，并规定隔离检查先于 train SQL 读取；所有样本量门、预算和停止条件保持不变。

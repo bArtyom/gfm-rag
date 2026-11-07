@@ -8,7 +8,7 @@
 
 已完成当前负结果综合：SQL-used BIRD-dev 排名中 G-reasoner 为43/108、Dense 为63/108（−18.52 pp）；允许当前实例 Bag 相同的替代 mapping 后，两者为63/89与80/89（−19.10 pp），差距缩小但排序未反转；54/94单元存在实例级 Bag 相同替代 mapping。模型审阅只能作代理标签，既有 A/B Smoke 高置信精确一致为2/5。Spider test 虽解析率100%、scope错误0，但容量只有52单元/4库，低于冻结60门；没有 Spider 排名结果。细节和边界见[证据综合](synthesis/fk_mapping_evidence_synthesis_20261107.md)。
 
-按用户选择，下一候选仅为一次 BIRD train 数据库迁移容量审计，已在[预注册](plans/p0_bird_train_fk_mapping_capacity_20261107.md)及[Amendment 001](plans/amendments/p0_bird_train_fk_mapping_capacity_amendment_001.md)中冻结；隔离检查先读 train/dev schema 清单，再打开 train SQL。BIRD train 是公开训练拆分且曾被其他本地项目使用，故只能称 exploratory。容量阶段不调用模型/GPU、不读 SQLite、不运行 SQL。schema 里的 FK column-pair 计数只是上界；只有容量门通过并另行核验 constraint identity 后，才可注册用户指定的本地模型代理审阅；其输出不视作人工 Role 金标准。Spider门槛不变，同一BIRD-dev样本不再调参。脚本：[容量审计 runner](../../../scripts/text2sql/audit_p0_bird_train_fk_mapping_capacity_20261107.py)，配置：[冻结配置](../../../configs/text2sql/p0_bird_train_fk_mapping_capacity_20261107_01.json)。
+按用户选择，BIRD train 数据库迁移容量审计已完成。train/dev schema `db_id` 交集0；Smoke 5/5；Full 9,423/9,423解析、scope错误0；384个列对上界单元覆盖12个匿名库，超过60/4容量门。它不表示384个独立约束，也没有模型或排序指标。下一步只能先另行预注册 constraint identity 核验；若至少60个真实多约束单元、覆盖4库，再另行注册用户指定的本地模型代理审阅。BIRD train公开且曾被其他本地项目使用，结果限 exploratory。见[完整报告](reports/p0_bird_train_fk_mapping_capacity_20261107_01/README.md)、[匿名聚合](reports/p0_bird_train_fk_mapping_capacity_20261107_01/aggregate_summary.json)、[预注册](plans/p0_bird_train_fk_mapping_capacity_20261107.md)、[Amendment 001](plans/amendments/p0_bird_train_fk_mapping_capacity_amendment_001.md)、[runner](../../../scripts/text2sql/audit_p0_bird_train_fk_mapping_capacity_20261107.py)和[配置](../../../configs/text2sql/p0_bird_train_fk_mapping_capacity_20261107_01.json)。
 
 ## 2026-11-07 冻结排名的同实例输出等价重评分（完成）
 
