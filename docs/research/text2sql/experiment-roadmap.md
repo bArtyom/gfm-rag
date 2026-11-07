@@ -1,5 +1,9 @@
 # 2026-11-07 bounded candidate–SQL identity diagnosis
 
+## 下一条独立验证候选：Spider 官方测试集容量门（已预注册，尚未运行）
+
+BIRD-dev 的模型代理 G-reasoner 排序筛查为明显负结果，且已停止该数据上的调参。按用户选择，后续标签审阅可继续由本地模型完成，但模型多数仍只算代理标签。现在只先对 Spider 1.0 官方测试集登记并运行只读容量审计：需在排除固定 Smoke 后至少有60个多 FK 问题×表对单元，覆盖至少4个匿名数据库，SQL 解析率≥98%，scope 错误为0。未通过则停止该迁移路线；通过后另行预注册三模型盲审与冻结排序复现，不自动推断模型或人工 Role 结论。见[容量审计方案](plans/p0_spider_fk_mapping_candidate_capacity_20261107.md)、[冻结配置](../../../configs/text2sql/p0_spider_fk_mapping_candidate_capacity_20261107_01.json)和[审计脚本](../../../scripts/text2sql/audit_p0_spider_fk_mapping_candidate_capacity.py)。
+
 ## 2026-11-07 冻结排名的同实例输出等价重评分（完成）
 
 在静态实例审计认定完整的94个单元中，固定 SHA 排序的5题 Smoke 与 Full 分离，正式 Full 为89题。G-reasoner/Dense 在 SQL-used 单目标下为33/89对55/89；把当前实例上 Bag 相同的替代 mapping 作为次级接受项后为63/89对80/89。G-reasoner−Dense 差值从−24.72pp变为−19.10pp，缩小5.62pp并达到预设敏感性门，但仍明显为负。该重评分改变了负结果的幅度，不改变方法排序。实例 Bag 相同不等于SQL语义、人工业务 Role 或跨实例等价。
