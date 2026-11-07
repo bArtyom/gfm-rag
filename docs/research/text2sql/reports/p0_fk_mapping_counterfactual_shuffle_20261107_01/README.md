@@ -72,7 +72,7 @@ The `_04` eligibility stage generated and validated 20 distinct, referentially v
 
 The status is therefore an eligibility-coverage stop, not evidence for or against the sensitivity hypothesis. In particular, the 14 eligible pairs cannot be treated as a smaller replacement sample; the registration forbids widening or relaxing the eligibility rules after observing coverage.
 
-The completed screen took 15.110 seconds wall time, 14.893 seconds CPU time, and 0.636 GiB peak RSS. GPU time was 0. The SQL diagnostic made zero model or external API requests. The protocol reviews were local-model calls and are reported separately: combined 4,054 input tokens, 335 output tokens, 4,389 total local tokens; they incurred no external API charge.
+The completed screen took 15.110 seconds wall time, 14.893 seconds CPU time, and 0.636 GiB peak RSS. GPU time was 0. The SQL diagnostic made zero model or external API requests. The protocol reviews were two local-model calls and are reported separately: combined 4,054 input tokens, 335 output tokens, 4,389 total local tokens; GPU time was 10.546 seconds generating plus 10.494 seconds loading the models (21.040 seconds total). They incurred no external API charge.
 
 ## Reproduction command
 

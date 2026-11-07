@@ -78,12 +78,19 @@
     "local_model_requests_during_sql_run": 0
   },
   "local_protocol_review": {
-    "models": ["Qwen2.5-Coder-7B-Instruct", "Qwen3-4B-Think2SQL"],
+    "models": [
+      "Qwen2.5-Coder-7B-Instruct",
+      "Qwen3-4B-Think2SQL"
+    ],
     "input_tokens": 4054,
     "output_tokens": 335,
     "total_tokens": 4389,
     "external_api_cost_cny": "0.00",
-    "interpretation": "process feedback only; not labels or experiment outcomes"
+    "interpretation": "process feedback only; not labels or experiment outcomes",
+    "requests": 2,
+    "gpu_generation_seconds": 10.546,
+    "gpu_model_loading_seconds": 10.494,
+    "gpu_seconds_total": 21.04
   },
   "interpretation_limit": "The preregistered sensitivity hypothesis was not tested. This is a coverage stop, not a positive or negative sensitivity result, semantic-equivalence claim, business Role accuracy estimate, Test Suite Accuracy, or GFM ranking result.",
   "privacy": "No questions, SQL, row values, candidate IDs/hashes, database paths, detailed pair records, or private logs are included."
