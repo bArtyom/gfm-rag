@@ -327,3 +327,7 @@ Smoke_002 5/5 完整。Full_002 从固定108单元重新运行，94个完整、4
 ## 2026-11-07 SQL-used FK mapping ranker：计数契约恢复已预注册
 
 原 p0_fk_sql_used_mapping_rank_20261107_03 的 SQL 数据门通过，但其排序 Smoke 在模型导入前因 runner 与 manifest 的计数字段契约不一致停止。用户选择的 A/B 本地模型审阅 Smoke 为 2/5 高置信精确一致，未达 4/5 门槛，模型审阅 Full 保持停止。主排序使用 SQL-derived JOIN mapping 作标签，独立于次要 reviewer proxy。已登记一次有界恢复：只在 manifest 计数字段缺失时从 ID 数组长度推导，并校验 Smoke=5、Full=108；不改样本、标签、候选、模型、评分、阈值或预算，使用全新 run ID。Smoke 通过后最多一次 Full。详见 [Amendment 002](plans/amendments/p0_fk_sql_used_mapping_rank_20261107_03_amendment_002.md) 和 [冻结配置](../../../configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03_amendment_002.json)。当前状态为预注册、未运行。
+
+### Amendment 003：CPU fallback
+
+Amendment 002 尚未运行。预检时 GPU3 仅有 7,918 MiB 空闲显存，低于 8 GiB 上限；四张卡 GPU 利用率均为 78–80%。为保持已冻结样本和排名方法并避免 GPU 竞争，另行预注册同一 Smoke/Full 组合的 CPU-only 执行，最多 8 线程；Full 仍受 900 CPU 秒、1,800 wall 秒和 8 GiB RSS 上限约束。详见 [CPU amendment](plans/amendments/p0_fk_sql_used_mapping_rank_20261107_03_amendment_003_cpu.md) 和 [配置](../../../configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03_amendment_003_cpu.json)。

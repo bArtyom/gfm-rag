@@ -1,0 +1,60 @@
+{
+  "amendment_id": "amendment_003_cpu_execution_fallback",
+  "experiment_id": "p0_fk_sql_used_mapping_rank_20261107_03",
+  "base_config": "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03.json",
+  "base_config_sha256": "d965ee4f5250193f5fd3a53d82c59a55ca95c97c9bb0980008d4a907c27b9db4",
+  "predecessor_amendment": "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03_amendment_002.json",
+  "predecessor_amendment_sha256": "ccef27daaf32df29b0344c9a0315d73583b2e06572caf1253177a1004fc54360",
+  "prepared_manifest_source_commit": "566b8e2d9bb244d8868372ae39c887de02f703e9",
+  "execution_backend": "cpu",
+  "cpu_threads": 8,
+  "scope": {
+    "reason": "At preflight, all GPUs were at 78-80% utilization; the registered GPU 3 had 7,918 MiB free, below the 8 GiB experiment cap.",
+    "unchanged": [
+      "prepared sample and unit IDs",
+      "SQL-derived labels and candidate universe",
+      "G-reasoner and embedding checkpoints",
+      "graph construction, scoring, seed, metrics, thresholds, and stop rules"
+    ],
+    "supersedes": "GPU amendment 002 was not executed; this amendment uses CPU so the fixed experiment can proceed without competing for GPU memory.",
+    "model_review": "A/B review remains stopped at 2/5 high-confidence exact agreement; the SQL-derived primary comparison is independent."
+  },
+  "selected_unit_counts": {
+    "smoke": 5,
+    "full": 108
+  },
+  "run_ids": {
+    "smoke": "p0_fk_sql_used_mapping_rank_20261107_03_amendment_003_cpu_smoke_001",
+    "full": "p0_fk_sql_used_mapping_rank_20261107_03_amendment_003_cpu_full_001"
+  },
+  "stopping": {
+    "smoke": "One 5-unit invocation. Require finite scores for all candidates and complete candidate coverage. Any failure stops this amendment.",
+    "full": "Run once for all 108 preselected units only after Smoke passes; stop at the existing 1,800-second wall, 900-second CPU, and 8 GiB RSS caps.",
+    "positive_screen": {
+      "g_reasoner_minus_dense_mapping_at_1_min": 0.05,
+      "net_rescues_min": 4,
+      "positive_databases_min": 2,
+      "positive_database_units_min": 5
+    }
+  },
+  "resources": {
+    "conda_environment": "gfmrag_greasoner_20261022",
+    "cuda_visible_devices": "",
+    "max_cpu_threads": 8,
+    "max_cpu_seconds_per_run": 900,
+    "max_wall_seconds_per_run": 1800,
+    "max_rss_bytes": 8589934592,
+    "max_gpu_allocated_bytes": 0,
+    "downloads": false,
+    "dependency_changes": false,
+    "external_api_calls": false,
+    "sql_execution": false,
+    "training": false
+  },
+  "private_paths": {
+    "cpu_inputs": "/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_rank_20261107_03/cpu_001",
+    "result_alias": "/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_rank_20261107_03_amendment_003_cpu",
+    "log_alias": "/mnt/liansp3/logs/gfmrag_p0_fk_sql_used_mapping_rank_20261107_03_amendment_003_cpu"
+  },
+  "status": "preregistered_not_run"
+}

@@ -30,7 +30,8 @@ from g0_fk_instance_node_probe import (  # noqa: E402
 EXPERIMENT_ID = "p0_fk_sql_used_mapping_rank_20261107_03"
 EXPECTED_BRANCH = "research/p0-sql-used-proxy-alignment-20261107"
 EXPECTED_CONFIG = "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03.json"
-AMENDMENT_CONFIG = "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03_amendment_002.json"
+GPU_AMENDMENT_CONFIG = "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03_amendment_002.json"
+CPU_AMENDMENT_CONFIG = "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03_amendment_003_cpu.json"
 MAX_GPU_BYTES = 8 * 1024**3
 MAX_RSS_BYTES = 8 * 1024**3
 MAX_WALL_SECONDS = 1800
@@ -74,7 +75,12 @@ def adapt_private(manifest: dict[str, Any], selected_ids: set[str]) -> dict[str,
 
 
 def resource_summary(torch: Any, device: Any, wall_seconds: float, cpu_seconds: float) -> dict[str, Any]:
-    peak_gpu = int(torch.cuda.max_memory_allocated(device))
+    if device.type == "cuda":
+        peak_gpu = int(torch.cuda.max_memory_allocated(device))
+        peak_gpu_reserved = int(torch.cuda.max_memory_reserved(device))
+    else:
+        peak_gpu = 0
+        peak_gpu_reserved = 0
     peak_rss = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024)
     require(peak_gpu <= MAX_GPU_BYTES, "GPU_ALLOCATION_LIMIT_EXCEEDED")
     require(peak_rss <= MAX_RSS_BYTES, "RSS_LIMIT_EXCEEDED")
@@ -84,7 +90,7 @@ def resource_summary(torch: Any, device: Any, wall_seconds: float, cpu_seconds: 
         "wall_seconds": round(wall_seconds, 6),
         "cpu_seconds": round(cpu_seconds, 6),
         "peak_gpu_allocated_bytes": peak_gpu,
-        "peak_gpu_reserved_bytes": int(torch.cuda.max_memory_reserved(device)),
+        "peak_gpu_reserved_bytes": peak_gpu_reserved,
         "peak_rss_bytes": peak_rss,
     }
 
@@ -140,7 +146,8 @@ def run(args: argparse.Namespace) -> int:
     cfg = json.loads(args.config.read_text(encoding="utf-8"))
     require(cfg.get("experiment_id") == EXPERIMENT_ID, "CONFIG_EXPERIMENT_ID_MISMATCH")
     config_path = args.config.as_posix()
-    is_amendment = config_path.endswith(AMENDMENT_CONFIG)
+    is_cpu_amendment = config_path.endswith(CPU_AMENDMENT_CONFIG)
+    is_amendment = is_cpu_amendment or config_path.endswith(GPU_AMENDMENT_CONFIG)
     require(is_amendment or config_path.endswith(EXPECTED_CONFIG), "CONFIG_PATH_MISMATCH")
     if is_amendment:
         base_config_path = args.config.parent / Path(EXPECTED_CONFIG).name
@@ -150,6 +157,26 @@ def run(args: argparse.Namespace) -> int:
         prepared_source_commit = cfg.get("prepared_manifest_source_commit")
         require(bool(prepared_source_commit), "PREPARED_SOURCE_COMMIT_NOT_PINNED")
         require(expected_counts == {"smoke": 5, "full": 108}, "AMENDMENT_UNIT_COUNTS_INVALID")
+        if is_cpu_amendment:
+            predecessor_path = args.config.parent / Path(GPU_AMENDMENT_CONFIG).name
+            require(
+                sha256_file(predecessor_path) == cfg.get("predecessor_amendment_sha256"),
+                "PREDECESSOR_AMENDMENT_HASH_MISMATCH",
+            )
+            require(cfg.get("execution_backend") == "cpu", "CPU_AMENDMENT_BACKEND_MISMATCH")
+            cpu_resources = cfg.get("resources", {})
+            require(
+                cfg.get("cpu_threads") == cpu_resources.get("max_cpu_threads") == 8,
+                "CPU_THREAD_BUDGET_MISMATCH",
+            )
+            require(
+                cpu_resources.get("max_cpu_seconds_per_run") == MAX_CPU_SECONDS
+                and cpu_resources.get("max_wall_seconds_per_run") == MAX_WALL_SECONDS
+                and cpu_resources.get("max_rss_bytes") == MAX_RSS_BYTES
+                and cpu_resources.get("max_gpu_allocated_bytes") == 0
+                and cpu_resources.get("cuda_visible_devices") == "",
+                "CPU_RESOURCE_BUDGET_MISMATCH",
+            )
     else:
         registered_run_ids = cfg["resource_budget"]["run_ids"]
         expected_counts = None
@@ -162,9 +189,13 @@ def run(args: argparse.Namespace) -> int:
     require(current_commit == args.expected_commit, "SOURCE_COMMIT_MISMATCH")
     require(not git_status.strip(), "WORKTREE_NOT_CLEAN")
     require(args.run_id == registered_run_ids[args.mode], "RUN_ID_MISMATCH")
-    require(args.device == "cuda:0", "ONLY_VISIBLE_CUDA_ZERO_ALLOWED")
     visible_gpu = os.environ.get("CUDA_VISIBLE_DEVICES", "")
-    require(bool(visible_gpu) and "," not in visible_gpu, "PIN_ONE_PHYSICAL_GPU")
+    if is_cpu_amendment:
+        require(args.device == "cpu", "CPU_AMENDMENT_REQUIRES_CPU_DEVICE")
+        require(visible_gpu == "", "CPU_AMENDMENT_REQUIRES_HIDDEN_GPUS")
+    else:
+        require(args.device == "cuda:0", "ONLY_VISIBLE_CUDA_ZERO_ALLOWED")
+        require(bool(visible_gpu) and "," not in visible_gpu, "PIN_ONE_PHYSICAL_GPU")
     require(os.environ.get("HF_HUB_OFFLINE") == "1" and os.environ.get("TRANSFORMERS_OFFLINE") == "1", "OFFLINE_MODE_REQUIRED")
     require(args.output_dir is not None and not args.output_dir.exists(), "OUTPUT_DIRECTORY_EXISTS")
 
@@ -202,6 +233,7 @@ def run(args: argparse.Namespace) -> int:
         "source_commit": current_commit,
         "prepared_manifest_source_commit": prepared_source_commit,
         "amendment_id": cfg.get("amendment_id") if is_amendment else None,
+        "execution_backend": "cpu" if is_cpu_amendment else "cuda",
         "config_sha256": sha256_file(args.config),
         "cpu_summary_sha256": sha256_file(args.cpu_summary),
         "prepared_manifest_sha256": manifest_sha,
@@ -232,13 +264,20 @@ def run(args: argparse.Namespace) -> int:
             }
             expected = {"python": "3.12.15", "torch": "2.8.0", "torch_geometric": "2.6.1", "transformers": "4.56.1", "sentence_transformers": "5.1.1"}
             require(versions == expected, "ENVIRONMENT_VERSION_MISMATCH")
-            require(torch.cuda.is_available() and torch.cuda.device_count() == 1, "ONE_VISIBLE_GPU_REQUIRED")
             device = torch.device(args.device)
-            torch.cuda.set_device(device)
+            if is_cpu_amendment:
+                require(not torch.cuda.is_available() and torch.cuda.device_count() == 0, "GPU_VISIBLE_IN_CPU_RUN")
+                thread_limit = int(cfg.get("cpu_threads", 8))
+            else:
+                require(torch.cuda.is_available() and torch.cuda.device_count() == 1, "ONE_VISIBLE_GPU_REQUIRED")
+                torch.cuda.set_device(device)
+                thread_limit = 8
             torch.manual_seed(20261107)
-            torch.set_num_threads(min(8, os.cpu_count() or 1))
+            torch.set_num_threads(min(thread_limit, os.cpu_count() or 1))
             torch.set_num_interop_threads(min(4, os.cpu_count() or 1))
-            torch.cuda.reset_peak_memory_stats(device)
+            require(torch.get_num_threads() <= thread_limit, "CPU_THREAD_LIMIT_EXCEEDED")
+            if device.type == "cuda":
+                torch.cuda.reset_peak_memory_stats(device)
 
             checkpoint = args.checkpoint.resolve(strict=True)
             embedding_path = args.embedding_model.resolve(strict=True)
@@ -260,7 +299,8 @@ def run(args: argparse.Namespace) -> int:
                 embedder, all_passages, is_query=False, run_id=args.run_id, call_prefix="passage", torch=torch
             )
             del embedder
-            torch.cuda.empty_cache()
+            if device.type == "cuda":
+                torch.cuda.empty_cache()
             gfm_model, gfm_config = load_model_from_pretrained(str(checkpoint))
             parameter_count = sum(parameter.numel() for parameter in gfm_model.parameters())
             require(parameter_count == 34_640_897, "G_REASONER_PARAMETER_COUNT_MISMATCH")
@@ -297,7 +337,9 @@ def run(args: argparse.Namespace) -> int:
                 **run_meta,
                 "status": "SMOKE_PASS" if args.mode == "smoke" else "FULL_COMPLETE",
                 "environment": versions,
-                "device": torch.cuda.get_device_name(device),
+                "device": torch.cuda.get_device_name(device) if device.type == "cuda" else "cpu",
+                "torch_cpu_threads": torch.get_num_threads(),
+                "torch_interop_threads": torch.get_num_interop_threads(),
                 "pair_count_scored": len(rows),
                 "candidate_mapping_count_scored": sum(len(private["items"][unit_id]["mappings"]) for unit_id in selected_ids),
                 "g_reasoner_forward_count": len(rows),
