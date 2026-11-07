@@ -2,7 +2,7 @@
 
 ## 下一条独立验证候选：Spider 官方测试集容量门（已预注册，尚未运行）
 
-BIRD-dev 的模型代理 G-reasoner 排序筛查为明显负结果，且已停止该数据上的调参。按用户选择，后续标签审阅可继续由本地模型完成，但模型多数仍只算代理标签。现在只先对 Spider 1.0 官方测试集登记并运行只读容量审计：需在排除固定 Smoke 后至少有60个多 FK 问题×表对单元，覆盖至少4个匿名数据库，SQL 解析率≥98%，scope 错误为0。未通过则停止该迁移路线；通过后另行预注册三模型盲审与冻结排序复现，不自动推断模型或人工 Role 结论。见[容量审计方案](plans/p0_spider_fk_mapping_candidate_capacity_20261107.md)、[冻结配置](../../../configs/text2sql/p0_spider_fk_mapping_candidate_capacity_20261107_01.json)和[审计脚本](../../../scripts/text2sql/audit_p0_spider_fk_mapping_candidate_capacity.py)。
+BIRD-dev 的模型代理 G-reasoner 排序筛查为明显负结果，且已停止该数据上的调参。按用户选择，后续标签审阅可继续由本地模型完成，但模型多数仍只算代理标签。现在只先对 Spider 1.0 官方测试集登记并运行只读容量审计：需在排除固定 Smoke 后至少有60个多 FK 问题×表对单元，覆盖至少4个匿名数据库，SQL 解析率≥98%，scope 错误为0。Smoke 001 因使用无 SQLGlot 的环境，在任何数据读取前停止；Amendment 001 改用已有 `think2sql_20260909` 环境及新 Smoke ID，不安装依赖。未通过则停止该迁移路线；通过后另行预注册三模型盲审与冻结排序复现，不自动推断模型或人工 Role 结论。见[容量审计方案](plans/p0_spider_fk_mapping_candidate_capacity_20261107.md)、[Amendment 001](plans/amendments/p0_spider_fk_mapping_candidate_capacity_amendment_001.md)、[冻结配置](../../../configs/text2sql/p0_spider_fk_mapping_candidate_capacity_20261107_01.json)和[审计脚本](../../../scripts/text2sql/audit_p0_spider_fk_mapping_candidate_capacity.py)。
 
 ## 2026-11-07 冻结排名的同实例输出等价重评分（完成）
 

@@ -1,7 +1,8 @@
 {
   "experiment_id": "p0_spider_fk_mapping_candidate_capacity_20261107_01",
   "run_ids": {
-    "smoke": "p0_spider_fk_mapping_candidate_capacity_20261107_01_smoke_001",
+    "smoke_001_closed": "p0_spider_fk_mapping_candidate_capacity_20261107_01_smoke_001",
+    "smoke": "p0_spider_fk_mapping_candidate_capacity_20261107_01_smoke_002",
     "full": "p0_spider_fk_mapping_candidate_capacity_20261107_01_full_001"
   },
   "project_repository": "https://github.com/bArtyom/gfm-rag",
@@ -45,13 +46,16 @@
     "device": "cpu",
     "max_wall_seconds": 600,
     "max_cpu_seconds": 300,
-    "max_rss_gib": 4
+    "max_rss_gib": 4,
+    "conda_environment": "think2sql_20260909",
+    "python_version": "3.12.14",
+    "sqlglot_version": "28.0.0"
   },
   "outputs": {
     "local_root": "/mnt/liansp3/sources/results/gfmrag_p0_spider_fk_mapping_candidate_capacity_20261107_01",
     "log_root": "/mnt/liansp3/logs/gfmrag_p0_spider_fk_mapping_candidate_capacity_20261107_01",
     "public_report": "docs/research/text2sql/reports/p0_spider_fk_mapping_candidate_capacity_20261107_01",
-    "smoke_subdirectory": "smoke_001",
+    "smoke_subdirectory": "smoke_002",
     "full_subdirectory": "full_001"
   }
 }

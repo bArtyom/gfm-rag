@@ -1,6 +1,6 @@
 # Spider FK Mapping Independent-Replication Capacity Audit
 
-**Status: preregistered, CPU-only feasibility audit.** Run IDs: `p0_spider_fk_mapping_candidate_capacity_20261107_01_smoke_001` and `p0_spider_fk_mapping_candidate_capacity_20261107_01_full_001`.
+**Status: Amendment 001 preregistered after Smoke 001 stopped before data access.** Run IDs: Smoke 001 is closed; use `p0_spider_fk_mapping_candidate_capacity_20261107_01_smoke_002`, then `p0_spider_fk_mapping_candidate_capacity_20261107_01_full_001` if Smoke passes.
 
 ## Why this audit
 
@@ -26,6 +26,7 @@ This is not a model result, a label-quality result, a semantic-join claim, or ev
 - Full: one pass over the remaining official test questions. No retries under the same run ID, no parser threshold changes, and no extra dataset rows.
 - Capacity gate for a later registration: at least 60 eligible question×table-pair units across at least four anonymous databases after Smoke exclusion. A future model-review sample would be frozen at 60 units and would require at least 30 high-confidence model-adjudicable labels, at least 20 distinguishable accepted sets, and at least three databases before any ranking forward.
 - Resource caps: CPU-only; 600 seconds wall, 300 CPU seconds, 4 GiB RSS. The machine check on 2026-11-07 found all four GPUs occupied; this audit does not request GPU time.
+- Runtime: existing Conda `think2sql_20260909`, Python 3.12.14, SQLGlot 28.0.0. Smoke 001 mistakenly launched in `gfmrag_greasoner_20261022`, which lacks SQLGlot; it stopped at import before hashing or reading the archive. Amendment 001 changes only the environment and Smoke run ID. No dependency installation, source data read, or output directory creation occurred.
 - Stop on archive hash mismatch, missing/misaligned test SQL, SQL parser/scope error above the reportable gate, missing schema/FK metadata, resource-limit breach, or output path collision. Preserve the failed run and do not alter the source data.
 
 ## Outputs and privacy
@@ -36,6 +37,8 @@ This is not a model result, a label-quality result, a semantic-join claim, or ev
 - Public report: `docs/research/text2sql/reports/p0_spider_fk_mapping_candidate_capacity_20261107_01/`.
 - Public material contains only aggregate counts, anonymous database histograms, code/config hashes, and the decision. Questions, SQL, database names, table names, mapping identities, and per-question records remain private or in memory only.
 - If the gate passes, separately register model review and ranking before any model inference. Model judgments will remain proxies, not human consensus. If the gate fails, stop this transfer route and synthesize current evidence.
+
+See [Amendment 001](amendments/p0_spider_fk_mapping_candidate_capacity_amendment_001.md) for the environment correction and closed Smoke 001 record.
 
 ## Decision and interpretation
 

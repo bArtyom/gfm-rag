@@ -322,7 +322,8 @@ def main() -> None:
     root = Path(__file__).resolve().parents[2]
     if source_commit(root) != args.expected_commit:
         raise ValueError("source_commit_mismatch")
-    expected_run_id = f"{EXPERIMENT_ID}_{args.mode}_001"
+    expected_suffix = "smoke_002" if args.mode == "smoke" else "full_001"
+    expected_run_id = f"{EXPERIMENT_ID}_{expected_suffix}"
     if args.run_id != expected_run_id:
         raise ValueError("run_id_mismatch")
     if sqlglot.__version__ != EXPECTED_SQLGLOT:
