@@ -1,5 +1,7 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
+> **2026-11-07 模型审阅准备状态更新**：首个本地 packet-preparation run 在冻结输入哈希通过后因配置字段路径错误停止；未生成 packet、未加载模型，也无 token 消耗。Amendment 001 只修复读取路径并使用新的准备 run ID；Smoke/Full 模型 run 尚未启动。见[Amendment 001](plans/amendments/p0_bird_train_fk_model_proxy_review_20261107_01_amendment_001.md)和[修订配置](../../../configs/text2sql/p0_bird_train_fk_model_proxy_review_20261107_01_amendment_001.json)。
+
 > **2026-11-07 BIRD train FK constraint identity Full 完成：容量门通过**。Amendment 001 recovery Smoke/Full 后，379/379 个表对列集合与 SQLite PRAGMA 精确一致；138 个问题×表对有至少2种不同的完整 FK 约束，覆盖8个匿名数据库，超过预设60/4门。首次 Full 的 Smoke 收据比较错误已保留；恢复只修预检并使用新 run ID。无模型、GPU、SQL执行或 API 调用。用户选择以本地模型作审阅代理，已为这138个单元另行预注册模型代理审阅；尚未启动模型或 G-reasoner 排序。见[完整报告](reports/p0_bird_train_fk_constraint_identity_20261107_01/README.md)、[匿名Full汇总](reports/p0_bird_train_fk_constraint_identity_20261107_01/aggregate_summary.json)、[Amendment 001](plans/amendments/p0_bird_train_fk_constraint_identity_20261107_amendment_001.md)及[模型审阅注册](plans/p0_bird_train_fk_model_proxy_review_20261107_01.md)。
 
 > **2026-11-07 FK mapping 证据综合完成**：BIRD-dev SQL-used rank 中 G-reasoner 43/108、Dense 63/108（−18.52 pp）；Bag 接受集重评分缩小差距但未反转；Spider 官方 test 只有52个合格单元，低于冻结60门。BIRD train 列对容量审计得到384个上界单元/12库，不是384个独立 FK constraint。现已预注册只读 PRAGMA constraint identity 核验；用户选定的模型审阅只有在该门通过后才作为代理标签运行，不当作人工共识。见[证据综合](synthesis/fk_mapping_evidence_synthesis_20261107.md)、[容量报告](reports/p0_bird_train_fk_mapping_capacity_20261107_01/README.md)和[constraint identity 预注册](plans/p0_bird_train_fk_constraint_identity_20261107.md)。

@@ -66,7 +66,8 @@ def mapping_expression(signature: list[list[str]]) -> str:
 
 
 def build_cases(evidence: list[dict], train_rows: list[dict], config: dict) -> tuple[list[dict], dict]:
-    expected = config["audit"]["eligible_units_by_anonymous_database"]
+    identity_audit = config["inputs"]["identity_audit"]
+    expected = identity_audit["eligible_units_by_anonymous_database"]
     eligible: list[dict] = []
     candidate_hashes: set[str] = set()
     question_indices: set[int] = set()
@@ -156,9 +157,9 @@ def build_cases(evidence: list[dict], train_rows: list[dict], config: dict) -> t
             "mappings": mapping_rows,
         })
 
-    if len(evidence) != config["audit"]["full_candidate_units"]:
+    if len(evidence) != identity_audit["full_candidate_units"]:
         raise ValueError("identity_audit_candidate_count_mismatch")
-    if all_exact != config["audit"]["exact_alignment_units"]:
+    if all_exact != identity_audit["exact_alignment_units"]:
         raise ValueError("identity_audit_exact_alignment_count_mismatch")
     if len(eligible) != config["sampling"]["full_units"]:
         raise ValueError("eligible_candidate_count_mismatch")
@@ -217,6 +218,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--expected-config-sha256", required=True)
+    parser.add_argument("--run-id", required=True)
     parser.add_argument("--repo-root", type=Path, required=True)
     parser.add_argument("--expected-commit", required=True)
     parser.add_argument("--train-json", type=Path, required=True)
@@ -231,6 +233,8 @@ def main() -> None:
     config = json.loads(config_path.read_text(encoding="utf-8"))
     if config.get("experiment_id") != EXPERIMENT_ID:
         raise ValueError("experiment_config_mismatch")
+    if args.run_id != config["generation"]["packet_preparation_run_id"]:
+        raise ValueError("packet_preparation_run_id_mismatch")
     git_head = subprocess.run(
         ["git", "-C", str(args.repo_root.resolve()), "rev-parse", "HEAD"],
         check=True, capture_output=True, text=True,
@@ -310,6 +314,7 @@ def main() -> None:
 
         receipt = {
             "experiment_id": EXPERIMENT_ID,
+            "run_id": args.run_id,
             "source_commit": git_head,
             "source_branch": branch,
             "input_sha256": actual_hashes,
@@ -339,6 +344,7 @@ def main() -> None:
     except Exception as error:
         write_private_json(args.output_dir / "failure_receipt.json", {
             "experiment_id": EXPERIMENT_ID,
+            "run_id": args.run_id,
             "source_commit": git_head,
             "error_type": type(error).__name__,
             "error": str(error),
