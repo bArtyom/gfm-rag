@@ -1,0 +1,118 @@
+{
+  "amendment_id": "amendment_001",
+  "capacity_stage_experiment_id": "p0_bird_train_fk_mapping_capacity_20261107_01",
+  "config_sha256": "8bb8f6c6d94b0f50a11fecef2d9cdf6ec7195c31bd2d561d4806bb40358e5ea1",
+  "decision": "CAPACITY_SUFFICIENT_FOR_MODEL_REVIEW_PREREGISTRATION",
+  "experiment_id": "p0_bird_train_fk_constraint_identity_20261107_01",
+  "gates": {
+    "authorizer_allowed_operation": "PRAGMA foreign_key_list for candidate-table allowlist only",
+    "business_rows_read": false,
+    "full_minimum_anonymous_databases": 4,
+    "full_minimum_exact_multi_constraint_units": 60,
+    "gold_or_candidate_sql_executed": false,
+    "query_only": true,
+    "sqlite_mode": "mode=ro&immutable=1"
+  },
+  "input_hashes": {
+    "capacity_stage_aggregate": "fb7f8498f8fdfefe3f220ed06eaa04aa46d2f91ad7acc7018b9d49bdfcb54a66",
+    "capacity_stage_runner": "c98422fa518b0fa5c929ed77c27585f363f075fa3546b707cfd2d52dc9288871",
+    "dev_schema": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "train_json": "abf17d3def22f56f41b3e139b94bba3fa4a986280abcbf6df2d7f30150695520",
+    "train_schema": "85300c745b263db88a5e0cdf083e8b2427d90272e954bc8c5f92aa1dc66c836b"
+  },
+  "interpretation": "Exact PRAGMA-to-metadata FK column-pair alignment and distinct complete constraint signatures define capacity for a separately registered local-model review; no semantic label or ranker result is produced here.",
+  "mode": "full",
+  "privacy": {
+    "candidate_evidence_saved_private_only": true,
+    "database_ids_or_table_names_written_in_public_summary": false,
+    "public_row_level_data": false,
+    "question_text_or_sql_written": false
+  },
+  "python_version": "3.12.14",
+  "resources": {
+    "cpu_seconds": 67.411595,
+    "device": "cpu",
+    "external_api_calls": 0,
+    "gpu_seconds": 0,
+    "model_calls": 0,
+    "peak_rss_gib": 0.046276,
+    "wall_seconds": 223.879346
+  },
+  "run_id": "p0_bird_train_fk_constraint_identity_20261107_01_amendment_001_full_001",
+  "runner_sha256": "b37e6599bab1aa88065675fe1c676b6c47b84d1402253ad4deafb4ff160adb82",
+  "source_commit": "4a35368ec5744fab0f1ba7411f05c682a8f22e52",
+  "split_and_reconstruction": {
+    "capacity_candidate_units": 384,
+    "capacity_stage_smoke_questions_excluded": 5,
+    "capacity_units_by_anonymous_database": {
+      "db_01": 30,
+      "db_02": 27,
+      "db_03": 48,
+      "db_04": 35,
+      "db_05": 13,
+      "db_06": 21,
+      "db_07": 14,
+      "db_08": 13,
+      "db_09": 56,
+      "db_10": 16,
+      "db_11": 1,
+      "db_12": 110
+    },
+    "dev_database_count": 11,
+    "smoke_units_excluded_from_full": true,
+    "train_database_count": 69,
+    "train_dev_database_overlap": 0,
+    "train_questions": 9428,
+    "train_scope_failures": {},
+    "train_sql_parse_failures": {},
+    "train_sql_parse_success": 9423,
+    "units_in_this_run": 379
+  },
+  "sqlglot_version": "28.0.0",
+  "sqlite_constraint_audit": {
+    "constraint_group_occurrences": 68,
+    "database_count": 12,
+    "database_hash_changes": 0,
+    "distinct_constraint_signature_count_histogram": {
+      "1": 241,
+      "2": 78,
+      "3": 27,
+      "4": 33
+    },
+    "eligible_exact_multi_constraint_units": 138,
+    "eligible_units_by_anonymous_database": {
+      "db_01": 30,
+      "db_02": 27,
+      "db_03": 6,
+      "db_04": 34,
+      "db_05": 13,
+      "db_06": 7,
+      "db_07": 14,
+      "db_09": 7
+    },
+    "metadata_pragma_alignment": {
+      "exact": 379
+    },
+    "pragma_call_count": 41,
+    "pragma_fk_row_count": 98,
+    "pragma_unqualified_row_count": 1,
+    "sqlite_authorizer_denied_unexpected_operations": 0,
+    "unique_constraint_signatures_by_anonymous_database": {
+      "db_01": 2,
+      "db_02": 3,
+      "db_03": 6,
+      "db_04": 6,
+      "db_05": 2,
+      "db_06": 3,
+      "db_07": 2,
+      "db_08": 1,
+      "db_09": 9,
+      "db_10": 1,
+      "db_11": 1,
+      "db_12": 8
+    }
+  },
+  "sqlite_version": "3.53.2",
+  "started_at_utc": "2026-11-07T05:05:17.089124+00:00",
+  "status": "COMPLETED"
+}
