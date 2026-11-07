@@ -1,0 +1,48 @@
+{
+  "anonymous_database_slices": {
+    "DB-B": {
+      "declaration_agreement": {
+        "agree": 2
+      },
+      "fixed_pairs": 32,
+      "pair_agreement": {
+        "agree": 32
+      },
+      "unique_declarations": 2
+    }
+  },
+  "declaration_flag_categories": {
+    "both_flagged": 1,
+    "neither_flagged": 1
+  },
+  "declaration_level_agreement": {
+    "agree": 2
+  },
+  "experiment_id": "p0_fk_domain_violation_crosscheck_20261107_01",
+  "fixed_target_pair_count": 32,
+  "interpretation_limit": "Targeted audit of the 32 prior exclusions only; not a BIRD-wide FK-violation prevalence estimate or a semantic Role result.",
+  "mode": "full",
+  "pair_level_agreement": {
+    "agree": 32
+  },
+  "pragma_error_table_count": 0,
+  "pragma_table_check_count": 1,
+  "resource_usage": {
+    "cpu_seconds": 11.136986,
+    "peak_rss_gib": 0.632488,
+    "wall_seconds": 11.239804
+  },
+  "run_id": "p0_fk_domain_violation_crosscheck_20261107_01_full_001",
+  "source_commit": "85e926f8cf49c66864bab6c88335b9deaa108c00",
+  "sqlite_hashes_unchanged": true,
+  "sqlite_violation_row_count_distribution": {
+    "positive_max": 49,
+    "positive_median": 49,
+    "positive_min": 49,
+    "positive_violation_declarations": 1,
+    "resolved_declarations": 2,
+    "zero_violation_declarations": 1
+  },
+  "status": "PREDICATE_EQUIVALENCE_CONFIRMED_ON_FIXED_SET",
+  "unique_candidate_declaration_count": 2
+}

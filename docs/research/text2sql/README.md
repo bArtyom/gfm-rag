@@ -1,6 +1,6 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
-> **2026-11-07 新注册 FK-domain validator 核验**：针对上一项反事实 shuffle 中 32/55 个 `original_fk_domain_violation` 排除项，新增一次只读 CPU 审计，将固定 FK 声明逐项与 SQLite `PRAGMA foreign_key_check` 比较。它不放宽旧门槛、不修改数据库、不重跑旧实验，也不调用模型。预注册：[方案](plans/p0_fk_domain_violation_crosscheck_20261107.md)、[配置](../../../configs/text2sql/p0_fk_domain_violation_crosscheck_20261107_01.json)、[运行器](../../../scripts/text2sql/audit_p0_fk_domain_violation_crosscheck_20261107.py)。
+> **2026-11-07 FK-domain 原生核验完成**：Smoke 5/5，Full 32/32 候选对与 SQLite PRAGMA 一致；两阶段都只有同一匿名库的2个唯一FK声明，其中1个声明49行违规，另1个为0。没有PRAGMA错误，数据库哈希未变。该结果核验的是旧筛选器语义，不是图传播或排序收益；原shuffle支线按门槛关闭。详见[完整报告](reports/p0_fk_domain_violation_crosscheck_20261107_01/README.md)、[匿名聚合](reports/p0_fk_domain_violation_crosscheck_20261107_01/aggregate_summary.json)、[预注册方案](plans/p0_fk_domain_violation_crosscheck_20261107.md)。
 
 > **2026-11-07 多 FK 映射实例级可区分性审计完成：正向实例不可区分信号**。Full_002 的94个完整非空单元中，54个至少有一个合法替代 FK mapping 在当前 SQLite 实例上与 Gold SQL 的 Bag 相同（57.45%，Wilson 95%区间47.35%–66.96%），覆盖4个匿名数据库。信号集中于DB-B/DB-D；不能解释为通用 SQL 等价、业务 Role 正确或 GFM 排名收益。旧 Full_001 启动环境错误与 runner 结构中止均保留，Recovery 的唯一 amendment 未改样本、候选、SQL变换、只读 evaluator 或阈值。见[报告](reports/p0_fk_mapping_instance_equivalence_20261107_01/README.md)、[匿名汇总](reports/p0_fk_mapping_instance_equivalence_20261107_01/aggregate_summary.json)、[方案](plans/p0_fk_mapping_instance_equivalence_20261107.md)和[Amendment 001](plans/amendments/p0_fk_mapping_instance_equivalence_amendment_001.md)。
 

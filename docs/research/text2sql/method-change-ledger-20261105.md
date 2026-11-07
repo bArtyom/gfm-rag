@@ -101,3 +101,11 @@ G2 只改变合成拓扑以打破上述对称：两个关系角色分别走 `0�
 - 官方实现：[RManLuo/gfm-rag](https://github.com/RManLuo/gfm-rag)。
 - 本项目源码核查：[GraphReasoner 源码审计](graph-algorithm-code-review-20261016.md)。
 - 主要结果： [P1](reports/gfmrag_p1_official_20261014/report.md)、[P2a](reports/p2a_similarity_20261018_01/README.md)、[P2b](reports/p2b_values_ablation_20261018_01/README.md)、[P2c-R](reports/p2c_r_recovery_20261019_01/README.md)、[P2d](reports/p2d_sql_utility_20261022_01/README.md)、[G0-02](reports/g0_fk_instance_node_20261024_02/README.md)、[G2](reports/g2_asymmetric_relation_20261024_01/README.md)、[canonical P1.5 FK crosswalk](reports/p0_fk_canonical_crosswalk_20261105_01/README.md)。
+
+### P0：FK-domain 检查器与 SQLite 原生语义对账（2026-11-07）
+
+**原方法：** eligibility runner 用非 NULL anti-join 检查 child 值能否在 parent key 找到相等值；target 或 alternate 中任一映射有不匹配值，就将候选对标为 original_fk_domain_violation。前一轮 32/55 个候选对因此被排除，14/55 的覆盖量未通过 40 对/3库门槛，反事实 shuffle 没有运行。
+
+**本次实际改动：** 不改 G-reasoner、图、消息传播、embedding、排名、SQL、eligibility 规则或覆盖门。新增只读 CPU 审计，把同一批32个固定候选对的 target/alternate 声明分别用 SQLite PRAGMA foreign_key_check 再判一次，并按 foreign_key_list.fkid 对齐到每个声明；旧 anti-join 直接从冻结运行器复用。
+
+**结果与边界：** pair-level 32/32、声明级2/2一致，零 PRAGMA 错误，数据库哈希未变。32对实际只复用同一匿名数据库的两个唯一声明：一个两种检查均计49条违规，另一个均为0。由此支持“旧检查器在这组声明上忠实反映 SQLite 外键语义”，并说明本次观察的旧排除不是比较器实现错误。不能把32对当作32个独立声明、估计全数据违规率或判断业务 JOIN Role。该审计没有 GFM/Dense 前向或 SQL EX；counterfactual-shuffle 支线保持关闭。见[完整报告](reports/p0_fk_domain_violation_crosscheck_20261107_01/README.md)与[匿名聚合](reports/p0_fk_domain_violation_crosscheck_20261107_01/aggregate_summary.json)。

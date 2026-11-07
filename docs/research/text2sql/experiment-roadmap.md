@@ -319,3 +319,7 @@ Qwen A/B 与 Gemma C 的模型审阅已经完成；新增模型票不会建立�
 Smoke_002 5/5 完整。Full_002 从固定108单元重新运行，94个完整、4个匿名库，达到≥80单元/≥3库覆盖门。主指标54/94（57.45%）非空完整单元至少有一个替代 FK mapping 在该静态数据库实例上与 Gold SQL Bag 相同；Wilson 95%区间47.35%–66.96%，超过预注册10%信号门。数据库分层分别为DB-A 0/21、DB-B 44/54、DB-C 1/10、DB-D 9/9。14个单元不完整，原因及计数见[报告](reports/p0_fk_mapping_instance_equivalence_20261107_01/README.md)和[匿名汇总](reports/p0_fk_mapping_instance_equivalence_20261107_01/aggregate_summary.json)。
 
 结论只涉及当前静态实例的输出不可区分性，不证明语义等价、Gold错误、人工 Role 或 G-reasoner 排名。此注册停止；不追加模型票或 GFM 排序。若需进一步区分数据巧合与跨实例稳定性，应先为独立的受控多实例实验预注册数据构造与判据。
+
+## 2026-11-07 FK-domain 原生核验完成；关闭对应 shuffle 支线
+
+对旧检查器排除的固定 32 对做 CPU-only 核验。Smoke 5/5、Full 32/32 pair-level 判定与 SQLite PRAGMA 一致；但它们只涉及同一匿名数据库内的 2 个唯一外键声明，一个两边均有49条违规，另一个两边均为0。结果说明旧排除没有发现比较器实现偏差，同时不能当作32个独立样本或BIRD全局外键违规率。数据库哈希未变，未运行SQL、模型或G-reasoner。保持旧40对/3库门槛，关闭该shuffle支线，不扩样。完整结果见[报告](reports/p0_fk_domain_violation_crosscheck_20261107_01/README.md)。
