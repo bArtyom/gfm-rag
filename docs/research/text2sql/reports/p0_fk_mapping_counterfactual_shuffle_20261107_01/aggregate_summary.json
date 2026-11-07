@@ -1,0 +1,90 @@
+{
+  "experiment_id": "p0_fk_mapping_counterfactual_shuffle_20261107_01",
+  "status": "INCONCLUSIVE_ELIGIBILITY_COVERAGE",
+  "repository": "bArtyom/gfm-rag",
+  "branch": "research/p0-sql-used-proxy-alignment-20261107",
+  "run_id": "p0_fk_mapping_counterfactual_shuffle_20261107_01_smoke_005_20261107_04",
+  "source_commit": "d068b1596ff55cb459b47ca509f00c0ccebec4c2",
+  "runner_sha256": "4959dce11f28be60146542a6da2c72c565f1c299b69fa0a2d73a32dea350c824",
+  "config_sha256": "75579568bf3d16d010e5a5c6bbd137521e552799d8ce718cd25ba0cd0a830d76",
+  "execution_config_sha256": "7f39d2a1ffa8765d2efad78ecc4ba21f78fc8676d83de844219df58f9e63ef01",
+  "inputs": {
+    "bird_dev_json_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "bird_dev_tables_json_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "source_manifest_sha256": "cc6dd6263f4b3a50c444c4f8ea82d9923f8b2dea5eac46d2ade5201a62550ad0",
+    "prior_full_metrics_sha256": "f996213f2d6e657f518c5440843eaa7f61e6f91fd57e5d0393d8022d6d5a4337",
+    "prior_aggregate_sha256": "27d3411496e5fd4fb829c30c110018ea33b2275c751bccc437f5dd0835dac582",
+    "sqlite_snapshot_hashes_unchanged_after_run": true
+  },
+  "coverage": {
+    "fixed_candidate_pairs": 55,
+    "minimum_eligible_pairs": 40,
+    "structurally_eligible_pairs": 14,
+    "minimum_anonymous_databases": 3,
+    "eligible_anonymous_databases": 2,
+    "eligible_pairs_by_anonymous_database": {
+      "DB-B": 12,
+      "DB-C": 2
+    },
+    "exclusion_counts": {
+      "original_fk_domain_violation": 32,
+      "changed_column_is_primary_key": 9
+    },
+    "eligibility_gate_passed": false
+  },
+  "counterfactual_preflight": {
+    "valid_plans_per_eligible_pair": 20,
+    "eligible_pairs_with_plans": 14,
+    "validated_temporary_view_assignment_plans": 280,
+    "rejected_assignment_attempts": {},
+    "target_or_alternate_sql_comparisons_executed": 0
+  },
+  "runs": {
+    "smoke_001": {
+      "status": "STOPPED",
+      "reason": "EXECUTION_SAMPLE_ASSERTION_MISMATCH",
+      "stage": "after input hash validation and pair reconstruction; before SQL parsing or SQLite connection"
+    },
+    "smoke_002_invocation": {
+      "status": "STOPPED_AT_ARGPARSE",
+      "reason": "required CLI arguments --mode, --run-id, and --config were omitted",
+      "input_read": false,
+      "output_directory_created": false
+    },
+    "smoke_003": {
+      "status": "STOPPED",
+      "reason": "EXECUTION_STRATA_ASSERTION_MISMATCH",
+      "stage": "after input hash validation and pair reconstruction; before SQL parsing or SQLite connection"
+    },
+    "smoke_004": {
+      "status": "INCONCLUSIVE_ELIGIBILITY_COVERAGE",
+      "fixed_pairs_screened": 55,
+      "eligible_pairs": 14,
+      "valid_view_plans": 280,
+      "query_comparisons": 0,
+      "full_started": false
+    }
+  },
+  "environment": {
+    "python": "3.12.14",
+    "sqlite": "3.53.2",
+    "sqlglot": "28.0.0",
+    "cpu_threads_max": 8,
+    "gpu_seconds": 0,
+    "wall_seconds": 15.110388,
+    "cpu_seconds": 14.893263,
+    "peak_rss_gib": 0.635574,
+    "external_api_requests": 0,
+    "local_model_requests_during_sql_run": 0
+  },
+  "local_protocol_review": {
+    "models": ["Qwen2.5-Coder-7B-Instruct", "Qwen3-4B-Think2SQL"],
+    "input_tokens": 4054,
+    "output_tokens": 335,
+    "total_tokens": 4389,
+    "external_api_cost_cny": "0.00",
+    "interpretation": "process feedback only; not labels or experiment outcomes"
+  },
+  "interpretation_limit": "The preregistered sensitivity hypothesis was not tested. This is a coverage stop, not a positive or negative sensitivity result, semantic-equivalence claim, business Role accuracy estimate, Test Suite Accuracy, or GFM ranking result.",
+  "privacy": "No questions, SQL, row values, candidate IDs/hashes, database paths, detailed pair records, or private logs are included."
+}
