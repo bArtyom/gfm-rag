@@ -1,0 +1,67 @@
+{
+  "experiment_id": "p0_fk_domain_violation_crosscheck_20261107_01",
+  "status": "preregistered_before_private_manifest_parse_or_database_access",
+  "branch": "research/p0-sql-used-proxy-alignment-20261107",
+  "registration_parent_commit": "15f66235d86adabd211059d29c3aeb41906f1c27",
+  "source_commit_policy": "capture_clean_head_at_execution",
+  "input_sha256": {
+    "bird_dev_json": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "bird_dev_tables_json": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "source_manifest": "cc6dd6263f4b3a50c444c4f8ea82d9923f8b2dea5eac46d2ade5201a62550ad0",
+    "prior_full_metrics": "f996213f2d6e657f518c5440843eaa7f61e6f91fd57e5d0393d8022d6d5a4337",
+    "prior_full_aggregate": "27d3411496e5fd4fb829c30c110018ea33b2275c751bccc437f5dd0835dac582",
+    "prior_full_run_metadata": "fff1dd61dfc463e6d55d64f71a275e8189da77a0a1793b8112ef2ebcfd5820fc",
+    "prior_stop_aggregate": "5ab80fdf60a143dc3881af085fd7b0476661ef33ceba9f3f24602cddd347eb9a",
+    "prior_stop_progress": "1bc3c95ce0fa41d6a5c52cf394ef0deb65617edbfab4ed1fbcfb348cc51be026",
+    "prior_stop_coverage_receipt": "ce04ecdf91320849fd632de4de96bde6a2155bad0d9be7c716d395d39115c98b",
+    "prior_stop_preflight": "0225a4e0ecee8ff93d482c0bd54a7d796af9e9f58c0586c8f3df24d88c0a82cc",
+    "prior_stop_run_receipt": "8eb87086753b974b4a72dd0538e4ee6225667c2845d3df7b7100e4457934b8dc",
+    "prior_protocol_config": "75579568bf3d16d010e5a5c6bbd137521e552799d8ce718cd25ba0cd0a830d76",
+    "prior_execution_config": "7f39d2a1ffa8765d2efad78ecc4ba21f78fc8676d83de844219df58f9e63ef01",
+    "prior_counterfactual_runner": "4959dce11f28be60146542a6da2c72c565f1c299b69fa0a2d73a32dea350c824",
+    "prior_instance_audit_runner": "99245f972de3f8827c812ec0fc5f89e3d269ea9b80bfb5a1c1bad03ce81adc3c"
+  },
+  "sqlite_files_by_anonymous_database": {
+    "DB-A": {"bytes": 481419264, "sha256": "92101be6d2a9f6adceea59d38f6d1c556087f9eea1432432a21268cb1348036d"},
+    "DB-B": {"bytes": 597754880, "sha256": "e4d361dbeec6591a4b315877c0c481da05c8ff5a3d389b34d6e17b6f15bee4e0"},
+    "DB-C": {"bytes": 237568, "sha256": "75e94a2c3236ee3bb2c01fb97a1c4b4c1c269bcefd4eab1d04be323d2d0825b1"},
+    "DB-D": {"bytes": 2678784, "sha256": "f5fa7f21af1ad878ff8fef1b0582b8cb2d7ed63dbac65ff16d2ba05667650c5b"}
+  },
+  "fixed_population": {
+    "candidate_pairs": 55,
+    "target_exclusion_reason": "original_fk_domain_violation",
+    "target_pair_count": 32,
+    "other_exclusion_counts": {
+      "changed_column_is_primary_key": 9,
+      "eligible": 14
+    },
+    "smoke_pair_count": 5,
+    "smoke_order": "ascending SHA256(experiment_id || private_pair_hash)",
+    "full_rechecks_all_target_pairs": true
+  },
+  "comparison": {
+    "custom_predicate": "child_value IS NOT NULL AND NOT EXISTS(parent_key = child_value)",
+    "native_oracle": "PRAGMA main.foreign_key_check(child_table), grouped by foreign_key_list.fkid",
+    "primary_metric": "pair-level Boolean agreement across the pair's target and alternate candidate declarations",
+    "secondary_metrics": ["unique-declaration Boolean agreement", "custom-only flags", "PRAGMA-only flags", "PRAGMA errors", "violation row-count distribution"],
+    "no_confidence_interval": "fixed targeted census, not an IID prevalence sample"
+  },
+  "resources": {
+    "environment": "think2sql_20260909",
+    "python": "3.12.14",
+    "sqlite": "3.53.2",
+    "max_threads": 8,
+    "max_cpu_seconds": 900,
+    "max_wall_seconds": 1800,
+    "max_rss_gib": 4,
+    "per_table_pragma_timeout_seconds": 120,
+    "gpu": 0,
+    "model_calls": 0,
+    "external_api_calls": 0
+  },
+  "run_ids": {
+    "smoke": "p0_fk_domain_violation_crosscheck_20261107_01_smoke_001",
+    "full": "p0_fk_domain_violation_crosscheck_20261107_01_full_001"
+  },
+  "privacy": "Only anonymous aggregate counts and cryptographic hashes may be published; source identifiers, SQL, table/column names, fkid, rowid, and values remain local."
+}
