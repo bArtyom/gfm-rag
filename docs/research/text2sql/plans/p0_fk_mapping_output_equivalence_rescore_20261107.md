@@ -1,6 +1,6 @@
 # P0：冻结 SQL-used GFM 排名的实例输出等价重评分
 
-**状态：初始注册已执行；首次 Smoke 在 join-key 校验处停止。Amendment 001 已单独登记，待用新 run ID 重跑 Smoke。** 实验 ID：`p0_fk_mapping_output_equivalence_rescore_20261107_01`。这是对两份已冻结结果的探索性只读重评分，不训练、调用模型、执行 SQL 或调整排序方法。
+**状态：完成；Amendment 001 Smoke 5/5、Full 89/89。** 实例输出等价口径使 G-reasoner 相对 Dense 的差距缩小 5.62 pp，但仍为负；详情见[执行报告](../reports/p0_fk_mapping_output_equivalence_rescore_20261107_01/README.md)。初始 Smoke 的 join-key 停止和 amendment 原因见下文及[Amendment 001](amendments/p0_fk_mapping_output_equivalence_rescore_amendment_001.md)。实验 ID：`p0_fk_mapping_output_equivalence_rescore_20261107_01`。这是对两份已冻结结果的探索性只读重评分，不训练、调用模型、执行 SQL 或调整排序方法。
 
 ## 研究问题与痛点
 

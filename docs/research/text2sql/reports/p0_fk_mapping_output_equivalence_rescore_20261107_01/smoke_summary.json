@@ -1,0 +1,267 @@
+{
+  "analysis_type": "exploratory_frozen_output_rescoring",
+  "anonymous_databases": [
+    "DB-A",
+    "DB-B",
+    "DB-C"
+  ],
+  "by_anonymous_database": {
+    "DB-A": {
+      "bm25_okapi": {
+        "instance_output_equivalent_at_1": {
+          "hits": 0,
+          "rate": 0.0
+        },
+        "n": 1,
+        "newly_accepted_by_instance_equivalence": 0,
+        "target_only_mapping_at_1": {
+          "hits": 0,
+          "rate": 0.0
+        }
+      },
+      "dense_cosine": {
+        "instance_output_equivalent_at_1": {
+          "hits": 0,
+          "rate": 0.0
+        },
+        "n": 1,
+        "newly_accepted_by_instance_equivalence": 0,
+        "target_only_mapping_at_1": {
+          "hits": 0,
+          "rate": 0.0
+        }
+      },
+      "g_reasoner": {
+        "instance_output_equivalent_at_1": {
+          "hits": 1,
+          "rate": 1.0
+        },
+        "n": 1,
+        "newly_accepted_by_instance_equivalence": 0,
+        "target_only_mapping_at_1": {
+          "hits": 1,
+          "rate": 1.0
+        }
+      },
+      "stable_mapping_id_order": {
+        "instance_output_equivalent_at_1": {
+          "hits": 0,
+          "rate": 0.0
+        },
+        "n": 1,
+        "newly_accepted_by_instance_equivalence": 0,
+        "target_only_mapping_at_1": {
+          "hits": 0,
+          "rate": 0.0
+        }
+      }
+    },
+    "DB-B": {
+      "bm25_okapi": {
+        "instance_output_equivalent_at_1": {
+          "hits": 3,
+          "rate": 1.0
+        },
+        "n": 3,
+        "newly_accepted_by_instance_equivalence": 2,
+        "target_only_mapping_at_1": {
+          "hits": 1,
+          "rate": 0.3333333333333333
+        }
+      },
+      "dense_cosine": {
+        "instance_output_equivalent_at_1": {
+          "hits": 3,
+          "rate": 1.0
+        },
+        "n": 3,
+        "newly_accepted_by_instance_equivalence": 2,
+        "target_only_mapping_at_1": {
+          "hits": 1,
+          "rate": 0.3333333333333333
+        }
+      },
+      "g_reasoner": {
+        "instance_output_equivalent_at_1": {
+          "hits": 3,
+          "rate": 1.0
+        },
+        "n": 3,
+        "newly_accepted_by_instance_equivalence": 1,
+        "target_only_mapping_at_1": {
+          "hits": 2,
+          "rate": 0.6666666666666666
+        }
+      },
+      "stable_mapping_id_order": {
+        "instance_output_equivalent_at_1": {
+          "hits": 3,
+          "rate": 1.0
+        },
+        "n": 3,
+        "newly_accepted_by_instance_equivalence": 2,
+        "target_only_mapping_at_1": {
+          "hits": 1,
+          "rate": 0.3333333333333333
+        }
+      }
+    },
+    "DB-C": {
+      "bm25_okapi": {
+        "instance_output_equivalent_at_1": {
+          "hits": 0,
+          "rate": 0.0
+        },
+        "n": 1,
+        "newly_accepted_by_instance_equivalence": 0,
+        "target_only_mapping_at_1": {
+          "hits": 0,
+          "rate": 0.0
+        }
+      },
+      "dense_cosine": {
+        "instance_output_equivalent_at_1": {
+          "hits": 1,
+          "rate": 1.0
+        },
+        "n": 1,
+        "newly_accepted_by_instance_equivalence": 0,
+        "target_only_mapping_at_1": {
+          "hits": 1,
+          "rate": 1.0
+        }
+      },
+      "g_reasoner": {
+        "instance_output_equivalent_at_1": {
+          "hits": 0,
+          "rate": 0.0
+        },
+        "n": 1,
+        "newly_accepted_by_instance_equivalence": 0,
+        "target_only_mapping_at_1": {
+          "hits": 0,
+          "rate": 0.0
+        }
+      },
+      "stable_mapping_id_order": {
+        "instance_output_equivalent_at_1": {
+          "hits": 0,
+          "rate": 0.0
+        },
+        "n": 1,
+        "newly_accepted_by_instance_equivalence": 0,
+        "target_only_mapping_at_1": {
+          "hits": 0,
+          "rate": 0.0
+        }
+      }
+    }
+  },
+  "config_sha256": "508e007f0049c883a35c14a686b44ce9b3ae89e4ea7a8eed4479d96ef6aad998",
+  "eligibility_status_counts_all_108": {
+    "candidate_execution_incomplete": 3,
+    "complete": 94,
+    "gold_execution_unknown": 4,
+    "not_substitutable": 7
+  },
+  "eligible_complete_nonempty_units_before_split": 94,
+  "experiment_id": "p0_fk_mapping_output_equivalence_rescore_20261107_01",
+  "input_sha256": {
+    "instance_equivalence_sha256": "f996213f2d6e657f518c5440843eaa7f61e6f91fd57e5d0393d8022d6d5a4337",
+    "prepared_manifest_sha256": "cc6dd6263f4b3a50c444c4f8ea82d9923f8b2dea5eac46d2ade5201a62550ad0",
+    "private_predictions_sha256": "553556a4de85efa48d0b639b899d07b39fa8a35955e6757de0e7a6020308e659"
+  },
+  "interpretation": "SMOKE_ONLY_NOT_INTERPRETED",
+  "interpretation_limit": "A matching output Bag on one frozen SQLite instance is not proof of SQL semantic equivalence, business-role correctness, user-intent correctness, human review consensus, or GFM ranking quality.",
+  "methods": {
+    "bm25_okapi": {
+      "instance_output_equivalent_at_1": {
+        "hits": 3,
+        "rate": 0.6
+      },
+      "n": 5,
+      "newly_accepted_by_instance_equivalence": 2,
+      "target_only_mapping_at_1": {
+        "hits": 1,
+        "rate": 0.2
+      }
+    },
+    "dense_cosine": {
+      "instance_output_equivalent_at_1": {
+        "hits": 4,
+        "rate": 0.8
+      },
+      "n": 5,
+      "newly_accepted_by_instance_equivalence": 2,
+      "target_only_mapping_at_1": {
+        "hits": 2,
+        "rate": 0.4
+      }
+    },
+    "g_reasoner": {
+      "instance_output_equivalent_at_1": {
+        "hits": 4,
+        "rate": 0.8
+      },
+      "n": 5,
+      "newly_accepted_by_instance_equivalence": 1,
+      "target_only_mapping_at_1": {
+        "hits": 3,
+        "rate": 0.6
+      }
+    },
+    "stable_mapping_id_order": {
+      "instance_output_equivalent_at_1": {
+        "hits": 3,
+        "rate": 0.6
+      },
+      "n": 5,
+      "newly_accepted_by_instance_equivalence": 2,
+      "target_only_mapping_at_1": {
+        "hits": 1,
+        "rate": 0.2
+      }
+    }
+  },
+  "mode": "smoke",
+  "n": 5,
+  "paired_g_reasoner_vs_dense": {
+    "instance_output_equivalent_hits": {
+      "both_correct": 3,
+      "both_wrong": 0,
+      "dense_only": 1,
+      "g_reasoner_only": 1,
+      "net_g_reasoner_minus_dense": 0
+    },
+    "target_only_hits": {
+      "both_correct": 1,
+      "both_wrong": 1,
+      "dense_only": 1,
+      "g_reasoner_only": 2,
+      "net_g_reasoner_minus_dense": 1
+    }
+  },
+  "primary_gap_pp": {
+    "gap_shift_pp": -19.999999999999996,
+    "instance_output_equivalent_g_minus_dense": 0.0,
+    "pre_registered_material_sensitivity_threshold_pp": 5.0,
+    "target_only_g_minus_dense": 19.999999999999996
+  },
+  "privacy": "No question, SQL, real database name, pair ID, mapping ID, or row-level result is included.",
+  "resources": {
+    "backend": "cpu",
+    "external_api_cost_cny": "0.00",
+    "external_api_requests": 0,
+    "gpu_seconds": 0,
+    "input_tokens": 0,
+    "model_requests": 0,
+    "output_tokens": 0,
+    "peak_rss_gib": 0.01904296875,
+    "sql_executions": 0,
+    "wall_seconds": 0.021025195717811584
+  },
+  "run_id": "p0_fk_mapping_output_equivalence_rescore_20261107_amendment_001_smoke_001",
+  "smoke_units_excluded_from_full": 5,
+  "source_commit": "9f0f39d316d1ff96c58850a42102ccebbcd73b4f",
+  "status": "SMOKE_PASS"
+}

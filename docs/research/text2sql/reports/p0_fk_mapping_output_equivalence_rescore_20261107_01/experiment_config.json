@@ -1,0 +1,48 @@
+{
+  "experiment_id": "p0_fk_mapping_output_equivalence_rescore_20261107_01",
+  "analysis_type": "exploratory_frozen_output_rescoring",
+  "amendment_001": {
+    "pair_join_key": "prediction.pair_id equals prepared_manifest.units key unit_id",
+    "rationale": "The frozen ranker serializes the full unit_id in pair_id; review_pair_id is only for the human-facing packet."
+  },
+  "expected_inputs": {
+    "prepared_manifest_sha256": "cc6dd6263f4b3a50c444c4f8ea82d9923f8b2dea5eac46d2ade5201a62550ad0",
+    "private_predictions_sha256": "553556a4de85efa48d0b639b899d07b39fa8a35955e6757de0e7a6020308e659",
+    "instance_equivalence_sha256": "f996213f2d6e657f518c5440843eaa7f61e6f91fd57e5d0393d8022d6d5a4337"
+  },
+  "smoke": {
+    "sample_size": 5,
+    "selection": "lowest SHA256('p0-output-equivalence-smoke-v1:' + unit_hash) among complete non-empty units",
+    "excluded_from_full": true
+  },
+  "eligibility": {
+    "status": "complete",
+    "gold_answer_empty": false,
+    "require_exact_pair_match": true,
+    "require_candidate_set_match": true,
+    "require_single_target": true
+  },
+  "labels": {
+    "target_only": "unique candidate with is_target=true",
+    "instance_output_equivalent": "target plus candidates where status=ok and bag_equal=true",
+    "bag_semantics": "ordered rows and duplicates preserved by source audit",
+    "set_equal_is_not_used": true
+  },
+  "methods": ["g_reasoner", "dense_cosine", "bm25_okapi", "stable_mapping_id_order"],
+  "primary_comparison": ["g_reasoner", "dense_cosine"],
+  "material_sensitivity_threshold_pp": 5.0,
+  "resource_budget": {
+    "backend": "cpu",
+    "max_threads": 4,
+    "max_wall_seconds": 120,
+    "max_peak_rss_gib": 2.0,
+    "model_requests": 0,
+    "external_api_requests": 0,
+    "gpu_seconds": 0,
+    "sql_executions": 0
+  },
+  "privacy": {
+    "public_outputs": ["anonymous_aggregate", "run_metadata", "report"],
+    "never_publish": ["questions", "gold_sql", "database_names", "mapping_ids", "pair_ids", "row_level_labels", "private_predictions"]
+  }
+}

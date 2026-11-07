@@ -1,0 +1,318 @@
+{
+  "analysis_type": "exploratory_frozen_output_rescoring",
+  "anonymous_databases": [
+    "DB-A",
+    "DB-B",
+    "DB-C",
+    "DB-D"
+  ],
+  "by_anonymous_database": {
+    "DB-A": {
+      "bm25_okapi": {
+        "instance_output_equivalent_at_1": {
+          "hits": 4,
+          "rate": 0.2
+        },
+        "n": 20,
+        "newly_accepted_by_instance_equivalence": 0,
+        "target_only_mapping_at_1": {
+          "hits": 4,
+          "rate": 0.2
+        }
+      },
+      "dense_cosine": {
+        "instance_output_equivalent_at_1": {
+          "hits": 15,
+          "rate": 0.75
+        },
+        "n": 20,
+        "newly_accepted_by_instance_equivalence": 0,
+        "target_only_mapping_at_1": {
+          "hits": 15,
+          "rate": 0.75
+        }
+      },
+      "g_reasoner": {
+        "instance_output_equivalent_at_1": {
+          "hits": 4,
+          "rate": 0.2
+        },
+        "n": 20,
+        "newly_accepted_by_instance_equivalence": 0,
+        "target_only_mapping_at_1": {
+          "hits": 4,
+          "rate": 0.2
+        }
+      },
+      "stable_mapping_id_order": {
+        "instance_output_equivalent_at_1": {
+          "hits": 4,
+          "rate": 0.2
+        },
+        "n": 20,
+        "newly_accepted_by_instance_equivalence": 0,
+        "target_only_mapping_at_1": {
+          "hits": 4,
+          "rate": 0.2
+        }
+      }
+    },
+    "DB-B": {
+      "bm25_okapi": {
+        "instance_output_equivalent_at_1": {
+          "hits": 44,
+          "rate": 0.8627450980392157
+        },
+        "n": 51,
+        "newly_accepted_by_instance_equivalence": 27,
+        "target_only_mapping_at_1": {
+          "hits": 17,
+          "rate": 0.3333333333333333
+        }
+      },
+      "dense_cosine": {
+        "instance_output_equivalent_at_1": {
+          "hits": 47,
+          "rate": 0.9215686274509803
+        },
+        "n": 51,
+        "newly_accepted_by_instance_equivalence": 25,
+        "target_only_mapping_at_1": {
+          "hits": 22,
+          "rate": 0.43137254901960786
+        }
+      },
+      "g_reasoner": {
+        "instance_output_equivalent_at_1": {
+          "hits": 47,
+          "rate": 0.9215686274509803
+        },
+        "n": 51,
+        "newly_accepted_by_instance_equivalence": 24,
+        "target_only_mapping_at_1": {
+          "hits": 23,
+          "rate": 0.45098039215686275
+        }
+      },
+      "stable_mapping_id_order": {
+        "instance_output_equivalent_at_1": {
+          "hits": 44,
+          "rate": 0.8627450980392157
+        },
+        "n": 51,
+        "newly_accepted_by_instance_equivalence": 27,
+        "target_only_mapping_at_1": {
+          "hits": 17,
+          "rate": 0.3333333333333333
+        }
+      }
+    },
+    "DB-C": {
+      "bm25_okapi": {
+        "instance_output_equivalent_at_1": {
+          "hits": 2,
+          "rate": 0.2222222222222222
+        },
+        "n": 9,
+        "newly_accepted_by_instance_equivalence": 1,
+        "target_only_mapping_at_1": {
+          "hits": 1,
+          "rate": 0.1111111111111111
+        }
+      },
+      "dense_cosine": {
+        "instance_output_equivalent_at_1": {
+          "hits": 9,
+          "rate": 1.0
+        },
+        "n": 9,
+        "newly_accepted_by_instance_equivalence": 0,
+        "target_only_mapping_at_1": {
+          "hits": 9,
+          "rate": 1.0
+        }
+      },
+      "g_reasoner": {
+        "instance_output_equivalent_at_1": {
+          "hits": 3,
+          "rate": 0.3333333333333333
+        },
+        "n": 9,
+        "newly_accepted_by_instance_equivalence": 1,
+        "target_only_mapping_at_1": {
+          "hits": 2,
+          "rate": 0.2222222222222222
+        }
+      },
+      "stable_mapping_id_order": {
+        "instance_output_equivalent_at_1": {
+          "hits": 2,
+          "rate": 0.2222222222222222
+        },
+        "n": 9,
+        "newly_accepted_by_instance_equivalence": 1,
+        "target_only_mapping_at_1": {
+          "hits": 1,
+          "rate": 0.1111111111111111
+        }
+      }
+    },
+    "DB-D": {
+      "bm25_okapi": {
+        "instance_output_equivalent_at_1": {
+          "hits": 9,
+          "rate": 1.0
+        },
+        "n": 9,
+        "newly_accepted_by_instance_equivalence": 9,
+        "target_only_mapping_at_1": {
+          "hits": 0,
+          "rate": 0.0
+        }
+      },
+      "dense_cosine": {
+        "instance_output_equivalent_at_1": {
+          "hits": 9,
+          "rate": 1.0
+        },
+        "n": 9,
+        "newly_accepted_by_instance_equivalence": 0,
+        "target_only_mapping_at_1": {
+          "hits": 9,
+          "rate": 1.0
+        }
+      },
+      "g_reasoner": {
+        "instance_output_equivalent_at_1": {
+          "hits": 9,
+          "rate": 1.0
+        },
+        "n": 9,
+        "newly_accepted_by_instance_equivalence": 5,
+        "target_only_mapping_at_1": {
+          "hits": 4,
+          "rate": 0.4444444444444444
+        }
+      },
+      "stable_mapping_id_order": {
+        "instance_output_equivalent_at_1": {
+          "hits": 9,
+          "rate": 1.0
+        },
+        "n": 9,
+        "newly_accepted_by_instance_equivalence": 9,
+        "target_only_mapping_at_1": {
+          "hits": 0,
+          "rate": 0.0
+        }
+      }
+    }
+  },
+  "config_sha256": "508e007f0049c883a35c14a686b44ce9b3ae89e4ea7a8eed4479d96ef6aad998",
+  "eligibility_status_counts_all_108": {
+    "candidate_execution_incomplete": 3,
+    "complete": 94,
+    "gold_execution_unknown": 4,
+    "not_substitutable": 7
+  },
+  "eligible_complete_nonempty_units_before_split": 94,
+  "experiment_id": "p0_fk_mapping_output_equivalence_rescore_20261107_01",
+  "input_sha256": {
+    "instance_equivalence_sha256": "f996213f2d6e657f518c5440843eaa7f61e6f91fd57e5d0393d8022d6d5a4337",
+    "prepared_manifest_sha256": "cc6dd6263f4b3a50c444c4f8ea82d9923f8b2dea5eac46d2ade5201a62550ad0",
+    "private_predictions_sha256": "553556a4de85efa48d0b639b899d07b39fa8a35955e6757de0e7a6020308e659"
+  },
+  "interpretation": "MATERIAL_SENSITIVITY_SUPPORTED",
+  "interpretation_limit": "A matching output Bag on one frozen SQLite instance is not proof of SQL semantic equivalence, business-role correctness, user-intent correctness, human review consensus, or GFM ranking quality.",
+  "methods": {
+    "bm25_okapi": {
+      "instance_output_equivalent_at_1": {
+        "hits": 59,
+        "rate": 0.6629213483146067
+      },
+      "n": 89,
+      "newly_accepted_by_instance_equivalence": 37,
+      "target_only_mapping_at_1": {
+        "hits": 22,
+        "rate": 0.24719101123595505
+      }
+    },
+    "dense_cosine": {
+      "instance_output_equivalent_at_1": {
+        "hits": 80,
+        "rate": 0.898876404494382
+      },
+      "n": 89,
+      "newly_accepted_by_instance_equivalence": 25,
+      "target_only_mapping_at_1": {
+        "hits": 55,
+        "rate": 0.6179775280898876
+      }
+    },
+    "g_reasoner": {
+      "instance_output_equivalent_at_1": {
+        "hits": 63,
+        "rate": 0.7078651685393258
+      },
+      "n": 89,
+      "newly_accepted_by_instance_equivalence": 30,
+      "target_only_mapping_at_1": {
+        "hits": 33,
+        "rate": 0.3707865168539326
+      }
+    },
+    "stable_mapping_id_order": {
+      "instance_output_equivalent_at_1": {
+        "hits": 59,
+        "rate": 0.6629213483146067
+      },
+      "n": 89,
+      "newly_accepted_by_instance_equivalence": 37,
+      "target_only_mapping_at_1": {
+        "hits": 22,
+        "rate": 0.24719101123595505
+      }
+    }
+  },
+  "mode": "full",
+  "n": 89,
+  "paired_g_reasoner_vs_dense": {
+    "instance_output_equivalent_hits": {
+      "both_correct": 60,
+      "both_wrong": 6,
+      "dense_only": 20,
+      "g_reasoner_only": 3,
+      "net_g_reasoner_minus_dense": -17
+    },
+    "target_only_hits": {
+      "both_correct": 24,
+      "both_wrong": 25,
+      "dense_only": 31,
+      "g_reasoner_only": 9,
+      "net_g_reasoner_minus_dense": -22
+    }
+  },
+  "primary_gap_pp": {
+    "gap_shift_pp": 5.617977528089881,
+    "instance_output_equivalent_g_minus_dense": -19.10112359550562,
+    "pre_registered_material_sensitivity_threshold_pp": 5.0,
+    "target_only_g_minus_dense": -24.7191011235955
+  },
+  "privacy": "No question, SQL, real database name, pair ID, mapping ID, or row-level result is included.",
+  "resources": {
+    "backend": "cpu",
+    "external_api_cost_cny": "0.00",
+    "external_api_requests": 0,
+    "gpu_seconds": 0,
+    "input_tokens": 0,
+    "model_requests": 0,
+    "output_tokens": 0,
+    "peak_rss_gib": 0.0205078125,
+    "sql_executions": 0,
+    "wall_seconds": 0.01704827882349491
+  },
+  "run_id": "p0_fk_mapping_output_equivalence_rescore_20261107_amendment_001_full_001",
+  "smoke_units_excluded_from_full": 5,
+  "source_commit": "9f0f39d316d1ff96c58850a42102ccebbcd73b4f",
+  "status": "FULL_COMPLETE"
+}

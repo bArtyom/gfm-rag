@@ -1,5 +1,11 @@
 # 2026-11-07 bounded candidate–SQL identity diagnosis
 
+## 2026-11-07 冻结排名的同实例输出等价重评分（完成）
+
+在静态实例审计认定完整的94个单元中，固定 SHA 排序的5题 Smoke 与 Full 分离，正式 Full 为89题。G-reasoner/Dense 在 SQL-used 单目标下为33/89对55/89；把当前实例上 Bag 相同的替代 mapping 作为次级接受项后为63/89对80/89。G-reasoner−Dense 差值从−24.72pp变为−19.10pp，缩小5.62pp并达到预设敏感性门，但仍明显为负。该重评分改变了负结果的幅度，不改变方法排序。实例 Bag 相同不等于SQL语义、人工业务 Role 或跨实例等价。
+
+**决策：**这轮结果解释完成，停止同一 BIRD-dev 候选上的调参、图变体和重复代理审阅；转入错误证据综合。以后如重新研究 FK mapping，须带来独立跨实例证据或可信人工 Role 标签。此前 child-FK 置换候选覆盖不足（14/55、仅2库），没有验证该问题。见[重评分报告](reports/p0_fk_mapping_output_equivalence_rescore_20261107_01/README.md)、[匿名汇总](reports/p0_fk_mapping_output_equivalence_rescore_20261107_01/aggregate_summary.json)及[预注册](plans/p0_fk_mapping_output_equivalence_rescore_20261107.md)。
+
 ## 2026-11-07 FK-domain validator cross-check (new independent registration)
 
 The closed counterfactual-shuffle diagnostic found 32/55 fixed candidate pairs rejected by the custom `original_fk_domain_violation` check, which blocked its pre-registered coverage gate. Before changing that line or interpreting the result as a BIRD data limitation, this CPU-only audit compares the same 32 pair declarations with SQLite's `PRAGMA foreign_key_check`. It will not relax the old threshold, alter any database, add model votes, execute SQL variants, or restart the old experiment. The fixed inputs, decision categories, hashes, and exact stop rules are in the [registration plan](plans/p0_fk_domain_violation_crosscheck_20261107.md), [config](../../../configs/text2sql/p0_fk_domain_violation_crosscheck_20261107_01.json), and [runner](../../../scripts/text2sql/audit_p0_fk_domain_violation_crosscheck_20261107.py).

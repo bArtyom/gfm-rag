@@ -57,3 +57,9 @@
 该诊断解释了 `_02` 为什么没有可评分映射，但不改变代理标签排名 7/38 对 27/38、人工 Role 标签数为0、G3 inconclusive 或 P2d.3 NO-GO。按实验守则结束这批样本的 SQL-used 排名扩展，继续进入方法/错误模式综合。若未来重启条件式 FK 排序，必须重新从可解析的 SQL JOIN 目标构造并冻结样本、复核候选身份覆盖，另立预注册；仍需把它称为已知 SQL 表对条件下的 mapping 排序，不可冒充端到端 JOIN 发现或真实业务 Role 准确率。
 
 完整数据边界和下一轮候选见[SQL-used 对齐诊断报告](../reports/p0_fk_candidate_sql_identity_alignment_20261107_01/README.md)。
+
+## 2026-11-07 补充：冻结 SQL-used 排名的同实例输出等价重评分
+
+针对“SQL-used 单 mapping 是否把结果标签定得过窄”这一未决解释，单独预注册只读重评分；没有重跑排名器、模型、SQL 或 GPU。静态实例审计的94个完整非空单元中，5个固定 Smoke 排除后，Full 为89个。SQL-used 单目标口径的 G-reasoner/Dense Mapping@1 为33/89对55/89；允许 Bag 相同替代 mapping 后为63/89对80/89。两者差距由−24.72pp缩小至−19.10pp，变化+5.62pp，通过登记的评价敏感性门，但 G-reasoner 仍落后 Dense，方向没有反转。
+
+这说明目标唯一性影响负结果的**幅度**，不足以把它解释成 GFM 收益或语义等价。实例 Bag 相等仅描述冻结数据内容；替代项高度集中在部分匿名数据库。通用 test-suite / 合成数据库 / 等价验证已是相邻研究主题，本结果不支持提出通用静态实例等价方法。经此重评分，当前 BIRD-dev GFM 排序支线仍停止调参和结构变体，转入错误证据综合；任何后续要改变论文结论的 FK mapping 工作，需要独立数据库内容证据或可信人工 Role 标签。详见[重评分执行报告](../reports/p0_fk_mapping_output_equivalence_rescore_20261107_01/README.md)及[匿名 Full 汇总](../reports/p0_fk_mapping_output_equivalence_rescore_20261107_01/aggregate_summary.json)。

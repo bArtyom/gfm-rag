@@ -1,0 +1,39 @@
+{
+  "experiment_id": "p0_fk_mapping_output_equivalence_rescore_20261107_01",
+  "status": "VERIFIED",
+  "source_commit": "9f0f39d316d1ff96c58850a42102ccebbcd73b4f",
+  "checks": {
+    "prepared_manifest_sha256_matches_registration": true,
+    "frozen_rank_predictions_sha256_matches_registration": true,
+    "instance_equivalence_sha256_matches_registration": true,
+    "all_108_prediction_unit_ids_join_one_to_one": true,
+    "all_94_eligible_manifest_and_prediction_candidate_sets_match": true,
+    "all_94_eligible_units_have_unique_sql_used_target": true,
+    "all_94_eligible_units_have_complete_candidate_hash_join": true,
+    "smoke_full_are_disjoint": true,
+    "smoke_count": 5,
+    "full_count": 89,
+    "per_database_counts_sum_to_full_n": true,
+    "aggregate_method_counts_sum_to_full_n": true,
+    "paired_gfm_dense_cells_sum_to_full_n": true,
+    "public_aggregate_contains_no_question_sql_database_or_mapping_ids": true
+  },
+  "checked_arithmetic": {
+    "g_reasoner_target_only_hits": 33,
+    "dense_target_only_hits": 55,
+    "g_reasoner_instance_output_equivalent_hits": 63,
+    "dense_instance_output_equivalent_hits": 80,
+    "target_only_paired_net": -22,
+    "instance_output_equivalent_paired_net": -17,
+    "g_minus_dense_gap_shift_pp": 5.6179775281
+  },
+  "known_stopped_attempts": [
+    {
+      "run_id": "p0_fk_mapping_output_equivalence_rescore_20261107_smoke_001",
+      "status": "STOPPED_BEFORE_METRICS",
+      "reason": "PREDICTION_PAIR_COVERAGE_MISMATCH",
+      "recorded_in": "plans/amendments/p0_fk_mapping_output_equivalence_rescore_amendment_001.md"
+    }
+  ],
+  "privacy": "Only anonymized aggregate, configuration, and protocol were prepared for public archive; private per-unit scores and run metadata were not copied here."
+}
