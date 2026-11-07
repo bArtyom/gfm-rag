@@ -1,0 +1,210 @@
+{
+  "experiment_id": "p0_bird_train_fk_model_proxy_review_20261107_01",
+  "status": "amendment_002_preregistered_not_run",
+  "amendment": {
+    "amendment_id": "amendment_002",
+    "parent_config": "configs/text2sql/p0_bird_train_fk_model_proxy_review_20261107_01_amendment_001.json",
+    "parent_config_sha256": "ea64b20e0594593a155b98a6869b96bad16505c19fa97e6120f90373f6a0fa42",
+    "registration_parent_commit": "92f57b983b9ac6c0b3700e25b3d0dde861d79954",
+    "superseded_run_ids": {
+      "smoke": "p0_bird_train_fk_model_proxy_review_20261107_01_smoke_001",
+      "output_a_sha256": "68ce301d23cde92e95ed2ebd0caa403b3361a330730386d211c9dd34c00d7b86",
+      "output_b_sha256": "748de40809a0c8a259f6cf7a7cd0510895e7965d0f267444d37c93f7bf729798"
+    },
+    "observed_deviation": "conda run resolved python to /root/miniconda3/envs/python39/bin/python (Python 3.9.20, Torch 2.5.1+cu118, Transformers 4.57.6) rather than the frozen think2sql_train_20260909 runtime (Python 3.10.21, Torch 2.6.0+cu124, Transformers 4.57.1). Both model outputs were syntactically valid 5/5, but this Smoke is excluded from the protocol result and cannot gate Full.",
+    "correction_scope": "Use the frozen environment executable at /root/miniconda3/envs/think2sql_train_20260909/bin/python through conda run; preserve models, model files, packets, prompts, generation settings, candidate set, resource thresholds, and gate. Use fresh Smoke_002 and Full_002 IDs; retain Smoke_001 outputs/logs and token ledger entries as a protocol-deviation record.",
+    "new_run_ids": {
+      "smoke": "p0_bird_train_fk_model_proxy_review_20261107_01_smoke_002",
+      "full": "p0_bird_train_fk_model_proxy_review_20261107_01_full_002"
+    },
+    "human_consensus_labels_created": 0,
+    "external_api_calls": 0
+  },
+  "repository": {
+    "url": "https://github.com/bArtyom/gfm-rag",
+    "branch": "research/p0-sql-used-proxy-alignment-20261107",
+    "base_commit": "dd27ec44e485cee9344cf3b23a53625409f0bc98",
+    "current_registration_parent_commit": "92f57b983b9ac6c0b3700e25b3d0dde861d79954"
+  },
+  "research": {
+    "layer": "exploratory_model_proxy_annotation_feasibility_gate",
+    "hypothesis": "Two local Qwen reviewers will produce at least 30 exact medium-or-higher-confidence adjudicable agreements, including at least 20 distinguishable agreements across at least 3 anonymous databases, on the fixed 138-unit set.",
+    "trusted_human_role_labels_created": 0,
+    "ranking_is_in_scope": false,
+    "known_table_pair_selected_from_reference_sql": true,
+    "end_to_end_gold_free": false,
+    "data_overlap_limit": "BIRD train is public training data and has prior use in other local work; treat all results as exploratory."
+  },
+  "inputs": {
+    "train_json": "/mnt/liansp3/sources/datasets/bird/train/train.json",
+    "train_tables": "/mnt/liansp3/sources/datasets/bird/train/train_tables.json",
+    "dev_tables": "/mnt/liansp3/sources/datasets/bird/dev/dev_tables.json",
+    "audit_evidence": "/mnt/liansp3/sources/results/gfmrag_p0_bird_train_fk_constraint_identity_20261107_01/amendment_001_full_001/candidate_evidence_private.json",
+    "audit_summary": "/mnt/liansp3/sources/results/gfmrag_p0_bird_train_fk_constraint_identity_20261107_01/amendment_001_full_001/aggregate_summary.json",
+    "train_question_count": 9428,
+    "sha256": {
+      "train_json": "abf17d3def22f56f41b3e139b94bba3fa4a986280abcbf6df2d7f30150695520",
+      "train_tables": "85300c745b263db88a5e0cdf083e8b2427d90272e954bc8c5f92aa1dc66c836b",
+      "dev_tables": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+      "audit_evidence": "ff3d379743824eff85f9eec55bffdbf8679e8980ab1f47abbbdc70b86fb01ebf",
+      "audit_summary": "b2bd43b28133fd424005d3e3d4e7b5d21cfc0b43dc9f306c291a6e5bee8bac8c"
+    },
+    "identity_audit": {
+      "experiment_id": "p0_bird_train_fk_constraint_identity_20261107_01",
+      "report_commit": "dd27ec44e485cee9344cf3b23a53625409f0bc98",
+      "runner_sha256": "b37e6599bab1aa88065675fe1c676b6c47b84d1402253ad4deafb4ff160adb82",
+      "capacity_runner_sha256": "c98422fa518b0fa5c929ed77c27585f363f075fa3546b707cfd2d52dc9288871",
+      "amendment_config_sha256": "8bb8f6c6d94b0f50a11fecef2d9cdf6ec7195c31bd2d561d4806bb40358e5ea1",
+      "full_candidate_units": 379,
+      "exact_alignment_units": 379,
+      "eligible_units": 138,
+      "eligible_units_by_anonymous_database": {
+        "db_01": 30,
+        "db_02": 27,
+        "db_03": 6,
+        "db_04": 34,
+        "db_05": 13,
+        "db_06": 7,
+        "db_07": 14,
+        "db_09": 7
+      },
+      "sqlite_opened_in_this_stage": false,
+      "sql_executed_in_this_stage": false
+    }
+  },
+  "sampling": {
+    "seed": 20261107,
+    "smoke_units": 5,
+    "full_units": 138,
+    "smoke_rule": "For each of the first five sorted anonymous database labels, choose the candidate with minimum SHA-256 over [seed, smoke, candidate_id_sha256].",
+    "full_rule": "All 138 exact-aligned eligible units; the five Smoke units are rerun in Full but Smoke outputs are excluded from Full aggregates.",
+    "pair_selection_source": "Frozen candidate evidence from the prior reference-SQL-derived pair capacity audit.",
+    "unit_definition": "One BIRD-train question paired with one preselected table pair and at least two complete, distinct SQLite-verified FK constraint signatures.",
+    "database_histogram_expected": {
+      "db_01": 30,
+      "db_02": 27,
+      "db_03": 6,
+      "db_04": 34,
+      "db_05": 13,
+      "db_06": 7,
+      "db_07": 14,
+      "db_09": 7
+    }
+  },
+  "models": {
+    "A": {
+      "name": "Qwen2.5-Coder-7B-Instruct",
+      "model_path": "/mnt/liansp3/sources/models/qwen25-coder-7b",
+      "physical_gpu": 1,
+      "disable_thinking": false,
+      "previous_peak_allocated_gib": 15.31
+    },
+    "B": {
+      "name": "Qwen3-4B-Think2SQL",
+      "model_path": "/mnt/liansp3/sources/models/qwen3-4b-think2sql",
+      "physical_gpu": 2,
+      "disable_thinking": true,
+      "previous_peak_allocated_gib": 8.14
+    },
+    "artifact_checksum_manifest": "docs/research/text2sql/reports/p0_fk_mapping_model_review_proxy_20261106_01/model_artifact_checksums.txt",
+    "artifact_checksum_manifest_sha256": "ac3ddf5fb9e30f6f4a77258c0963bff0d1d4419b123af0711ebc8ab29d15a809",
+    "require_all_existing_model_file_hashes_to_match_before_load": true,
+    "local_files_only": true,
+    "trust_remote_code": false
+  },
+  "generation": {
+    "prompt_version": "existing_A1_prompt_with_no_declared_fk_inapplicability_statement",
+    "packet_preparation_run_id": "p0_bird_train_fk_model_proxy_review_20261107_01_packet_prep_002",
+    "do_sample": false,
+    "max_new_tokens": 384,
+    "requests_per_unit": 1,
+    "smoke_run_id": "p0_bird_train_fk_model_proxy_review_20261107_01_smoke_002",
+    "full_run_id": "p0_bird_train_fk_model_proxy_review_20261107_01_full_002",
+    "external_api": false,
+    "response_contract": {
+      "decisions": [
+        "single_mapping",
+        "multiple_mappings",
+        "cannot_determine",
+        "no_declared_fk",
+        "other"
+      ],
+      "rationale_codes": [
+        "question_explicit",
+        "context_supports",
+        "role_ambiguity",
+        "schema_conflict",
+        "other"
+      ],
+      "confidence_values": [
+        1,
+        2,
+        3
+      ],
+      "all_units_have_at_least_two_candidate_mappings": true
+    }
+  },
+  "gates": {
+    "smoke_min_valid_per_model": 4,
+    "min_adjudicable_consensus": 30,
+    "min_distinguishable_consensus": 20,
+    "min_distinguishable_anonymous_databases": 3,
+    "agreement_requires_exact_decision_and_accepted_mapping_set": true,
+    "agreement_requires_each_model_confidence_at_least": 2,
+    "max_wall_seconds_per_model_per_stage": 5400,
+    "automatic_retries": 0,
+    "prompt_revisions": 0,
+    "sample_extensions": 0
+  },
+  "resources": {
+    "environment_name": "think2sql_train_20260909",
+    "python_executable": "/root/miniconda3/envs/think2sql_train_20260909/bin/python",
+    "python_version": "3.10.21",
+    "torch_version": "2.6.0+cu124",
+    "transformers_version": "4.57.1",
+    "cuda_runtime_version": "12.4.127",
+    "gpu_memory_free_minimum_mib": {
+      "physical_gpu_1": 18432,
+      "physical_gpu_2": 10240
+    },
+    "gpu_utilization_max_percent": 10,
+    "available_ram_minimum_gib": 32,
+    "preflight_commands": [
+      "nvidia-smi",
+      "free -h",
+      "nproc"
+    ],
+    "no_cpu_fallback": true,
+    "no_environment_changes": true,
+    "python_invocation": "conda run -n think2sql_train_20260909 /root/miniconda3/envs/think2sql_train_20260909/bin/python"
+  },
+  "implementation": {
+    "preparer": "scripts/text2sql/prepare_p0_bird_train_fk_model_proxy_review.py",
+    "preparer_sha256": "00cd6141605b4c6a05dae3b310ef9a03951739063899c98aab00e671bdb5c1eb",
+    "review_runner": "scripts/text2sql/run_p0_fk_mapping_model_review_proxy.py",
+    "review_runner_sha256": "45cadb60ffda61caa762094166f6aa247c1a7c39422cfc8fc8793285346b0f5f",
+    "private_aggregator": "scripts/text2sql/aggregate_p0_bird_train_fk_model_proxy_review.py",
+    "private_aggregator_sha256": "d1d4c6ea3bc071e0a7df7dadb079afd4537b103df661233b19e817e76cf7d827",
+    "prior_runner_hash_reference": "docs/research/text2sql/reports/p0_fk_mapping_model_review_proxy_20261106_01/model_artifact_checksums.txt"
+  },
+  "paths": {
+    "private_results_root": "/mnt/liansp3/sources/results/gfmrag_p0_bird_train_fk_model_proxy_review_20261107_01",
+    "private_logs_root": "/mnt/liansp3/logs/gfmrag_p0_bird_train_fk_model_proxy_review_20261107_01",
+    "public_report_dir": "docs/research/text2sql/reports/p0_bird_train_fk_model_proxy_review_20261107_01",
+    "token_ledger": "/mnt/liansp3/.config/api-usage/usage.sqlite3",
+    "shared_code_root": "/mnt/liansp3/sources/code",
+    "project_id_for_token_ledger": "gfm-rag"
+  },
+  "privacy": {
+    "raw_questions_sql_database_names_table_names_mapping_identities_and_model_outputs_private": true,
+    "public_outputs_allowed": [
+      "protocol",
+      "code",
+      "anonymized_aggregate_counts",
+      "resource_summary",
+      "hashes"
+    ],
+    "publish_model_weights": false,
+    "publish_raw_logs": false
+  }
+}

@@ -1,6 +1,6 @@
 # P0：Frozen FK Rank Displacement Attribution (Independent Diagnostic)
 
-**Status:** preregistered, not run.
+**Status:** initial registration; Smoke 001 stopped before reading inputs. Amendment 001 is the active protocol; Smoke 002 has not run.
 **Experiment ID:** `p0_fk_sql_used_rank_displacement_20261107_01`
 **Layer:** exploratory retrospective error attribution. This is not a new ranking method or a new model evaluation.
 

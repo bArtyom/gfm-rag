@@ -1,6 +1,6 @@
 # BIRD train FK constraint-level local model-proxy review
 
-**Status: packet preparation passed; model Smoke and Full are pending the frozen GPU resource gate.**  
+**Status: packet preparation passed; Smoke 001 is a protocol deviation and excluded; valid Smoke 002 and Full 002 are pending.**
 **Experiment ID:** p0_bird_train_fk_model_proxy_review_20261107_01  
 **Evidence class:** exploratory local-model proxy review feasibility; no human Role labels and no ranking result.
 
@@ -57,19 +57,21 @@ Raw question packets, table names, private manifest, mapping identities, and log
 
 ## Model resource gate
 
-At the initial packet-preflight snapshot, GPU1 had 2,149 MiB free and GPU2 1,293 MiB free, both at 100% utilization. Repeated follow-up checks still failed the frozen gate. At 06:16 UTC, GPU1 had 3,853 MiB free / 98% utilization, GPU2 had 3,039 MiB free / 99%, and GPU3 had 1,041 MiB free / 77%; available RAM was 436 GiB, with 192 CPU threads. GPU3 briefly showed idle but was occupied at subsequent checks. The frozen launch gate requires GPU1 free memory ≥18,432 MiB and utilization ≤10%, GPU2 free memory ≥10,240 MiB and utilization ≤10%, and available RAM ≥32 GiB. The model runner remains assigned to GPU1/GPU2; no model was loaded, and no other task was stopped or displaced.
+At the initial packet-preflight snapshot, GPU1 had 2,149 MiB free and GPU2 1,293 MiB free, both at 100% utilization. At 06:16 UTC, GPU1 had 3,853 MiB free / 98% utilization, GPU2 had 3,039 MiB free / 99%, and GPU3 had 1,041 MiB free / 77%; available RAM was 436 GiB, with 192 CPU threads. GPU3 briefly showed idle but was occupied at subsequent checks. The frozen launch gate requires GPU1 free memory ≥18,432 MiB and utilization ≤10%, GPU2 free memory ≥10,240 MiB and utilization ≤10%, and available RAM ≥32 GiB. At 07:11 UTC, GPU1 had 16,381 MiB free / 0% utilization and GPU2 13,985 MiB / 0%; GPU1 still failed its free-memory gate, so no valid Smoke 002 was launched. Other GPU work was left untouched.
+
+Smoke 001 did run before the environment resolution issue was discovered. Both reviewers returned five syntactically valid outputs, but `conda run` selected `/root/miniconda3/envs/python39/bin/python` (Python 3.9.20, Torch 2.5.1+cu118, Transformers 4.57.6), rather than the frozen `think2sql_train_20260909` runtime (Python 3.10.21, Torch 2.6.0+cu124, Transformers 4.57.1). It is excluded from all review gates and metrics. Amendment 002 pins the absolute target-environment executable and new Smoke 002 / Full 002 run IDs.
 
 ## Results, current decision, and limits
 
-The packet-construction and format gates passed. Model review itself has not run, so there are no validity, agreement, confidence, or adjudicability metrics yet. No conclusion can be drawn about mapping judgment or a ranker. Smoke and Full run IDs remain p0_bird_train_fk_model_proxy_review_20261107_01_smoke_001 and p0_bird_train_fk_model_proxy_review_20261107_01_full_001.
+The packet-construction and format gates passed. Smoke 001 had 5/5 valid outputs for A and B and the private aggregator returned `SMOKE_PASS`, but that result is invalidated by the runtime deviation and cannot authorize Full. It has no scientific validity, agreement, confidence, or adjudicability metrics. The active run IDs are p0_bird_train_fk_model_proxy_review_20261107_01_smoke_002 and p0_bird_train_fk_model_proxy_review_20261107_01_full_002; both remain pending.
 
-Confirmed model usage to date: 0 input / 0 output / 0 total tokens; unknown-usage requests: 0; external API requests: 0; external API spend: CNY 0.00. Model GPU time is 0 seconds so far. CPU preparation time was not captured. Any local GPU time will be reported separately, without converting it to a provider bill.
+Protocol-deviation Smoke 001 used 10 local model calls: Reviewer A recorded 1,794 input / 230 output tokens; Reviewer B recorded 1,814 input / 301 output tokens; combined 3,608 input / 531 output / 4,139 total tokens. All ten usage records are known. Aggregate GPU generation time was 15.107 seconds. External API requests and API spend were zero. These calls remain in the ledger but are excluded from experimental metrics. Any subsequent local GPU time will be reported separately, without converting it to a provider bill.
 
 The model outputs, if run, remain proxy labels. BIRD train is public training data with prior local use, the table pair is SQL-derived, and both models come from the Qwen family. None of these labels can be described as human consensus, ground truth, or an independent test result.
 
 ## Reproducibility
 
-The committed config and scripts freeze input hashes, sample rules, run IDs, prompt runner, model IDs, environment versions, token ledger, GPU gates, and stop rules. After the GPU gate becomes available, the next allowed action is Smoke 001. If each reviewer returns at least four valid outputs out of five, run Full 001 once. Otherwise stop and retain all files. If Full finishes, append the anonymous metrics and resource/token accounting to this report and update the local resource index.
+The committed config and scripts freeze input hashes, sample rules, run IDs, prompt runner, model IDs, environment versions, token ledger, GPU gates, and stop rules. Amendment 002 is active: after GPU1/GPU2 and RAM gates pass, run Smoke 002 using the absolute Python executable for `think2sql_train_20260909`. If each reviewer returns at least four valid outputs out of five, run Full 002 once. Otherwise stop and retain all files. If Full finishes, append anonymous metrics and resource/token accounting to this report and update the local resource index. The superseded Smoke 001 outputs remain private and are not included.
 
 The recovery packet-preparation command was:
 

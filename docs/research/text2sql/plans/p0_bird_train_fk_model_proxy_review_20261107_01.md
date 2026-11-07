@@ -1,6 +1,6 @@
 # P0 BIRD train FK constraint-level local model-proxy review
 
-**Status: preregistered; inference not started.** Experiment ID: p0_bird_train_fk_model_proxy_review_20261107_01. This is an exploratory model-review feasibility stage. It creates model-proxy labels only; it does not create human consensus, trusted FK Role labels, or ranking results.
+**Status: base protocol; protocol-conforming inference has not started.** Smoke 001 produced 5/5 syntactically valid outputs per reviewer under an unintended Python 3.9 runtime; this is recorded as a protocol deviation and excluded. Amendment 002 is the active execution plan. Experiment ID: p0_bird_train_fk_model_proxy_review_20261107_01. This is an exploratory model-review feasibility stage. It creates model-proxy labels only; it does not create human consensus, trusted FK Role labels, or ranking results.
 
 ## Research question and hypothesis
 

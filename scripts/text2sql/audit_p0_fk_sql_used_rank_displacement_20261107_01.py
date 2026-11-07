@@ -17,12 +17,6 @@ from typing import Any
 
 EXPERIMENT_ID = "p0_fk_sql_used_rank_displacement_20261107_01"
 METHODS = ("g_reasoner", "dense_cosine", "bm25_okapi", "stable_mapping_id_order")
-STAGES = {
-    "smoke": "p0_fk_sql_used_rank_displacement_20261107_01_smoke_001",
-    "full": "p0_fk_sql_used_rank_displacement_20261107_01_full_001",
-}
-
-
 class AuditError(RuntimeError):
     def __init__(self, code: str):
         super().__init__(code)
@@ -164,10 +158,10 @@ def main() -> None:
     if hasattr(os, "sched_getaffinity") and hasattr(os, "sched_setaffinity"):
         allowed_cpus = sorted(os.sched_getaffinity(0))
         os.sched_setaffinity(0, set(allowed_cpus[:max_cpu_threads]))
-    if config.get("run_ids", {}).get(args.mode) != args.run_id or STAGES[args.mode] != args.run_id:
+    if config.get("run_ids", {}).get(args.mode) != args.run_id:
         raise AuditError("RUN_ID_MISMATCH")
     runner_sha = sha256_file(Path(__file__).resolve())
-    if runner_sha != config.get("analysis_runner_sha256"):
+    if runner_sha != config.get("analysis_runner", {}).get("sha256"):
         raise AuditError("RUNNER_SHA256_MISMATCH")
 
     head = subprocess.run(["git", "-C", str(repo_root), "rev-parse", "HEAD"], check=True, capture_output=True, text=True).stdout.strip()
