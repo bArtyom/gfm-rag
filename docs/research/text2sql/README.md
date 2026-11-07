@@ -1,6 +1,6 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
-> **模型代理审阅进度（2026-11-07，Full 尚未启动）**：Amendment 001 已准备好 138 个问题×表对单元、369 个完整 FK constraint 候选，A/B packet-only preflight 通过。模型 Smoke/Full 尚未运行：GPU1/GPU2 分别只有 2,149/1,293 MiB 可用且利用率100%，未加载模型。中间报告与状态见[审阅报告](reports/p0_bird_train_fk_model_proxy_review_20261107_01/README.md)、[Amendment 001](plans/amendments/p0_bird_train_fk_model_proxy_review_20261107_01_amendment_001.md)。
+> **模型代理审阅进度（2026-11-07，Full 尚未启动）**：Amendment 001 已准备好 138 个问题×表对单元、369 个完整 FK constraint 候选，A/B packet-only preflight 通过。模型 Smoke/Full 尚未运行：06:12 UTC 最近检查时 GPU1/GPU2 分别只有 3,855/3,543 MiB 可用且利用率均98%，未加载模型。GPU3 曾短暂空闲，但下一次检查时已重新繁忙；本轮仍遵守冻结的 GPU1/GPU2 分配。中间报告与状态见[审阅报告](reports/p0_bird_train_fk_model_proxy_review_20261107_01/README.md)、[Amendment 001](plans/amendments/p0_bird_train_fk_model_proxy_review_20261107_01_amendment_001.md)。
 
 > **2026-11-07 模型审阅准备状态更新**：首个本地 packet-preparation run 在冻结输入哈希通过后因配置字段路径错误停止；未生成 packet、未加载模型，也无 token 消耗。Amendment 001 只修复读取路径并使用新的准备 run ID；Smoke/Full 模型 run 尚未启动。见[Amendment 001](plans/amendments/p0_bird_train_fk_model_proxy_review_20261107_01_amendment_001.md)和[修订配置](../../../configs/text2sql/p0_bird_train_fk_model_proxy_review_20261107_01_amendment_001.json)。
 
