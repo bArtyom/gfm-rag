@@ -1,0 +1,92 @@
+{
+  "experiment_id": "p0_bird_train_fk_constraint_identity_20261107_01",
+  "repository": "https://github.com/bArtyom/gfm-rag",
+  "branch": "research/p0-sql-used-proxy-alignment-20261107",
+  "capacity_stage": {
+    "experiment_id": "p0_bird_train_fk_mapping_capacity_20261107_01",
+    "aggregate_path": "/mnt/liansp3/sources/results/gfmrag_p0_bird_train_fk_mapping_capacity_20261107_01/full_001/aggregate_summary.json",
+    "aggregate_sha256": "fb7f8498f8fdfefe3f220ed06eaa04aa46d2f91ad7acc7018b9d49bdfcb54a66",
+    "runner_sha256": "c98422fa518b0fa5c929ed77c27585f363f075fa3546b707cfd2d52dc9288871",
+    "expected_candidate_units": 384,
+    "expected_database_histogram": {
+      "db_01": 30,
+      "db_02": 27,
+      "db_03": 48,
+      "db_04": 35,
+      "db_05": 13,
+      "db_06": 21,
+      "db_07": 14,
+      "db_08": 13,
+      "db_09": 56,
+      "db_10": 16,
+      "db_11": 1,
+      "db_12": 110
+    }
+  },
+  "dataset": {
+    "questions": "/mnt/liansp3/sources/datasets/bird/train/train.json",
+    "train_schema": "/mnt/liansp3/sources/datasets/bird/train/train_tables.json",
+    "dev_schema": "/mnt/liansp3/sources/datasets/bird/dev/dev_tables.json",
+    "database_root": "/mnt/liansp3/sources/datasets/bird/train/train_databases",
+    "train_json_sha256": "abf17d3def22f56f41b3e139b94bba3fa4a986280abcbf6df2d7f30150695520",
+    "train_schema_sha256": "85300c745b263db88a5e0cdf083e8b2427d90272e954bc8c5f92aa1dc66c836b",
+    "dev_schema_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "train_dev_db_overlap": 0
+  },
+  "environment": {
+    "conda_environment": "think2sql_20260909",
+    "python_executable": "/root/miniconda3/envs/think2sql_20260909/bin/python3.12",
+    "python": "3.12.14",
+    "sqlglot": "28.0.0",
+    "sqlite": "3.53.2",
+    "sqlite_mode": "mode=ro&immutable=1",
+    "device": "cpu",
+    "max_threads": 8
+  },
+  "implementation": {
+    "runner": "scripts/text2sql/audit_p0_bird_train_fk_constraint_identity_20261107.py",
+    "runner_sha256": "c480d87633317cb5ad93784cc440f1627c18b7048b27b0e1cd1317f2db1baf33",
+    "capacity_runner_sha256": "c98422fa518b0fa5c929ed77c27585f363f075fa3546b707cfd2d52dc9288871"
+  },
+  "selection": {
+    "candidate_units_from_capacity_stage": 384,
+    "capacity_stage_smoke_questions_excluded_before_reconstruction": 5,
+    "smoke_units": 5,
+    "smoke_selection": "stable SHA256, one unit per database where available",
+    "full_excludes_smoke": true,
+    "sample_unit": "question x resolved physical table pair; one per question"
+  },
+  "gates": {
+    "smoke_pragmas_complete": "5/5",
+    "smoke_at_least_one_constraint_group": true,
+    "smoke_db_hash_changes": 0,
+    "full_sql_parse_errors": 0,
+    "full_scope_errors": 0,
+    "candidate_count_and_anonymous_database_histogram_match_capacity_stage": true,
+    "full_candidate_units_minimum": 60,
+    "full_distinct_constraint_signatures_per_unit_minimum": 2,
+    "full_anonymous_database_count_minimum": 4,
+    "schema_pragma_alignment_required_for_eligibility": "exact-set equality"
+  },
+  "read_only_policy": {
+    "sqlite_uri": "mode=ro&immutable=1",
+    "query_only": true,
+    "allowed_operation": "PRAGMA foreign_key_list for allowlisted candidate tables only",
+    "gold_or_candidate_sql": false,
+    "table_rows_read": false,
+    "writes": false
+  },
+  "resource_limits": {
+    "max_wall_seconds": 1800,
+    "max_cpu_seconds": 1200,
+    "max_peak_rss_gib": 4,
+    "max_threads": 8,
+    "max_gpu_seconds": 0,
+    "max_model_calls": 0,
+    "max_external_api_calls": 0
+  },
+  "runs": {
+    "smoke": "p0_bird_train_fk_constraint_identity_20261107_01_smoke_001",
+    "full": "p0_bird_train_fk_constraint_identity_20261107_01_full_001"
+  }
+}

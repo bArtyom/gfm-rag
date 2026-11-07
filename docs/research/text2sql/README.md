@@ -1,6 +1,6 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
-> **2026-11-07 FK mapping 证据综合完成，BIRD train 容量门已预注册**：当前 BIRD-dev SQL-used rank 中 G-reasoner 43/108、Dense 63/108（−18.52 pp）；Bag 接受集重评分缩小差距但未反转；Spider 官方 test 的52个合格单元未达到冻结60门。下一候选是公开且已有暴露的 BIRD train 数据库迁移容量审计，阶段A仅CPU只读；未过门不启动模型。用户选择的模型审阅按代理标签处理，不是人工共识。schema FK 列对只作为容量上界；即使过门，也须先核验 constraint identity。见[证据综合](synthesis/fk_mapping_evidence_synthesis_20261107.md)、[容量预注册](plans/p0_bird_train_fk_mapping_capacity_20261107.md)和[Amendment 001](plans/amendments/p0_bird_train_fk_mapping_capacity_amendment_001.md)。
+> **2026-11-07 FK mapping 证据综合完成**：BIRD-dev SQL-used rank 中 G-reasoner 43/108、Dense 63/108（−18.52 pp）；Bag 接受集重评分缩小差距但未反转；Spider 官方 test 只有52个合格单元，低于冻结60门。BIRD train 列对容量审计得到384个上界单元/12库，不是384个独立 FK constraint。现已预注册只读 PRAGMA constraint identity 核验；用户选定的模型审阅只有在该门通过后才作为代理标签运行，不当作人工共识。见[证据综合](synthesis/fk_mapping_evidence_synthesis_20261107.md)、[容量报告](reports/p0_bird_train_fk_mapping_capacity_20261107_01/README.md)和[constraint identity 预注册](plans/p0_bird_train_fk_constraint_identity_20261107.md)。
 
 > **BIRD train 容量 Full 已完成**：train/dev schema 库 ID 交集0；Full解析9,423/9,423、scope错误0，得到384个列对层面的容量上界单元/12库，超过预设60/4门。没有模型、GPU、SQLite或SQL执行；384不代表独立 FK constraint 数。下一步先独立核验复合 FK/constraint identity，再决定是否做用户指定的模型代理审阅。见[执行报告](reports/p0_bird_train_fk_mapping_capacity_20261107_01/README.md)、[匿名汇总](reports/p0_bird_train_fk_mapping_capacity_20261107_01/aggregate_summary.json)和[Smoke](reports/p0_bird_train_fk_mapping_capacity_20261107_01/smoke_summary.json)。
 
