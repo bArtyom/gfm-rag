@@ -1,0 +1,60 @@
+{
+  "amendment_id": "amendment_004_cpu_runtime_recovery",
+  "experiment_id": "p0_fk_sql_used_mapping_rank_20261107_03",
+  "base_config": "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03.json",
+  "base_config_sha256": "d965ee4f5250193f5fd3a53d82c59a55ca95c97c9bb0980008d4a907c27b9db4",
+  "predecessor_amendment": "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03_amendment_003_cpu.json",
+  "predecessor_amendment_sha256": "ade0769d6b18ae58f28a29694f5d7cbc6fe8b8ac3d800869d5d8e36b903ad929",
+  "prepared_manifest_source_commit": "566b8e2d9bb244d8868372ae39c887de02f703e9",
+  "execution_backend": "cpu",
+  "cpu_threads": 8,
+  "scope": {
+    "reason": "The prior CPU Smoke stopped during RSPMM extension loading. A later offline diagnostic in the same pinned environment successfully imported the CPU RSPMM extension, loaded the frozen 34,640,897-parameter G-reasoner checkpoint, and placed the model on CPU without reading task data. This single bounded recovery tests whether the unchanged 5-unit ranker Smoke can now execute.",
+    "unchanged": [
+      "prepared sample and unit IDs",
+      "SQL-derived labels and candidate universe",
+      "G-reasoner and Qwen3 Embedding checkpoints",
+      "graph construction, scoring, seed, metrics, thresholds, and stop rules"
+    ],
+    "supersedes": "The stopped amendment_003_cpu run remains closed and its run ID is not reused; this amendment uses new run IDs and a separate output directory.",
+    "model_review": "The user's model-review choice remains honored as secondary proxy analysis. The existing Qwen A/B Smoke agreement was 2/5, below its 4/5 gate, so reviewer Full remains stopped. SQL-derived labels for the primary rank comparison do not depend on reviewer consensus."
+  },
+  "selected_unit_counts": {
+    "smoke": 5,
+    "full": 108
+  },
+  "run_ids": {
+    "smoke": "p0_fk_sql_used_mapping_rank_20261107_03_amendment_004_cpu_recovery_smoke_001",
+    "full": "p0_fk_sql_used_mapping_rank_20261107_03_amendment_004_cpu_recovery_full_001"
+  },
+  "stopping": {
+    "smoke": "Run one 5-unit invocation. Require finite scores for every candidate and complete candidate coverage. Any failure closes this recovery; do not retry on CPU.",
+    "full": "Run once on the fixed 108 units only if Smoke passes and its observed CPU/wall time projects below the registered 900 CPU-second, 1,800 wall-second, and 8 GiB RSS caps. Stop on any cap, missing/non-finite score, or incomplete candidate coverage.",
+    "positive_screen": {
+      "g_reasoner_minus_dense_mapping_at_1_min": 0.05,
+      "net_rescues_min": 4,
+      "positive_databases_min": 2,
+      "positive_database_units_min": 5
+    }
+  },
+  "resources": {
+    "conda_environment": "gfmrag_greasoner_20261022",
+    "cuda_visible_devices": "",
+    "max_cpu_threads": 8,
+    "max_cpu_seconds_per_run": 900,
+    "max_wall_seconds_per_run": 1800,
+    "max_rss_bytes": 8589934592,
+    "max_gpu_allocated_bytes": 0,
+    "downloads": false,
+    "dependency_changes": false,
+    "external_api_calls": false,
+    "sql_execution": false,
+    "training": false
+  },
+  "private_paths": {
+    "cpu_inputs": "/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_rank_20261107_03/cpu_001",
+    "result_alias": "/mnt/liansp3/sources/results/gfmrag_p0_fk_sql_used_mapping_rank_20261107_03_amendment_004_cpu_recovery",
+    "log_alias": "/mnt/liansp3/logs/gfmrag_p0_fk_sql_used_mapping_rank_20261107_03_amendment_004_cpu_recovery"
+  },
+  "status": "preregistered_not_run"
+}

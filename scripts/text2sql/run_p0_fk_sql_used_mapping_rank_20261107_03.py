@@ -32,6 +32,7 @@ EXPECTED_BRANCH = "research/p0-sql-used-proxy-alignment-20261107"
 EXPECTED_CONFIG = "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03.json"
 GPU_AMENDMENT_CONFIG = "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03_amendment_002.json"
 CPU_AMENDMENT_CONFIG = "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03_amendment_003_cpu.json"
+CPU_RECOVERY_AMENDMENT_CONFIG = "configs/text2sql/p0_fk_sql_used_mapping_rank_20261107_03_amendment_004_cpu_recovery.json"
 MAX_GPU_BYTES = 8 * 1024**3
 MAX_RSS_BYTES = 8 * 1024**3
 MAX_WALL_SECONDS = 1800
@@ -146,7 +147,8 @@ def run(args: argparse.Namespace) -> int:
     cfg = json.loads(args.config.read_text(encoding="utf-8"))
     require(cfg.get("experiment_id") == EXPERIMENT_ID, "CONFIG_EXPERIMENT_ID_MISMATCH")
     config_path = args.config.as_posix()
-    is_cpu_amendment = config_path.endswith(CPU_AMENDMENT_CONFIG)
+    is_cpu_recovery_amendment = config_path.endswith(CPU_RECOVERY_AMENDMENT_CONFIG)
+    is_cpu_amendment = config_path.endswith(CPU_AMENDMENT_CONFIG) or is_cpu_recovery_amendment
     is_amendment = is_cpu_amendment or config_path.endswith(GPU_AMENDMENT_CONFIG)
     require(is_amendment or config_path.endswith(EXPECTED_CONFIG), "CONFIG_PATH_MISMATCH")
     if is_amendment:
@@ -158,7 +160,8 @@ def run(args: argparse.Namespace) -> int:
         require(bool(prepared_source_commit), "PREPARED_SOURCE_COMMIT_NOT_PINNED")
         require(expected_counts == {"smoke": 5, "full": 108}, "AMENDMENT_UNIT_COUNTS_INVALID")
         if is_cpu_amendment:
-            predecessor_path = args.config.parent / Path(GPU_AMENDMENT_CONFIG).name
+            predecessor_config = CPU_AMENDMENT_CONFIG if is_cpu_recovery_amendment else GPU_AMENDMENT_CONFIG
+            predecessor_path = args.config.parent / Path(predecessor_config).name
             require(
                 sha256_file(predecessor_path) == cfg.get("predecessor_amendment_sha256"),
                 "PREDECESSOR_AMENDMENT_HASH_MISMATCH",
