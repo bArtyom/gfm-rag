@@ -1,0 +1,29 @@
+{
+  "amendment_id": "amendment_004_cpu_runtime_recovery",
+  "config_sha256": "5ad73a6f00f7f45659540cbbe7a211fd0ae362ef3f2d4b6a297b8e71d376a59d",
+  "cpu_summary_sha256": "b1376e075a4d22afa62b578a0d9fac70d242c8e3a7d482c0a4a64d204f9ac737",
+  "cuda_visible_devices": "",
+  "execution_backend": "cpu",
+  "experiment_id": "p0_fk_sql_used_mapping_rank_20261107_03",
+  "mode": "smoke",
+  "partial_prediction_count": 0,
+  "prepared_manifest_sha256": "cc6dd6263f4b3a50c444c4f8ea82d9923f8b2dea5eac46d2ade5201a62550ad0",
+  "prepared_manifest_source_commit": "566b8e2d9bb244d8868372ae39c887de02f703e9",
+  "privacy": {
+    "question_or_schema_text_in_aggregate": false,
+    "sql_or_gold_target_in_model_input": false,
+    "unit_ids_or_mapping_ids_in_aggregate": false
+  },
+  "qwen_embedding_usage": {
+    "input_tokens": 1174,
+    "output_tokens": 0,
+    "recorded_local_calls": 3
+  },
+  "ranked_unit_count": 0,
+  "reason_code": "No CUDA GPUs are available",
+  "run_id": "p0_fk_sql_used_mapping_rank_20261107_03_amendment_004_cpu_recovery_smoke_001",
+  "source_commit": "7801d46206a0aeeaaacad05f80e71961297ee475",
+  "status": "FAILED",
+  "target_smoke_unit_count": 5,
+  "usage_missing_call_count": 0
+}

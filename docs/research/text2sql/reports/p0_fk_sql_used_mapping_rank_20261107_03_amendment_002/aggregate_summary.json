@@ -1,0 +1,232 @@
+{
+  "amendment_id": "amendment_002_ranker_manifest_count_recovery",
+  "candidate_mapping_count_scored": 328,
+  "config_sha256": "ccef27daaf32df29b0344c9a0315d73583b2e06572caf1253177a1004fc54360",
+  "cpu_summary_sha256": "b1376e075a4d22afa62b578a0d9fac70d242c8e3a7d482c0a4a64d204f9ac737",
+  "cuda_visible_devices": "3",
+  "device": "NVIDIA GeForce RTX 4090",
+  "environment": {
+    "python": "3.12.15",
+    "sentence_transformers": "5.1.1",
+    "torch": "2.8.0",
+    "torch_geometric": "2.6.1",
+    "transformers": "4.56.1"
+  },
+  "execution_backend": "cuda",
+  "experiment_id": "p0_fk_sql_used_mapping_rank_20261107_03",
+  "g_reasoner_forward_count": 108,
+  "g_reasoner_forward_seconds_total": 1.262639,
+  "graph_candidate_count_histogram": {
+    "2": 91,
+    "22": 5,
+    "3": 12
+  },
+  "interpreter": "/root/miniconda3/envs/gfmrag_greasoner_20261022/bin/python3.12",
+  "mode": "full",
+  "pair_count_scored": 108,
+  "prepared_manifest_sha256": "cc6dd6263f4b3a50c444c4f8ea82d9923f8b2dea5eac46d2ade5201a62550ad0",
+  "prepared_manifest_source_commit": "566b8e2d9bb244d8868372ae39c887de02f703e9",
+  "privacy": {
+    "per_unit_rankings_or_mapping_ids_in_aggregate": false,
+    "question_or_schema_text_in_aggregate": false,
+    "sql_or_gold_target_in_model_input": false
+  },
+  "qwen_embedding_usage": {
+    "input_tokens": 5714,
+    "output_tokens": 0,
+    "passage": {
+      "batch_count": 2,
+      "input_tokens": 1496,
+      "norm_max": 1.0000001192092896,
+      "norm_median": 1.0,
+      "norm_min": 0.9999998807907104,
+      "output_tokens": 0,
+      "unique_text_count": 57
+    },
+    "query": {
+      "batch_count": 4,
+      "input_tokens": 4218,
+      "norm_max": 1.0000001192092896,
+      "norm_median": 1.0,
+      "norm_min": 0.9999999403953552,
+      "output_tokens": 0,
+      "unique_text_count": 108
+    }
+  },
+  "qwen_snapshot_hashes": {
+    "1_Pooling/config.json": "37bf193fa101f19101bfad9c31d3eb0f786e247b7b1e5cb7f007d730eed1ddbd",
+    "config.json": "b5bf1f51fc45be473a54718cef92448d90a1be001bf9b9a44b8c7f10a19feaa9",
+    "config_sentence_transformers.json": "10667c72ddb772627bf1780cb7f86af8e2ae0032b8c243c731172064105c6961",
+    "model.safetensors": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd",
+    "modules.json": "84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf",
+    "tokenizer.json": "def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a",
+    "tokenizer_config.json": "253153d0738ceb4c668d2eff957714dd2bea0b56de772a9fdccd96cbf517e6a0"
+  },
+  "resource_usage": {
+    "cpu_seconds": 12.396736,
+    "peak_gpu_allocated_bytes": 3310490112,
+    "peak_gpu_reserved_bytes": 3508535296,
+    "peak_rss_bytes": 4731224064,
+    "wall_seconds": 12.086449
+  },
+  "run_id": "p0_fk_sql_used_mapping_rank_20261107_03_amendment_002_full_001",
+  "source_commit": "7801d46206a0aeeaaacad05f80e71961297ee475",
+  "sql_used_metrics": {
+    "anonymous_database_count": 4,
+    "by_anonymous_database": {
+      "db_01": {
+        "dense_mapping_at_1": {
+          "correct": 17,
+          "denominator": 24,
+          "rate": 0.708333
+        },
+        "g_reasoner_mapping_at_1": {
+          "correct": 7,
+          "denominator": 24,
+          "rate": 0.291667
+        },
+        "paired": {
+          "both_correct": 4,
+          "both_wrong": 4,
+          "dense_only_correct": 13,
+          "g_reasoner_only_correct": 3,
+          "net_rescue": -10
+        },
+        "units": 24
+      },
+      "db_02": {
+        "dense_mapping_at_1": {
+          "correct": 10,
+          "denominator": 10,
+          "rate": 1.0
+        },
+        "g_reasoner_mapping_at_1": {
+          "correct": 5,
+          "denominator": 10,
+          "rate": 0.5
+        },
+        "paired": {
+          "both_correct": 5,
+          "both_wrong": 0,
+          "dense_only_correct": 5,
+          "g_reasoner_only_correct": 0,
+          "net_rescue": -5
+        },
+        "units": 10
+      },
+      "db_03": {
+        "dense_mapping_at_1": {
+          "correct": 24,
+          "denominator": 62,
+          "rate": 0.387097
+        },
+        "g_reasoner_mapping_at_1": {
+          "correct": 27,
+          "denominator": 62,
+          "rate": 0.435484
+        },
+        "paired": {
+          "both_correct": 17,
+          "both_wrong": 28,
+          "dense_only_correct": 7,
+          "g_reasoner_only_correct": 10,
+          "net_rescue": 3
+        },
+        "units": 62
+      },
+      "db_04": {
+        "dense_mapping_at_1": {
+          "correct": 12,
+          "denominator": 12,
+          "rate": 1.0
+        },
+        "g_reasoner_mapping_at_1": {
+          "correct": 4,
+          "denominator": 12,
+          "rate": 0.333333
+        },
+        "paired": {
+          "both_correct": 4,
+          "both_wrong": 0,
+          "dense_only_correct": 8,
+          "g_reasoner_only_correct": 0,
+          "net_rescue": -8
+        },
+        "units": 12
+      }
+    },
+    "full_unit_count": 108,
+    "g_reasoner_minus_dense_mapping_at_1": -0.185185,
+    "interpretation": "SQL-used target ranking only; not semantic Role gold or end-to-end JOIN discovery",
+    "methods": {
+      "bm25_okapi": {
+        "accepted_at_1": {
+          "correct": 29,
+          "denominator": 108,
+          "rate": 0.268519
+        },
+        "accepted_at_3": {
+          "correct": 105,
+          "denominator": 108,
+          "rate": 0.972222
+        },
+        "mrr_first_accepted": 0.617495,
+        "top_tie_units": 108
+      },
+      "dense_cosine": {
+        "accepted_at_1": {
+          "correct": 63,
+          "denominator": 108,
+          "rate": 0.583333
+        },
+        "accepted_at_3": {
+          "correct": 103,
+          "denominator": 108,
+          "rate": 0.953704
+        },
+        "mrr_first_accepted": 0.773282,
+        "top_tie_units": 0
+      },
+      "g_reasoner": {
+        "accepted_at_1": {
+          "correct": 43,
+          "denominator": 108,
+          "rate": 0.398148
+        },
+        "accepted_at_3": {
+          "correct": 104,
+          "denominator": 108,
+          "rate": 0.962963
+        },
+        "mrr_first_accepted": 0.679152,
+        "top_tie_units": 0
+      },
+      "stable_mapping_id_order": {
+        "accepted_at_1": {
+          "correct": 29,
+          "denominator": 108,
+          "rate": 0.268519
+        },
+        "accepted_at_3": {
+          "correct": 105,
+          "denominator": 108,
+          "rate": 0.972222
+        },
+        "mrr_first_accepted": 0.617495,
+        "top_tie_units": 108
+      }
+    },
+    "paired_g_reasoner_vs_dense": {
+      "both_correct": 30,
+      "both_wrong": 32,
+      "dense_only_correct": 33,
+      "g_reasoner_only_correct": 13,
+      "net_rescue": -20
+    },
+    "positive_database_count": 1,
+    "registered_positive_screen_pass": false
+  },
+  "status": "FULL_COMPLETE",
+  "torch_cpu_threads": 8,
+  "torch_interop_threads": 4
+}
