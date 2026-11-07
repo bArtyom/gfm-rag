@@ -1,0 +1,57 @@
+{
+  "completed_at_utc": "2026-11-07T03:53:06.054228+00:00",
+  "counts": {
+    "ambiguous_question_table_pairs": 52,
+    "anonymous_database_count": 4,
+    "declared_mapping_multiplicity_histogram": {
+      "0": 100,
+      "1": 966,
+      "2": 52
+    },
+    "eligible_units_by_anonymous_database": {
+      "db_01": 10,
+      "db_02": 12,
+      "db_03": 4,
+      "db_04": 26
+    },
+    "join_on_equalities": 1250,
+    "join_questions_with_explicit_on": 858,
+    "one_pair_per_eligible_question_units": 52,
+    "qualified_join_on_equalities": 1250,
+    "questions_in_split": 2142,
+    "resolved_cross_table_equalities": 1226,
+    "resolved_join_table_pairs_with_one_declared_mapping": 966,
+    "resolved_join_table_pairs_without_declared_fk": 100,
+    "resolved_qualified_equality_rate": 0.9808,
+    "scope_analysis_failures_by_exception_class": {},
+    "sql_parse_failures_by_exception_class": {},
+    "sql_parse_success": 2142,
+    "unqualified_join_on_equalities": 0,
+    "unresolved_qualified_equalities": 24,
+    "using_join_count_excluded": 0
+  },
+  "dataset_archive_sha256": "00636695dabed6b5f4b8328a16b13e069a2f16591d5efcce57660669c85b121b",
+  "decision": "STOP_INSUFFICIENT_CAPACITY",
+  "experiment_id": "p0_spider_fk_mapping_candidate_capacity_20261107_01",
+  "gates": {
+    "anonymous_database_minimum_after_smoke": 4,
+    "eligible_units_minimum_after_smoke": 60,
+    "scope_analysis_failures_allowed": 0,
+    "sql_parse_rate_minimum": 0.98,
+    "sql_parse_rate_observed": 1.0
+  },
+  "privacy": "Aggregate counts only; no question, SQL, database, table, FK identity, or per-question output is serialized.",
+  "python_version": "3.12.14",
+  "resources": {
+    "cpu_seconds": 1.587,
+    "device": "cpu",
+    "peak_rss_gib": 0.055,
+    "wall_seconds": 1.587
+  },
+  "run_id": "p0_spider_fk_mapping_candidate_capacity_20261107_01_full_001",
+  "script_sha256": "4dee44eff41a0fe8538d919ae42443301bb35dbdff1709036772f72456f86cda",
+  "source_commit": "1d737dece4aa33eaa1bf2d5abbf77ef80fdacb44",
+  "split": "full",
+  "sqlglot_version": "28.0.0",
+  "status": "COMPLETED"
+}

@@ -2,7 +2,7 @@
 
 ## 下一条独立验证候选：Spider 官方测试集容量门（已预注册，尚未运行）
 
-BIRD-dev 的模型代理 G-reasoner 排序筛查为明显负结果，且已停止该数据上的调参。按用户选择，后续标签审阅可继续由本地模型完成，但模型多数仍只算代理标签。现在只先对 Spider 1.0 官方测试集登记并运行只读容量审计：需在排除固定 Smoke 后至少有60个多 FK 问题×表对单元，覆盖至少4个匿名数据库，SQL 解析率≥98%，scope 错误为0。Smoke 001 因使用无 SQLGlot 的环境，在任何数据读取前停止；Amendment 001 改用已有 `think2sql_20260909` 环境及新 Smoke ID，不安装依赖。未通过则停止该迁移路线；通过后另行预注册三模型盲审与冻结排序复现，不自动推断模型或人工 Role 结论。见[容量审计方案](plans/p0_spider_fk_mapping_candidate_capacity_20261107.md)、[Amendment 001](plans/amendments/p0_spider_fk_mapping_candidate_capacity_amendment_001.md)、[冻结配置](../../../configs/text2sql/p0_spider_fk_mapping_candidate_capacity_20261107_01.json)和[审计脚本](../../../scripts/text2sql/audit_p0_spider_fk_mapping_candidate_capacity.py)。
+**Spider 独立迁移容量审计已按门槛停止。** 按用户选择，模型审阅仍可作为后续代理标签来源，但本次不调用模型：Smoke 001 在数据读取前因选错环境停止，Amendment 001 改用已有 `think2sql_20260909`，Smoke 002 通过；Full 的 2,142 个问题 SQL 解析率为100%，scope错误为0，但只得到52个多FK问题×表对单元（4个匿名库），低于预注册60个容量门。没有模型标签、G-reasoner/Dense排名或GPU结果。不得事后降低该门槛并继续同一批数据；此分支停止，先综合当前负结果。见[执行报告](reports/p0_spider_fk_mapping_candidate_capacity_20261107_01/README.md)、[聚合结果](reports/p0_spider_fk_mapping_candidate_capacity_20261107_01/aggregate_summary.json)、[预注册方案](plans/p0_spider_fk_mapping_candidate_capacity_20261107.md)、[Amendment 001](plans/amendments/p0_spider_fk_mapping_candidate_capacity_amendment_001.md)和[脚本](../../../scripts/text2sql/audit_p0_spider_fk_mapping_candidate_capacity.py)。
 
 ## 2026-11-07 冻结排名的同实例输出等价重评分（完成）
 

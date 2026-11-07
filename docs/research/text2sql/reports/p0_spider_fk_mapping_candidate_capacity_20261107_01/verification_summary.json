@@ -1,0 +1,29 @@
+{
+  "experiment_id": "p0_spider_fk_mapping_candidate_capacity_20261107_01",
+  "status": "VERIFIED_STOP_INSUFFICIENT_CAPACITY",
+  "source_commit": "1d737dece4aa33eaa1bf2d5abbf77ef80fdacb44",
+  "checks": {
+    "official_archive_sha256_matches_registration": true,
+    "test_json_and_test_gold_alignment_passed": true,
+    "smoke_001_stopped_before_archive_access": true,
+    "smoke_002_parsed_all_five_frozen_questions": true,
+    "smoke_002_excluded_from_full": true,
+    "full_sql_parse_success_2142_of_2142": true,
+    "full_scope_analysis_errors_zero": true,
+    "full_one_pair_per_question_eligible_units": 52,
+    "full_anonymous_databases_with_eligible_units": 4,
+    "registered_capacity_minimum_units": 60,
+    "registered_capacity_gate_passed": false,
+    "model_review_or_ranker_inference_started": false,
+    "public_artifacts_contain_no_row_level_questions_sql_or_database_names": true
+  },
+  "limits": {
+    "resolved_qualified_join_equalities": 1226,
+    "qualified_join_equalities": 1250,
+    "unresolved_qualified_equalities": 24,
+    "model_tokens": 0,
+    "external_api_requests": 0,
+    "sql_executions": 0,
+    "gpu_seconds": 0
+  }
+}

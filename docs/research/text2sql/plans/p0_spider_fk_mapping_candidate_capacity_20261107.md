@@ -1,6 +1,6 @@
 # Spider FK Mapping Independent-Replication Capacity Audit
 
-**Status: Amendment 001 preregistered after Smoke 001 stopped before data access.** Run IDs: Smoke 001 is closed; use `p0_spider_fk_mapping_candidate_capacity_20261107_01_smoke_002`, then `p0_spider_fk_mapping_candidate_capacity_20261107_01_full_001` if Smoke passes.
+**Status: completed; stop at the preregistered capacity gate.** Smoke 001 stopped before data access because its environment lacked SQLGlot; Amendment 001 changed only the environment and Smoke ID. Smoke 002 passed 5/5 parsing checks. Full parsed all 2,142 non-Smoke test questions but found 52 eligible multi-FK question×table-pair units across four anonymous databases, below the preregistered minimum of 60. No model review or ranking run is authorized by this result. See the [final report](../reports/p0_spider_fk_mapping_candidate_capacity_20261107_01/README.md).
 
 ## Why this audit
 

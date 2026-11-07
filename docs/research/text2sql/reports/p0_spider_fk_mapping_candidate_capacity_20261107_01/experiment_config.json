@@ -1,0 +1,61 @@
+{
+  "experiment_id": "p0_spider_fk_mapping_candidate_capacity_20261107_01",
+  "run_ids": {
+    "smoke_001_closed": "p0_spider_fk_mapping_candidate_capacity_20261107_01_smoke_001",
+    "smoke": "p0_spider_fk_mapping_candidate_capacity_20261107_01_smoke_002",
+    "full": "p0_spider_fk_mapping_candidate_capacity_20261107_01_full_001"
+  },
+  "project_repository": "https://github.com/bArtyom/gfm-rag",
+  "source_branch": "research/p0-sql-used-proxy-alignment-20261107",
+  "source_commit_before_registration": "067f382abf7c4000822b1204f2199c081dd3c3b3",
+  "dataset": {
+    "name": "Spider 1.0 official",
+    "license": "CC BY-SA 4.0",
+    "archive": "/mnt/liansp3/sources/datasets/spider_official/spider_data_20261107_confirmed.zip",
+    "archive_sha256": "00636695dabed6b5f4b8328a16b13e069a2f16591d5efcce57660669c85b121b",
+    "split": "test",
+    "members": [
+      "spider_data/test.json",
+      "spider_data/test_gold.sql",
+      "spider_data/test_tables.json"
+    ]
+  },
+  "smoke": {
+    "questions": 5,
+    "seed": "p0_spider_fk_mapping_candidate_capacity_20261107_01",
+    "excluded_from_full": true
+  },
+  "candidate_definition": {
+    "one_ambiguous_table_pair_per_question": true,
+    "minimum_distinct_declared_fk_column_pair_mappings": 2,
+    "join_source": "qualified explicit JOIN ON equality resolved in scope",
+    "exclude_using_join": true,
+    "exclude_unresolved_or_derived_sources": true,
+    "composite_constraint_identity_available": false
+  },
+  "capacity_gate": {
+    "sql_parse_rate_minimum": 0.98,
+    "scope_analysis_failures_allowed": 0,
+    "eligible_units_after_smoke": 60,
+    "anonymous_databases_after_smoke": 4,
+    "future_model_adjudicable_minimum": 30,
+    "future_model_distinguishable_minimum": 20,
+    "future_model_database_minimum": 3
+  },
+  "resources": {
+    "device": "cpu",
+    "max_wall_seconds": 600,
+    "max_cpu_seconds": 300,
+    "max_rss_gib": 4,
+    "conda_environment": "think2sql_20260909",
+    "python_version": "3.12.14",
+    "sqlglot_version": "28.0.0"
+  },
+  "outputs": {
+    "local_root": "/mnt/liansp3/sources/results/gfmrag_p0_spider_fk_mapping_candidate_capacity_20261107_01",
+    "log_root": "/mnt/liansp3/logs/gfmrag_p0_spider_fk_mapping_candidate_capacity_20261107_01",
+    "public_report": "docs/research/text2sql/reports/p0_spider_fk_mapping_candidate_capacity_20261107_01",
+    "smoke_subdirectory": "smoke_002",
+    "full_subdirectory": "full_001"
+  }
+}
