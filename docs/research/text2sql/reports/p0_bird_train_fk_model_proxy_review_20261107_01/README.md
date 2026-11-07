@@ -57,7 +57,7 @@ Raw question packets, table names, private manifest, mapping identities, and log
 
 ## Model resource gate
 
-At the initial packet-preflight snapshot, GPU1 had 2,149 MiB free and GPU2 1,293 MiB free, both at 100% utilization. Repeated follow-up checks still failed the frozen gate. At 06:12 UTC, GPU1 had 3,855 MiB free / 98% utilization, GPU2 had 3,543 MiB free / 98%, and GPU3 had 7,859 MiB free / 79%; available RAM was 438 GiB, with 192 CPU threads. GPU3 briefly showed idle but was occupied at the next check. The frozen launch gate requires GPU1 free memory ≥18,432 MiB and utilization ≤10%, GPU2 free memory ≥10,240 MiB and utilization ≤10%, and available RAM ≥32 GiB. The model runner remains assigned to GPU1/GPU2; no model was loaded, and no other task was stopped or displaced.
+At the initial packet-preflight snapshot, GPU1 had 2,149 MiB free and GPU2 1,293 MiB free, both at 100% utilization. Repeated follow-up checks still failed the frozen gate. At 06:16 UTC, GPU1 had 3,853 MiB free / 98% utilization, GPU2 had 3,039 MiB free / 99%, and GPU3 had 1,041 MiB free / 77%; available RAM was 436 GiB, with 192 CPU threads. GPU3 briefly showed idle but was occupied at subsequent checks. The frozen launch gate requires GPU1 free memory ≥18,432 MiB and utilization ≤10%, GPU2 free memory ≥10,240 MiB and utilization ≤10%, and available RAM ≥32 GiB. The model runner remains assigned to GPU1/GPU2; no model was loaded, and no other task was stopped or displaced.
 
 ## Results, current decision, and limits
 
