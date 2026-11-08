@@ -1,0 +1,35 @@
+# Two Steiner solvers: exploratory comparison and implementation plan
+
+Explicit user authorization: try two solving methods. Selected Mehlhorn approximation and Dreyfus–Wagner exact dynamic programming. This is a new bounded solver diagnostic; the old fixed-top2 negative pilot and its stop decision remain unchanged.
+
+## One question and frozen design
+
+Does replacing approximate Steiner solving with exact solving change FK connection cost and reference-table complete coverage with identical semantic seeds? Primary objective is graph edge cost; reference-table coverage is a secondary task proxy. Exact minimum graph cost does not imply correct business JOIN semantics.
+
+Base owned archive bArtyom/gfm-rag commit78992d461c1e37264b8e626ed08291350bb03c9a, branch research/steiner-two-solvers-20261108. Read repository README, text2sql hub, experiment-roadmap, reproducibility-contract, previous pilot report, existing adapter/config/runner. Prior native worktree failure was resolved using this independent clone; no unrelated checkout is touched.
+
+Same cached Qwen3-Embedding-0.6B 1024-D cosine ranking, source question/schema/cache hashes, aligned SQLite snapshot and all eleven DB hashes as configs/text2sql/seed_steiner_bird_aligned_20261108.json. New config records both solver names and seed counts; it does not modify the old config. Run main group top3 table seeds and one top2 shortest-path control. Both methods receive exactly the same ordered terminals and canonical graph. All 11 databases have >=3 tables. No search over other seed counts or graph weights.
+
+Graph: undirected simple TABLE graph; one edge per pair with at least one declared SQLite FK, weight1; no self-loop needed for table connectivity. All parallel/composite constraints remain separately preserved for schema serialization. Both algorithms return a tree within each original connected component containing seeds. Across components return an explicit forest, never invent edges. All selected tables retain all columns; algorithms use no gold, question evidence, generated SQL or reference table labels to choose routes. Predictions seal before labels open. Stable graph insertion, sorted terminals/nodes and PYTHONHASHSEED=0; tied optima may still select different equally cheap schemas.
+
+## Two algorithms and correctness
+
+- Mehlhorn: NetworkX steiner_tree(method='mehlhorn') on each seeded component. Explicit algorithm, stable input order, no exception swallowing.
+- Dreyfus–Wagner: exact subset DP D[mask,v]. Singleton states are shortest-path distances. Merge two proper nonempty terminal subsets at v, then relax through all-pairs shortest paths. Store predecessor subset/merge vertex for edge reconstruction. Canonical MST and nonterminal-leaf pruning produce a feasible tree; reconstructed cost must match DP optimum. Nonnegative finite edge weights supported, maximum12 seeds per connected component as a resource guard (actual k<=3). This implementation is independently authored; no new upstream code or dependencies.
+- Verify on weighted synthetic graph where approximation cost10, exact9; brute-force edge-subset oracle on tiny graphs; paths, single/empty terminals, disconnected components, invalid weights, input permutation and actual edge/seed integrity. For every real group with <=3 seeds, independently verify exact cost using shortest paths (2 seeds) or minimum sum of distances to a meeting node (3 seeds). This is a validation identity, not an additional experimental arm.
+
+References: Dreyfus/Wagner https://doi.org/10.1002/net.3230010302 ; NetworkX https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.approximation.steinertree.steiner_tree.html . Existing external GRAST code remains unmodified and unredistributed. This run directly compares solvers on the same canonical table graph; tie ordering can differ from the previous upstream wrapper, so it is not a claim of exact replay of that earlier selected schema.
+
+## Budget, metrics and decisions
+
+Exploratory main layer, two paired groups only. Fixed seed20261108, 5 label-blind hash-selected smoke questions, then all1534 BIRD-dev questions/11 databases. CPU<=8 threads, RAM target<2GiB, five-minute process budget, per-solve limit5s checked after solve. No GPU/model/API/SQL execution or installations. Stop on nonfinite cost, missing seed, infeasible output, exactcost>approximatecost, failed independent exact-cost oracle, pinned input drift, or repeated execution failures. Keep attempts and logs. No fallback to another algorithm or sample filtering.
+
+Report full denominators, valid/forest counts, mean edge cost, strict exact cost improvements, approximation cost ratios for positive optima (zero optimum separate), selected-table set differences split into strict-cost vs tied-cost cases, mean table/column count, reference-table complete coverage and paired rescue/damage, per-DB anonymous aggregates, DB-cluster uncertainty for coverage difference, solver-call total/median/p95 CPU wall latency. Solve each question separately; any repeated terminal sets remain real repeated solves, no asymmetric memoization. Timing is CPU end-to-end solver wrapper; no strong speed claim from microsecond-scale data. Preserve per-query edges privately; report objective values separately from all-FK schema context.
+
+Positive algorithmic signal means >=1 strictly cheaper exact solution; positive task signal means net reference-complete rescue>0. Neither automatically authorizes SQL or more solvers. If no cheaper solutions occur, conclude approximation already attains optimum on this graph/seed setting. If coverage differs only among equal-cost optima, label tie sensitivity, not optimization improvement. End with report/synthesis; further solver/model/graph sweeps are out of this run.
+
+## Implementation tasks (inline execution under user authorization)
+
+1. tests/test_steiner_solvers.py: write behavior/correctness tests and observe failure. scripts/text2sql/steiner_solvers.py: canonical graph input, exact DP, paired Mehlhorn, feasibility and independent <=3-terminal oracle. Run tests to pass before experiment. Interfaces solve_steiner(graph, terminals, method)->{nodes,edges,cost,seed_components,connected,elapsed_seconds}; exact_connected_tree(graph,terminals)->tree,cost.
+2. scripts/text2sql/run_steiner_two_solvers.py: reuse existing pinned loaders/ranking/split/evaluation functions, write exclusive directories, record source/environment/resources, seal outputs and independently validate costs, then evaluate references. Config steiner_two_solvers_bird_20261108.json. Run 5-question smoke; only valid engineering smoke permits full. No efficacy gate on the five smoke items.
+3. Independent review and appropriate regression checks; report numbers/uncertainty/anomalies/cost, archive sanitized config/code/aggregates in the owned repo, verify remote contents and Git tree. Preserve raw data/output privately. Full-repository test collection may remain blocked by existing torch_geometric/omegaconf absence; report honestly without installation.

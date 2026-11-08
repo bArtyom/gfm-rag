@@ -1,0 +1,46 @@
+{
+  "status": "pass",
+  "paired_instances_verified": 3068,
+  "solver_outputs_verified": 6136,
+  "prediction_sha256_unchanged": "3c57c6a40f1d2f9c199208fb9dcbaf122890738465e706ed65b2e7cdab793b43",
+  "all_source_databases_unchanged": true,
+  "groups": {
+    "2": {
+      "rows": 1534,
+      "unique_graph_terminal_instances": 132,
+      "strictly_better_rows": 0,
+      "strictly_better_unique_instances": 0,
+      "improved_database_count": 0,
+      "complete_counts": {
+        "dreyfus_wagner": 963,
+        "mehlhorn": 963
+      },
+      "changed_same_cost_table_sets": 0,
+      "removed_tables_in_improved_rows": {},
+      "edge_cost_savings_distribution": {},
+      "improved_rows_per_database": {}
+    },
+    "3": {
+      "rows": 1534,
+      "unique_graph_terminal_instances": 173,
+      "strictly_better_rows": 13,
+      "strictly_better_unique_instances": 6,
+      "improved_database_count": 1,
+      "complete_counts": {
+        "dreyfus_wagner": 1236,
+        "mehlhorn": 1236
+      },
+      "changed_same_cost_table_sets": 0,
+      "removed_tables_in_improved_rows": {
+        "total": 13,
+        "reference_used": 0
+      },
+      "edge_cost_savings_distribution": {
+        "1.0": 13
+      },
+      "improved_rows_per_database": {
+        "DB-07": 13
+      }
+    }
+  }
+}
