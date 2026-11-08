@@ -63,7 +63,9 @@ Smoke 001 did run before the environment resolution issue was discovered. Both r
 
 ## Results, current decision, and limits
 
-The packet-construction and format gates passed. Smoke 001 had 5/5 valid outputs for A and B and the private aggregator returned `SMOKE_PASS`, but that result is invalidated by the runtime deviation and cannot authorize Full. It has no scientific validity, agreement, confidence, or adjudicability metrics. The active run IDs are p0_bird_train_fk_model_proxy_review_20261107_01_smoke_002 and p0_bird_train_fk_model_proxy_review_20261107_01_full_002; both remain pending because the latest GPU memory gate failed.
+**Latest resource recheck (2026-11-08 16:41 UTC):** GPU1 had 3,615 MiB free and GPU2 had 2,341 MiB free; both were at 100% utilization. Available RAM was 434 GiB. The frozen GPU gate remains closed, so Smoke 002 and Full 002 have not run.
+
+The packet-construction and format gates passed. Smoke 001 had 5/5 valid outputs for A and B and the private aggregator returned `SMOKE_PASS`, but that result is invalidated by the runtime deviation and cannot authorize Full. It has no scientific validity, agreement, confidence, or adjudicability metrics. The active run IDs are p0_bird_train_fk_model_proxy_review_20261107_01_smoke_002 and p0_bird_train_fk_model_proxy_review_20261107_01_full_002; both remain pending because the latest GPU memory and utilization gates failed.
 
 Protocol-deviation Smoke 001 used 10 local model calls: Reviewer A recorded 1,794 input / 230 output tokens; Reviewer B recorded 1,814 input / 301 output tokens; combined 3,608 input / 531 output / 4,139 total tokens. All ten usage records are known. Aggregate GPU generation time was 15.107 seconds. External API requests and API spend were zero. These calls remain in the ledger but are excluded from experimental metrics. Any subsequent local GPU time will be reported separately, without converting it to a provider bill.
 
