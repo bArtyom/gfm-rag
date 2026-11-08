@@ -1,0 +1,667 @@
+{
+  "experiment_id": "p0_fk_sql_used_rank_displacement_20261107_01",
+  "run_id": "p0_fk_sql_used_rank_displacement_20261107_01_full_002",
+  "mode": "full",
+  "status": "FULL_COMPLETE",
+  "source_commit": "4c0efa7fb8826e95e06d0c2d20a691b6009e8fef",
+  "config_sha256": "1a546a0a64086b95bd80d37f69db731a45f60fbd6cb178f90fb4011a7ef9850a",
+  "analysis_runner_sha256": "35dac945c3aca381b2e77e6d4d40f23241d56df42efcec7f8a96d5d40b9e2fb3",
+  "upstream_run_id": "p0_fk_sql_used_mapping_rank_20261107_03_amendment_002_full_001",
+  "upstream_source_commit": "7801d46206a0aeeaaacad05f80e71961297ee475",
+  "input_sha256": {
+    "manifest": "cc6dd6263f4b3a50c444c4f8ea82d9923f8b2dea5eac46d2ade5201a62550ad0",
+    "predictions": "553556a4de85efa48d0b639b899d07b39fa8a35955e6757de0e7a6020308e659",
+    "upstream_run_manifest": "eb0c6e0004e1566783bd655862257a9c221fae1af06620259f32425116e06660"
+  },
+  "metrics": {
+    "n_units": 108,
+    "target_mapping_count": 111,
+    "target_mappings_present_in_candidate_universe": 111,
+    "units_with_at_least_one_target_in_candidate_universe": 108,
+    "overall": {
+      "n": 108,
+      "methods": {
+        "g_reasoner": {
+          "target_rank_distribution": {
+            "rank_1": 43,
+            "rank_2": 58,
+            "rank_3": 3,
+            "rank_4_plus": 4,
+            "target_absent": 0
+          },
+          "top1_hits": 43,
+          "top3_hits": 104
+        },
+        "dense_cosine": {
+          "target_rank_distribution": {
+            "rank_1": 63,
+            "rank_2": 40,
+            "rank_3": 0,
+            "rank_4_plus": 5,
+            "target_absent": 0
+          },
+          "top1_hits": 63,
+          "top3_hits": 103
+        },
+        "bm25_okapi": {
+          "target_rank_distribution": {
+            "rank_1": 29,
+            "rank_2": 73,
+            "rank_3": 3,
+            "rank_4_plus": 3,
+            "target_absent": 0
+          },
+          "top1_hits": 29,
+          "top3_hits": 105
+        },
+        "stable_mapping_id_order": {
+          "target_rank_distribution": {
+            "rank_1": 29,
+            "rank_2": 73,
+            "rank_3": 3,
+            "rank_4_plus": 3,
+            "target_absent": 0
+          },
+          "top1_hits": 29,
+          "top3_hits": 105
+        }
+      },
+      "g_reasoner_vs_dense": {
+        "top1_paired_counts": {
+          "both_top1_correct": 30,
+          "g_reasoner_only_top1_correct": 13,
+          "dense_only_top1_correct": 33,
+          "neither_top1_correct": 32
+        },
+        "paired_best_target_rank_order": {
+          "g_reasoner_better_rank": 16,
+          "same_target_rank": 57,
+          "dense_better_rank": 35
+        },
+        "when_dense_only_top1_correct_g_reasoner_rank": {
+          "rank_2": 31,
+          "rank_3": 2,
+          "rank_4_plus": 0,
+          "target_absent": 0
+        },
+        "when_g_reasoner_only_top1_correct_dense_rank": {
+          "rank_2": 13,
+          "rank_3": 0,
+          "rank_4_plus": 0,
+          "target_absent": 0
+        },
+        "dense_only_g_rank_2_or_3_n": 33,
+        "dense_only_top1_n": 33,
+        "dense_only_near_miss_rate": 1.0,
+        "predeclared_diagnostic_decision": "NEAR_MISS_SIGNAL",
+        "decision_rule": "NEAR_MISS_SIGNAL if at least 50% of Dense-only Top-1 wins place a valid SQL-used target at G-reasoner rank 2 or 3; NO_NEAR_MISS_SIGNAL if below 20%; otherwise MIXED. This is descriptive and cannot authorize same-BIRD-dev retuning."
+      }
+    },
+    "by_candidate_count": {
+      "2": {
+        "n": 91,
+        "methods": {
+          "g_reasoner": {
+            "target_rank_distribution": {
+              "rank_1": 39,
+              "rank_2": 52,
+              "rank_3": 0,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 39,
+            "top3_hits": 91
+          },
+          "dense_cosine": {
+            "target_rank_distribution": {
+              "rank_1": 51,
+              "rank_2": 40,
+              "rank_3": 0,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 51,
+            "top3_hits": 91
+          },
+          "bm25_okapi": {
+            "target_rank_distribution": {
+              "rank_1": 26,
+              "rank_2": 65,
+              "rank_3": 0,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 26,
+            "top3_hits": 91
+          },
+          "stable_mapping_id_order": {
+            "target_rank_distribution": {
+              "rank_1": 26,
+              "rank_2": 65,
+              "rank_3": 0,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 26,
+            "top3_hits": 91
+          }
+        },
+        "g_reasoner_vs_dense": {
+          "top1_paired_counts": {
+            "both_top1_correct": 26,
+            "g_reasoner_only_top1_correct": 13,
+            "dense_only_top1_correct": 25,
+            "neither_top1_correct": 27
+          },
+          "paired_best_target_rank_order": {
+            "g_reasoner_better_rank": 13,
+            "same_target_rank": 53,
+            "dense_better_rank": 25
+          },
+          "when_dense_only_top1_correct_g_reasoner_rank": {
+            "rank_2": 25,
+            "rank_3": 0,
+            "rank_4_plus": 0,
+            "target_absent": 0
+          },
+          "when_g_reasoner_only_top1_correct_dense_rank": {
+            "rank_2": 13,
+            "rank_3": 0,
+            "rank_4_plus": 0,
+            "target_absent": 0
+          },
+          "dense_only_g_rank_2_or_3_n": 25,
+          "dense_only_top1_n": 25,
+          "dense_only_near_miss_rate": 1.0,
+          "predeclared_diagnostic_decision": "NEAR_MISS_SIGNAL",
+          "decision_rule": "NEAR_MISS_SIGNAL if at least 50% of Dense-only Top-1 wins place a valid SQL-used target at G-reasoner rank 2 or 3; NO_NEAR_MISS_SIGNAL if below 20%; otherwise MIXED. This is descriptive and cannot authorize same-BIRD-dev retuning."
+        }
+      },
+      "3": {
+        "n": 12,
+        "methods": {
+          "g_reasoner": {
+            "target_rank_distribution": {
+              "rank_1": 4,
+              "rank_2": 6,
+              "rank_3": 2,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 4,
+            "top3_hits": 12
+          },
+          "dense_cosine": {
+            "target_rank_distribution": {
+              "rank_1": 12,
+              "rank_2": 0,
+              "rank_3": 0,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 12,
+            "top3_hits": 12
+          },
+          "bm25_okapi": {
+            "target_rank_distribution": {
+              "rank_1": 3,
+              "rank_2": 7,
+              "rank_3": 2,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 3,
+            "top3_hits": 12
+          },
+          "stable_mapping_id_order": {
+            "target_rank_distribution": {
+              "rank_1": 3,
+              "rank_2": 7,
+              "rank_3": 2,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 3,
+            "top3_hits": 12
+          }
+        },
+        "g_reasoner_vs_dense": {
+          "top1_paired_counts": {
+            "both_top1_correct": 4,
+            "g_reasoner_only_top1_correct": 0,
+            "dense_only_top1_correct": 8,
+            "neither_top1_correct": 0
+          },
+          "paired_best_target_rank_order": {
+            "g_reasoner_better_rank": 0,
+            "same_target_rank": 4,
+            "dense_better_rank": 8
+          },
+          "when_dense_only_top1_correct_g_reasoner_rank": {
+            "rank_2": 6,
+            "rank_3": 2,
+            "rank_4_plus": 0,
+            "target_absent": 0
+          },
+          "when_g_reasoner_only_top1_correct_dense_rank": {
+            "rank_2": 0,
+            "rank_3": 0,
+            "rank_4_plus": 0,
+            "target_absent": 0
+          },
+          "dense_only_g_rank_2_or_3_n": 8,
+          "dense_only_top1_n": 8,
+          "dense_only_near_miss_rate": 1.0,
+          "predeclared_diagnostic_decision": "NEAR_MISS_SIGNAL",
+          "decision_rule": "NEAR_MISS_SIGNAL if at least 50% of Dense-only Top-1 wins place a valid SQL-used target at G-reasoner rank 2 or 3; NO_NEAR_MISS_SIGNAL if below 20%; otherwise MIXED. This is descriptive and cannot authorize same-BIRD-dev retuning."
+        }
+      },
+      "4_plus": {
+        "n": 5,
+        "methods": {
+          "g_reasoner": {
+            "target_rank_distribution": {
+              "rank_1": 0,
+              "rank_2": 0,
+              "rank_3": 1,
+              "rank_4_plus": 4,
+              "target_absent": 0
+            },
+            "top1_hits": 0,
+            "top3_hits": 1
+          },
+          "dense_cosine": {
+            "target_rank_distribution": {
+              "rank_1": 0,
+              "rank_2": 0,
+              "rank_3": 0,
+              "rank_4_plus": 5,
+              "target_absent": 0
+            },
+            "top1_hits": 0,
+            "top3_hits": 0
+          },
+          "bm25_okapi": {
+            "target_rank_distribution": {
+              "rank_1": 0,
+              "rank_2": 1,
+              "rank_3": 1,
+              "rank_4_plus": 3,
+              "target_absent": 0
+            },
+            "top1_hits": 0,
+            "top3_hits": 2
+          },
+          "stable_mapping_id_order": {
+            "target_rank_distribution": {
+              "rank_1": 0,
+              "rank_2": 1,
+              "rank_3": 1,
+              "rank_4_plus": 3,
+              "target_absent": 0
+            },
+            "top1_hits": 0,
+            "top3_hits": 2
+          }
+        },
+        "g_reasoner_vs_dense": {
+          "top1_paired_counts": {
+            "both_top1_correct": 0,
+            "g_reasoner_only_top1_correct": 0,
+            "dense_only_top1_correct": 0,
+            "neither_top1_correct": 5
+          },
+          "paired_best_target_rank_order": {
+            "g_reasoner_better_rank": 3,
+            "same_target_rank": 0,
+            "dense_better_rank": 2
+          },
+          "when_dense_only_top1_correct_g_reasoner_rank": {
+            "rank_2": 0,
+            "rank_3": 0,
+            "rank_4_plus": 0,
+            "target_absent": 0
+          },
+          "when_g_reasoner_only_top1_correct_dense_rank": {
+            "rank_2": 0,
+            "rank_3": 0,
+            "rank_4_plus": 0,
+            "target_absent": 0
+          },
+          "dense_only_g_rank_2_or_3_n": 0,
+          "dense_only_top1_n": 0,
+          "dense_only_near_miss_rate": null,
+          "predeclared_diagnostic_decision": "INCONCLUSIVE_NO_DENSE_ONLY_TOP1_CASES",
+          "decision_rule": "NEAR_MISS_SIGNAL if at least 50% of Dense-only Top-1 wins place a valid SQL-used target at G-reasoner rank 2 or 3; NO_NEAR_MISS_SIGNAL if below 20%; otherwise MIXED. This is descriptive and cannot authorize same-BIRD-dev retuning."
+        }
+      }
+    },
+    "by_anonymous_database": {
+      "db_01": {
+        "n": 24,
+        "methods": {
+          "g_reasoner": {
+            "target_rank_distribution": {
+              "rank_1": 7,
+              "rank_2": 17,
+              "rank_3": 0,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 7,
+            "top3_hits": 24
+          },
+          "dense_cosine": {
+            "target_rank_distribution": {
+              "rank_1": 17,
+              "rank_2": 7,
+              "rank_3": 0,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 17,
+            "top3_hits": 24
+          },
+          "bm25_okapi": {
+            "target_rank_distribution": {
+              "rank_1": 6,
+              "rank_2": 18,
+              "rank_3": 0,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 6,
+            "top3_hits": 24
+          },
+          "stable_mapping_id_order": {
+            "target_rank_distribution": {
+              "rank_1": 6,
+              "rank_2": 18,
+              "rank_3": 0,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 6,
+            "top3_hits": 24
+          }
+        },
+        "g_reasoner_vs_dense": {
+          "top1_paired_counts": {
+            "both_top1_correct": 4,
+            "g_reasoner_only_top1_correct": 3,
+            "dense_only_top1_correct": 13,
+            "neither_top1_correct": 4
+          },
+          "paired_best_target_rank_order": {
+            "g_reasoner_better_rank": 3,
+            "same_target_rank": 8,
+            "dense_better_rank": 13
+          },
+          "when_dense_only_top1_correct_g_reasoner_rank": {
+            "rank_2": 13,
+            "rank_3": 0,
+            "rank_4_plus": 0,
+            "target_absent": 0
+          },
+          "when_g_reasoner_only_top1_correct_dense_rank": {
+            "rank_2": 3,
+            "rank_3": 0,
+            "rank_4_plus": 0,
+            "target_absent": 0
+          },
+          "dense_only_g_rank_2_or_3_n": 13,
+          "dense_only_top1_n": 13,
+          "dense_only_near_miss_rate": 1.0,
+          "predeclared_diagnostic_decision": "NEAR_MISS_SIGNAL",
+          "decision_rule": "NEAR_MISS_SIGNAL if at least 50% of Dense-only Top-1 wins place a valid SQL-used target at G-reasoner rank 2 or 3; NO_NEAR_MISS_SIGNAL if below 20%; otherwise MIXED. This is descriptive and cannot authorize same-BIRD-dev retuning."
+        }
+      },
+      "db_02": {
+        "n": 62,
+        "methods": {
+          "g_reasoner": {
+            "target_rank_distribution": {
+              "rank_1": 27,
+              "rank_2": 30,
+              "rank_3": 1,
+              "rank_4_plus": 4,
+              "target_absent": 0
+            },
+            "top1_hits": 27,
+            "top3_hits": 58
+          },
+          "dense_cosine": {
+            "target_rank_distribution": {
+              "rank_1": 24,
+              "rank_2": 33,
+              "rank_3": 0,
+              "rank_4_plus": 5,
+              "target_absent": 0
+            },
+            "top1_hits": 24,
+            "top3_hits": 57
+          },
+          "bm25_okapi": {
+            "target_rank_distribution": {
+              "rank_1": 20,
+              "rank_2": 38,
+              "rank_3": 1,
+              "rank_4_plus": 3,
+              "target_absent": 0
+            },
+            "top1_hits": 20,
+            "top3_hits": 59
+          },
+          "stable_mapping_id_order": {
+            "target_rank_distribution": {
+              "rank_1": 20,
+              "rank_2": 38,
+              "rank_3": 1,
+              "rank_4_plus": 3,
+              "target_absent": 0
+            },
+            "top1_hits": 20,
+            "top3_hits": 59
+          }
+        },
+        "g_reasoner_vs_dense": {
+          "top1_paired_counts": {
+            "both_top1_correct": 17,
+            "g_reasoner_only_top1_correct": 10,
+            "dense_only_top1_correct": 7,
+            "neither_top1_correct": 28
+          },
+          "paired_best_target_rank_order": {
+            "g_reasoner_better_rank": 13,
+            "same_target_rank": 40,
+            "dense_better_rank": 9
+          },
+          "when_dense_only_top1_correct_g_reasoner_rank": {
+            "rank_2": 7,
+            "rank_3": 0,
+            "rank_4_plus": 0,
+            "target_absent": 0
+          },
+          "when_g_reasoner_only_top1_correct_dense_rank": {
+            "rank_2": 10,
+            "rank_3": 0,
+            "rank_4_plus": 0,
+            "target_absent": 0
+          },
+          "dense_only_g_rank_2_or_3_n": 7,
+          "dense_only_top1_n": 7,
+          "dense_only_near_miss_rate": 1.0,
+          "predeclared_diagnostic_decision": "NEAR_MISS_SIGNAL",
+          "decision_rule": "NEAR_MISS_SIGNAL if at least 50% of Dense-only Top-1 wins place a valid SQL-used target at G-reasoner rank 2 or 3; NO_NEAR_MISS_SIGNAL if below 20%; otherwise MIXED. This is descriptive and cannot authorize same-BIRD-dev retuning."
+        }
+      },
+      "db_03": {
+        "n": 12,
+        "methods": {
+          "g_reasoner": {
+            "target_rank_distribution": {
+              "rank_1": 4,
+              "rank_2": 6,
+              "rank_3": 2,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 4,
+            "top3_hits": 12
+          },
+          "dense_cosine": {
+            "target_rank_distribution": {
+              "rank_1": 12,
+              "rank_2": 0,
+              "rank_3": 0,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 12,
+            "top3_hits": 12
+          },
+          "bm25_okapi": {
+            "target_rank_distribution": {
+              "rank_1": 3,
+              "rank_2": 7,
+              "rank_3": 2,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 3,
+            "top3_hits": 12
+          },
+          "stable_mapping_id_order": {
+            "target_rank_distribution": {
+              "rank_1": 3,
+              "rank_2": 7,
+              "rank_3": 2,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 3,
+            "top3_hits": 12
+          }
+        },
+        "g_reasoner_vs_dense": {
+          "top1_paired_counts": {
+            "both_top1_correct": 4,
+            "g_reasoner_only_top1_correct": 0,
+            "dense_only_top1_correct": 8,
+            "neither_top1_correct": 0
+          },
+          "paired_best_target_rank_order": {
+            "g_reasoner_better_rank": 0,
+            "same_target_rank": 4,
+            "dense_better_rank": 8
+          },
+          "when_dense_only_top1_correct_g_reasoner_rank": {
+            "rank_2": 6,
+            "rank_3": 2,
+            "rank_4_plus": 0,
+            "target_absent": 0
+          },
+          "when_g_reasoner_only_top1_correct_dense_rank": {
+            "rank_2": 0,
+            "rank_3": 0,
+            "rank_4_plus": 0,
+            "target_absent": 0
+          },
+          "dense_only_g_rank_2_or_3_n": 8,
+          "dense_only_top1_n": 8,
+          "dense_only_near_miss_rate": 1.0,
+          "predeclared_diagnostic_decision": "NEAR_MISS_SIGNAL",
+          "decision_rule": "NEAR_MISS_SIGNAL if at least 50% of Dense-only Top-1 wins place a valid SQL-used target at G-reasoner rank 2 or 3; NO_NEAR_MISS_SIGNAL if below 20%; otherwise MIXED. This is descriptive and cannot authorize same-BIRD-dev retuning."
+        }
+      },
+      "db_04": {
+        "n": 10,
+        "methods": {
+          "g_reasoner": {
+            "target_rank_distribution": {
+              "rank_1": 5,
+              "rank_2": 5,
+              "rank_3": 0,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 5,
+            "top3_hits": 10
+          },
+          "dense_cosine": {
+            "target_rank_distribution": {
+              "rank_1": 10,
+              "rank_2": 0,
+              "rank_3": 0,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 10,
+            "top3_hits": 10
+          },
+          "bm25_okapi": {
+            "target_rank_distribution": {
+              "rank_1": 0,
+              "rank_2": 10,
+              "rank_3": 0,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 0,
+            "top3_hits": 10
+          },
+          "stable_mapping_id_order": {
+            "target_rank_distribution": {
+              "rank_1": 0,
+              "rank_2": 10,
+              "rank_3": 0,
+              "rank_4_plus": 0,
+              "target_absent": 0
+            },
+            "top1_hits": 0,
+            "top3_hits": 10
+          }
+        },
+        "g_reasoner_vs_dense": {
+          "top1_paired_counts": {
+            "both_top1_correct": 5,
+            "g_reasoner_only_top1_correct": 0,
+            "dense_only_top1_correct": 5,
+            "neither_top1_correct": 0
+          },
+          "paired_best_target_rank_order": {
+            "g_reasoner_better_rank": 0,
+            "same_target_rank": 5,
+            "dense_better_rank": 5
+          },
+          "when_dense_only_top1_correct_g_reasoner_rank": {
+            "rank_2": 5,
+            "rank_3": 0,
+            "rank_4_plus": 0,
+            "target_absent": 0
+          },
+          "when_g_reasoner_only_top1_correct_dense_rank": {
+            "rank_2": 0,
+            "rank_3": 0,
+            "rank_4_plus": 0,
+            "target_absent": 0
+          },
+          "dense_only_g_rank_2_or_3_n": 5,
+          "dense_only_top1_n": 5,
+          "dense_only_near_miss_rate": 1.0,
+          "predeclared_diagnostic_decision": "NEAR_MISS_SIGNAL",
+          "decision_rule": "NEAR_MISS_SIGNAL if at least 50% of Dense-only Top-1 wins place a valid SQL-used target at G-reasoner rank 2 or 3; NO_NEAR_MISS_SIGNAL if below 20%; otherwise MIXED. This is descriptive and cannot authorize same-BIRD-dev retuning."
+        }
+      }
+    }
+  },
+  "resource_usage": {
+    "wall_seconds": 0.00794241763651371,
+    "process_cpu_seconds": 0.007807719000000005,
+    "peak_rss_gib": 0.01904296875,
+    "cpu_affinity_count": 4,
+    "gpu_calls": 0,
+    "model_calls": 0,
+    "external_api_calls": 0
+  }
+}

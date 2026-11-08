@@ -1,3 +1,11 @@
+# 2026-11-07 latest status: SQL-used rank displacement and model-review resource gate
+
+The CPU-only retrospective Full_002 is complete on the frozen 108-unit BIRD-dev ranking. Among 33 Dense-only Top-1 wins, G-reasoner placed an SQL-used target at rank 2 or 3 in all 33 (31 at rank 2, 2 at rank 3), meeting the predeclared near-miss signal threshold. Mapping@1 remains 43/108 for G-reasoner versus 63/108 for Dense; Mapping@3 is 104/108 versus 103/108. This does not reverse the negative Top-1 result or authorize same-BIRD-dev tuning. The exact report and anonymized aggregate are in the [Full_002 report](reports/p0_fk_sql_used_rank_displacement_20261107_01/README.md) and [aggregate](reports/p0_fk_sql_used_rank_displacement_20261107_01/aggregate_summary.json).
+
+The separately registered BIRD-train A/B model-proxy review has not produced a valid run yet: Smoke_001 used the wrong Python environment and is excluded. At 15:26 UTC, GPU1 had 16,729 MiB free against its 18,432 MiB gate and GPU2 had 9,055 MiB free against its 10,240 MiB gate, with both at 0% utilization. Do not start model inference until the frozen gates pass; then run only the already registered Smoke_002, and run Full_002 only if Smoke_002 passes. Model agreement remains proxy evidence, not human consensus. See the [model-review report](reports/p0_bird_train_fk_model_proxy_review_20261107_01/README.md) and [Amendment 002](plans/amendments/p0_bird_train_fk_model_proxy_review_20261107_01_amendment_002.md).
+
+The earlier sections below preserve the registration history and prior stage decisions.
+
 # 2026-11-07 bounded candidate–SQL identity diagnosis
 
 ## 下一条独立验证候选：Spider 官方测试集容量门（已预注册，尚未运行）
