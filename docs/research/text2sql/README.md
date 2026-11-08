@@ -1,5 +1,7 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
+> **独立探索更新（2026-11-09 UTC+8）：** 用户授权的 [种子 → Steiner schema pilot](reports/seed_steiner_bird_20261108_01/README.md) 已完成 BIRD-dev 1,534题 CPU 对照。完整参考表覆盖：种子826、同表数语义扩充973、Steiner949；预设结构收益条件未通过，停止并未启动 SQL/GPU。该新协议不重开或改变旧 GFM/QES 冻结实验；不是完整 GRAST-SQL 复现。实现与版本见报告。
+
 > **唯一主仓库：[`bArtyom/gfm-rag`](https://github.com/bArtyom/gfm-rag)。生效日期：2026-10-16。**
 >
 > 此目录管理该研究线的**想法、论文核对、实验方案、实现决策、结果分析及下一轮指导**。之前的 [`bArtyom/quadrag`](https://github.com/bArtyom/quadrag) 仅作历史来源，不再向其提交新的研究方案或结果。保留旧仓库历史，不强制删除。

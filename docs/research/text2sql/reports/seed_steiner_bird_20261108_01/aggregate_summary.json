@@ -1,0 +1,456 @@
+{
+  "run_id": "seed_steiner_bird_20261108_01",
+  "mode": "retrieval",
+  "status": "completed",
+  "source_commit": "f95f520b0bf05316b969844775162aed1a6a306e",
+  "prediction_sha256": "e1d9b0792735e2a750008ac90958626fefa53961f5b1921a37ad72494f0424e8",
+  "questions": 1534,
+  "databases": 11,
+  "expanded_questions": 369,
+  "disconnected_questions": 184,
+  "all": {
+    "seed_only": {
+      "questions": 1534,
+      "reference_parse_failures": 0,
+      "complete": 826,
+      "complete_rate_all_questions": 0.5384615384615384,
+      "mean_table_recall_evaluable": 0.7626466753585398,
+      "mean_table_precision_evaluable": 0.6910039113428944,
+      "mean_selected_tables": 2,
+      "mean_selected_columns": 32.8787483702738
+    },
+    "dense_size_matched": {
+      "questions": 1534,
+      "reference_parse_failures": 0,
+      "complete": 973,
+      "complete_rate_all_questions": 0.6342894393741851,
+      "mean_table_recall_evaluable": 0.8197957409821817,
+      "mean_table_precision_evaluable": 0.6832029552368535,
+      "mean_selected_tables": 2.2900912646675358,
+      "mean_selected_columns": 37.514993481095175
+    },
+    "seed_steiner": {
+      "questions": 1534,
+      "reference_parse_failures": 0,
+      "complete": 949,
+      "complete_rate_all_questions": 0.6186440677966102,
+      "mean_table_recall_evaluable": 0.8129943502824859,
+      "mean_table_precision_evaluable": 0.680399826162538,
+      "mean_selected_tables": 2.2900912646675358,
+      "mean_selected_columns": 37.27835723598435
+    }
+  },
+  "expanded": {
+    "seed_only": {
+      "questions": 369,
+      "reference_parse_failures": 0,
+      "complete": 67,
+      "complete_rate_all_questions": 0.18157181571815717,
+      "mean_table_recall_evaluable": 0.5523486901535682,
+      "mean_table_precision_evaluable": 0.559620596205962,
+      "mean_selected_tables": 2,
+      "mean_selected_columns": 24.94579945799458
+    },
+    "dense_size_matched": {
+      "questions": 369,
+      "reference_parse_failures": 0,
+      "complete": 214,
+      "complete_rate_all_questions": 0.5799457994579946,
+      "mean_table_recall_evaluable": 0.7899277326106595,
+      "mean_table_precision_evaluable": 0.5271906052393858,
+      "mean_selected_tables": 3.205962059620596,
+      "mean_selected_columns": 44.21951219512195
+    },
+    "seed_steiner": {
+      "questions": 369,
+      "reference_parse_failures": 0,
+      "complete": 190,
+      "complete_rate_all_questions": 0.5149051490514905,
+      "mean_table_recall_evaluable": 0.7616531165311653,
+      "mean_table_precision_evaluable": 0.5155374887082204,
+      "mean_selected_tables": 3.205962059620596,
+      "mean_selected_columns": 43.235772357723576
+    }
+  },
+  "paired_expanded": {
+    "seed_only": {
+      "unchanged": 246,
+      "rescue": 123
+    },
+    "dense_size_matched": {
+      "unchanged": 281,
+      "damage": 56,
+      "rescue": 32
+    }
+  },
+  "per_database": {
+    "DB-01": {
+      "seed_only": {
+        "questions": 89,
+        "reference_parse_failures": 0,
+        "complete": 74,
+        "complete_rate_all_questions": 0.8314606741573034,
+        "mean_table_recall_evaluable": 0.9101123595505618,
+        "mean_table_precision_evaluable": 0.7584269662921348,
+        "mean_selected_tables": 2,
+        "mean_selected_columns": 66.40449438202248
+      },
+      "dense_size_matched": {
+        "questions": 89,
+        "reference_parse_failures": 0,
+        "complete": 79,
+        "complete_rate_all_questions": 0.8876404494382022,
+        "mean_table_recall_evaluable": 0.9438202247191011,
+        "mean_table_precision_evaluable": 0.749063670411985,
+        "mean_selected_tables": 2.134831460674157,
+        "mean_selected_columns": 73.01123595505618
+      },
+      "seed_steiner": {
+        "questions": 89,
+        "reference_parse_failures": 0,
+        "complete": 79,
+        "complete_rate_all_questions": 0.8876404494382022,
+        "mean_table_recall_evaluable": 0.9438202247191011,
+        "mean_table_precision_evaluable": 0.749063670411985,
+        "mean_selected_tables": 2.134831460674157,
+        "mean_selected_columns": 73.01123595505618
+      }
+    },
+    "DB-02": {
+      "seed_only": {
+        "questions": 191,
+        "reference_parse_failures": 0,
+        "complete": 125,
+        "complete_rate_all_questions": 0.6544502617801047,
+        "mean_table_recall_evaluable": 0.830715532286213,
+        "mean_table_precision_evaluable": 0.6492146596858639,
+        "mean_selected_tables": 2,
+        "mean_selected_columns": 85.57068062827226
+      },
+      "dense_size_matched": {
+        "questions": 191,
+        "reference_parse_failures": 0,
+        "complete": 125,
+        "complete_rate_all_questions": 0.6544502617801047,
+        "mean_table_recall_evaluable": 0.830715532286213,
+        "mean_table_precision_evaluable": 0.6492146596858639,
+        "mean_selected_tables": 2,
+        "mean_selected_columns": 85.57068062827226
+      },
+      "seed_steiner": {
+        "questions": 191,
+        "reference_parse_failures": 0,
+        "complete": 125,
+        "complete_rate_all_questions": 0.6544502617801047,
+        "mean_table_recall_evaluable": 0.830715532286213,
+        "mean_table_precision_evaluable": 0.6492146596858639,
+        "mean_selected_tables": 2,
+        "mean_selected_columns": 85.57068062827226
+      }
+    },
+    "DB-03": {
+      "seed_only": {
+        "questions": 186,
+        "reference_parse_failures": 0,
+        "complete": 110,
+        "complete_rate_all_questions": 0.5913978494623656,
+        "mean_table_recall_evaluable": 0.771505376344086,
+        "mean_table_precision_evaluable": 0.6451612903225806,
+        "mean_selected_tables": 2,
+        "mean_selected_columns": 21.161290322580644
+      },
+      "dense_size_matched": {
+        "questions": 186,
+        "reference_parse_failures": 0,
+        "complete": 129,
+        "complete_rate_all_questions": 0.6935483870967742,
+        "mean_table_recall_evaluable": 0.8467741935483871,
+        "mean_table_precision_evaluable": 0.6594982078853046,
+        "mean_selected_tables": 2.2580645161290325,
+        "mean_selected_columns": 25.408602150537636
+      },
+      "seed_steiner": {
+        "questions": 186,
+        "reference_parse_failures": 0,
+        "complete": 120,
+        "complete_rate_all_questions": 0.6451612903225806,
+        "mean_table_recall_evaluable": 0.8243727598566308,
+        "mean_table_precision_evaluable": 0.6451612903225806,
+        "mean_selected_tables": 2.2580645161290325,
+        "mean_selected_columns": 25
+      }
+    },
+    "DB-04": {
+      "seed_only": {
+        "questions": 64,
+        "reference_parse_failures": 0,
+        "complete": 40,
+        "complete_rate_all_questions": 0.625,
+        "mean_table_recall_evaluable": 0.8307291666666667,
+        "mean_table_precision_evaluable": 0.765625,
+        "mean_selected_tables": 2,
+        "mean_selected_columns": 9.765625
+      },
+      "dense_size_matched": {
+        "questions": 64,
+        "reference_parse_failures": 0,
+        "complete": 40,
+        "complete_rate_all_questions": 0.625,
+        "mean_table_recall_evaluable": 0.8307291666666667,
+        "mean_table_precision_evaluable": 0.765625,
+        "mean_selected_tables": 2,
+        "mean_selected_columns": 9.765625
+      },
+      "seed_steiner": {
+        "questions": 64,
+        "reference_parse_failures": 0,
+        "complete": 40,
+        "complete_rate_all_questions": 0.625,
+        "mean_table_recall_evaluable": 0.8307291666666667,
+        "mean_table_precision_evaluable": 0.765625,
+        "mean_selected_tables": 2,
+        "mean_selected_columns": 9.765625
+      }
+    },
+    "DB-05": {
+      "seed_only": {
+        "questions": 129,
+        "reference_parse_failures": 0,
+        "complete": 86,
+        "complete_rate_all_questions": 0.6666666666666666,
+        "mean_table_recall_evaluable": 0.8191214470284237,
+        "mean_table_precision_evaluable": 0.7248062015503876,
+        "mean_selected_tables": 2,
+        "mean_selected_columns": 60.542635658914726
+      },
+      "dense_size_matched": {
+        "questions": 129,
+        "reference_parse_failures": 0,
+        "complete": 108,
+        "complete_rate_all_questions": 0.8372093023255814,
+        "mean_table_recall_evaluable": 0.9198966408268733,
+        "mean_table_precision_evaluable": 0.7018087855297157,
+        "mean_selected_tables": 2.697674418604651,
+        "mean_selected_columns": 91.49612403100775
+      },
+      "seed_steiner": {
+        "questions": 129,
+        "reference_parse_failures": 0,
+        "complete": 109,
+        "complete_rate_all_questions": 0.8449612403100775,
+        "mean_table_recall_evaluable": 0.9237726098191213,
+        "mean_table_precision_evaluable": 0.7020671834625323,
+        "mean_selected_tables": 2.697674418604651,
+        "mean_selected_columns": 90.82170542635659
+      }
+    },
+    "DB-06": {
+      "seed_only": {
+        "questions": 106,
+        "reference_parse_failures": 0,
+        "complete": 28,
+        "complete_rate_all_questions": 0.2641509433962264,
+        "mean_table_recall_evaluable": 0.636635220125786,
+        "mean_table_precision_evaluable": 0.7452830188679245,
+        "mean_selected_tables": 2,
+        "mean_selected_columns": 13
+      },
+      "dense_size_matched": {
+        "questions": 106,
+        "reference_parse_failures": 0,
+        "complete": 42,
+        "complete_rate_all_questions": 0.39622641509433965,
+        "mean_table_recall_evaluable": 0.7262578616352201,
+        "mean_table_precision_evaluable": 0.7114779874213836,
+        "mean_selected_tables": 2.5377358490566038,
+        "mean_selected_columns": 16.39622641509434
+      },
+      "seed_steiner": {
+        "questions": 106,
+        "reference_parse_failures": 0,
+        "complete": 48,
+        "complete_rate_all_questions": 0.4528301886792453,
+        "mean_table_recall_evaluable": 0.7638364779874214,
+        "mean_table_precision_evaluable": 0.7531446540880503,
+        "mean_selected_tables": 2.5377358490566038,
+        "mean_selected_columns": 15.150943396226415
+      }
+    },
+    "DB-07": {
+      "seed_only": {
+        "questions": 174,
+        "reference_parse_failures": 0,
+        "complete": 65,
+        "complete_rate_all_questions": 0.3735632183908046,
+        "mean_table_recall_evaluable": 0.6374521072796935,
+        "mean_table_precision_evaluable": 0.5775862068965517,
+        "mean_selected_tables": 2,
+        "mean_selected_columns": 17.724137931034484
+      },
+      "dense_size_matched": {
+        "questions": 174,
+        "reference_parse_failures": 0,
+        "complete": 79,
+        "complete_rate_all_questions": 0.4540229885057471,
+        "mean_table_recall_evaluable": 0.7078544061302682,
+        "mean_table_precision_evaluable": 0.5613026819923371,
+        "mean_selected_tables": 2.4482758620689653,
+        "mean_selected_columns": 21.93103448275862
+      },
+      "seed_steiner": {
+        "questions": 174,
+        "reference_parse_failures": 0,
+        "complete": 81,
+        "complete_rate_all_questions": 0.46551724137931033,
+        "mean_table_recall_evaluable": 0.7188697318007663,
+        "mean_table_precision_evaluable": 0.578544061302682,
+        "mean_selected_tables": 2.4482758620689653,
+        "mean_selected_columns": 21.310344827586206
+      }
+    },
+    "DB-08": {
+      "seed_only": {
+        "questions": 158,
+        "reference_parse_failures": 0,
+        "complete": 74,
+        "complete_rate_all_questions": 0.46835443037974683,
+        "mean_table_recall_evaluable": 0.7368143459915611,
+        "mean_table_precision_evaluable": 0.6930379746835443,
+        "mean_selected_tables": 2,
+        "mean_selected_columns": 12.879746835443038
+      },
+      "dense_size_matched": {
+        "questions": 158,
+        "reference_parse_failures": 0,
+        "complete": 78,
+        "complete_rate_all_questions": 0.4936708860759494,
+        "mean_table_recall_evaluable": 0.7531645569620253,
+        "mean_table_precision_evaluable": 0.6819620253164557,
+        "mean_selected_tables": 2.151898734177215,
+        "mean_selected_columns": 13.848101265822784
+      },
+      "seed_steiner": {
+        "questions": 158,
+        "reference_parse_failures": 0,
+        "complete": 82,
+        "complete_rate_all_questions": 0.5189873417721519,
+        "mean_table_recall_evaluable": 0.7700421940928269,
+        "mean_table_precision_evaluable": 0.6940928270042195,
+        "mean_selected_tables": 2.151898734177215,
+        "mean_selected_columns": 14.094936708860759
+      }
+    },
+    "DB-09": {
+      "seed_only": {
+        "questions": 129,
+        "reference_parse_failures": 0,
+        "complete": 31,
+        "complete_rate_all_questions": 0.24031007751937986,
+        "mean_table_recall_evaluable": 0.6156330749354004,
+        "mean_table_precision_evaluable": 0.6666666666666666,
+        "mean_selected_tables": 2,
+        "mean_selected_columns": 13.294573643410853
+      },
+      "dense_size_matched": {
+        "questions": 129,
+        "reference_parse_failures": 0,
+        "complete": 69,
+        "complete_rate_all_questions": 0.5348837209302325,
+        "mean_table_recall_evaluable": 0.770671834625323,
+        "mean_table_precision_evaluable": 0.6589147286821705,
+        "mean_selected_tables": 2.6744186046511627,
+        "mean_selected_columns": 14.992248062015504
+      },
+      "seed_steiner": {
+        "questions": 129,
+        "reference_parse_failures": 0,
+        "complete": 46,
+        "complete_rate_all_questions": 0.35658914728682173,
+        "mean_table_recall_evaluable": 0.6698966408268733,
+        "mean_table_precision_evaluable": 0.58656330749354,
+        "mean_selected_tables": 2.6744186046511627,
+        "mean_selected_columns": 14.953488372093023
+      }
+    },
+    "DB-10": {
+      "seed_only": {
+        "questions": 163,
+        "reference_parse_failures": 0,
+        "complete": 101,
+        "complete_rate_all_questions": 0.6196319018404908,
+        "mean_table_recall_evaluable": 0.8231083844580779,
+        "mean_table_precision_evaluable": 0.7852760736196319,
+        "mean_selected_tables": 2,
+        "mean_selected_columns": 41.60122699386503
+      },
+      "dense_size_matched": {
+        "questions": 163,
+        "reference_parse_failures": 0,
+        "complete": 126,
+        "complete_rate_all_questions": 0.7730061349693251,
+        "mean_table_recall_evaluable": 0.8885480572597135,
+        "mean_table_precision_evaluable": 0.7883435582822086,
+        "mean_selected_tables": 2.208588957055215,
+        "mean_selected_columns": 43.061349693251536
+      },
+      "seed_steiner": {
+        "questions": 163,
+        "reference_parse_failures": 0,
+        "complete": 126,
+        "complete_rate_all_questions": 0.7730061349693251,
+        "mean_table_recall_evaluable": 0.8885480572597135,
+        "mean_table_precision_evaluable": 0.7883435582822086,
+        "mean_selected_tables": 2.208588957055215,
+        "mean_selected_columns": 43.061349693251536
+      }
+    },
+    "DB-11": {
+      "seed_only": {
+        "questions": 145,
+        "reference_parse_failures": 0,
+        "complete": 92,
+        "complete_rate_all_questions": 0.6344827586206897,
+        "mean_table_recall_evaluable": 0.8241379310344827,
+        "mean_table_precision_evaluable": 0.7103448275862069,
+        "mean_selected_tables": 2,
+        "mean_selected_columns": 5.641379310344828
+      },
+      "dense_size_matched": {
+        "questions": 145,
+        "reference_parse_failures": 0,
+        "complete": 98,
+        "complete_rate_all_questions": 0.6758620689655173,
+        "mean_table_recall_evaluable": 0.8425287356321839,
+        "mean_table_precision_evaluable": 0.6954022988505747,
+        "mean_selected_tables": 2.103448275862069,
+        "mean_selected_columns": 5.910344827586207
+      },
+      "seed_steiner": {
+        "questions": 145,
+        "reference_parse_failures": 0,
+        "complete": 93,
+        "complete_rate_all_questions": 0.6413793103448275,
+        "mean_table_recall_evaluable": 0.8264367816091953,
+        "mean_table_precision_evaluable": 0.6839080459770114,
+        "mean_selected_tables": 2.103448275862069,
+        "mean_selected_columns": 5.951724137931034
+      }
+    }
+  },
+  "structural_signal": false,
+  "decision": "stop_no_structural_signal",
+  "new_model_calls": 0,
+  "new_input_tokens": 0,
+  "new_output_tokens": 0,
+  "external_API_cost_CNY": "0",
+  "elapsed_wall_seconds": 6.495905177667737,
+  "cpu_seconds": 7.038357849,
+  "peak_RSS_GiB": 0.064422607421875,
+  "limitations": [
+    "exploratory reused BIRD dev",
+    "reference-table proxy not unique semantic truth",
+    "table counts matched, generator token counts not matched",
+    "full columns retained per selected table",
+    "upstream component adaptation, not full GRAST-SQL reproduction"
+  ]
+}

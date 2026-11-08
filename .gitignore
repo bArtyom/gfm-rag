@@ -16,3 +16,5 @@ site/
 /wandb/
 .worktrees/
 .superpowers/
+/ai_temp_code/
+/results/
