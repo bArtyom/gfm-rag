@@ -1,5 +1,7 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
+> **两求解器对照（2026-11-09 UTC+8）：** 用户明确追加的 [Mehlhorn vs Dreyfus–Wagner](reports/steiner_two_solvers_bird_20261108_01/README.md) 已完成1534题。top3精确求解在13题（1库6种种子组合）各省一条边/一张表，完整覆盖两者均1236/1534；top2两者均963/1534且逐题代价和表集合一致。本轮使用统一规范化图，不回写前次包装器结果。无新模型/GPU/SQL；完成后停止扩展。
+
 > **独立探索更新（2026-11-09 UTC+8）：** 用户授权的 [种子 → Steiner schema pilot](reports/seed_steiner_bird_20261108_01/README.md) 已完成 BIRD-dev 1,534题 CPU 对照。完整参考表覆盖：种子826、同表数语义扩充973、Steiner949；预设结构收益条件未通过，停止并未启动 SQL/GPU。该新协议不重开或改变旧 GFM/QES 冻结实验；不是完整 GRAST-SQL 复现。实现与版本见报告。
 
 > **唯一主仓库：[`bArtyom/gfm-rag`](https://github.com/bArtyom/gfm-rag)。生效日期：2026-10-16。**

@@ -1,0 +1,241 @@
+{
+  "run_id": "steiner_two_solvers_bird_20261108_01",
+  "mode": "full",
+  "source_commit": "090aa038920ad60571412b2da8d334bff6457d83",
+  "status": "completed",
+  "config_sha256": "5b3bc335e92e66041e8da987ee039d32e7b1f73019f2f75d46851660b4c97a0c",
+  "prediction_sha256": "3c57c6a40f1d2f9c199208fb9dcbaf122890738465e706ed65b2e7cdab793b43",
+  "paired_instances": 3068,
+  "solver_calls": 6136,
+  "groups": {
+    "2": {
+      "questions": 1534,
+      "methods": {
+        "mehlhorn": {
+          "questions": 1534,
+          "reference_parse_failures": 0,
+          "complete": 963,
+          "complete_rate_all_questions": 0.6277705345501956,
+          "mean_table_recall_evaluable": 0.816471099521947,
+          "mean_table_precision_evaluable": 0.6821382007822685,
+          "mean_selected_tables": 2.2900912646675358,
+          "mean_selected_columns": 37.39308996088657,
+          "mean_edge_cost": 1.1701434159061277,
+          "total_edge_cost": 1795,
+          "solver_wall_seconds_total": 0.517321091145277,
+          "solver_latency_median_ms": 0.34983083605766296,
+          "solver_latency_p95_ms": 0.49653369933366764,
+          "forest_questions": 184
+        },
+        "dreyfus_wagner": {
+          "questions": 1534,
+          "reference_parse_failures": 0,
+          "complete": 963,
+          "complete_rate_all_questions": 0.6277705345501956,
+          "mean_table_recall_evaluable": 0.816471099521947,
+          "mean_table_precision_evaluable": 0.6821382007822685,
+          "mean_selected_tables": 2.2900912646675358,
+          "mean_selected_columns": 37.39308996088657,
+          "mean_edge_cost": 1.1701434159061277,
+          "total_edge_cost": 1795,
+          "solver_wall_seconds_total": 0.5123219583183527,
+          "solver_latency_median_ms": 0.32392144203186035,
+          "solver_latency_p95_ms": 0.6135988049209117,
+          "forest_questions": 184
+        }
+      },
+      "strict_exact_cost_improvements": 0,
+      "equal_cost_questions": 1534,
+      "different_table_sets": 0,
+      "different_table_sets_equal_cost": 0,
+      "different_table_sets_strict_cost": 0,
+      "different_edge_sets": 0,
+      "approximation_ratio_positive_optimum_mean": 1,
+      "approximation_ratio_positive_optimum_max": 1,
+      "zero_optimum_questions": 184,
+      "exact_vs_mehlhorn_coverage": {
+        "rescue": 0,
+        "damage": 0,
+        "unchanged": 1534,
+        "unknown": 0
+      },
+      "coverage_delta": 0,
+      "coverage_delta_DB_cluster_95_percentile_interval": [
+        0,
+        0
+      ],
+      "positive_task_signal": false,
+      "decision": "same_cost_and_schema",
+      "per_database": {
+        "DB-01": {
+          "questions": 89,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-02": {
+          "questions": 191,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-03": {
+          "questions": 186,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-04": {
+          "questions": 64,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-05": {
+          "questions": 129,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-06": {
+          "questions": 106,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-07": {
+          "questions": 174,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-08": {
+          "questions": 158,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-09": {
+          "questions": 129,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-10": {
+          "questions": 163,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-11": {
+          "questions": 145,
+          "exact_minus_approximate_complete": 0
+        }
+      }
+    },
+    "3": {
+      "questions": 1534,
+      "methods": {
+        "mehlhorn": {
+          "questions": 1534,
+          "reference_parse_failures": 0,
+          "complete": 1236,
+          "complete_rate_all_questions": 0.8057366362451108,
+          "mean_table_recall_evaluable": 0.9106692742285963,
+          "mean_table_precision_evaluable": 0.536277705345502,
+          "mean_selected_tables": 3.2809647979139505,
+          "mean_selected_columns": 53.162320730117344,
+          "mean_edge_cost": 2.0990873533246415,
+          "total_edge_cost": 3220,
+          "solver_wall_seconds_total": 0.6646521706134081,
+          "solver_latency_median_ms": 0.41746068745851517,
+          "solver_latency_p95_ms": 0.6054117344319819,
+          "forest_questions": 252
+        },
+        "dreyfus_wagner": {
+          "questions": 1534,
+          "reference_parse_failures": 0,
+          "complete": 1236,
+          "complete_rate_all_questions": 0.8057366362451108,
+          "mean_table_recall_evaluable": 0.9106692742285963,
+          "mean_table_precision_evaluable": 0.5368752716210343,
+          "mean_selected_tables": 3.272490221642764,
+          "mean_selected_columns": 53.119947848761406,
+          "mean_edge_cost": 2.090612777053455,
+          "total_edge_cost": 3207,
+          "solver_wall_seconds_total": 0.6462640762329102,
+          "solver_latency_median_ms": 0.40419772267341614,
+          "solver_latency_p95_ms": 0.7487683556973934,
+          "forest_questions": 252
+        }
+      },
+      "strict_exact_cost_improvements": 13,
+      "equal_cost_questions": 1521,
+      "different_table_sets": 13,
+      "different_table_sets_equal_cost": 0,
+      "different_table_sets_strict_cost": 13,
+      "different_edge_sets": 32,
+      "approximation_ratio_positive_optimum_mean": 1.0027648750276486,
+      "approximation_ratio_positive_optimum_max": 1.3333333333333333,
+      "zero_optimum_questions": 27,
+      "exact_vs_mehlhorn_coverage": {
+        "rescue": 0,
+        "damage": 0,
+        "unchanged": 1534,
+        "unknown": 0
+      },
+      "coverage_delta": 0,
+      "coverage_delta_DB_cluster_95_percentile_interval": [
+        0,
+        0
+      ],
+      "positive_task_signal": false,
+      "decision": "exact_reduces_graph_cost",
+      "per_database": {
+        "DB-01": {
+          "questions": 89,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-02": {
+          "questions": 191,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-03": {
+          "questions": 186,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-04": {
+          "questions": 64,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-05": {
+          "questions": 129,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-06": {
+          "questions": 106,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-07": {
+          "questions": 174,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-08": {
+          "questions": 158,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-09": {
+          "questions": 129,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-10": {
+          "questions": 163,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-11": {
+          "questions": 145,
+          "exact_minus_approximate_complete": 0
+        }
+      }
+    }
+  },
+  "all_cost_oracles_verified": true,
+  "databases_unchanged": true,
+  "new_model_calls": 0,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "GPU_seconds": 0,
+  "external_API_cost_CNY": "0.00",
+  "local_CPU_monetized": false,
+  "elapsed_wall_seconds": 12.523414691910148,
+  "process_CPU_seconds": 12.911871595,
+  "peak_RSS_GiB": 0.07907485961914062,
+  "decision": "conclude_two_solver_comparison_no_automatic_extension",
+  "limitations": [
+    "exploratory previously used BIRD-dev",
+    "reference-table proxy, no SQL EX",
+    "unweighted undirected FK-only table graph",
+    "canonical tie choices may differ from old wrapper",
+    "timings include validation/canonicalization inside solver wrapper; no microbenchmark speed claim"
+  ]
+}

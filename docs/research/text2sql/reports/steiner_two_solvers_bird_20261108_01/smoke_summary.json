@@ -1,0 +1,185 @@
+{
+  "run_id": "steiner_two_solvers_bird_20261108_01",
+  "mode": "smoke",
+  "source_commit": "090aa038920ad60571412b2da8d334bff6457d83",
+  "status": "completed",
+  "config_sha256": "5b3bc335e92e66041e8da987ee039d32e7b1f73019f2f75d46851660b4c97a0c",
+  "prediction_sha256": "40a9a2e5dbd13a16cdc5d71cba5f5be1dc3ec3abdc53302d32218d59da2c1708",
+  "paired_instances": 10,
+  "solver_calls": 20,
+  "groups": {
+    "2": {
+      "questions": 5,
+      "methods": {
+        "mehlhorn": {
+          "questions": 5,
+          "reference_parse_failures": 0,
+          "complete": 2,
+          "complete_rate_all_questions": 0.4,
+          "mean_table_recall_evaluable": 0.65,
+          "mean_table_precision_evaluable": 0.5,
+          "mean_selected_tables": 2.2,
+          "mean_selected_columns": 34.2,
+          "mean_edge_cost": 1,
+          "total_edge_cost": 5,
+          "solver_wall_seconds_total": 0.0017306804656982422,
+          "solver_latency_median_ms": 0.3679078072309494,
+          "solver_latency_p95_ms": 0.4953164607286453,
+          "forest_questions": 1
+        },
+        "dreyfus_wagner": {
+          "questions": 5,
+          "reference_parse_failures": 0,
+          "complete": 2,
+          "complete_rate_all_questions": 0.4,
+          "mean_table_recall_evaluable": 0.65,
+          "mean_table_precision_evaluable": 0.5,
+          "mean_selected_tables": 2.2,
+          "mean_selected_columns": 34.2,
+          "mean_edge_cost": 1,
+          "total_edge_cost": 5,
+          "solver_wall_seconds_total": 0.0019264984875917435,
+          "solver_latency_median_ms": 0.408664345741272,
+          "solver_latency_p95_ms": 0.5251254886388779,
+          "forest_questions": 1
+        }
+      },
+      "strict_exact_cost_improvements": 0,
+      "equal_cost_questions": 5,
+      "different_table_sets": 0,
+      "different_table_sets_equal_cost": 0,
+      "different_table_sets_strict_cost": 0,
+      "different_edge_sets": 0,
+      "approximation_ratio_positive_optimum_mean": 1,
+      "approximation_ratio_positive_optimum_max": 1,
+      "zero_optimum_questions": 1,
+      "exact_vs_mehlhorn_coverage": {
+        "rescue": 0,
+        "damage": 0,
+        "unchanged": 5,
+        "unknown": 0
+      },
+      "coverage_delta": 0,
+      "coverage_delta_DB_cluster_95_percentile_interval": [
+        0,
+        0
+      ],
+      "positive_task_signal": false,
+      "decision": "same_cost_and_schema",
+      "per_database": {
+        "DB-01": {
+          "questions": 1,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-02": {
+          "questions": 2,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-03": {
+          "questions": 1,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-04": {
+          "questions": 1,
+          "exact_minus_approximate_complete": 0
+        }
+      }
+    },
+    "3": {
+      "questions": 5,
+      "methods": {
+        "mehlhorn": {
+          "questions": 5,
+          "reference_parse_failures": 0,
+          "complete": 3,
+          "complete_rate_all_questions": 0.6,
+          "mean_table_recall_evaluable": 0.85,
+          "mean_table_precision_evaluable": 0.5333333333333333,
+          "mean_selected_tables": 3,
+          "mean_selected_columns": 42.4,
+          "mean_edge_cost": 1.8,
+          "total_edge_cost": 9,
+          "solver_wall_seconds_total": 0.005689755082130432,
+          "solver_latency_median_ms": 0.47365203499794006,
+          "solver_latency_p95_ms": 3.19385677576065,
+          "forest_questions": 1
+        },
+        "dreyfus_wagner": {
+          "questions": 5,
+          "reference_parse_failures": 0,
+          "complete": 3,
+          "complete_rate_all_questions": 0.6,
+          "mean_table_recall_evaluable": 0.85,
+          "mean_table_precision_evaluable": 0.5333333333333333,
+          "mean_selected_tables": 3,
+          "mean_selected_columns": 42.4,
+          "mean_edge_cost": 1.8,
+          "total_edge_cost": 9,
+          "solver_wall_seconds_total": 0.0026931539177894592,
+          "solver_latency_median_ms": 0.5485173314809799,
+          "solver_latency_p95_ms": 0.6755698472261429,
+          "forest_questions": 1
+        }
+      },
+      "strict_exact_cost_improvements": 0,
+      "equal_cost_questions": 5,
+      "different_table_sets": 0,
+      "different_table_sets_equal_cost": 0,
+      "different_table_sets_strict_cost": 0,
+      "different_edge_sets": 0,
+      "approximation_ratio_positive_optimum_mean": 1,
+      "approximation_ratio_positive_optimum_max": 1,
+      "zero_optimum_questions": 0,
+      "exact_vs_mehlhorn_coverage": {
+        "rescue": 0,
+        "damage": 0,
+        "unchanged": 5,
+        "unknown": 0
+      },
+      "coverage_delta": 0,
+      "coverage_delta_DB_cluster_95_percentile_interval": [
+        0,
+        0
+      ],
+      "positive_task_signal": false,
+      "decision": "same_cost_and_schema",
+      "per_database": {
+        "DB-01": {
+          "questions": 1,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-02": {
+          "questions": 2,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-03": {
+          "questions": 1,
+          "exact_minus_approximate_complete": 0
+        },
+        "DB-04": {
+          "questions": 1,
+          "exact_minus_approximate_complete": 0
+        }
+      }
+    }
+  },
+  "all_cost_oracles_verified": true,
+  "databases_unchanged": true,
+  "new_model_calls": 0,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "GPU_seconds": 0,
+  "external_API_cost_CNY": "0.00",
+  "local_CPU_monetized": false,
+  "elapsed_wall_seconds": 7.9574047066271305,
+  "process_CPU_seconds": 7.963430167,
+  "peak_RSS_GiB": 0.067291259765625,
+  "decision": "conclude_two_solver_comparison_no_automatic_extension",
+  "limitations": [
+    "exploratory previously used BIRD-dev",
+    "reference-table proxy, no SQL EX",
+    "unweighted undirected FK-only table graph",
+    "canonical tie choices may differ from old wrapper",
+    "timings include validation/canonicalization inside solver wrapper; no microbenchmark speed claim"
+  ]
+}
