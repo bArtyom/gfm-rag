@@ -1,0 +1,76 @@
+{
+  "settings": {
+    "unit": {
+      "status": "PASS",
+      "setting": "unit",
+      "rows_verified": 1534,
+      "solver_outputs_verified": 7670,
+      "prediction_sha256": "f850506055213a2439c4cdf493c0a7890a3da5d729f55f49f72a2b64f27c672c",
+      "complete": {
+        "greedy": 1236,
+        "kou": 1238,
+        "mehlhorn": 1236,
+        "dreyfus_wagner": 1236,
+        "milp": 1230
+      },
+      "optimal_cost_questions": {
+        "greedy": 1532,
+        "kou": 1520,
+        "mehlhorn": 1521,
+        "dreyfus_wagner": 1534,
+        "milp": 1534
+      },
+      "MILP_certificates_checked": 1507,
+      "DP_MILP_same_cost_different_table_sets": 34,
+      "prior_Mehlhorn_replay_verified": true,
+      "wall_seconds": 5.714195376262069,
+      "checks": [
+        "full identities and cache/input hashes",
+        "independent rankings/costs/FK representatives",
+        "original topology/forest/seed feasibility",
+        "independent <=3-terminal distance/meeting-node objective",
+        "MILP recorded primal-dual/status/gap/integrality metadata",
+        "coverage and paired/tie counts",
+        "table/column sizes and recorded latency aggregation",
+        "prior unit/weighted Mehlhorn replay"
+      ],
+      "scope": "Post-run audit reuses frozen loader/reference parser; does not rerun solvers or reconstruct full MILP flow variables."
+    },
+    "weighted": {
+      "status": "PASS",
+      "setting": "weighted",
+      "rows_verified": 1534,
+      "solver_outputs_verified": 7670,
+      "prediction_sha256": "4c7aee9cc3ef5c08c25381c7308cc367a6f252077bb40e9101fe97fa527fc1ab",
+      "complete": {
+        "greedy": 1235,
+        "kou": 1238,
+        "mehlhorn": 1238,
+        "dreyfus_wagner": 1236,
+        "milp": 1236
+      },
+      "optimal_cost_questions": {
+        "greedy": 1530,
+        "kou": 1525,
+        "mehlhorn": 1525,
+        "dreyfus_wagner": 1534,
+        "milp": 1534
+      },
+      "MILP_certificates_checked": 1507,
+      "DP_MILP_same_cost_different_table_sets": 0,
+      "prior_Mehlhorn_replay_verified": true,
+      "wall_seconds": 5.827606176957488,
+      "checks": [
+        "full identities and cache/input hashes",
+        "independent rankings/costs/FK representatives",
+        "original topology/forest/seed feasibility",
+        "independent <=3-terminal distance/meeting-node objective",
+        "MILP recorded primal-dual/status/gap/integrality metadata",
+        "coverage and paired/tie counts",
+        "table/column sizes and recorded latency aggregation",
+        "prior unit/weighted Mehlhorn replay"
+      ],
+      "scope": "Post-run audit reuses frozen loader/reference parser; does not rerun solvers or reconstruct full MILP flow variables."
+    }
+  }
+}
