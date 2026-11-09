@@ -1,5 +1,7 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
+> **五求解器统一对比（2026-11-09 UTC+8）：** [完整矩阵](reports/steiner_five_solvers_bird_20261109_01/README.md)完成单位/问句权重两组各1534题，共15340次求解；加权覆盖greedy1235/Kou1238/Mehlhorn1238/DP1236/MILP1236。DP与MILP最优代价一致，但无覆盖提升；单位边权的不同最优树产生覆盖差异。无新模型/GPU/SQL，实验后停止扩展。
+
 > **问句加权Steiner（2026-11-09 UTC+8）：** [固定图加权实验](reports/query_weighted_steiner_bird_20261109_01/README.md)完成BIRD1534题，unit1236/weighted1238/同表数语义1219；相对unit修复8退化6、净增2（+0.13pp），未过升级门，停止扩展。无SQL/GPU/付费API；15次本地embedding共1700输入token。
 
 > **两求解器对照（2026-11-09 UTC+8）：** 用户明确追加的 [Mehlhorn vs Dreyfus–Wagner](reports/steiner_two_solvers_bird_20261108_01/README.md) 已完成1534题。top3精确求解在13题（1库6种种子组合）各省一条边/一张表，完整覆盖两者均1236/1534；top2两者均963/1534且逐题代价和表集合一致。本轮使用统一规范化图，不回写前次包装器结果。无新模型/GPU/SQL；完成后停止扩展。

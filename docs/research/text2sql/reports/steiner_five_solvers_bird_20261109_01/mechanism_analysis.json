@@ -1,0 +1,172 @@
+{
+  "unit": {
+    "vs_mehlhorn_by_cost": {
+      "greedy": {
+        "cheaper": {
+          "questions": 11,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 11
+        },
+        "equal_cost": {
+          "questions": 1523,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 0
+        },
+        "costlier": {
+          "questions": 0,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 0
+        }
+      },
+      "kou": {
+        "cheaper": {
+          "questions": 0,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 0
+        },
+        "equal_cost": {
+          "questions": 1533,
+          "rescue": 3,
+          "damage": 1,
+          "changed_tables": 10
+        },
+        "costlier": {
+          "questions": 1,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 1
+        }
+      },
+      "dreyfus_wagner": {
+        "cheaper": {
+          "questions": 13,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 13
+        },
+        "equal_cost": {
+          "questions": 1521,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 0
+        },
+        "costlier": {
+          "questions": 0,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 0
+        }
+      },
+      "milp": {
+        "cheaper": {
+          "questions": 13,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 13
+        },
+        "equal_cost": {
+          "questions": 1521,
+          "rescue": 8,
+          "damage": 14,
+          "changed_tables": 32
+        },
+        "costlier": {
+          "questions": 0,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 0
+        }
+      }
+    },
+    "DP_MILP_same_cost_different_tables": 34
+  },
+  "weighted": {
+    "vs_mehlhorn_by_cost": {
+      "greedy": {
+        "cheaper": {
+          "questions": 9,
+          "rescue": 1,
+          "damage": 4,
+          "changed_tables": 9
+        },
+        "equal_cost": {
+          "questions": 1525,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 0
+        },
+        "costlier": {
+          "questions": 0,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 0
+        }
+      },
+      "kou": {
+        "cheaper": {
+          "questions": 0,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 0
+        },
+        "equal_cost": {
+          "questions": 1534,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 0
+        },
+        "costlier": {
+          "questions": 0,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 0
+        }
+      },
+      "dreyfus_wagner": {
+        "cheaper": {
+          "questions": 9,
+          "rescue": 1,
+          "damage": 3,
+          "changed_tables": 9
+        },
+        "equal_cost": {
+          "questions": 1525,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 0
+        },
+        "costlier": {
+          "questions": 0,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 0
+        }
+      },
+      "milp": {
+        "cheaper": {
+          "questions": 9,
+          "rescue": 1,
+          "damage": 3,
+          "changed_tables": 9
+        },
+        "equal_cost": {
+          "questions": 1525,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 0
+        },
+        "costlier": {
+          "questions": 0,
+          "rescue": 0,
+          "damage": 0,
+          "changed_tables": 0
+        }
+      }
+    },
+    "DP_MILP_same_cost_different_tables": 0
+  }
+}

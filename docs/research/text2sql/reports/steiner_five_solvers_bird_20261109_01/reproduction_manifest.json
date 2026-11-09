@@ -1,0 +1,35 @@
+{
+  "owned_repository": "bArtyom/gfm-rag",
+  "branch": "research/steiner-five-solvers-20261109",
+  "parent_public_commit": "4030164e73203dda83fdd48dbdd022de746f2eef",
+  "local_execution_source": "99cfc79d4469f2e75ce60b0e86ebadda5c6be293",
+  "config_sha256": "29a4101660f227d9f9396879145edc28a7f1214fdfeac6282286bc4169765cd6",
+  "python": "3.12.14 | packaged by Anaconda, Inc. | (main, Aug 27 2026, 14:46:43) [GCC 14.3.0]",
+  "dependencies": {
+    "numpy": "2.2.6",
+    "scipy": "1.16.3",
+    "networkx": "3.6rc0",
+    "sqlglot": "28.0.0"
+  },
+  "hardware": {
+    "initial_logical_CPU": 192,
+    "available_memory_GiB": 442,
+    "threads_per_setting": 4,
+    "HiGHS_threads": 1,
+    "GPU_inventory": "4xRTX4090, other workloads; this experiment GPU0seconds"
+  },
+  "prediction_sha256": {
+    "unit": "f850506055213a2439c4cdf493c0a7890a3da5d729f55f49f72a2b64f27c672c",
+    "weighted": "4c7aee9cc3ef5c08c25381c7308cc367a6f252077bb40e9101fe97fa527fc1ab"
+  },
+  "seed_count": 3,
+  "methods": [
+    "greedy",
+    "kou",
+    "mehlhorn",
+    "dreyfus_wagner",
+    "milp"
+  ],
+  "new_model_calls": 0,
+  "model_vectors": "Frozen Qwen3-Embedding0.6B query/table and FK caches, no new encoding"
+}
