@@ -1,0 +1,607 @@
+{
+  "run_id": "query_weighted_steiner_bird_20261109_01",
+  "mode": "smoke",
+  "status": "complete",
+  "source_commit": "678e3c5ef8a5a22e5a870615709bb9e53535239f",
+  "config_sha256": "401282f39fb49d1467231136bb34d035dfc103e891aed4a5654fdc8480adbcc9",
+  "prediction_sha256": "30534bb8a4a530948eace1f0b7d64c15e3672283b68ba78ccf9cebdada7c1060",
+  "questions": 5,
+  "candidate_questions": 1534,
+  "candidate_alternative_route_questions": 738,
+  "sample_alternative_route_questions": 3,
+  "all": {
+    "unit": {
+      "questions": 5,
+      "reference_parse_failures": 0,
+      "complete": 5,
+      "complete_rate_all_questions": 1.0,
+      "mean_table_recall_evaluable": 1.0,
+      "mean_table_precision_evaluable": 0.5,
+      "mean_selected_tables": 3.2,
+      "mean_selected_columns": 77.0,
+      "mean_schema_tokens_embedding_tokenizer": 703.4
+    },
+    "weighted": {
+      "questions": 5,
+      "reference_parse_failures": 0,
+      "complete": 5,
+      "complete_rate_all_questions": 1.0,
+      "mean_table_recall_evaluable": 1.0,
+      "mean_table_precision_evaluable": 0.5,
+      "mean_selected_tables": 3.2,
+      "mean_selected_columns": 77.0,
+      "mean_schema_tokens_embedding_tokenizer": 703.4
+    },
+    "dense": {
+      "questions": 5,
+      "reference_parse_failures": 0,
+      "complete": 5,
+      "complete_rate_all_questions": 1.0,
+      "mean_table_recall_evaluable": 1.0,
+      "mean_table_precision_evaluable": 0.5,
+      "mean_selected_tables": 3.2,
+      "mean_selected_columns": 77.0,
+      "mean_schema_tokens_embedding_tokenizer": 703.4
+    }
+  },
+  "paired": {
+    "unit": {
+      "rescue": 0,
+      "damage": 0,
+      "unchanged": 5,
+      "unknown": 0,
+      "delta_all_questions": 0.0,
+      "DB_cluster_descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    "dense": {
+      "rescue": 0,
+      "damage": 0,
+      "unchanged": 5,
+      "unknown": 0,
+      "delta_all_questions": 0.0,
+      "DB_cluster_descriptive_95_interval": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "strata": {
+    "alternative_route": {
+      "questions": 3,
+      "all": {
+        "unit": {
+          "questions": 3,
+          "reference_parse_failures": 0,
+          "complete": 3,
+          "complete_rate_all_questions": 1.0,
+          "mean_table_recall_evaluable": 1.0,
+          "mean_table_precision_evaluable": 0.611111111111111,
+          "mean_selected_tables": 3.3333333333333335,
+          "mean_selected_columns": 65.66666666666667,
+          "mean_schema_tokens_embedding_tokenizer": 624.6666666666666
+        },
+        "weighted": {
+          "questions": 3,
+          "reference_parse_failures": 0,
+          "complete": 3,
+          "complete_rate_all_questions": 1.0,
+          "mean_table_recall_evaluable": 1.0,
+          "mean_table_precision_evaluable": 0.611111111111111,
+          "mean_selected_tables": 3.3333333333333335,
+          "mean_selected_columns": 65.66666666666667,
+          "mean_schema_tokens_embedding_tokenizer": 624.6666666666666
+        },
+        "dense": {
+          "questions": 3,
+          "reference_parse_failures": 0,
+          "complete": 3,
+          "complete_rate_all_questions": 1.0,
+          "mean_table_recall_evaluable": 1.0,
+          "mean_table_precision_evaluable": 0.611111111111111,
+          "mean_selected_tables": 3.3333333333333335,
+          "mean_selected_columns": 65.66666666666667,
+          "mean_schema_tokens_embedding_tokenizer": 624.6666666666666
+        }
+      },
+      "paired": {
+        "unit": {
+          "rescue": 0,
+          "damage": 0,
+          "unchanged": 3,
+          "unknown": 0,
+          "delta_all_questions": 0.0,
+          "DB_cluster_descriptive_95_interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "dense": {
+          "rescue": 0,
+          "damage": 0,
+          "unchanged": 3,
+          "unknown": 0,
+          "delta_all_questions": 0.0,
+          "DB_cluster_descriptive_95_interval": [
+            0.0,
+            0.0
+          ]
+        }
+      }
+    },
+    "unique_route": {
+      "questions": 2,
+      "all": {
+        "unit": {
+          "questions": 2,
+          "reference_parse_failures": 0,
+          "complete": 2,
+          "complete_rate_all_questions": 1.0,
+          "mean_table_recall_evaluable": 1.0,
+          "mean_table_precision_evaluable": 0.3333333333333333,
+          "mean_selected_tables": 3.0,
+          "mean_selected_columns": 94.0,
+          "mean_schema_tokens_embedding_tokenizer": 821.5
+        },
+        "weighted": {
+          "questions": 2,
+          "reference_parse_failures": 0,
+          "complete": 2,
+          "complete_rate_all_questions": 1.0,
+          "mean_table_recall_evaluable": 1.0,
+          "mean_table_precision_evaluable": 0.3333333333333333,
+          "mean_selected_tables": 3.0,
+          "mean_selected_columns": 94.0,
+          "mean_schema_tokens_embedding_tokenizer": 821.5
+        },
+        "dense": {
+          "questions": 2,
+          "reference_parse_failures": 0,
+          "complete": 2,
+          "complete_rate_all_questions": 1.0,
+          "mean_table_recall_evaluable": 1.0,
+          "mean_table_precision_evaluable": 0.3333333333333333,
+          "mean_selected_tables": 3.0,
+          "mean_selected_columns": 94.0,
+          "mean_schema_tokens_embedding_tokenizer": 821.5
+        }
+      },
+      "paired": {
+        "unit": {
+          "rescue": 0,
+          "damage": 0,
+          "unchanged": 2,
+          "unknown": 0,
+          "delta_all_questions": 0.0,
+          "DB_cluster_descriptive_95_interval": [
+            0.0,
+            0.0
+          ]
+        },
+        "dense": {
+          "rescue": 0,
+          "damage": 0,
+          "unchanged": 2,
+          "unknown": 0,
+          "delta_all_questions": 0.0,
+          "DB_cluster_descriptive_95_interval": [
+            0.0,
+            0.0
+          ]
+        }
+      }
+    }
+  },
+  "per_database": {
+    "DB-01": {
+      "unit": {
+        "questions": 1,
+        "reference_parse_failures": 0,
+        "complete": 1,
+        "complete_rate_all_questions": 1.0,
+        "mean_table_recall_evaluable": 1.0,
+        "mean_table_precision_evaluable": 0.3333333333333333,
+        "mean_selected_tables": 3.0,
+        "mean_selected_columns": 89.0,
+        "mean_schema_tokens_embedding_tokenizer": 844.0
+      },
+      "weighted": {
+        "questions": 1,
+        "reference_parse_failures": 0,
+        "complete": 1,
+        "complete_rate_all_questions": 1.0,
+        "mean_table_recall_evaluable": 1.0,
+        "mean_table_precision_evaluable": 0.3333333333333333,
+        "mean_selected_tables": 3.0,
+        "mean_selected_columns": 89.0,
+        "mean_schema_tokens_embedding_tokenizer": 844.0
+      },
+      "dense": {
+        "questions": 1,
+        "reference_parse_failures": 0,
+        "complete": 1,
+        "complete_rate_all_questions": 1.0,
+        "mean_table_recall_evaluable": 1.0,
+        "mean_table_precision_evaluable": 0.3333333333333333,
+        "mean_selected_tables": 3.0,
+        "mean_selected_columns": 89.0,
+        "mean_schema_tokens_embedding_tokenizer": 844.0
+      }
+    },
+    "DB-02": {
+      "unit": {
+        "questions": 1,
+        "reference_parse_failures": 0,
+        "complete": 1,
+        "complete_rate_all_questions": 1.0,
+        "mean_table_recall_evaluable": 1.0,
+        "mean_table_precision_evaluable": 0.3333333333333333,
+        "mean_selected_tables": 3.0,
+        "mean_selected_columns": 99.0,
+        "mean_schema_tokens_embedding_tokenizer": 799.0
+      },
+      "weighted": {
+        "questions": 1,
+        "reference_parse_failures": 0,
+        "complete": 1,
+        "complete_rate_all_questions": 1.0,
+        "mean_table_recall_evaluable": 1.0,
+        "mean_table_precision_evaluable": 0.3333333333333333,
+        "mean_selected_tables": 3.0,
+        "mean_selected_columns": 99.0,
+        "mean_schema_tokens_embedding_tokenizer": 799.0
+      },
+      "dense": {
+        "questions": 1,
+        "reference_parse_failures": 0,
+        "complete": 1,
+        "complete_rate_all_questions": 1.0,
+        "mean_table_recall_evaluable": 1.0,
+        "mean_table_precision_evaluable": 0.3333333333333333,
+        "mean_selected_tables": 3.0,
+        "mean_selected_columns": 99.0,
+        "mean_schema_tokens_embedding_tokenizer": 799.0
+      }
+    },
+    "DB-03": {
+      "unit": {
+        "questions": 1,
+        "reference_parse_failures": 0,
+        "complete": 1,
+        "complete_rate_all_questions": 1.0,
+        "mean_table_recall_evaluable": 1.0,
+        "mean_table_precision_evaluable": 0.6666666666666666,
+        "mean_selected_tables": 3.0,
+        "mean_selected_columns": 25.0,
+        "mean_schema_tokens_embedding_tokenizer": 228.0
+      },
+      "weighted": {
+        "questions": 1,
+        "reference_parse_failures": 0,
+        "complete": 1,
+        "complete_rate_all_questions": 1.0,
+        "mean_table_recall_evaluable": 1.0,
+        "mean_table_precision_evaluable": 0.6666666666666666,
+        "mean_selected_tables": 3.0,
+        "mean_selected_columns": 25.0,
+        "mean_schema_tokens_embedding_tokenizer": 228.0
+      },
+      "dense": {
+        "questions": 1,
+        "reference_parse_failures": 0,
+        "complete": 1,
+        "complete_rate_all_questions": 1.0,
+        "mean_table_recall_evaluable": 1.0,
+        "mean_table_precision_evaluable": 0.6666666666666666,
+        "mean_selected_tables": 3.0,
+        "mean_selected_columns": 25.0,
+        "mean_schema_tokens_embedding_tokenizer": 228.0
+      }
+    },
+    "DB-04": {
+      "unit": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      },
+      "weighted": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      },
+      "dense": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      }
+    },
+    "DB-05": {
+      "unit": {
+        "questions": 1,
+        "reference_parse_failures": 0,
+        "complete": 1,
+        "complete_rate_all_questions": 1.0,
+        "mean_table_recall_evaluable": 1.0,
+        "mean_table_precision_evaluable": 0.5,
+        "mean_selected_tables": 4.0,
+        "mean_selected_columns": 148.0,
+        "mean_schema_tokens_embedding_tokenizer": 1402.0
+      },
+      "weighted": {
+        "questions": 1,
+        "reference_parse_failures": 0,
+        "complete": 1,
+        "complete_rate_all_questions": 1.0,
+        "mean_table_recall_evaluable": 1.0,
+        "mean_table_precision_evaluable": 0.5,
+        "mean_selected_tables": 4.0,
+        "mean_selected_columns": 148.0,
+        "mean_schema_tokens_embedding_tokenizer": 1402.0
+      },
+      "dense": {
+        "questions": 1,
+        "reference_parse_failures": 0,
+        "complete": 1,
+        "complete_rate_all_questions": 1.0,
+        "mean_table_recall_evaluable": 1.0,
+        "mean_table_precision_evaluable": 0.5,
+        "mean_selected_tables": 4.0,
+        "mean_selected_columns": 148.0,
+        "mean_schema_tokens_embedding_tokenizer": 1402.0
+      }
+    },
+    "DB-06": {
+      "unit": {
+        "questions": 1,
+        "reference_parse_failures": 0,
+        "complete": 1,
+        "complete_rate_all_questions": 1.0,
+        "mean_table_recall_evaluable": 1.0,
+        "mean_table_precision_evaluable": 0.6666666666666666,
+        "mean_selected_tables": 3.0,
+        "mean_selected_columns": 24.0,
+        "mean_schema_tokens_embedding_tokenizer": 244.0
+      },
+      "weighted": {
+        "questions": 1,
+        "reference_parse_failures": 0,
+        "complete": 1,
+        "complete_rate_all_questions": 1.0,
+        "mean_table_recall_evaluable": 1.0,
+        "mean_table_precision_evaluable": 0.6666666666666666,
+        "mean_selected_tables": 3.0,
+        "mean_selected_columns": 24.0,
+        "mean_schema_tokens_embedding_tokenizer": 244.0
+      },
+      "dense": {
+        "questions": 1,
+        "reference_parse_failures": 0,
+        "complete": 1,
+        "complete_rate_all_questions": 1.0,
+        "mean_table_recall_evaluable": 1.0,
+        "mean_table_precision_evaluable": 0.6666666666666666,
+        "mean_selected_tables": 3.0,
+        "mean_selected_columns": 24.0,
+        "mean_schema_tokens_embedding_tokenizer": 244.0
+      }
+    },
+    "DB-07": {
+      "unit": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      },
+      "weighted": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      },
+      "dense": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      }
+    },
+    "DB-08": {
+      "unit": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      },
+      "weighted": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      },
+      "dense": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      }
+    },
+    "DB-09": {
+      "unit": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      },
+      "weighted": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      },
+      "dense": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      }
+    },
+    "DB-10": {
+      "unit": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      },
+      "weighted": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      },
+      "dense": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      }
+    },
+    "DB-11": {
+      "unit": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      },
+      "weighted": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      },
+      "dense": {
+        "questions": 0,
+        "reference_parse_failures": 0,
+        "complete": 0,
+        "complete_rate_all_questions": null,
+        "mean_table_recall_evaluable": null,
+        "mean_table_precision_evaluable": null,
+        "mean_selected_tables": null,
+        "mean_selected_columns": null,
+        "mean_schema_tokens_embedding_tokenizer": null
+      }
+    }
+  },
+  "changed_table_sets": 0,
+  "changed_edge_sets": 0,
+  "changed_constraint_sets": 1,
+  "forest_questions": 1,
+  "pilot_gate_pass": false,
+  "final_upgrade_gate_pass": false,
+  "decision": "smoke_pass",
+  "wall_seconds": 12.728593062609434,
+  "process_CPU_seconds": 12.580238189,
+  "peak_RSS_GiB": 0.7573699951171875,
+  "new_model_calls_this_retrieval_run": 0,
+  "external_API_cost_CNY": "0.00",
+  "GPU_seconds": 0,
+  "local_CPU_monetized": false,
+  "database_hashes_unchanged": true,
+  "limitations": [
+    "exploratory reused BIRD-dev; pilot topology-stratified, not population estimate",
+    "reference-table coverage, no SQL EX or adjudicated FK role accuracy",
+    "schema tokens measured by Qwen embedding tokenizer, not SQL generation usage",
+    "FP32 HF relation vectors vs historical vLLM query cache; five-query compatibility probe only",
+    "lambda=1 deliberately bounded costs may not change longer routes",
+    "all legitimate intra-sub-schema FK constraints retained; tree is not mandated SQL join plan"
+  ]
+}
