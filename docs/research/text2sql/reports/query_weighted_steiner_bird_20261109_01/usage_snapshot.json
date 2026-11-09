@@ -1,0 +1,37 @@
+{
+  "this_run": {
+    "project": "seed-steiner",
+    "run_id": "query_weighted_steiner_bird_20261109_01",
+    "requests": 15,
+    "reported_input_tokens": 1700,
+    "reported_output_tokens": 0,
+    "reported_total_tokens": 1700,
+    "requests_without_usage": 0,
+    "estimated_CNY_from_reported_usage": "0",
+    "priced_usage_requests": 0,
+    "unpriced_reported_usage_requests": 15,
+    "verified_billed_CNY": null,
+    "billed_cost_verified": false,
+    "cost_basis": "uncached list price estimate; unknown usage/discounts/billing excluded"
+  },
+  "ledger_totals": {
+    "requests": 74037,
+    "requests_with_usage": 73931,
+    "reported_input_tokens": 329843103,
+    "reported_output_tokens": 55202432,
+    "reported_total_tokens": 385045535,
+    "requests_without_usage": 106,
+    "auth_rejected_without_usage": 12,
+    "other_requests_without_usage": 94,
+    "estimated_CNY_from_reported_usage": "24.0406214732928",
+    "priced_usage_requests": 1278,
+    "unpriced_reported_usage_requests": 72653,
+    "verified_billed_CNY": null,
+    "billed_cost_verified": false,
+    "cost_basis": "uncached list price estimate; unknown usage/discounts/billing excluded",
+    "scope": "logged model API calls only; unknown usage excluded from confirmed totals"
+  },
+  "external_API_CNY": "0.00",
+  "local_CPU_monetized": false,
+  "GPU_seconds": 0
+}

@@ -1,0 +1,34 @@
+{
+  "config_sha256": "401282f39fb49d1467231136bb34d035dfc103e891aed4a5654fdc8480adbcc9",
+  "source_commit_local_execution": "9084970790a8fed408f1dc2c1238d6adf97a6662",
+  "local_encoder_source_commit": "2593c3f",
+  "owned_public_parent": "20a83a308913a9e2d78db362d1f4dd3057e27a19",
+  "dependencies": {
+    "networkx": "3.6rc0",
+    "numpy": "2.2.6",
+    "transformers": "4.57.1",
+    "sqlglot": "28.0.0"
+  },
+  "python": "3.12.14 | packaged by Anaconda, Inc. | (main, Aug 27 2026, 14:46:43) [GCC 14.3.0]",
+  "model": "Qwen3-Embedding-0.6B",
+  "model_weight_sha256": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd",
+  "seed_count": 3,
+  "lambda": 1,
+  "solver": "mehlhorn",
+  "question_input": "question only, no evidence",
+  "graph": {
+    "tables": 75,
+    "FK_constraints": 105,
+    "nonself_table_pairs": 74
+  },
+  "prediction_sha256": "232d5ff471f9f06181929aa1148c853e42c8172c28f6fdda373c0434dc959e3b",
+  "GPU_seconds": 0,
+  "threads": 8,
+  "CPU_available_preflight": 192,
+  "memory_available_preflight_GiB": 436,
+  "hardware": "CPU-only; host GPU inventory 4x RTX4090 unused",
+  "encoding_process_CPU_seconds": 50.168661778,
+  "full_retrieval_process_CPU_seconds": 15.645184765,
+  "encoder_peak_RSS_GiB": 4.079414367675781,
+  "retrieval_peak_RSS_GiB": 0.7609748840332031
+}

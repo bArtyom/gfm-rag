@@ -122,7 +122,9 @@ def serialize_schema(schema, selected_tables, constraints):
     columns = schema['column_names_original']
     for tid in sorted(selected):
         defs = [f'  {quote(name)} {schema["column_types"][cid]}' for cid, (owner, name) in enumerate(columns) if owner == tid]
-        pk = [quote(columns[c][1]) for c in schema['primary_keys'] if columns[c][0] == tid]
+        primary_ids = [cid for entry in schema['primary_keys']
+                       for cid in ([entry] if isinstance(entry, int) else entry)]
+        pk = [quote(columns[c][1]) for c in primary_ids if columns[c][0] == tid]
         if pk:
             defs.append('  PRIMARY KEY (' + ', '.join(pk) + ')')
         for c in constraints:

@@ -1,0 +1,39 @@
+{
+  "config_sha256": "401282f39fb49d1467231136bb34d035dfc103e891aed4a5654fdc8480adbcc9",
+  "model_weight_sha256": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd",
+  "model_support_sha256": {
+    "config.json": "b5bf1f51fc45be473a54718cef92448d90a1be001bf9b9a44b8c7f10a19feaa9",
+    "tokenizer.json": "def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a",
+    "tokenizer_config.json": "253153d0738ceb4c668d2eff957714dd2bea0b56de772a9fdccd96cbf517e6a0",
+    "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+    "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+  },
+  "backend": "transformers-fp32-last-token",
+  "pooling": "left-padding-last-token; L2; full1024D",
+  "query_prefix": "Instruct: Given a natural-language question about a database, retrieve the relevant tables and columns.\nQuery: ",
+  "relation_template": "Foreign key relationship: <ordered qualified pairs joined by AND>.",
+  "relation_manifest_sha256": "24b33a0a1029f57bd681a6484d898a7141fa362cb73c98b0c8da13f7c5ed2666",
+  "relation_vectors_sha256": "2a259c84d2b61dded56bb877c0fea7892b40bf3c101e90a20b97561ec73fe571",
+  "source_query_cache_sha256": "c7bb9ed942aa793e34e1253a5d1d8f8d8d871c95bdfdc33718dde7396d345250",
+  "cache_key": "9db6d8000c417300d94d075cd4ea9b93f10454d117f1d19148ecec7010adf9ef",
+  "relations": 105,
+  "shape": [
+    105,
+    1024
+  ],
+  "new_local_forward_attempts": 15,
+  "input_tokens": 1700,
+  "output_tokens": 0,
+  "total_tokens": 1700,
+  "unknown_usage_requests": 0,
+  "external_API_cost_CNY": "0.00",
+  "GPU_seconds": 0,
+  "local_CPU_monetized": false,
+  "wall_seconds": 23.051282117143273,
+  "process_CPU_seconds": 50.168661778,
+  "peak_RSS_GiB": 4.079414367675781,
+  "norm_min": 0.9999998211860657,
+  "norm_max": 1.0000001192092896,
+  "probe_min_cosine": 0.9998427629470825,
+  "status": "complete"
+}

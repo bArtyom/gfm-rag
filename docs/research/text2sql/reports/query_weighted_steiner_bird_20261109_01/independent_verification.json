@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "rows_verified": 1534,
+  "arm_outputs_verified": 4602,
+  "prediction_sha256": "232d5ff471f9f06181929aa1148c853e42c8172c28f6fdda373c0434dc959e3b",
+  "complete": {
+    "unit": 1236,
+    "weighted": 1238,
+    "dense": 1219
+  },
+  "paired": {
+    "unit": {
+      "unchanged": 1520,
+      "rescue": 8,
+      "damage": 6
+    },
+    "dense": {
+      "unchanged": 1497,
+      "rescue": 28,
+      "damage": 9
+    }
+  },
+  "size_delta_histogram_weighted_minus_unit": {
+    "0": 1517,
+    "1": 6,
+    "-1": 11
+  },
+  "changed_table_sets": 37,
+  "changed_edge_sets": 47,
+  "changed_constraint_sets": 261,
+  "final_upgrade_gate_pass_verified": false,
+  "strata_paired_vs_unit": {
+    "False": {
+      "unchanged": 796
+    },
+    "True": {
+      "unchanged": 724,
+      "rescue": 8,
+      "damage": 6
+    }
+  },
+  "observed_cost_min": 1.154481489634053,
+  "observed_cost_max": 1.481451588853225,
+  "observed_cost_median": 1.333424151748193,
+  "wall_seconds": 9.369900779798627,
+  "checks": [
+    "sealed predictions",
+    "original inputs hashes",
+    "independent dot/cost and seed ranking",
+    "fixed topology",
+    "parallel/composite FK identity",
+    "seed connectivity and forests",
+    "per-question dense size match",
+    "coverage and paired counts",
+    "schema token recount"
+  ]
+}
