@@ -1,0 +1,31 @@
+{
+  "counts": {
+    "questions": 100,
+    "strict_budget_oracle": 78,
+    "token_only_cap_oracle": 78,
+    "table_only_cap_oracle": 78,
+    "unlimited_minimal_tree_oracle": 91,
+    "reference_only_schema_fits_both_caps": 93,
+    "baseline_incomplete": 22,
+    "baseline_incomplete_but_reference_only_fits": 15,
+    "baseline_incomplete_unlimited_tree_recoverable": 13
+  },
+  "feasible_tree_count_histogram": {
+    "1": 96,
+    "3": 3,
+    "2": 1
+  },
+  "cases_with_multiple_feasible_table_sets": 1,
+  "extra_tokens_to_best_unlimited_tree_quantiles": [
+    0.0,
+    0.0,
+    98.0,
+    358.0
+  ],
+  "limitations": [
+    "posthoc reference-informed bounds, not a deployable method",
+    "reference-only removes BOTH fixed-terminal and connectivity requirements; effects not separated",
+    "shared tokenizer/serializer/reference parser; not independent implementations",
+    "no extra table/token budget tested as a deployed algorithm; no new SQL/model result"
+  ]
+}

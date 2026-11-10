@@ -1,0 +1,96 @@
+{
+  "run_id": "residual_route_bird_20261111_01",
+  "mode": "pilot",
+  "questions": 100,
+  "arms": {
+    "frozen": {
+      "questions": 100,
+      "complete": 78,
+      "selected_tables": 329,
+      "schema_tokens": 52557,
+      "changed_from_frozen": 0
+    },
+    "raw": {
+      "questions": 100,
+      "complete": 78,
+      "selected_tables": 329,
+      "schema_tokens": 52554,
+      "changed_from_frozen": 1
+    },
+    "residual": {
+      "questions": 100,
+      "complete": 78,
+      "selected_tables": 329,
+      "schema_tokens": 52557,
+      "changed_from_frozen": 0
+    }
+  },
+  "paired": {
+    "residual_vs_frozen": {
+      "unchanged": 100
+    },
+    "residual_vs_raw": {
+      "unchanged": 100
+    }
+  },
+  "per_database_net": {
+    "DB-01": {
+      "residual_vs_frozen": 0,
+      "residual_vs_raw": 0
+    },
+    "DB-02": {
+      "residual_vs_frozen": 0,
+      "residual_vs_raw": 0
+    },
+    "DB-03": {
+      "residual_vs_frozen": 0,
+      "residual_vs_raw": 0
+    },
+    "DB-04": {
+      "residual_vs_frozen": 0,
+      "residual_vs_raw": 0
+    },
+    "DB-05": {
+      "residual_vs_frozen": 0,
+      "residual_vs_raw": 0
+    },
+    "DB-06": {
+      "residual_vs_frozen": 0,
+      "residual_vs_raw": 0
+    },
+    "DB-07": {
+      "residual_vs_frozen": 0,
+      "residual_vs_raw": 0
+    },
+    "DB-08": {
+      "residual_vs_frozen": 0,
+      "residual_vs_raw": 0
+    },
+    "DB-09": {
+      "residual_vs_frozen": 0,
+      "residual_vs_raw": 0
+    },
+    "DB-10": {
+      "residual_vs_frozen": 0,
+      "residual_vs_raw": 0
+    },
+    "DB-11": {
+      "residual_vs_frozen": 0,
+      "residual_vs_raw": 0
+    }
+  },
+  "diagnostic_oracle": {
+    "within_budget_complete": 78,
+    "questions": 100
+  },
+  "pilot_upgrade_gate": false,
+  "decision": "STOP_RESIDUAL_ROUTE_CANDIDATE",
+  "catalogue_mean": 5.13,
+  "feasible_mean": 1.07,
+  "new_model_calls": 0,
+  "source_commit": "7764afd0787a7630c98cb7d5fbc886b50e6b0616",
+  "prediction_sha256": "369845b03a3bba2285fe0fc0fd6f271b7ff8f765f8f4c8fc7f6721d8bbd24ba1",
+  "elapsed_wall_seconds": 7.717278532683849,
+  "cpu_seconds": 11.34039731,
+  "peak_RSS_GiB": 0.7317008972167969
+}

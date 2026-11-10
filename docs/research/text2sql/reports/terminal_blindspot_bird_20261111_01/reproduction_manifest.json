@@ -1,0 +1,40 @@
+{
+  "owned_repository": "bArtyom/gfm-rag",
+  "branch": "research/steiner-terminal-blindspot-20261111",
+  "local_base": "f103e2f5d63fa99e5ad09d19a252c5e0356dd8ae",
+  "public_parent": "712e874e24099d476cb3db218720f2589298abc5",
+  "diagnosis_source": "adb6b68ec3e215ff46eb7a30b49e59a975e146ba",
+  "route_source": "7764afd0787a7630c98cb7d5fbc886b50e6b0616",
+  "final_gate_and_audit_source": "a3da3f8",
+  "config_sha256": {
+    "terminal_blindspot_bird_20261111.json": "73ea066b3668339fe39a38e914d1a6da8ffdb6eb2e0dcdd6d6ee8de97e7c8954",
+    "residual_route_bird_20261111.json": "765e920abbe6380725e80cfadaae2dcec5c3b6741887c5e599355b3d1c2b88fb"
+  },
+  "source_prediction_sha256": "232d5ff471f9f06181929aa1148c853e42c8172c28f6fdda373c0434dc959e3b",
+  "diagnostic_seal": "33d8d86dc7762959abe24c076d0c5659b035157fd9886b9a3d7c9ab29b0aac17",
+  "route_seal": "369845b03a3bba2285fe0fc0fd6f271b7ff8f765f8f4c8fc7f6721d8bbd24ba1",
+  "hardware": {
+    "logical_CPU": 192,
+    "available_memory_GiB": 439,
+    "threads": 8,
+    "GPU": "other workloads; this experiment 0seconds"
+  },
+  "environment": {
+    "numpy": "2.2.6",
+    "networkx": "3.6rc0",
+    "sqlglot": "28.0.0",
+    "transformers": "4.57.1"
+  },
+  "targeted_tests": {
+    "pytest_cases": 8,
+    "random_envelope_graphs": 40,
+    "envelope_terminal_cases_per_graph": 4,
+    "bruteforce_catalogue_graph_seeds": 15
+  },
+  "no_new_model_encoding": true,
+  "upstream": {
+    "repository": "https://github.com/thanhdath/grast-sql",
+    "commit": "4c698cae31da8299deb5c809101d172d5b2ddeb3",
+    "license": "none found; no upstream code vendored"
+  }
+}
