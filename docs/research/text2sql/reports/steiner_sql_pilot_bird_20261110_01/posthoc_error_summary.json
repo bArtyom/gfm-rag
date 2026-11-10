@@ -1,0 +1,12 @@
+{
+  "pilot": {
+    "weighted_loses_full_confirmed_cases": 7,
+    "of_these_reference_tables_missing": 6,
+    "interpretation": "posthoc association only; not causal attribution, alternative valid SQL may use different tables"
+  },
+  "diagnostic": {
+    "weighted_loses_full_confirmed_cases": 6,
+    "of_these_reference_tables_missing": 6,
+    "interpretation": "posthoc association only; not causal attribution, alternative valid SQL may use different tables"
+  }
+}

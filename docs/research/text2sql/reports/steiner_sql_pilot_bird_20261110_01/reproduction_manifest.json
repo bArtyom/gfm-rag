@@ -1,0 +1,73 @@
+{
+  "owned_repository": "bArtyom/gfm-rag",
+  "branch": "research/steiner-sql-pilot-20261110",
+  "parent_public_commit": "377e7ec93dad2f786b1f5a181fcf8dfc39ecec03",
+  "execution_source": "0b592aa36e64dc7ce724110a65b122c739e7455f",
+  "config_sha256": "edbc8f954e02f83fb5be744ad5a8be5e2ae31517a45714c28cd969cf3eb9d0bf",
+  "prepared": {
+    "online_sha256": "746e1968845b519349ec8ee3b7209e6e3cc2759d0b94644af3c3b41c7c877d42",
+    "config_sha256": "edbc8f954e02f83fb5be744ad5a8be5e2ae31517a45714c28cd969cf3eb9d0bf",
+    "questions": 1534,
+    "primary": 100,
+    "smoke": 5,
+    "diagnostic": 37,
+    "maximum_prompt_tokens": 2497,
+    "model_support_sha256": {
+      "tokenizer.json": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "tokenizer_config.json": "959e7f1d9a1b7641a6d6ce05ca97b75c7894fcb66cbe5a040406458fb1128ee4",
+      "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+      "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+      "config.json": "c0242402ad6a13b331ea320feea8c7e3776ffb7a4eff0757b9cd667e116d9a28",
+      "generation_config.json": "1a628a5775bc69cde01c6749a531150ca4d3189652c618a174f7077923acf3b1"
+    },
+    "model_files_sha256": {
+      "config.json": "c0242402ad6a13b331ea320feea8c7e3776ffb7a4eff0757b9cd667e116d9a28",
+      "generation_config.json": "1a628a5775bc69cde01c6749a531150ca4d3189652c618a174f7077923acf3b1",
+      "tokenizer_config.json": "959e7f1d9a1b7641a6d6ce05ca97b75c7894fcb66cbe5a040406458fb1128ee4",
+      "tokenizer.json": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "model.safetensors.index.json": "998a078123ffc97763690de7f2a677eb89168af5eaf8a5e12e6bc24d18e25bdb",
+      "model-00001-of-00004.safetensors": "0b6f069918b07c064cbba8ae4f00f529aa9bbf84b7cdfcb7fc2694a40f6aa8ef",
+      "model-00002-of-00004.safetensors": "c3d46733e7aa054ea7b063fbccd0a5a08446e7bd1814bef26936c5aa1331da62",
+      "model-00003-of-00004.safetensors": "9fe45dacee087385b3d2d6dd27a7413a8a56d95f145772facc148fa86fc73446",
+      "model-00004-of-00004.safetensors": "5aa6e5cbe642377fd441fb4e60e83cca96b2bcd9820e245b9ea06d94653f17f2"
+    },
+    "database_sha256": {
+      "debit_card_specializing": "b3d149ad05746dbbe5116e229e17e18f09c39db43cf117d9ef3441753608b691",
+      "financial": "d15d89cdb068a202b6f2b99342af44dffc1d52545b39ceaf62efdc0ba570101e",
+      "formula_1": "17185981cd747f6cdc374cb02a6096db3130e6ec2ddc582fe1686a28fb4c4c8a",
+      "california_schools": "986817d793479801ed55133e55aa27e335422c0cd3866b54a3d6317b7c5f09c1",
+      "card_games": "c98bdb57fe7474da798b407785544b9af0daaad5d61fd21e2a73309493bc1227",
+      "european_football_2": "e4d361dbeec6591a4b315877c0c481da05c8ff5a3d389b34d6e17b6f15bee4e0",
+      "thrombosis_prediction": "e7e16d74b4731b4b8d33fdbe8c29cd5622620788ce8d1f335631f65fc7cf1db9",
+      "toxicology": "f5fa7f21af1ad878ff8fef1b0582b8cb2d7ed63dbac65ff16d2ba05667650c5b",
+      "student_club": "eb89bcfe97eefa386a27904ec5aa15159811a7eac894ec659a36e48fa9f76b77",
+      "superhero": "75e94a2c3236ee3bb2c01fb97a1c4b4c1c269bcefd4eab1d04be323d2d0825b1",
+      "codebase_community": "92101be6d2a9f6adceea59d38f6d1c556087f9eea1432432a21268cb1348036d"
+    },
+    "dependencies": {
+      "transformers": "4.57.1",
+      "numpy": "2.2.6",
+      "sqlglot": "28.0.0"
+    },
+    "wall_seconds": 91.91257705166936,
+    "new_model_calls": 0
+  },
+  "hardware": {
+    "GPU": "2xRTX4090 selected IDs1,2; BF16 TP2",
+    "GPU_memory_fraction_each": 0.45,
+    "logical_CPU": 192,
+    "threads": 8
+  },
+  "service_dependencies": {
+    "vllm": "0.8.5",
+    "torch": "2.6.0",
+    "python": "3.10"
+  },
+  "CPU_python": "3.12.14",
+  "stage_prediction_sha256": {
+    "smoke": "e53e65616534dd54c6c1261148b4274fd068926665f5f793972112ba7f6d1cdb",
+    "pilot": "2d9ca5f8a0ca0920ef8950360f8cffe4906f0aa9b7675269e3b17639c3e3d772",
+    "diagnostic": "8b0d93dff76ef11bb70d708d01600e8a204e5b5fed5156d7496c9abda2336207"
+  },
+  "interrupted_startup": "execution_001 interrupted before model requests to fix cleanup/reference identity checks; no discarded model output"
+}

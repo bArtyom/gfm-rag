@@ -1,0 +1,444 @@
+{
+  "status": "PASS",
+  "stages": {
+    "smoke": {
+      "summary": {
+        "stage": "smoke",
+        "questions": 5,
+        "arms": {
+          "full": {
+            "questions": 5,
+            "set_correct": 1,
+            "bag_correct": 1,
+            "unknown": 0,
+            "executable": 5,
+            "input_tokens": 5666,
+            "output_tokens": 233,
+            "truncated": 0,
+            "set_EX": 0.2,
+            "bag_EX": 0.2
+          },
+          "unit": {
+            "questions": 5,
+            "set_correct": 2,
+            "bag_correct": 2,
+            "unknown": 0,
+            "executable": 5,
+            "input_tokens": 4769,
+            "output_tokens": 207,
+            "truncated": 0,
+            "set_EX": 0.4,
+            "bag_EX": 0.4
+          },
+          "weighted": {
+            "questions": 5,
+            "set_correct": 2,
+            "bag_correct": 2,
+            "unknown": 0,
+            "executable": 5,
+            "input_tokens": 4769,
+            "output_tokens": 207,
+            "truncated": 0,
+            "set_EX": 0.4,
+            "bag_EX": 0.4
+          }
+        },
+        "paired": {
+          "unit_vs_full": {
+            "rescue": 1,
+            "damage": 0,
+            "unchanged": 4,
+            "unknown": 0
+          },
+          "weighted_vs_full": {
+            "rescue": 1,
+            "damage": 0,
+            "unchanged": 4,
+            "unknown": 0
+          },
+          "weighted_vs_unit": {
+            "rescue": 0,
+            "damage": 0,
+            "unchanged": 5,
+            "unknown": 0
+          }
+        },
+        "logical_weighted_input_reduction": 0.1583127426756089,
+        "expansion_gate_pass": true,
+        "new_physical_requests": 9,
+        "cumulative_physical_requests": 9,
+        "prediction_sha256": "e53e65616534dd54c6c1261148b4274fd068926665f5f793972112ba7f6d1cdb",
+        "new_model_backend": "localQwen2.5Coder7B",
+        "external_API_cost_CNY": "0.00",
+        "local_GPU_cost_monetized": false,
+        "metric": "unordered Set/Bag; fixed projection order; unknowns retained"
+      },
+      "statuses": {
+        "full": {
+          "reference:ok": 5,
+          "prediction:ok": 5,
+          "comparison:ok": 4,
+          "comparison:column_count_mismatch": 1
+        },
+        "unit": {
+          "reference:ok": 5,
+          "prediction:ok": 5,
+          "comparison:ok": 4,
+          "comparison:column_count_mismatch": 1
+        },
+        "weighted": {
+          "reference:ok": 5,
+          "prediction:ok": 5,
+          "comparison:ok": 4,
+          "comparison:column_count_mismatch": 1
+        }
+      },
+      "coverage": {
+        "full": {
+          "covered": 5,
+          "missing": 0,
+          "correct_with_missing": 0,
+          "correct_with_coverage": 1
+        },
+        "unit": {
+          "covered": 4,
+          "missing": 1,
+          "correct_with_missing": 1,
+          "correct_with_coverage": 1
+        },
+        "weighted": {
+          "covered": 4,
+          "missing": 1,
+          "correct_with_missing": 1,
+          "correct_with_coverage": 1
+        }
+      },
+      "binary_pairs_unknown_as_unconfirmed": {
+        "unit_vs_full": {
+          "unchanged": 4,
+          "rescue": 1
+        },
+        "weighted_vs_full": {
+          "unchanged": 4,
+          "rescue": 1
+        },
+        "weighted_vs_unit": {
+          "unchanged": 5
+        }
+      },
+      "descriptive_cluster_bootstrap_weighted_minus_full_95pct": [
+        0.0,
+        0.6
+      ],
+      "cluster_count": 5
+    },
+    "pilot": {
+      "summary": {
+        "stage": "pilot",
+        "questions": 100,
+        "arms": {
+          "full": {
+            "questions": 100,
+            "set_correct": 42,
+            "bag_correct": 38,
+            "unknown": 23,
+            "executable": 81,
+            "input_tokens": 89785,
+            "output_tokens": 5570,
+            "truncated": 0,
+            "set_EX": 0.42,
+            "bag_EX": 0.38
+          },
+          "unit": {
+            "questions": 100,
+            "set_correct": 39,
+            "bag_correct": 37,
+            "unknown": 26,
+            "executable": 78,
+            "input_tokens": 62219,
+            "output_tokens": 5411,
+            "truncated": 0,
+            "set_EX": 0.39,
+            "bag_EX": 0.37
+          },
+          "weighted": {
+            "questions": 100,
+            "set_correct": 39,
+            "bag_correct": 37,
+            "unknown": 26,
+            "executable": 78,
+            "input_tokens": 62247,
+            "output_tokens": 5404,
+            "truncated": 0,
+            "set_EX": 0.39,
+            "bag_EX": 0.37
+          }
+        },
+        "paired": {
+          "unit_vs_full": {
+            "rescue": 3,
+            "damage": 4,
+            "unchanged": 63,
+            "unknown": 30
+          },
+          "weighted_vs_full": {
+            "rescue": 3,
+            "damage": 4,
+            "unchanged": 62,
+            "unknown": 31
+          },
+          "weighted_vs_unit": {
+            "rescue": 0,
+            "damage": 0,
+            "unchanged": 73,
+            "unknown": 27
+          }
+        },
+        "logical_weighted_input_reduction": 0.30671047502366766,
+        "expansion_gate_pass": false,
+        "new_physical_requests": 176,
+        "cumulative_physical_requests": 185,
+        "prediction_sha256": "2d9ca5f8a0ca0920ef8950360f8cffe4906f0aa9b7675269e3b17639c3e3d772",
+        "new_model_backend": "localQwen2.5Coder7B",
+        "external_API_cost_CNY": "0.00",
+        "local_GPU_cost_monetized": false,
+        "metric": "unordered Set/Bag; fixed projection order; unknowns retained"
+      },
+      "statuses": {
+        "full": {
+          "reference:ok": 93,
+          "prediction:error": 13,
+          "comparison:execution_unavailable": 22,
+          "prediction:ok": 81,
+          "comparison:ok": 73,
+          "reference:blocked": 7,
+          "prediction:blocked": 6,
+          "comparison:column_count_mismatch": 3,
+          "comparison:unknown_large_nonexact": 2
+        },
+        "unit": {
+          "reference:ok": 93,
+          "prediction:error": 17,
+          "comparison:execution_unavailable": 24,
+          "prediction:ok": 78,
+          "comparison:ok": 71,
+          "reference:blocked": 7,
+          "prediction:blocked": 5,
+          "comparison:unknown_large_nonexact": 2,
+          "comparison:column_count_mismatch": 3
+        },
+        "weighted": {
+          "reference:ok": 93,
+          "prediction:error": 17,
+          "comparison:execution_unavailable": 24,
+          "prediction:ok": 78,
+          "comparison:ok": 71,
+          "reference:blocked": 7,
+          "prediction:blocked": 5,
+          "comparison:unknown_large_nonexact": 2,
+          "comparison:column_count_mismatch": 3
+        }
+      },
+      "coverage": {
+        "full": {
+          "covered": 100,
+          "missing": 0,
+          "correct_with_missing": 0,
+          "correct_with_coverage": 42
+        },
+        "unit": {
+          "covered": 76,
+          "missing": 24,
+          "correct_with_missing": 3,
+          "correct_with_coverage": 36
+        },
+        "weighted": {
+          "covered": 75,
+          "missing": 25,
+          "correct_with_missing": 4,
+          "correct_with_coverage": 35
+        }
+      },
+      "binary_pairs_unknown_as_unconfirmed": {
+        "unit_vs_full": {
+          "unchanged": 91,
+          "rescue": 3,
+          "damage": 6
+        },
+        "weighted_vs_full": {
+          "unchanged": 89,
+          "rescue": 4,
+          "damage": 7
+        },
+        "weighted_vs_unit": {
+          "unchanged": 98,
+          "damage": 1,
+          "rescue": 1
+        }
+      },
+      "descriptive_cluster_bootstrap_weighted_minus_full_95pct": [
+        -0.1,
+        0.020202020202020204
+      ],
+      "cluster_count": 11
+    },
+    "diagnostic": {
+      "summary": {
+        "stage": "diagnostic",
+        "questions": 37,
+        "arms": {
+          "full": {
+            "questions": 37,
+            "set_correct": 17,
+            "bag_correct": 17,
+            "unknown": 6,
+            "executable": 33,
+            "input_tokens": 43052,
+            "output_tokens": 2016,
+            "truncated": 0,
+            "set_EX": 0.4594594594594595,
+            "bag_EX": 0.4594594594594595
+          },
+          "unit": {
+            "questions": 37,
+            "set_correct": 11,
+            "bag_correct": 11,
+            "unknown": 15,
+            "executable": 23,
+            "input_tokens": 17957,
+            "output_tokens": 2066,
+            "truncated": 0,
+            "set_EX": 0.2972972972972973,
+            "bag_EX": 0.2972972972972973
+          },
+          "weighted": {
+            "questions": 37,
+            "set_correct": 13,
+            "bag_correct": 13,
+            "unknown": 10,
+            "executable": 28,
+            "input_tokens": 18272,
+            "output_tokens": 2048,
+            "truncated": 0,
+            "set_EX": 0.35135135135135137,
+            "bag_EX": 0.35135135135135137
+          }
+        },
+        "paired": {
+          "unit_vs_full": {
+            "rescue": 0,
+            "damage": 4,
+            "unchanged": 17,
+            "unknown": 16
+          },
+          "weighted_vs_full": {
+            "rescue": 1,
+            "damage": 3,
+            "unchanged": 21,
+            "unknown": 12
+          },
+          "weighted_vs_unit": {
+            "rescue": 3,
+            "damage": 1,
+            "unchanged": 14,
+            "unknown": 19
+          }
+        },
+        "logical_weighted_input_reduction": 0.5755830158877636,
+        "expansion_gate_pass": false,
+        "new_physical_requests": 99,
+        "cumulative_physical_requests": 284,
+        "prediction_sha256": "8b0d93dff76ef11bb70d708d01600e8a204e5b5fed5156d7496c9abda2336207",
+        "new_model_backend": "localQwen2.5Coder7B",
+        "external_API_cost_CNY": "0.00",
+        "local_GPU_cost_monetized": false,
+        "metric": "unordered Set/Bag; fixed projection order; unknowns retained"
+      },
+      "statuses": {
+        "full": {
+          "reference:ok": 36,
+          "prediction:ok": 33,
+          "comparison:ok": 30,
+          "reference:blocked": 1,
+          "comparison:execution_unavailable": 5,
+          "prediction:error": 4,
+          "comparison:unknown_large_nonexact": 1,
+          "comparison:column_count_mismatch": 1
+        },
+        "unit": {
+          "reference:ok": 36,
+          "prediction:error": 13,
+          "comparison:execution_unavailable": 15,
+          "reference:blocked": 1,
+          "prediction:ok": 23,
+          "comparison:ok": 21,
+          "comparison:column_count_mismatch": 1,
+          "prediction:blocked": 1
+        },
+        "weighted": {
+          "reference:ok": 36,
+          "prediction:ok": 28,
+          "comparison:ok": 25,
+          "reference:blocked": 1,
+          "comparison:execution_unavailable": 10,
+          "prediction:error": 9,
+          "comparison:column_count_mismatch": 2
+        }
+      },
+      "coverage": {
+        "full": {
+          "covered": 37,
+          "missing": 0,
+          "correct_with_missing": 0,
+          "correct_with_coverage": 17
+        },
+        "unit": {
+          "covered": 17,
+          "missing": 20,
+          "correct_with_missing": 3,
+          "correct_with_coverage": 8
+        },
+        "weighted": {
+          "covered": 19,
+          "missing": 18,
+          "correct_with_missing": 3,
+          "correct_with_coverage": 10
+        }
+      },
+      "binary_pairs_unknown_as_unconfirmed": {
+        "unit_vs_full": {
+          "unchanged": 29,
+          "rescue": 1,
+          "damage": 7
+        },
+        "weighted_vs_full": {
+          "unchanged": 29,
+          "rescue": 2,
+          "damage": 6
+        },
+        "weighted_vs_unit": {
+          "unchanged": 27,
+          "damage": 4,
+          "rescue": 6
+        }
+      },
+      "descriptive_cluster_bootstrap_weighted_minus_full_95pct": [
+        -0.125,
+        0.0
+      ],
+      "cluster_count": 3
+    }
+  },
+  "physical_requests": {
+    "requests": 284,
+    "input_tokens": 209008,
+    "output_tokens": 15565,
+    "total_tokens": 224573
+  },
+  "unique_SQL_executions": 358,
+  "replay_differences": [],
+  "cohort_overlap_primary_diagnostic": 4,
+  "decision": "stop; primary expansion gate failed",
+  "cleanup_verified": true,
+  "wall_seconds": 21.864512072876096
+}
