@@ -1,5 +1,7 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
+> **Steiner 下游SQL（2026-11-10 UTC+8）：** [本地7B pilot](reports/steiner_sql_pilot_bird_20261110_01/README.md)完成100题主pilot和37题差异诊断；full/unit/weighted确认Set正确42/39/39，weighted输入token减30.67%，未过扩量门。非官方BIRD EX，未确认23/26/26均保留分母；无全量扩展。284次本地请求/224573token，独立重放PASS、服务已清理。
+
 > **五求解器统一对比（2026-11-09 UTC+8）：** [完整矩阵](reports/steiner_five_solvers_bird_20261109_01/README.md)完成单位/问句权重两组各1534题，共15340次求解；加权覆盖greedy1235/Kou1238/Mehlhorn1238/DP1236/MILP1236。DP与MILP最优代价一致，但无覆盖提升；单位边权的不同最优树产生覆盖差异。无新模型/GPU/SQL，实验后停止扩展。
 
 > **问句加权Steiner（2026-11-09 UTC+8）：** [固定图加权实验](reports/query_weighted_steiner_bird_20261109_01/README.md)完成BIRD1534题，unit1236/weighted1238/同表数语义1219；相对unit修复8退化6、净增2（+0.13pp），未过升级门，停止扩展。无SQL/GPU/付费API；15次本地embedding共1700输入token。
