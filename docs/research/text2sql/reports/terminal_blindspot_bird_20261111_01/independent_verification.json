@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "questions": 100,
+  "labels_used_for_ranking": false,
+  "ranking_recomputed_via": "Gram pseudoinverse, independent of producer SVD",
+  "budget_checks": 300,
+  "catalogue_validation": "shared enumerator plus independent graph feasibility; completeness checked by tiny edge-subset tests",
+  "sealed_prediction_sha256": "369845b03a3bba2285fe0fc0fd6f271b7ff8f765f8f4c8fc7f6721d8bbd24ba1",
+  "recomputed": {
+    "frozen": {
+      "questions": 100,
+      "selected_tables": 329,
+      "schema_tokens": 52557,
+      "changed_from_frozen": 0,
+      "complete": 78
+    },
+    "raw": {
+      "questions": 100,
+      "selected_tables": 329,
+      "schema_tokens": 52554,
+      "changed_from_frozen": 1,
+      "complete": 78
+    },
+    "residual": {
+      "questions": 100,
+      "selected_tables": 329,
+      "schema_tokens": 52557,
+      "changed_from_frozen": 0,
+      "complete": 78
+    }
+  },
+  "stop_decision_verified": true,
+  "wall_seconds": 5.081327207386494
+}

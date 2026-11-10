@@ -1,0 +1,29 @@
+{
+  "this_turn": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "requests": 0,
+    "unknown_usage_requests": 0,
+    "external_API_cost_CNY": "0.00",
+    "GPU_seconds": 0,
+    "local_CPU_cost_monetized": false
+  },
+  "cross_project_cumulative": {
+    "requests": 91697,
+    "requests_with_usage": 91589,
+    "reported_input_tokens": 424995656,
+    "reported_output_tokens": 69215980,
+    "reported_total_tokens": 494211636,
+    "requests_without_usage": 108,
+    "auth_rejected_without_usage": 12,
+    "other_requests_without_usage": 96,
+    "estimated_CNY_from_reported_usage": "24.0406214732928",
+    "priced_usage_requests": 1278,
+    "unpriced_reported_usage_requests": 90311,
+    "verified_billed_CNY": null,
+    "billed_cost_verified": false,
+    "cost_basis": "uncached list price estimate; unknown usage/discounts/billing excluded",
+    "scope": "logged model API calls only; unknown usage excluded from confirmed totals"
+  }
+}
