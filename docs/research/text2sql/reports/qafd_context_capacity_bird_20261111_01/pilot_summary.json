@@ -1,0 +1,102 @@
+{
+  "mode": "pilot",
+  "questions": 100,
+  "run_id": "qafd_context_capacity_bird_20261111_01",
+  "arms": {
+    "dense": {
+      "questions": 100,
+      "complete": 74,
+      "selected_tables": 335,
+      "schema_tokens": 49480,
+      "supports_over_actual_budget": 0,
+      "support_dropped_by_packing": 0,
+      "selected_dense_fallback": 335,
+      "total_flow_updates": 0
+    },
+    "degree": {
+      "questions": 100,
+      "complete": 74,
+      "selected_tables": 335,
+      "schema_tokens": 49480,
+      "supports_over_actual_budget": 0,
+      "support_dropped_by_packing": 0,
+      "selected_dense_fallback": 166,
+      "total_flow_updates": 1152
+    },
+    "context": {
+      "questions": 100,
+      "complete": 72,
+      "selected_tables": 341,
+      "schema_tokens": 48972,
+      "supports_over_actual_budget": 0,
+      "support_dropped_by_packing": 0,
+      "selected_dense_fallback": 197,
+      "total_flow_updates": 779
+    }
+  },
+  "paired": {
+    "degree": {
+      "unchanged": 98,
+      "damage": 2
+    },
+    "dense": {
+      "unchanged": 98,
+      "damage": 2
+    }
+  },
+  "per_database_net": {
+    "DB-01": {
+      "degree": 0,
+      "dense": 0
+    },
+    "DB-02": {
+      "degree": 0,
+      "dense": 0
+    },
+    "DB-03": {
+      "degree": 0,
+      "dense": 0
+    },
+    "DB-04": {
+      "degree": 0,
+      "dense": 0
+    },
+    "DB-05": {
+      "degree": -2,
+      "dense": -2
+    },
+    "DB-06": {
+      "degree": 0,
+      "dense": 0
+    },
+    "DB-07": {
+      "degree": 0,
+      "dense": 0
+    },
+    "DB-08": {
+      "degree": 0,
+      "dense": 0
+    },
+    "DB-09": {
+      "degree": 0,
+      "dense": 0
+    },
+    "DB-10": {
+      "degree": 0,
+      "dense": 0
+    },
+    "DB-11": {
+      "degree": 0,
+      "dense": 0
+    }
+  },
+  "pilot_upgrade_gate": false,
+  "stage_upgrade_gate": false,
+  "decision": "STOP_CONTEXT_CAPACITY_CANDIDATE",
+  "prediction_sha256": "87b8f86bf2d6b775699b8df8eaeacd315a674472b1006d2064a6b76f28ff3a4f",
+  "new_model_calls": 0,
+  "elapsed_wall_seconds": 7.778771726414561,
+  "cpu_seconds": 8.26494482,
+  "peak_RSS_GiB": 0.10845565795898438,
+  "source_commit": "dc043d4d6f702a731e3273eca04426d924f33ad9"
+}

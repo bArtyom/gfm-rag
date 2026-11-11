@@ -1,5 +1,7 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
+> **QAFD成本容量试验（2026-11-11 UTC+8）：** [源码审计与100题pilot](reports/qafd_context_capacity_bird_20261111_01/README.md)：同token上限dense/可行度数扩散/上下文成本扩散覆盖74/74/72，成本证书与600流状态复核通过；整表最坏成本过保守，停止该候选，不扩量/SQL/GPU。非官方QAFD端到端复现，创新尚未成立。
+
 > **Steiner可行域诊断（2026-11-11 UTC+8）：** [结构限制与残余选路试验](reports/terminal_blindspot_bird_20261111_01/README.md)：1534题296次不完整中126在固定终端路径范围外；100题三臂覆盖均78，严格同预算oracle也78，停止新原型，无新模型/GPU/SQL。无限预算固定终端oracle91，参考表本身同预算可装93；后者同时放松终端/连通，非单因素因果结论。创新尚未成立。
 
 > **Steiner 下游SQL（2026-11-10 UTC+8）：** [本地7B pilot](reports/steiner_sql_pilot_bird_20261110_01/README.md)完成100题主pilot和37题差异诊断；full/unit/weighted确认Set正确42/39/39，weighted输入token减30.67%，未过扩量门。非官方BIRD EX，未确认23/26/26均保留分母；无全量扩展。284次本地请求/224573token，独立重放PASS、服务已清理。

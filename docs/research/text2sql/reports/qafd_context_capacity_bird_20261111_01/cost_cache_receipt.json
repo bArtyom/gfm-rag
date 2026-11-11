@@ -1,0 +1,115 @@
+{
+  "config_sha256": "0151529eb6fa0d6c308fb657aec0a9948769c88c5c45b13de30b4c5f60c50ea9",
+  "cache_sha256": "f9e42f5757578cd297f785b4eea43ec66ad02da6b7e84ef444a4e066481abbbd",
+  "source_commit": "02a74d3abbed368e08b68b14c0881e774c8746f4",
+  "command": [
+    "scripts/text2sql/prepare_qafd_cost_cache.py",
+    "--config",
+    "configs/text2sql/qafd_context_capacity_bird_20261111.json",
+    "--output",
+    "results/qafd_context_capacity_bird_20261111_01/cost_cache_001"
+  ],
+  "tokenizer": "Qwen2.5-Coder7B fast tokenizer, add_special_tokens=False",
+  "tokenizer_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+  "schema_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+  "serializer_sha256": "eaca890e7c9904d74206aa8acbf343d46b1869f61604e8eb12e0047688f6ed11",
+  "statistics": {
+    "DB-01": {
+      "tables": 3,
+      "subsets": 8,
+      "total_capacity": 877.0,
+      "full_schema_tokens": 844,
+      "upper_bound_ratio_median": 1.066132264529058,
+      "upper_bound_ratio_max": 1.1538461538461537
+    },
+    "DB-02": {
+      "tables": 6,
+      "subsets": 64,
+      "total_capacity": 1036.0,
+      "full_schema_tokens": 983,
+      "upper_bound_ratio_median": 1.0796992481203007,
+      "upper_bound_ratio_max": 1.35
+    },
+    "DB-03": {
+      "tables": 8,
+      "subsets": 256,
+      "total_capacity": 940.0,
+      "full_schema_tokens": 772,
+      "upper_bound_ratio_median": 1.3934426229508197,
+      "upper_bound_ratio_max": 1.7641509433962264
+    },
+    "DB-04": {
+      "tables": 5,
+      "subsets": 32,
+      "total_capacity": 278.0,
+      "full_schema_tokens": 248,
+      "upper_bound_ratio_median": 1.196078431372549,
+      "upper_bound_ratio_max": 1.9090909090909092
+    },
+    "DB-05": {
+      "tables": 7,
+      "subsets": 128,
+      "total_capacity": 2839.0,
+      "full_schema_tokens": 2285,
+      "upper_bound_ratio_median": 1.3550295857988166,
+      "upper_bound_ratio_max": 8.064516129032258
+    },
+    "DB-06": {
+      "tables": 8,
+      "subsets": 256,
+      "total_capacity": 725.0,
+      "full_schema_tokens": 605,
+      "upper_bound_ratio_median": 1.3252032520325203,
+      "upper_bound_ratio_max": 2.875
+    },
+    "DB-07": {
+      "tables": 13,
+      "subsets": 8192,
+      "total_capacity": 1436.0,
+      "full_schema_tokens": 1138,
+      "upper_bound_ratio_median": 1.4539748953974896,
+      "upper_bound_ratio_max": 3.1818181818181817
+    },
+    "DB-08": {
+      "tables": 8,
+      "subsets": 256,
+      "total_capacity": 695.0,
+      "full_schema_tokens": 568,
+      "upper_bound_ratio_median": 1.3872549019607843,
+      "upper_bound_ratio_max": 2.039473684210526
+    },
+    "DB-09": {
+      "tables": 10,
+      "subsets": 1024,
+      "total_capacity": 652.0,
+      "full_schema_tokens": 492,
+      "upper_bound_ratio_median": 1.6041666666666667,
+      "upper_bound_ratio_max": 2.8
+    },
+    "DB-10": {
+      "tables": 3,
+      "subsets": 8,
+      "total_capacity": 534.0,
+      "full_schema_tokens": 508,
+      "upper_bound_ratio_median": 1.0668380462724936,
+      "upper_bound_ratio_max": 1.4482758620689655
+    },
+    "DB-11": {
+      "tables": 4,
+      "subsets": 16,
+      "total_capacity": 306.0,
+      "full_schema_tokens": 224,
+      "upper_bound_ratio_median": 1.6956521739130435,
+      "upper_bound_ratio_max": 2.4
+    }
+  },
+  "python": "3.12.14 | packaged by Anaconda, Inc. | (main, Aug 27 2026, 14:46:43) [GCC 14.3.0]",
+  "dependencies": {
+    "numpy": "2.2.6",
+    "networkx": "3.6rc0",
+    "transformers": "4.57.1",
+    "sqlglot": "28.0.0"
+  },
+  "wall_seconds": 10.669592026621103,
+  "new_model_calls": 0
+}
