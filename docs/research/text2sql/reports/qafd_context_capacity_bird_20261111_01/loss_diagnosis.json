@@ -1,0 +1,33 @@
+{
+  "cases": [
+    {
+      "missing_reference_tables": 1,
+      "budget_tokens": 1105,
+      "missing_table_columns": [
+        115
+      ],
+      "missing_table_cost_capacities": [
+        1434.0
+      ],
+      "max_per_source_mass": 368.3333333333333,
+      "missing_tables_in_context_flow_support": 0,
+      "selected_tables_dense": 3,
+      "selected_tables_context": 6
+    },
+    {
+      "missing_reference_tables": 1,
+      "budget_tokens": 1105,
+      "missing_table_columns": [
+        115
+      ],
+      "missing_table_cost_capacities": [
+        1434.0
+      ],
+      "max_per_source_mass": 368.3333333333333,
+      "missing_tables_in_context_flow_support": 0,
+      "selected_tables_dense": 3,
+      "selected_tables_context": 6
+    }
+  ],
+  "interpretation": "posthoc association, not proven cause; no new model calls or method tuning"
+}

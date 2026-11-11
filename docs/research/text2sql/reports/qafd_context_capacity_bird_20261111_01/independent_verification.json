@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "questions": 100,
+  "flow_states_checked": 600,
+  "budget_checks": 300,
+  "exact_schema_subset_costs_retokenized": 10240,
+  "maximum_errors": {
+    "primal_dual": 6.252776074688882e-13,
+    "mass": 2.2737367544323206e-13
+  },
+  "prediction_sha256": "87b8f86bf2d6b775699b8df8eaeacd315a674472b1006d2064a6b76f28ff3a4f",
+  "verification": "independent vectorized query edge weights, primal-dual/KKT/mass identities, exact packing/coverage/gate recount; no re-solve",
+  "limitations": [
+    "shared schema loader/serializer/tokenizer/reference parser",
+    "certificate concerns context cost, not semantic correctness"
+  ],
+  "wall_seconds": 11.243560196831822,
+  "new_model_calls": 0
+}
