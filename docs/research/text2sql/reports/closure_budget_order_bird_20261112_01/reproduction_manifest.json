@@ -1,0 +1,35 @@
+{
+  "started_at_utc": "2026-11-12T06:37:30.642887+00:00",
+  "source_commit": "e9866a5b74c345c59c074a0346d538c61aa557ed",
+  "config_sha256": "1b347cc99d9b4386bd2af1b71032f86a7a8d58d96e1cdd57b114d00ebccd7c1b",
+  "python": "3.12.14 | packaged by Anaconda, Inc. | (main, Aug 27 2026, 14:46:43) [GCC 14.3.0]",
+  "sqlite": "3.53.2",
+  "dependencies": {
+    "numpy": "2.2.6",
+    "networkx": "3.6rc0",
+    "transformers": "4.57.1",
+    "sqlglot": "28.0.0"
+  },
+  "command": [
+    "scripts/text2sql/run_closure_budget_order.py",
+    "--config",
+    "configs/text2sql/closure_budget_order_bird_20261112.json",
+    "--mode",
+    "pilot",
+    "--output",
+    "results/closure_budget_order_bird_20261112_01/pilot_001"
+  ],
+  "source_repository": "https://github.com/bArtyom/gfm-rag",
+  "branch": "research/closure-budget-order-20261112",
+  "public_parent": "2149fac7da6b160d738b4fef5dded9c6803cb2c8",
+  "upstream_readonly_commits": {
+    "QAFD": "2a3a42c8ea4e9c416de0a7fe53c04fab50b756ef",
+    "GRAST": "4c698cae31da8299deb5c809101d172d5b2ddeb3"
+  },
+  "code_sha256": {
+    "scripts/text2sql/closure_budget_order.py": "c4fb34b6e01eadd4861cf9c8ac3a691e4bd76c24f9cc87fc29a76cb1f3a02d43",
+    "scripts/text2sql/run_closure_budget_order.py": "bd8d423d6d28e6285c4cf547be7c2238b6037f75190815feb645ae42a4d25989",
+    "scripts/text2sql/verify_closure_budget_order.py": "34f43593775d6e00969475d54989e0d3cb926771314db8b0785e107fdbc63ad4"
+  },
+  "note": "core now includes evaluation-only binding helper added after primary pilot; selection/preparation code unchanged"
+}

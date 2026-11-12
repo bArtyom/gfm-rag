@@ -1,5 +1,7 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
+> **连接预算顺序（2026-11-12 UTC+8）：** [100题列级试验与字段绑定诊断](reports/closure_budget_order_bird_20261112_01/README.md)：整表/后补路/提前核算可准备85/76/77，表覆盖87/94/94；98可评题原字段闭包均预算内，early有15题表全但缺列。停止本候选，不扩量/推理/GPU；非SQL EX或创新成立。
+
 > **QAFD成本容量试验（2026-11-11 UTC+8）：** [源码审计与100题pilot](reports/qafd_context_capacity_bird_20261111_01/README.md)：同token上限dense/可行度数扩散/上下文成本扩散覆盖74/74/72，成本证书与600流状态复核通过；整表最坏成本过保守，停止该候选，不扩量/SQL/GPU。非官方QAFD端到端复现，创新尚未成立。
 
 > **Steiner可行域诊断（2026-11-11 UTC+8）：** [结构限制与残余选路试验](reports/terminal_blindspot_bird_20261111_01/README.md)：1534题296次不完整中126在固定终端路径范围外；100题三臂覆盖均78，严格同预算oracle也78，停止新原型，无新模型/GPU/SQL。无限预算固定终端oracle91，参考表本身同预算可装93；后者同时放松终端/连通，非单因素因果结论。创新尚未成立。
