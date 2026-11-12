@@ -1,0 +1,140 @@
+{
+  "status": "exploratory posthoc; no primary metric or gate replacement",
+  "counts": {
+    "binding_evaluable": 98,
+    "reference_binding_closure_fits_budget": 98,
+    "whole_dense_retains_original_read_bindings": 85,
+    "whole_dense_preparable_but_missing_original_bindings": 0,
+    "late_closure_retains_original_read_bindings": 76,
+    "late_closure_preparable_but_missing_original_bindings": 0,
+    "early_closure_retains_original_read_bindings": 77,
+    "early_closure_preparable_but_missing_original_bindings": 0,
+    "early_complete_tables_but_not_preparable": 15,
+    "early_missing_binding_despite_feasible_reference_closure": 21
+  },
+  "whole_to_early_losses": [
+    {
+      "full_reference_tables_retained": true,
+      "original_read_binding_columns_missing": 1,
+      "missing_fields_with_name_present_elsewhere": 0,
+      "missing_field_table_widths": [
+        14
+      ],
+      "reference_binding_closure_fits_budget": true,
+      "budget": 260,
+      "reference_binding_closure_tokens": 73
+    },
+    {
+      "full_reference_tables_retained": true,
+      "original_read_binding_columns_missing": 1,
+      "missing_fields_with_name_present_elsewhere": 1,
+      "missing_field_table_widths": [
+        3
+      ],
+      "reference_binding_closure_fits_budget": true,
+      "budget": 178,
+      "reference_binding_closure_tokens": 101
+    },
+    {
+      "full_reference_tables_retained": true,
+      "original_read_binding_columns_missing": 1,
+      "missing_fields_with_name_present_elsewhere": 0,
+      "missing_field_table_widths": [
+        9
+      ],
+      "reference_binding_closure_fits_budget": true,
+      "budget": 240,
+      "reference_binding_closure_tokens": 72
+    },
+    {
+      "full_reference_tables_retained": true,
+      "original_read_binding_columns_missing": 2,
+      "missing_fields_with_name_present_elsewhere": 2,
+      "missing_field_table_widths": [
+        9,
+        3
+      ],
+      "reference_binding_closure_fits_budget": true,
+      "budget": 142,
+      "reference_binding_closure_tokens": 82
+    },
+    {
+      "full_reference_tables_retained": true,
+      "original_read_binding_columns_missing": 1,
+      "missing_fields_with_name_present_elsewhere": 0,
+      "missing_field_table_widths": [
+        12
+      ],
+      "reference_binding_closure_fits_budget": true,
+      "budget": 181,
+      "reference_binding_closure_tokens": 107
+    },
+    {
+      "full_reference_tables_retained": true,
+      "original_read_binding_columns_missing": 1,
+      "missing_fields_with_name_present_elsewhere": 0,
+      "missing_field_table_widths": [
+        4
+      ],
+      "reference_binding_closure_fits_budget": true,
+      "budget": 188,
+      "reference_binding_closure_tokens": 62
+    },
+    {
+      "full_reference_tables_retained": true,
+      "original_read_binding_columns_missing": 1,
+      "missing_fields_with_name_present_elsewhere": 0,
+      "missing_field_table_widths": [
+        2
+      ],
+      "reference_binding_closure_fits_budget": true,
+      "budget": 181,
+      "reference_binding_closure_tokens": 107
+    },
+    {
+      "full_reference_tables_retained": true,
+      "original_read_binding_columns_missing": 1,
+      "missing_fields_with_name_present_elsewhere": 1,
+      "missing_field_table_widths": [
+        3
+      ],
+      "reference_binding_closure_fits_budget": true,
+      "budget": 178,
+      "reference_binding_closure_tokens": 89
+    },
+    {
+      "full_reference_tables_retained": true,
+      "original_read_binding_columns_missing": 1,
+      "missing_fields_with_name_present_elsewhere": 0,
+      "missing_field_table_widths": [
+        12
+      ],
+      "reference_binding_closure_fits_budget": true,
+      "budget": 181,
+      "reference_binding_closure_tokens": 106
+    },
+    {
+      "full_reference_tables_retained": true,
+      "original_read_binding_columns_missing": 1,
+      "missing_fields_with_name_present_elsewhere": 0,
+      "missing_field_table_widths": [
+        9
+      ],
+      "reference_binding_closure_fits_budget": true,
+      "budget": 200,
+      "reference_binding_closure_tokens": 72
+    },
+    {
+      "full_reference_tables_retained": true,
+      "original_read_binding_columns_missing": 1,
+      "missing_fields_with_name_present_elsewhere": 0,
+      "missing_field_table_widths": [
+        9
+      ],
+      "reference_binding_closure_fits_budget": true,
+      "budget": 229,
+      "reference_binding_closure_tokens": 64
+    }
+  ],
+  "limitation": "physical read bindings from full TEXT-type schema stubs, not semantic intent labels or SQL execution accuracy"
+}

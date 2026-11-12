@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "questions": 100,
+  "budget_checks": 300,
+  "selection_replays": 200,
+  "primary_counts_verified": true,
+  "gate_verified": true,
+  "prediction_sha256": "11c77853ace1f4d27843fff9d1e1e6c4737e5b942415f4b21f136fc35d8b4443",
+  "wall_seconds": 15.718602070584893,
+  "new_model_calls": 0,
+  "limitations": [
+    "shared tokenizer/serializer/closure/reference-table parser and primary prepare evaluator",
+    "binding diagnostic uses a separate full-stub SQLite authorizer and is posthoc",
+    "not semantic sufficiency or execution accuracy"
+  ]
+}
