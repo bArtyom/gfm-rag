@@ -1,0 +1,32 @@
+{
+  "run_id": "bizweave_business_semantic_pilot_20261117_001",
+  "evidence_level": "exploratory_feasibility_only",
+  "synthetic_mechanism": {
+    "case_count": 10,
+    "resolved_cases": 8,
+    "unresolved_controls": 2,
+    "methods": {
+      "shortest_path": {"resolved_correct": 4, "resolved_total": 8, "pair_switches": 0, "pair_total": 4, "correct_abstentions": 0, "abstention_total": 2},
+      "schema_token_overlap": {"resolved_correct": 5, "resolved_total": 8, "pair_switches": 1, "pair_total": 4, "correct_abstentions": 0, "abstention_total": 2},
+      "flat_description_overlap": {"resolved_correct": 5, "resolved_total": 8, "pair_switches": 1, "pair_total": 4, "correct_abstentions": 0, "abstention_total": 2},
+      "bizweave_full": {"resolved_correct": 8, "resolved_total": 8, "pair_switches": 4, "pair_total": 4, "correct_abstentions": 2, "abstention_total": 2},
+      "bizweave_without_evidence_gate": {"resolved_correct": 8, "resolved_total": 8, "pair_switches": 4, "pair_total": 4, "correct_abstentions": 1, "abstention_total": 2}
+    },
+    "preregistered_gate_pass": true
+  },
+  "bird_candidate_supply": {
+    "train": {"queries": 9428, "databases": 69, "parse_failures": 0, "state_candidates": 15, "state_candidate_databases": 4, "time_candidates": 365, "time_candidate_databases": 50, "grain_candidates": 2393, "grain_candidate_databases": 69, "joined_condition_candidates": 1877, "joined_condition_candidate_databases": 69},
+    "dev": {"queries": 1534, "databases": 11, "parse_failures": 0, "state_candidates": 0, "state_candidate_databases": 0, "time_candidates": 57, "time_candidate_databases": 8, "grain_candidates": 340, "grain_candidate_databases": 11, "joined_condition_candidates": 271, "joined_condition_candidate_databases": 11},
+    "train_dev_database_overlap": 0,
+    "candidate_count_threshold_met": true,
+    "business_labels_reviewed": false,
+    "real_data_retrieval_scored": false
+  },
+  "inputs_sha256": {
+    "train/train.json": "abf17d3def22f56f41b3e139b94bba3fa4a986280abcbf6df2d7f30150695520",
+    "train/train_tables.json": "85300c745b263db88a5e0cdf083e8b2427d90272e954bc8c5f92aa1dc66c836b",
+    "dev/dev.json": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "dev/dev_tables.json": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97"
+  },
+  "runtime": {"python": "3.10.22", "sqlglot": "26.33.0", "cpu_runner_seconds": 10.8265, "model_calls": 0, "api_calls": 0, "api_tokens": 0, "external_api_cost_usd": "0", "gpu_time_seconds": 0}
+}
