@@ -81,6 +81,10 @@
 
 此处只提交全局审计和G2预注册指导，原分支已运行成果没有被假装合并main；所有原实验结论和失败回执照实保留。
 
+### 邻接探索线：BizWeave 业务事件与约束检索（2026-11-17）
+
+本线与当前G2机制Gate分开，不改变其优先级。提案已收敛为“同样可JOIN时，用事件、状态、时间、粒度和证据状态选择业务实现，并在证据不足时弃答”；想法见[BizWeave brief](ideas/bizweave.md)。CPU合成机制门通过：8/8正确实现、4/4对照切换、2/2未决弃答；最强未结构化基线5/8。BIRD train/dev解析通过，宽泛候选供给门通过，但dev状态/状态谓词候选为0，且没有人工审核的业务路径标签；因此本轮没有真实数据检索成绩，也不支持新颖性或端到端SQL主张。详见[实验报告](reports/bizweave_business_semantic_pilot_20261117_001/README.md)、[协议](../../../experiments/bizweave_business_semantic_pilot_20261117_001/protocol.md)和[匿名聚合](reports/bizweave_business_semantic_pilot_20261117_001/aggregate.public.json)。后续真实打分须先做盲审标签验证。
+
 
 ## 从今往后的提交规范
 
