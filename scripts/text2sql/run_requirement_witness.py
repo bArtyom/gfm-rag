@@ -325,6 +325,7 @@ def call_qwen(config, tokenizer, row, candidates, mode, attempt_number, model=No
             with torch.inference_mode():
                 generated = model.generate(
                     input_ids=input_ids,
+                    attention_mask=torch.ones_like(input_ids),
                     max_new_tokens=request_max_tokens,
                     do_sample=False,
                     num_beams=1,
