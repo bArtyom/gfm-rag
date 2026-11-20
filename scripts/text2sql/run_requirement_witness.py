@@ -886,8 +886,11 @@ def run(args):
                 }
                 candidates.append(candidate)
                 candidate_by_id[candidate_id] = {**candidate, "column_id": column_id, "rank": rank}
+            attempt_number = (
+                config.get("smoke_attempt_number", 1) if args.mode == "smoke" else 1)
             content, attempt = call_qwen(
-                config, tokenizer, row, candidates, args.mode, 1, model=cpu_model)
+                config, tokenizer, row, candidates, args.mode,
+                attempt_number, model=cpu_model)
             attempts.append(attempt)
             if attempt["usage"] is None or attempt["http_status"] != 200:
                 write_jsonl(output / "model_usage_private.jsonl", attempts)
@@ -941,7 +944,11 @@ def run(args):
                     **{k: v for k, v in value.items() if k != "requirements"},
                 } for arm, value in arms.items()},
                 "witness_requirements_private": witness["requirements"],
-                "candidate_columns_private": candidates,
+                "candidate_columns_private": [
+                    {**candidate,
+                     "column_id": candidate_by_id[candidate["candidate_id"]]["column_id"]}
+                    for candidate in candidates
+                ],
             })
 
         predictions_path = output / "predictions_private.json"
