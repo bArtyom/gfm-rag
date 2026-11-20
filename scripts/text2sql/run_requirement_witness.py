@@ -243,21 +243,58 @@ def ledger_record(config, call_id, status, usage):
     from api_usage_ledger import record_request
     record_request(
         call_id=call_id,
-        provider="local_vllm",
+        provider=config.get("ledger_provider", "local_vllm"),
         project="bArtyom/gfm-rag",
         run_id=config["run_id"],
-        model="Qwen2.5-Coder-7B-Instruct-local",
+        model=config.get("ledger_model", "Qwen2.5-Coder-7B-Instruct-local"),
         http_status=status,
         usage=usage,
     )
 
 
-def call_qwen(config, tokenizer, row, candidates, mode, attempt_number):
+def available_memory_mib():
+    for line in Path("/proc/meminfo").read_text().splitlines():
+        if line.startswith("MemAvailable:"):
+            return int(line.split()[1]) // 1024
+    raise RuntimeError("Could not read MemAvailable from /proc/meminfo")
+
+
+def load_cpu_model(config):
+    import torch
+    from transformers import AutoModelForCausalLM
+
+    available = available_memory_mib()
+    if available < config["minimum_available_memory_mib"]:
+        raise RuntimeError(
+            f"CPU model load held: {available} MiB available, "
+            f"need {config['minimum_available_memory_mib']} MiB")
+    torch.set_num_threads(config["cpu_threads"])
+    try:
+        torch.set_num_interop_threads(config["cpu_interop_threads"])
+    except RuntimeError:
+        pass
+    dtype = getattr(torch, config["cpu_dtype"])
+    model = AutoModelForCausalLM.from_pretrained(
+        config["sql_model"], local_files_only=True,
+        torch_dtype=dtype, attn_implementation="sdpa",
+    )
+    model.to(torch.device("cpu"))
+    model.eval()
+    return model
+
+
+def call_qwen(config, tokenizer, row, candidates, mode, attempt_number, model=None):
     messages = make_messages(row, candidates)
     estimated_input = len(tokenizer.apply_chat_template(
         messages, tokenize=True, add_generation_prompt=True))
     if estimated_input > config["max_context"] - config["generation"]["max_tokens"]:
         raise ValueError(f"Prompt context over limit: {estimated_input}")
+    request_max_tokens = min(
+        config["generation"]["max_tokens"],
+        config["total_budget_tokens"] - estimated_input,
+    )
+    if request_max_tokens <= 0:
+        raise ValueError("Prompt alone exhausts the per-question inference-plus-schema budget")
     call_id = hashlib.sha256(
         f"{config['run_id']}|{mode}|{row['db_id']}|{row['question_id']}|{attempt_number}".encode()
     ).hexdigest()
@@ -265,10 +302,59 @@ def call_qwen(config, tokenizer, row, candidates, mode, attempt_number):
         "model": config["served_model"], "messages": messages,
         "temperature": config["generation"]["temperature"],
         "top_p": config["generation"]["top_p"],
-        "max_tokens": config["generation"]["max_tokens"],
+        "max_tokens": request_max_tokens,
         "seed": config["generation"]["seed"], "n": 1, "stream": False,
     }
     started = time.monotonic()
+    if config.get("backend", "vllm") == "transformers_cpu":
+        if model is None:
+            raise ValueError("CPU Transformers backend has no loaded model")
+        import torch
+
+        status = None
+        usage_dict = None
+        content = None
+        failure_type = None
+        try:
+            input_ids = tokenizer.apply_chat_template(
+                messages, tokenize=True, add_generation_prompt=True,
+                return_tensors="pt",
+            )
+            if input_ids.shape[-1] != estimated_input:
+                raise RuntimeError("Prompt token count changed between accounting and generation")
+            with torch.inference_mode():
+                generated = model.generate(
+                    input_ids=input_ids,
+                    max_new_tokens=request_max_tokens,
+                    do_sample=False,
+                    num_beams=1,
+                    use_cache=True,
+                    pad_token_id=tokenizer.pad_token_id or tokenizer.eos_token_id,
+                    eos_token_id=tokenizer.eos_token_id,
+                )
+            completion_ids = generated[0, input_ids.shape[-1]:]
+            content = tokenizer.decode(completion_ids, skip_special_tokens=True)
+            usage_dict = {
+                "prompt_tokens": int(input_ids.shape[-1]),
+                "completion_tokens": int(completion_ids.shape[-1]),
+                "total_tokens": int(input_ids.shape[-1] + completion_ids.shape[-1]),
+            }
+            status = 200
+        except Exception as error:
+            failure_type = type(error).__name__
+        ledger_record(config, call_id, status, usage_dict)
+        attempt = {
+            "call_id_sha256": call_id, "mode": mode,
+            "http_status": status, "usage": usage_dict,
+            "latency_seconds": time.monotonic() - started,
+            "estimated_prompt_tokens": estimated_input,
+            "max_generation_tokens": request_max_tokens,
+            "failure_type": failure_type,
+        }
+        return content, attempt
+
+    if config.get("backend", "vllm") != "vllm":
+        raise ValueError("Unknown inference backend")
     status = None
     usage_dict = None
     content = None
@@ -309,6 +395,7 @@ def call_qwen(config, tokenizer, row, candidates, mode, attempt_number):
         "call_id_sha256": call_id, "mode": mode,
         "http_status": status, "usage": usage_dict,
         "latency_seconds": elapsed, "estimated_prompt_tokens": estimated_input,
+        "max_generation_tokens": request_max_tokens,
         "failure_type": failure_type,
     }
     return content, attempt
@@ -678,8 +765,15 @@ def run(args):
     model_receipt = verify_model_files(config, receipt_path if args.mode == "pilot" else None)
     if args.mode == "smoke":
         write_json(receipt_path, model_receipt)
-    if gpu_free_mib(config["gpu_ids"][0]) < config["post_allocation_margin_mib"]:
-        raise RuntimeError("GPU post-allocation free-memory margin below registered threshold")
+    backend = config.get("backend", "vllm")
+    if backend == "vllm":
+        if gpu_free_mib(config["gpu_ids"][0]) < config["post_allocation_margin_mib"]:
+            raise RuntimeError("GPU post-allocation free-memory margin below registered threshold")
+    elif backend == "transformers_cpu":
+        if available_memory_mib() < config["minimum_available_memory_mib"]:
+            raise RuntimeError("CPU model load held by the registered available-memory gate")
+    else:
+        raise ValueError("Unknown inference backend")
     config_sha = sha256(args.config)
     write_json(output / "run_start.json", {
         "run_id": config["run_id"], "mode": args.mode,
@@ -690,12 +784,21 @@ def run(args):
         "dependencies": {name: importlib.metadata.version(name) for name in
                          ["numpy", "networkx", "transformers", "sqlglot", "requests"]},
         "model": "Qwen2.5-Coder-7B-Instruct-local", "served_model": config["served_model"],
-        "vllm_version": "0.8.5", "model_file_hashes": model_receipt["actual_sha256"],
+        "backend": backend,
+        "runtime_versions": ({"vllm": "0.8.5"} if backend == "vllm" else {
+            "torch": importlib.metadata.version("torch"),
+            "transformers": importlib.metadata.version("transformers"),
+        }),
+        "model_file_hashes": model_receipt["actual_sha256"],
         "resources": {
             "nvidia_smi": subprocess.check_output(["nvidia-smi"], text=True),
             "free_h": subprocess.check_output(["free", "-h"], text=True),
             "nproc": subprocess.check_output(["nproc"], text=True).strip(),
-            "gpu0_free_mib_after_service_load": gpu_free_mib(config["gpu_ids"][0]),
+            "gpu0_free_mib_after_service_load": (
+                gpu_free_mib(config["gpu_ids"][0]) if backend == "vllm" else None),
+            "available_memory_mib_before_model_load": available_memory_mib(),
+            "cpu_threads": config.get("cpu_threads"),
+            "cpu_interop_threads": config.get("cpu_interop_threads"),
         },
     })
     attempts = []
@@ -707,6 +810,16 @@ def run(args):
         tokenizer = AutoTokenizer.from_pretrained(config["sql_model"], local_files_only=True, use_fast=True)
         if not tokenizer.is_fast:
             raise ValueError("Qwen tokenizer must be fast for stable token accounting")
+        cpu_model = load_cpu_model(config) if backend == "transformers_cpu" else None
+        if backend == "transformers_cpu":
+            import torch
+            write_json(output / "cpu_runtime_private.json", {
+                "dtype": config["cpu_dtype"],
+                "torch_threads": torch.get_num_threads(),
+                "torch_interop_threads": torch.get_num_interop_threads(),
+                "available_memory_mib_after_model_load": available_memory_mib(),
+                "model_load_completed": True,
+            })
         schemas = inputs["schemas"]
         physical_by_db = {}
         column_ord_by_db = {}
@@ -772,7 +885,8 @@ def run(args):
                 }
                 candidates.append(candidate)
                 candidate_by_id[candidate_id] = {**candidate, "column_id": column_id, "rank": rank}
-            content, attempt = call_qwen(config, tokenizer, row, candidates, args.mode, 1)
+            content, attempt = call_qwen(
+                config, tokenizer, row, candidates, args.mode, 1, model=cpu_model)
             attempts.append(attempt)
             if attempt["usage"] is None or attempt["http_status"] != 200:
                 write_jsonl(output / "model_usage_private.jsonl", attempts)
@@ -782,6 +896,9 @@ def run(args):
             if input_tokens_so_far > config["max_input_tokens"] or output_tokens_so_far > config["max_output_tokens"]:
                 write_jsonl(output / "model_usage_private.jsonl", attempts)
                 raise RuntimeError("Registered aggregate token budget exceeded")
+            if time.monotonic() - started_wall > config["max_wall_seconds"]:
+                write_jsonl(output / "model_usage_private.jsonl", attempts)
+                raise RuntimeError("Registered stage wall-time budget exceeded")
             parsed = parse_requirements(content, row["question"], candidate_by_id, config)
             inference_tokens = attempt["usage"]["prompt_tokens"] + attempt["usage"]["completion_tokens"]
             context_budget = max(0, config["total_budget_tokens"] - inference_tokens)
