@@ -2,7 +2,7 @@
 
 > **连接预算顺序（2026-11-12 UTC+8）：** [100题列级试验与字段绑定诊断](reports/closure_budget_order_bird_20261112_01/README.md)：整表/后补路/提前核算可准备85/76/77，表覆盖87/94/94；98可评题原字段闭包均预算内，early有15题表全但缺列。停止本候选，不扩量/推理/GPU；非SQL EX或创新成立。
 
-> **需求见证预算 pilot（2026-11-21，CPU backend已单独预注册，尚无模型请求）：** [协议](plans/requirement_witness_budget_20261121.md) 与 [CPU 配置](../../../configs/text2sql/requirement_witness_bird_cpu_20261121.json) 以显式 source-span 需求、备选列绑定和一对一见证，比较表覆盖与标量列闭包基线；本地Qwen推理token从同一总预算中扣除。vLLM/GPU配置仍因显存资源门关闭而保持未运行；CPU配置使用独立 run ID、环境记录与结果目录，不合并两种后端。这是 BizWeave 在线检索层的窄范围首测，不覆盖业务图构建或完整业务语义指标；仅为已多次使用的BIRD-dev探索，不代表独立测试或创新已成立。
+> **需求见证预算 pilot（2026-11-21，CPU smoke恢复中，尚未进入 pilot）：** [协议](plans/requirement_witness_budget_20261121.md) 与 [CPU 配置](../../../configs/text2sql/requirement_witness_bird_cpu_20261121.json) 比较表覆盖、标量列闭包和一对一需求见证；本地Qwen推理token从同一总预算中扣除。首次5题 smoke 产生有效usage但0/5 JSON有效，评估器随后因候选列索引缺失停止；预测已封存。一次恢复修正已登记，GPU配置仍因显存资源门关闭而保持未运行；恢复 smoke 未过门槛则停止。这是 BizWeave 在线检索层的窄范围首测，不覆盖业务图构建或完整业务语义指标；仅为已多次使用的BIRD-dev探索，不代表独立测试或创新已成立。
 
 > **QAFD成本容量试验（2026-11-11 UTC+8）：** [源码审计与100题pilot](reports/qafd_context_capacity_bird_20261111_01/README.md)：同token上限dense/可行度数扩散/上下文成本扩散覆盖74/74/72，成本证书与600流状态复核通过；整表最坏成本过保守，停止该候选，不扩量/SQL/GPU。非官方QAFD端到端复现，创新尚未成立。
 
