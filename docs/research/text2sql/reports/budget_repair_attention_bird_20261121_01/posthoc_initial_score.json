@@ -1,0 +1,24 @@
+{
+  "status": "exploratory posthoc diagnostic; primary gate unchanged",
+  "arm": "untrained_algebraic_initial_score",
+  "counts": {
+    "questions": 100,
+    "evaluable": 99,
+    "complete_read_bindings": 68,
+    "unknown": 1,
+    "tokens": 44788,
+    "columns": 4309,
+    "tables": 405,
+    "budget_violations": 0
+  },
+  "repair_vs_initial": {
+    "unchanged": 81,
+    "rescue": 7,
+    "unknown": 1,
+    "damage": 11
+  },
+  "prediction_sha256": "7820e6247675dca674fe080b982909663635722114caee7f26a3434b8cb56e20",
+  "graph_forward_calls": 0,
+  "new_language_model_calls": 0,
+  "wall_seconds": 7.502995781600475
+}

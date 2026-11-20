@@ -1,0 +1,39 @@
+{
+  "snapshot_utc": "2026-11-20T19:05:41.149409+00:00",
+  "this_run": {
+    "input_language_tokens": 0,
+    "output_language_tokens": 0,
+    "total_language_tokens": 0,
+    "LLM_or_embedding_API_requests": 0,
+    "unknown_language_usage_requests": 0,
+    "new_external_API_cost_CNY": "0",
+    "GPU_graph_forward_calls": 3213,
+    "CPU_graph_forward_replays": 300,
+    "all_graph_forward_calls": 3513,
+    "input_graph_node_units": 283923,
+    "GPU_forward_event_seconds": 2.9379659288823605,
+    "GPU_backward_optimizer_event_seconds": 14.845771995306015,
+    "GPU_total_event_seconds": 17.783737924188376,
+    "model_stage_wall_seconds": 108.6493433713913,
+    "local_GPU_cost_CNY": null,
+    "local_CPU_cost_CNY": null,
+    "compute_cost_status": "unpriced; CUDA event intervals are not exclusive GPU busy time; vectors are not language tokens"
+  },
+  "ledger_totals": {
+    "requests": 100442,
+    "requests_with_usage": 100327,
+    "reported_input_tokens": 459727089,
+    "reported_output_tokens": 74555499,
+    "reported_total_tokens": 534282588,
+    "requests_without_usage": 115,
+    "auth_rejected_without_usage": 12,
+    "other_requests_without_usage": 103,
+    "estimated_CNY_from_reported_usage": "24.0559044156360",
+    "priced_usage_requests": 1311,
+    "unpriced_reported_usage_requests": 99016,
+    "verified_billed_CNY": null,
+    "billed_cost_verified": false,
+    "cost_basis": "uncached list price estimate; unknown usage/discounts/billing excluded",
+    "scope": "logged model API calls only; unknown usage excluded from confirmed totals"
+  }
+}

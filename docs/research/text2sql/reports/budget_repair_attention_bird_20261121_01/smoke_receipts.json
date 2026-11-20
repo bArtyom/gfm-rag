@@ -1,0 +1,39 @@
+{
+  "runs": [
+    {
+      "mode": "smoke",
+      "questions": 5,
+      "train_supported": 5,
+      "epochs": 1,
+      "graph_forward_calls": 30,
+      "input_graph_nodes": 2604,
+      "gpu_forward_seconds": 0.2581789193749428,
+      "gpu_backward_optimizer_seconds": 0.8350339984893799,
+      "elapsed_wall_seconds": 10.3333604875952,
+      "prediction_sha256": "e1ca5770c65589ad93fb1315f62d3710dfd24bbf1fdfd36995f4b763eb9af415",
+      "checkpoint_seals": {
+        "independent": "0613eaaf7b4132859d5296e89febaec3c8e82cc6bc29c16100a82d9ca803c952",
+        "global": "37949cc9d6a6ac9394710629035b92ee17efcea4fbadf5a60621950d6b806878",
+        "repair": "b992febc8989b971acf9bd407a1dd75d481bbc1268095956272599e44e2f1fb0"
+      }
+    },
+    {
+      "mode": "smoke",
+      "questions": 5,
+      "train_supported": 5,
+      "epochs": 1,
+      "graph_forward_calls": 30,
+      "input_graph_nodes": 2604,
+      "gpu_forward_seconds": 0.07325110420584678,
+      "gpu_backward_optimizer_seconds": 0.31864476203918457,
+      "elapsed_wall_seconds": 9.126548139378428,
+      "prediction_sha256": "e1ca5770c65589ad93fb1315f62d3710dfd24bbf1fdfd36995f4b763eb9af415",
+      "checkpoint_seals": {
+        "independent": "0613eaaf7b4132859d5296e89febaec3c8e82cc6bc29c16100a82d9ca803c952",
+        "global": "37949cc9d6a6ac9394710629035b92ee17efcea4fbadf5a60621950d6b806878",
+        "repair": "b992febc8989b971acf9bd407a1dd75d481bbc1268095956272599e44e2f1fb0"
+      }
+    }
+  ],
+  "note": "second smoke after input identity guard fix; weights discarded before formal run; not independent scientific replication"
+}

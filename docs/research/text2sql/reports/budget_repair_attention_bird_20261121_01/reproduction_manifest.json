@@ -1,0 +1,26 @@
+{
+  "local_execution_commit": "0b330c7",
+  "public_preregister_commit": "8912100aadae1e76e601a12c2315ee58a7bc8df0",
+  "first_public_preregister_commit": "663ddb0a0355aa87649d4db71f49f21d33e9e247",
+  "public_base": "124fd30b1548106f714d7218c9d6972dc82a4e52",
+  "preregister_tree": "324a587964c91011d3ff02e4f84866c4ef5221b5",
+  "source_file_sha256": {
+    "scripts/text2sql/budget_repair_attention.py": "1319938bda51595ba27da098d3b6681700fae9b720169bf8f309501b4eb86316",
+    "scripts/text2sql/prepare_budget_repair_attention.py": "2bb0a5d50b43ca490fe375c1836e0f9d12f2f04984bb3f505815986c7837088d",
+    "scripts/text2sql/run_budget_repair_attention.py": "ff86cd6ca2ece15defa2f5b137d4b0aab6120ff79892f408ae4941e1d4e93ec7",
+    "scripts/text2sql/verify_budget_repair_attention.py": "805e276a067b82f6084821d1d80b14bdf53a0dfc354e5289c356f9bc89aaf98c",
+    "scripts/text2sql/audit_budget_repair_initial_scores.py": "c37f450c1eefaff6b97938c80924f59b58fb021e125be53d0d0f0392b5424ee7"
+  },
+  "checkpoint_SHA256": {
+    "independent": "e2d40bafb1cfa20431321964def9325b02c4adf1f1001381dd7007b8a04ec1ae",
+    "global": "685c888f4909652c74491c8606f7b11a8ca96dc5b710086f55321411784a4e17",
+    "repair": "edd05c32cfd7b22b2434e562a52133eccfbe3b24bcddca4c363f3b13f8d799a9"
+  },
+  "dependencies": {
+    "torch": "2.8.0",
+    "numpy": "2.2.6",
+    "networkx": "3.6rc0",
+    "transformers": "4.57.1",
+    "sqlglot": "28.0.0"
+  }
+}

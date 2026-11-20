@@ -1,0 +1,321 @@
+{
+  "mode": "pilot",
+  "run_id": "budget_repair_attention_bird_20261121_01",
+  "questions": 100,
+  "train_supported": 317,
+  "epochs": 3,
+  "arms": {
+    "independent": {
+      "questions": 100,
+      "evaluable": 99,
+      "complete_read_bindings": 52,
+      "preparable": 52,
+      "unknown": 1,
+      "tokens": 44780,
+      "columns": 4139,
+      "tables": 437,
+      "budget_violations": 0
+    },
+    "global": {
+      "questions": 100,
+      "evaluable": 99,
+      "complete_read_bindings": 50,
+      "preparable": 50,
+      "unknown": 1,
+      "tokens": 44791,
+      "columns": 4200,
+      "tables": 420,
+      "budget_violations": 0
+    },
+    "repair": {
+      "questions": 100,
+      "evaluable": 99,
+      "complete_read_bindings": 64,
+      "preparable": 64,
+      "unknown": 1,
+      "tokens": 44781,
+      "columns": 4293,
+      "tables": 404,
+      "budget_violations": 0
+    },
+    "whole_dense": {
+      "questions": 100,
+      "evaluable": 99,
+      "complete_read_bindings": 79,
+      "preparable": 79,
+      "unknown": 1,
+      "tokens": 44869,
+      "columns": 4642,
+      "tables": 316,
+      "budget_violations": 0
+    }
+  },
+  "paired": {
+    "independent": {
+      "unchanged": 83,
+      "rescue": 14,
+      "unknown": 1,
+      "damage": 2
+    },
+    "global": {
+      "unchanged": 85,
+      "unknown": 1,
+      "rescue": 14
+    },
+    "whole_dense": {
+      "unchanged": 74,
+      "rescue": 5,
+      "damage": 20,
+      "unknown": 1
+    }
+  },
+  "unknown_reasons": {
+    "unqualified_quoted_column": 1
+  },
+  "per_database": {
+    "DB-01": {
+      "independent": {
+        "questions": 36,
+        "evaluable": 35,
+        "complete_read_bindings": 35,
+        "preparable": 35,
+        "unknown": 1,
+        "tokens": 30384,
+        "columns": 3204,
+        "tables": 108,
+        "budget_violations": 0
+      },
+      "global": {
+        "questions": 36,
+        "evaluable": 35,
+        "complete_read_bindings": 35,
+        "preparable": 35,
+        "unknown": 1,
+        "tokens": 30384,
+        "columns": 3204,
+        "tables": 108,
+        "budget_violations": 0
+      },
+      "repair": {
+        "questions": 36,
+        "evaluable": 35,
+        "complete_read_bindings": 35,
+        "preparable": 35,
+        "unknown": 1,
+        "tokens": 30384,
+        "columns": 3204,
+        "tables": 108,
+        "budget_violations": 0
+      },
+      "whole_dense": {
+        "questions": 36,
+        "evaluable": 35,
+        "complete_read_bindings": 35,
+        "preparable": 35,
+        "unknown": 1,
+        "tokens": 30384,
+        "columns": 3204,
+        "tables": 108,
+        "budget_violations": 0
+      }
+    },
+    "DB-02": {
+      "independent": {
+        "questions": 28,
+        "evaluable": 28,
+        "complete_read_bindings": 10,
+        "preparable": 10,
+        "unknown": 0,
+        "tokens": 4495,
+        "columns": 279,
+        "tables": 128,
+        "budget_violations": 0
+      },
+      "global": {
+        "questions": 28,
+        "evaluable": 28,
+        "complete_read_bindings": 10,
+        "preparable": 10,
+        "unknown": 0,
+        "tokens": 4479,
+        "columns": 303,
+        "tables": 123,
+        "budget_violations": 0
+      },
+      "repair": {
+        "questions": 28,
+        "evaluable": 28,
+        "complete_read_bindings": 20,
+        "preparable": 20,
+        "unknown": 0,
+        "tokens": 4485,
+        "columns": 324,
+        "tables": 112,
+        "budget_violations": 0
+      },
+      "whole_dense": {
+        "questions": 28,
+        "evaluable": 28,
+        "complete_read_bindings": 22,
+        "preparable": 22,
+        "unknown": 0,
+        "tokens": 4549,
+        "columns": 414,
+        "tables": 84,
+        "budget_violations": 0
+      }
+    },
+    "DB-03": {
+      "independent": {
+        "questions": 36,
+        "evaluable": 36,
+        "complete_read_bindings": 7,
+        "preparable": 7,
+        "unknown": 0,
+        "tokens": 9901,
+        "columns": 656,
+        "tables": 201,
+        "budget_violations": 0
+      },
+      "global": {
+        "questions": 36,
+        "evaluable": 36,
+        "complete_read_bindings": 5,
+        "preparable": 5,
+        "unknown": 0,
+        "tokens": 9928,
+        "columns": 693,
+        "tables": 189,
+        "budget_violations": 0
+      },
+      "repair": {
+        "questions": 36,
+        "evaluable": 36,
+        "complete_read_bindings": 9,
+        "preparable": 9,
+        "unknown": 0,
+        "tokens": 9912,
+        "columns": 765,
+        "tables": 184,
+        "budget_violations": 0
+      },
+      "whole_dense": {
+        "questions": 36,
+        "evaluable": 36,
+        "complete_read_bindings": 22,
+        "preparable": 22,
+        "unknown": 0,
+        "tokens": 9936,
+        "columns": 1024,
+        "tables": 124,
+        "budget_violations": 0
+      }
+    }
+  },
+  "parameter_counts": {
+    "independent": 468385,
+    "global": 468577,
+    "repair": 468577
+  },
+  "epoch_history": [
+    {
+      "arm": "independent",
+      "epoch": 0,
+      "steps": 317,
+      "mean_loss": 0.6189259421374144,
+      "certificates": 0
+    },
+    {
+      "arm": "independent",
+      "epoch": 1,
+      "steps": 317,
+      "mean_loss": 0.5582431226216656,
+      "certificates": 0
+    },
+    {
+      "arm": "independent",
+      "epoch": 2,
+      "steps": 317,
+      "mean_loss": 0.5229686945676804,
+      "certificates": 0
+    },
+    {
+      "arm": "global",
+      "epoch": 0,
+      "steps": 317,
+      "mean_loss": 0.6312786986587176,
+      "certificates": 0
+    },
+    {
+      "arm": "global",
+      "epoch": 1,
+      "steps": 317,
+      "mean_loss": 0.5741180072917547,
+      "certificates": 0
+    },
+    {
+      "arm": "global",
+      "epoch": 2,
+      "steps": 317,
+      "mean_loss": 0.529743880433051,
+      "certificates": 0
+    },
+    {
+      "arm": "repair",
+      "epoch": 0,
+      "steps": 317,
+      "mean_loss": 0.683553091453077,
+      "certificates": 72
+    },
+    {
+      "arm": "repair",
+      "epoch": 1,
+      "steps": 317,
+      "mean_loss": 0.6477761949274442,
+      "certificates": 79
+    },
+    {
+      "arm": "repair",
+      "epoch": 2,
+      "steps": 317,
+      "mean_loss": 0.6201458691328482,
+      "certificates": 86
+    }
+  ],
+  "training_events": {
+    "independent_optimizer_steps": 951,
+    "global_optimizer_steps": 951,
+    "certificates": 237,
+    "repair_optimizer_steps": 951
+  },
+  "certificate_databases": 7,
+  "certificate_support_gate": true,
+  "positive_test_databases": 2,
+  "upgrade_gate": false,
+  "decision": "STOP_THIS_VERSION",
+  "graph_forward_calls": 3153,
+  "input_graph_nodes": 255039,
+  "gpu_forward_seconds": 2.606535905301571,
+  "gpu_backward_optimizer_seconds": 13.69209323477745,
+  "peak_GPU_allocated_bytes": 83761152,
+  "elapsed_wall_seconds": 89.18943474441767,
+  "cpu_seconds": 92.874552141,
+  "peak_RSS_GiB": 1.4489288330078125,
+  "new_language_model_calls": 0,
+  "input_language_tokens": 0,
+  "output_language_tokens": 0,
+  "new_external_API_cost_CNY": "0",
+  "local_compute_priced": false,
+  "prediction_sha256": "495268febca47c7b81bf04da10ed5cb119b4373f7fbf1fdfed8b9945d6887ad0",
+  "score_seals": {
+    "independent": "a7f2dff32a63e1015a0a7a376191a2d67b0001a2bbfbc7e8aee6458a2bae1d2d",
+    "global": "1e7554e164b493fe132fcae82fffe4debb1fa593a26d7ec8fcaa7993feb5c481",
+    "repair": "0d5dc8ede0e5753163f01083a1e41fff9ee5db27de410001cf69367865fc4c7a"
+  },
+  "checkpoint_seals": {
+    "independent": "e2d40bafb1cfa20431321964def9325b02c4adf1f1001381dd7007b8a04ec1ae",
+    "global": "685c888f4909652c74491c8606f7b11a8ca96dc5b710086f55321411784a4e17",
+    "repair": "edd05c32cfd7b22b2434e562a52133eccfbe3b24bcddca4c363f3b13f8d799a9"
+  },
+  "config_sha256": "ff68e45c963c916ec4882ecb815c4bc3c781ddd34a6e83fb9afe16b283108365"
+}
