@@ -23,6 +23,11 @@
       "input_tokens": 6385,
       "output_tokens": 1280,
       "total_tokens": 7665,
+      "request_latency_seconds": {
+        "min": 82.69944359920919,
+        "max": 89.25706383213401,
+        "mean": 86.24693760313093
+      },
       "valid_json_outputs": 0,
       "all_completions_at_generation_cap": true,
       "evaluator_completed": false,
@@ -34,6 +39,11 @@
       "input_tokens": 6385,
       "output_tokens": 2024,
       "total_tokens": 8409,
+      "request_latency_seconds": {
+        "min": 94.66781510040164,
+        "max": 174.06537142023444,
+        "mean": 143.75136478841304
+      },
       "valid_json_outputs": 0,
       "requirements_extracted": 0,
       "exact_spans_extracted": 0,
