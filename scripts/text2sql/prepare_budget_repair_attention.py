@@ -12,6 +12,7 @@ import time
 from run_seed_steiner import read_config,load_inputs,new_output,write_json,sha256
 from run_closure_budget_order import sample_cases
 from closure_budget_order import expressibility,reference_read_bindings
+from steiner_sql_runtime import read_reference_rows
 
 
 def main():
@@ -27,7 +28,7 @@ def main():
         train=[{k:r[k] for k in ['db_id','question_id']} for r in train],test=[{k:r[k] for k in ['db_id','question_id']} for r in test]))
     keys={(r['db_id'],r['question_id']) for r in train};references={}
     # Mixed source JSON contains reference fields, but only training keys access SQL.
-    for row in json.loads((Path(c['dataset_root'])/'dev.json').read_text()):
+    for row in read_reference_rows(c):
         key=(row['db_id'],row['question_id'])
         if key in keys:references[key]=row['SQL']
     result=[];unknown=Counter();dbsupported=Counter()

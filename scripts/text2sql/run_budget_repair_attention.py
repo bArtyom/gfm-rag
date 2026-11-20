@@ -19,13 +19,17 @@ from budget_repair_attention import BudgetScorer,balanced_loss,feasible_repair
 from closure_budget_order import SchemaClosure,serialize_partial,select_columns,expressibility,reference_read_bindings
 from run_seed_steiner import read_config,load_inputs,new_output,write_json,sha256
 from seed_steiner import serialize_schema
+from steiner_sql_runtime import read_reference_rows
 
 ARMS=['independent','global','repair']
 
 
 class Runtime:
     def __init__(self,cfg,inputs):
-        self.cfg=cfg;self.inputs=inputs;self.meta={};self.memo={};self.closures={};self.tokenizer=AutoTokenizer.from_pretrained(cfg['sql_model'],local_files_only=True)
+        self.cfg=cfg;self.inputs=inputs;self.meta={};self.memo={};self.closures={}
+        for name in ['tokenizer.json','tokenizer_config.json','config.json']:
+            assert sha256(Path(cfg['sql_model'])/name)==cfg['model_files_sha256'][name]
+        self.tokenizer=AutoTokenizer.from_pretrained(cfg['sql_model'],local_files_only=True)
         self.qi={(r['db_id'],r['question_id']):i for i,r in enumerate(inputs['questions'])}
         assert sha256(cfg['previous_predictions'])==cfg['previous_prediction_sha256']
         self.prior={(r['db_id'],r['question_id']):r for r in map(json.loads,Path(cfg['previous_predictions']).read_text().splitlines())}
@@ -144,7 +148,7 @@ def main():
     pred=a.output/'predictions_private.json';write_json(pred,predictions);seal=sha256(pred);write_json(a.output/'prediction_seal.json',dict(sha256=seal,questions=len(predictions),test_reference_values_not_used=True,score_seals=node_score_files,checkpoint_seals=checkpoint_hashes))
     # All model checkpoints, scores and selections are now frozen. Test SQL first used below.
     wanted={(r['db_id'],r['question_id']) for r in testrows};references={}
-    for row in json.loads((Path(cfg['dataset_root'])/'dev.json').read_text()):
+    for row in read_reference_rows(cfg):
         key=(row['db_id'],row['question_id'])
         if key in wanted:references[key]=row['SQL']
     counts={arm:Counter() for arm in ARMS+['whole_dense']};pairs={arm:Counter() for arm in ['independent','global','whole_dense']};perdb=defaultdict(lambda:{a:Counter() for a in counts});evaluations=[];unknown=Counter()
