@@ -2,6 +2,8 @@
 
 **Status before inference:** protocol and configuration registered; no new model call or result yet. Initial inspection earlier on 2026-11-21 found GPU 0 idle with 24,196 MiB free. The immediate pre-launch recheck found all four GPUs at 100% utilization, only 9,173 MiB free on GPU 0, and 423 GiB available RAM. This is below the registered 20 GiB GPU launch threshold, so inference is on hold; no vLLM service was started.
 
+CPU preflight `preflight_001` passed: the frozen questions, schema, embedding cache, node manifest and all local Qwen files matched their registered hashes; 1,534 questions / 11 databases loaded; 433 historical exclusions matched; the five smoke cases and 40 pilot cases are disjoint; the fast tokenizer loaded. The preflight made zero model requests and did not read the current questions’ reference SQL. Its private manifest is under the registered local result root.
+
 ## Source idea and scope
 
 This pilot operationalizes the next-method hypothesis in the 2026-11-12 closure-cost report: replace one scalar relevance score for the whole question with explicit selection/filter/aggregation/comparison requirements, each linked to an exact source span and alternative schema-column/operator bindings. A selected column witnesses at most one distinct requirement. Binding choices are optimized jointly under exact foreign-key closure and serialized-schema cost; unresolved requirements remain uncovered.
