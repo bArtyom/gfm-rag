@@ -1,0 +1,88 @@
+{
+  "run_id": "requirement_witness_budget_pilot_cpu_20261121_01",
+  "scope": "five-question BIRD-dev CPU smoke only; not full BizWeave evaluation",
+  "mode": "recovery_smoke",
+  "questions": 5,
+  "databases": 5,
+  "pilot_questions_run": 0,
+  "decision": "STOP_SMOKE_GATE",
+  "smoke_gate": false,
+  "request_ledger": {
+    "local_model_requests": 10,
+    "requests_with_usage": 10,
+    "requests_without_usage": 0,
+    "input_tokens": 12770,
+    "output_tokens": 3304,
+    "total_tokens": 16074,
+    "external_api_requests": 0
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "questions": 5,
+      "input_tokens": 6385,
+      "output_tokens": 1280,
+      "total_tokens": 7665,
+      "valid_json_outputs": 0,
+      "all_completions_at_generation_cap": true,
+      "evaluator_completed": false,
+      "failure": "KeyError after prediction seal: private candidate record lacked physical column index"
+    },
+    {
+      "attempt": 2,
+      "questions": 5,
+      "input_tokens": 6385,
+      "output_tokens": 2024,
+      "total_tokens": 8409,
+      "valid_json_outputs": 0,
+      "requirements_extracted": 0,
+      "exact_spans_extracted": 0,
+      "wall_seconds": 757.5107352826744,
+      "cpu_seconds": 22989.383453273997,
+      "peak_rss_gib": 15.128376007080078,
+      "verification_passed": true
+    }
+  ],
+  "recovery_smoke_metrics": {
+    "reference_read_columns": 22,
+    "arms": {
+      "table_coverage": {
+        "retained_columns": 22,
+        "micro_read_binding_recall": 1.0,
+        "complete_binding_questions": 5,
+        "selected_columns": 380,
+        "schema_tokens": 3698,
+        "inference_tokens": 0,
+        "budget_violations": 0
+      },
+      "scalar_column_closure": {
+        "retained_columns": 22,
+        "micro_read_binding_recall": 1.0,
+        "complete_binding_questions": 5,
+        "selected_columns": 470,
+        "schema_tokens": 4892,
+        "inference_tokens": 0,
+        "budget_violations": 0
+      },
+      "requirement_witness": {
+        "retained_columns": 0,
+        "micro_read_binding_recall": 0.0,
+        "complete_binding_questions": 0,
+        "selected_columns": 0,
+        "schema_tokens": 0,
+        "inference_tokens": 8409,
+        "budget_violations": 0,
+        "valid_json_outputs": 0,
+        "paired_rescue_vs_each_baseline": 0,
+        "paired_damage_vs_each_baseline": 5
+      }
+    },
+    "top32_reference_column_candidates": 16,
+    "top32_reference_columns": 22,
+    "top32_candidate_recall": 0.7272727272727273
+  },
+  "source_base_commit": "124fd30b1548106f714d7218c9d6972dc82a4e52",
+  "recovery_source_commit": "ced7a4ce013eb14d82b4cae373fe127f8768ad3b",
+  "recovery_config_sha256": "71e878d4fe81f66be3d0546966d5908f07444c471c45008b3b9641fe789055d2",
+  "interpretation": "BIRD-dev structural read-binding proxy. The smoke gate failure stops this method version; these results do not establish semantic SQL accuracy, full-dataset performance, or BizWeave effectiveness."
+}
