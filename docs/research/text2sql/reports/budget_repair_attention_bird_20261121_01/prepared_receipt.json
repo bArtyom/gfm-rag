@@ -1,0 +1,38 @@
+{
+  "config_sha256": "ff68e45c963c916ec4882ecb815c4bc3c781ddd34a6e83fb9afe16b283108365",
+  "split_sha256": "4cae8b9af1b84e5cef61c555d8bbacede32debb6e0e7beae452b3e4733f6f363",
+  "targets_sha256": "d7c192df54f42c8872b9521c4c638527975f31491d1d4f0f1c102ad4b3faca05",
+  "source_commit": "0b330c76493568662641dabfbb0e136b65b5b77e",
+  "command": [
+    "scripts/text2sql/prepare_budget_repair_attention.py",
+    "--config",
+    "configs/text2sql/budget_repair_attention_bird_20261121.json",
+    "--output",
+    "results/budget_repair_attention_bird_20261121_01/prepared_002"
+  ],
+  "python": "3.12.14 | packaged by Anaconda, Inc. | (main, Aug 27 2026, 14:46:43) [GCC 14.3.0]",
+  "train_requested": 320,
+  "train_supported": 317,
+  "training_label_unknown": {
+    "unqualified_quoted_column": 3
+  },
+  "test_count": 100,
+  "excluded_prior_cases": 433,
+  "train_databases": 8,
+  "test_databases": 3,
+  "database_overlap": 0,
+  "per_database_training": {
+    "DB-01": 40,
+    "DB-02": 39,
+    "DB-03": 40,
+    "DB-04": 40,
+    "DB-05": 40,
+    "DB-06": 40,
+    "DB-07": 38,
+    "DB-08": 40
+  },
+  "gate": true,
+  "test_reference_values_accessed": false,
+  "new_language_model_calls": 0,
+  "wall_seconds": 3.8871546927839518
+}

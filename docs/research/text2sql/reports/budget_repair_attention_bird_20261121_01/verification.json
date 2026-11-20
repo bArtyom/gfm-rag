@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "questions": 100,
+  "CPU_checkpoint_forward_replays": 300,
+  "maximum_CPU_GPU_score_difference": 8.940696716308594e-07,
+  "budget_checks": 400,
+  "repair_certificates_verified": 237,
+  "training_reference_targets_rechecked": 317,
+  "graph_forward_events_verified": 3153,
+  "input_graph_nodes_verified": 255039,
+  "checkpoints_changed": {
+    "independent": true,
+    "global": true,
+    "repair": true
+  },
+  "split_seals_counts_gate_verified": true,
+  "wall_seconds": 15.586192877963185,
+  "new_language_model_calls": 0,
+  "verification_graph_forward_calls": 300,
+  "verification_input_graph_nodes": 23676,
+  "limitations": [
+    "shared serializer/closure/prepare and reference-binding helper",
+    "does not independently replay optimization gradients",
+    "CPU graph-vector replay has no language-token usage; CPU time is unpriced"
+  ]
+}
