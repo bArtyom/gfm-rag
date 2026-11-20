@@ -25,7 +25,7 @@
     "superhero": "75e94a2c3236ee3bb2c01fb97a1c4b4c1c269bcefd4eab1d04be323d2d0825b1",
     "codebase_community": "92101be6d2a9f6adceea59d38f6d1c556087f9eea1432432a21268cb1348036d"
   },
-  "max_wall_seconds": 3600,
+  "max_wall_seconds": 14400,
   "max_solve_seconds": 5,
   "cache_source_receipt_sha256": "693d6e1d8a1c4dcddadc7becd130c8d379e5d7378b96af99897acbae3f792c1a",
   "cache_identity_receipt_sha256": "6b28af7400cb70e0ab88a00b56654235571a074022fd8ea52b3f9744a844c4e9",
@@ -69,7 +69,7 @@
   "generation": {
     "temperature": 0,
     "top_p": 1,
-    "max_tokens": 256,
+    "max_tokens": 640,
     "seed": 20261121,
     "n": 1,
     "stream": false
@@ -77,8 +77,8 @@
   "primary_count": 40,
   "http_concurrency": 1,
   "max_physical_requests": 45,
-  "max_input_tokens": 50000,
-  "max_output_tokens": 12000,
+  "max_input_tokens": 60000,
+  "max_output_tokens": 26000,
   "request_timeout": 180,
   "sql_timeout": 5,
   "sql_row_limit": 50000,
@@ -115,7 +115,7 @@
   "min_valid_span_fraction": 0.85,
   "result_root": "${LAB_ROOT}/sources/results/requirement_witness_budget_pilot_cpu_20261121_01",
   "logs_root": "${LAB_ROOT}/logs/requirement_witness_budget_pilot_cpu_20261121_01",
-  "smoke_output": "ai_temp_code/requirement_witness_cpu_smoke_001",
+  "smoke_output": "ai_temp_code/requirement_witness_cpu_smoke_recovered_002",
   "local_result_alias": "${LAB_ROOT}/sources/results/requirement_witness_budget_pilot_cpu_20261121_01",
   "archive_base_commit": "124fd30b1548106f714d7218c9d6972dc82a4e52",
   "backend": "transformers_cpu",
@@ -124,5 +124,6 @@
   "minimum_available_memory_mib": 49152,
   "cpu_threads": 32,
   "cpu_interop_threads": 16,
-  "cpu_dtype": "bfloat16"
+  "cpu_dtype": "bfloat16",
+  "smoke_attempt_number": 2
 }
