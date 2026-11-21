@@ -1,0 +1,90 @@
+{
+  "run_id": "bizweave_bird_zero_fk_graph_20261121_001",
+  "evidence_level": "single-database exploratory; Gold-SQL proxy labels; no human semantic labels",
+  "dataset": "BIRD train",
+  "database_id": "public_review_platform",
+  "table_count": 15,
+  "declared_foreign_key_count": 0,
+  "task_count": 381,
+  "sql_parsed_count": 381,
+  "sql_parse_failures": 0,
+  "parsed_without_physical_gold_table": 0,
+  "ranking_question_count": 381,
+  "unique_observed_gold_join_pairs": 29,
+  "model_graph_node_count": 15,
+  "model_graph_edge_count": 15,
+  "model_graph_valid_edge_endpoint_count": 15,
+  "duplicate_node_ids": false,
+  "physical_binding_count": 15,
+  "physical_binding_table_validity": 1.0,
+  "physical_binding_column_count": 75,
+  "physical_binding_column_validity": 1.0,
+  "invalid_physical_binding_count": 0,
+  "evidence_reference_count": 54,
+  "evidence_id_validity": 1.0,
+  "evidence_id_entailment_reviewed": false,
+  "predicted_unique_join_candidates": 8,
+  "schema_valid_predicted_join_candidates": 8,
+  "invalid_join_candidate_count": 0,
+  "predicted_join_candidate_precision_vs_observed_gold_sql": 1.0,
+  "predicted_join_candidate_recall_vs_observed_gold_sql": 0.27586206896551724,
+  "retrieval_metrics": {
+    "schema_bm25": {
+      "1": {
+        "mean_table_recall_at_k": 0.44868766404199517,
+        "complete_gold_table_coverage_at_k": 0.2152230971128609,
+        "mean_reciprocal_rank": 0.8709929833945581
+      },
+      "3": {
+        "mean_table_recall_at_k": 0.6916885389326335,
+        "complete_gold_table_coverage_at_k": 0.4881889763779528,
+        "mean_reciprocal_rank": 0.8709929833945581
+      },
+      "5": {
+        "mean_table_recall_at_k": 0.7977252843394574,
+        "complete_gold_table_coverage_at_k": 0.6272965879265092,
+        "mean_reciprocal_rank": 0.8709929833945581
+      }
+    },
+    "flat_graph_bm25": {
+      "1": {
+        "mean_table_recall_at_k": 0.3677165354330711,
+        "complete_gold_table_coverage_at_k": 0.16535433070866143,
+        "mean_reciprocal_rank": 0.8106080489938755
+      },
+      "3": {
+        "mean_table_recall_at_k": 0.7007874015748029,
+        "complete_gold_table_coverage_at_k": 0.48031496062992124,
+        "mean_reciprocal_rank": 0.8106080489938755
+      },
+      "5": {
+        "mean_table_recall_at_k": 0.8324584426946638,
+        "complete_gold_table_coverage_at_k": 0.6430446194225722,
+        "mean_reciprocal_rank": 0.8106080489938755
+      }
+    },
+    "typed_graph": {
+      "1": {
+        "mean_table_recall_at_k": 0.36990376202974645,
+        "complete_gold_table_coverage_at_k": 0.1679790026246719,
+        "mean_reciprocal_rank": 0.8104174478190224
+      },
+      "3": {
+        "mean_table_recall_at_k": 0.7296587926509186,
+        "complete_gold_table_coverage_at_k": 0.5406824146981627,
+        "mean_reciprocal_rank": 0.8104174478190224
+      },
+      "5": {
+        "mean_table_recall_at_k": 0.8648731408573931,
+        "complete_gold_table_coverage_at_k": 0.7139107611548556,
+        "mean_reciprocal_rank": 0.8104174478190224
+      }
+    }
+  },
+  "schema_sha256": "85300c745b263db88a5e0cdf083e8b2427d90272e954bc8c5f92aa1dc66c836b",
+  "tasks_sha256": "abf17d3def22f56f41b3e139b94bba3fa4a986280abcbf6df2d7f30150695520",
+  "model_graph_sha256": "ff49288b4dc5a5dc784e1870c406bec201400e10f87119a8050ca6dfd3c8c526",
+  "model_input_sha256": "5cf62d00c382cc88886314e05f02da6925953ded7a0de606e4d8cfe2ab9b3c2e",
+  "evaluation_code_commit": "3e8c86d75421a8b9f469df756e647050677c4803",
+  "interpretation": "Gold SQL is used only after graph generation for table-use/JOIN-use proxies; these are not semantic gold labels or evidence that the reference SQL is the only correct implementation."
+}
