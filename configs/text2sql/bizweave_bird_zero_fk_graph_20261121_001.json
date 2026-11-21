@@ -1,0 +1,75 @@
+{
+  "run_id": "bizweave_bird_zero_fk_graph_20261121_001",
+  "experiment_id": "bizweave_bird_zero_fk_graph_20261121_001",
+  "status": "preregistered_before_model_inference",
+  "research_question": "Can a local model build a source-grounded business-semantic graph from schema and column documentation for a database with no declared foreign keys, and does graph-aware retrieval help recover tables used by held-out questions?",
+  "core_hypothesis": "A Qwen-generated, evidence-linked business graph can recover useful physical relationships in a zero-declared-FK database and improve table retrieval over raw schema BM25 on this single exploratory database.",
+  "experiment_layer": "exploratory feasibility pilot; not mainline paper evidence",
+  "dataset": {
+    "name": "BIRD train",
+    "database_id": "public_review_platform",
+    "schema_file": "/mnt/liansp3/sources/datasets/bird/train/train_tables.json",
+    "tasks_file": "/mnt/liansp3/sources/datasets/bird/train/train.json",
+    "description_dir": "/mnt/liansp3/sources/datasets/bird/train/train_databases/public_review_platform/database_description",
+    "expected_tables": 15,
+    "expected_declared_foreign_keys": 0,
+    "expected_task_count": 381,
+    "expected_schema_sha256": "85300c745b263db88a5e0cdf083e8b2427d90272e954bc8c5f92aa1dc66c836b",
+    "expected_tasks_sha256": "abf17d3def22f56f41b3e139b94bba3fa4a986280abcbf6df2d7f30150695520"
+  },
+  "model": {
+    "provider": "local_vllm",
+    "name": "Qwen2.5-Coder-7B-Instruct",
+    "path": "/mnt/liansp3/sources/models/qwen25-coder-7b",
+    "environment": "/mnt/liansp3/sources/environments/qbridge_vllm085_20260829",
+    "vllm_version": "0.8.5",
+    "torch_version": "2.6.0",
+    "transformers_version": "4.51.3",
+    "model_config_sha256": "c0242402ad6a13b331ea320feea8c7e3776ffb7a4eff0757b9cd667e116d9a28",
+    "tokenizer_config_sha256": "959e7f1d9a1b7641a6d6ce05ca97b75c7894fcb66cbe5a040406458fb1128ee4",
+    "weights_index_sha256": "998a078123ffc97763690de7f2a677eb89168af5eaf8a5e12e6bc24d18e25bdb",
+    "served_model_name": "Qwen2.5-Coder-7B-Instruct",
+    "gpu_index": 3,
+    "dtype": "bfloat16",
+    "max_model_len": 32768,
+    "max_new_tokens": 4096,
+    "temperature": 0,
+    "seed": 20261121,
+    "gpu_memory_utilization": 0.82,
+    "max_num_seqs": 1,
+    "enforce_eager": true,
+    "server_port": 8769,
+    "max_model_calls": 1
+  },
+  "information_boundary": {
+    "graph_generation_inputs": ["BIRD schema JSON", "BIRD database description CSVs"],
+    "graph_generation_excludes": ["all benchmark questions", "all Gold SQL", "database row values", "query execution results"],
+    "evaluation_only_inputs": ["BIRD question text", "Gold SQL table references", "Gold SQL JOIN predicates"],
+    "database_read_or_query_execution": false
+  },
+  "evaluation": {
+    "candidate_universe": "all 15 physical tables in public_review_platform",
+    "methods": [
+      "schema_bm25: table names, column names, column descriptions, and value descriptions",
+      "flat_graph_bm25: graph-generated node text flattened by mapped table",
+      "typed_graph: graph node scores plus fixed 0.25 one-hop relation contribution"
+    ],
+    "top_k": [1, 3, 5],
+    "metrics": ["mean table Recall@K", "complete gold-table coverage@K", "MRR", "observed JOIN-edge precision and recall", "schema binding validity", "evidence ID validity"],
+    "sql_parse_failure_policy": "retain as parse-failure denominator; exclude from table-ranking metrics and report count"
+  },
+  "budget_and_stopping": {
+    "gpu_model_generations": 1,
+    "gpu_hours_budget": 0.5,
+    "cpu_evaluation_seconds_budget": 1800,
+    "external_api_calls": 0,
+    "success_signal": "valid evidence-referenced graph, all reported physical bindings resolve to the frozen schema, at least one proposed physical join is observed in BIRD Gold SQL, and typed-graph Recall@3 or MRR exceeds schema_bm25",
+    "stop_condition": "stop after the single generation and one frozen CPU evaluation; do not prompt-tune or add model calls if the signal is absent",
+    "interpretation_limit": "one BIRD train database and Gold-SQL table/JOIN references are retrieval proxies, not human business-semantics labels or independent benchmark results"
+  },
+  "paths": {
+    "run_root": "/mnt/liansp3/sources/results/bizweave_bird_zero_fk_graph_20261121_001",
+    "log_root": "/mnt/liansp3/logs/bizweave_bird_zero_fk_graph_20261121_001",
+    "project_report": "docs/research/text2sql/reports/bizweave_bird_zero_fk_graph_20261121_001/README.md"
+  }
+}
