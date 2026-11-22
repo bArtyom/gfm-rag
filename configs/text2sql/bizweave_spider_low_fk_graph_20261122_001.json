@@ -1,0 +1,83 @@
+{
+  "run_id": "bizweave_spider_low_fk_graph_20261122_001",
+  "status": "preregistered_before_model_inference",
+  "experiment_layer": "single-database exploratory replication on a second benchmark",
+  "core_hypothesis": "A local Qwen model can build a schema-grounded business-semantic graph from Spider schema names, column types, keys, and the one declared FK in bike_1; graph-aware table ranking may improve table recall over raw-schema BM25 on the same 104 training questions.",
+  "selection_rule": "Select a Spider train database with at most two declared FK column pairs, at least four tables, and at least 50 train questions; prioritize fewer FK pairs, then more train questions. This selects bike_1 (4 tables, 1 FK pair, 104 questions).",
+  "dataset": {
+    "name": "Spider 1.0 official train split",
+    "source_url": "https://yale-lily.github.io/spider",
+    "archive_file": "/mnt/liansp3/sources/datasets/spider_official/spider_data_20261107_confirmed.zip",
+    "archive_sha256": "00636695dabed6b5f4b8328a16b13e069a2f16591d5efcce57660669c85b121b",
+    "schema_member": "spider_data/tables.json",
+    "expected_schema_sha256": "61bb20aa401f03164e2d7f3b16509b7b5f79cc9c943ca7bd159046df1159e2ed",
+    "tasks_member": "spider_data/train_spider.json",
+    "expected_tasks_sha256": "c43d0d72e59e1a9e1a60837da9bf70d5a6277226bdb7f634d544f380646f527a",
+    "database_id": "bike_1",
+    "expected_tables": 4,
+    "expected_declared_fk_column_pairs": 1,
+    "expected_train_task_count": 104,
+    "task_sql_field": "query",
+    "task_question_field": "question",
+    "selection_audit": "logs/bizweave_spider_low_fk_graph_20261122_001/selection_audit_001/spider_fk_audit.json"
+  },
+  "information_boundary": {
+    "graph_generation_inputs": ["Spider tables.json schema names", "column names and types", "primary keys", "the one declared FK pair"],
+    "graph_generation_excludes": ["all natural-language questions", "all Gold SQL", "database rows", "SQLite query results", "dev/test data"],
+    "evaluation_only_inputs": ["Spider train_spider question text", "Spider train_spider query SQL"],
+    "notes": ["Spider tables.json has no business column descriptions; semantic interpretations from identifiers remain uncertain.", "The model must preserve the declared FK separately from any inferred candidate join."]
+  },
+  "model": {
+    "provider": "local_vllm",
+    "name": "Qwen2.5-Coder-7B-Instruct",
+    "path": "/mnt/liansp3/sources/models/qwen25-coder-7b",
+    "environment": "/mnt/liansp3/资源环境/qbridge_vllm085_20260829",
+    "environment_invocation": "conda run -p /mnt/liansp3/资源环境/qbridge_vllm085_20260829 python3.10",
+    "vllm_version": "0.8.5",
+    "torch_version": "2.6.0",
+    "transformers_version": "4.51.3",
+    "model_config_sha256": "c0242402ad6a13b331ea320feea8c7e3776ffb7a4eff0757b9cd667e116d9a28",
+    "tokenizer_config_sha256": "959e7f1d9a1b7641a6d6ce05ca97b75c7894fcb66cbe5a040406458fb1128ee4",
+    "weights_index_sha256": "998a078123ffc97763690de7f2a677eb89168af5eaf8a5e12e6bc24d18e25bdb",
+    "served_model_name": "Qwen2.5-Coder-7B-Instruct",
+    "gpu_index": 1,
+    "dtype": "bfloat16",
+    "max_model_len": 32768,
+    "max_new_tokens": 4096,
+    "temperature": 0,
+    "seed": 20261122,
+    "gpu_memory_utilization": 0.82,
+    "max_num_seqs": 1,
+    "enforce_eager": true,
+    "server_port": 8780,
+    "max_model_calls": 1
+  },
+  "evaluation": {
+    "candidate_universe": "all 4 physical tables in Spider bike_1",
+    "methods": [
+      "schema_bm25: table/column names, types, primary keys, and declared FK text",
+      "flat_graph_bm25: generated graph node text flattened by physical table",
+      "typed_graph: same graph text plus fixed 0.25 one-hop neighbor contribution"
+    ],
+    "top_k": [1, 2, 3],
+    "metrics": ["mean table Recall@K", "complete gold-table coverage@K", "MRR", "observed JOIN-edge precision/recall proxy", "declared-FK preservation", "schema binding validity", "evidence-ID validity"],
+    "sql_parse_failure_policy": "report all selected tasks and SQL parse failures; exclude parse failures/no-table cases from retrieval metrics and report exact counts",
+    "sql_execution": false,
+    "smoke_questions": 5,
+    "full_question_count": 104
+  },
+  "budget_and_stopping": {
+    "gpu_model_generations": 1,
+    "gpu_hours_budget": 0.5,
+    "cpu_evaluation_seconds_budget": 1800,
+    "external_api_calls": 0,
+    "success_signal": "valid graph JSON, schema-valid table/column bindings and evidence IDs, at least one model-proposed join observed in reference SQL, and typed-graph Recall@3 above raw-schema BM25.",
+    "stop_condition": "Run one local generation, a five-question CPU smoke evaluation, then one frozen full evaluation over 104 train questions. No retry, prompt tuning, extra models, or dev/test inspection. Stop if graph output is invalid or resource checks fail.",
+    "evidence_scope": "Exploratory single database; Spider train SQL usage is a proxy label, not a unique business-semantic gold label."
+  },
+  "paths": {
+    "run_root": "/mnt/liansp3/sources/results/bizweave_spider_low_fk_graph_20261122_001",
+    "log_root": "/mnt/liansp3/logs/bizweave_spider_low_fk_graph_20261122_001",
+    "project_report": "docs/research/text2sql/reports/bizweave_spider_low_fk_graph_20261122_001/README.md"
+  }
+}
