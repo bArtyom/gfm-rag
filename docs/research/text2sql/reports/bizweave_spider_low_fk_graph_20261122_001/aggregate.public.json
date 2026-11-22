@@ -1,0 +1,94 @@
+{
+  "run_id": "bizweave_spider_low_fk_graph_20261122_001",
+  "evaluation_mode": "full",
+  "evidence_level": "single-database exploratory; Gold-SQL proxy labels; no human semantic labels",
+  "dataset": "Spider 1.0 official train split",
+  "database_id": "bike_1",
+  "table_count": 4,
+  "declared_foreign_key_count": 1,
+  "task_count": 104,
+  "sql_parsed_count": 104,
+  "sql_parse_failures": 0,
+  "parsed_without_physical_gold_table": 0,
+  "ranking_question_count": 104,
+  "unique_observed_gold_join_pairs": 5,
+  "model_graph_node_count": 4,
+  "model_graph_edge_count": 1,
+  "model_graph_valid_edge_endpoint_count": 1,
+  "duplicate_node_ids": false,
+  "physical_binding_count": 4,
+  "physical_binding_table_validity": 1.0,
+  "physical_binding_column_count": 46,
+  "physical_binding_column_validity": 1.0,
+  "invalid_physical_binding_count": 0,
+  "evidence_reference_count": 60,
+  "evidence_id_validity": 1.0,
+  "evidence_id_entailment_reviewed": false,
+  "predicted_unique_join_candidates": 1,
+  "declared_fk_pairs_preserved_with_correct_status": 1,
+  "declared_fk_pair_count": 1,
+  "join_candidate_status_violation_count": 0,
+  "schema_valid_predicted_join_candidates": 1,
+  "invalid_join_candidate_count": 0,
+  "predicted_join_candidate_precision_vs_observed_gold_sql": 1.0,
+  "predicted_join_candidate_recall_vs_observed_gold_sql": 0.2,
+  "retrieval_metrics": {
+    "schema_bm25": {
+      "1": {
+        "mean_table_recall_at_k": 0.7163461538461539,
+        "complete_gold_table_coverage_at_k": 0.5673076923076923,
+        "mean_reciprocal_rank": 0.9262820512820511
+      },
+      "2": {
+        "mean_table_recall_at_k": 0.8942307692307693,
+        "complete_gold_table_coverage_at_k": 0.8269230769230769,
+        "mean_reciprocal_rank": 0.9262820512820511
+      },
+      "3": {
+        "mean_table_recall_at_k": 0.9903846153846154,
+        "complete_gold_table_coverage_at_k": 0.9807692307692307,
+        "mean_reciprocal_rank": 0.9262820512820511
+      }
+    },
+    "flat_graph_bm25": {
+      "1": {
+        "mean_table_recall_at_k": 0.41346153846153844,
+        "complete_gold_table_coverage_at_k": 0.28846153846153844,
+        "mean_reciprocal_rank": 0.7612179487179489
+      },
+      "2": {
+        "mean_table_recall_at_k": 0.8605769230769231,
+        "complete_gold_table_coverage_at_k": 0.7692307692307693,
+        "mean_reciprocal_rank": 0.7612179487179489
+      },
+      "3": {
+        "mean_table_recall_at_k": 0.9951923076923077,
+        "complete_gold_table_coverage_at_k": 0.9903846153846154,
+        "mean_reciprocal_rank": 0.7612179487179489
+      }
+    },
+    "typed_graph": {
+      "1": {
+        "mean_table_recall_at_k": 0.3942307692307692,
+        "complete_gold_table_coverage_at_k": 0.2692307692307692,
+        "mean_reciprocal_rank": 0.7403846153846155
+      },
+      "2": {
+        "mean_table_recall_at_k": 0.7980769230769231,
+        "complete_gold_table_coverage_at_k": 0.7115384615384616,
+        "mean_reciprocal_rank": 0.7403846153846155
+      },
+      "3": {
+        "mean_table_recall_at_k": 0.9951923076923077,
+        "complete_gold_table_coverage_at_k": 0.9903846153846154,
+        "mean_reciprocal_rank": 0.7403846153846155
+      }
+    }
+  },
+  "schema_sha256": "61bb20aa401f03164e2d7f3b16509b7b5f79cc9c943ca7bd159046df1159e2ed",
+  "tasks_sha256": "c43d0d72e59e1a9e1a60837da9bf70d5a6277226bdb7f634d544f380646f527a",
+  "model_graph_sha256": "f04d4fbcecfff06a52ff4962a0f91959fb0f8a7320be0b187d8949e81b2ca32d",
+  "model_input_sha256": "2f3754baf41c4dab982ec7f2cc79940dd6a143908832f0894463cf8c812f2699",
+  "evaluation_code_commit": "63c2787d849b359ad1a71818b8286f46669a0728",
+  "interpretation": "Gold SQL is used only after graph generation for table-use/JOIN-use proxies; these are not semantic gold labels or evidence that the reference SQL is the only correct implementation."
+}

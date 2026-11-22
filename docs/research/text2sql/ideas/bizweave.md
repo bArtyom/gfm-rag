@@ -49,3 +49,11 @@
 完成单库 BIRD `public_review_platform` 探索性试验（15 表、0 条声明外键、381 个问题），报告见 [BizWeave 零外键业务图 pilot](../reports/bizweave_bird_zero_fk_graph_20261121_001/README.md)。本地 Qwen 仅看 schema 与字段说明，生成了 15 节点、15 边的图，表列绑定均可解析；但没有事件、状态、时间依据、指标或粒度节点，也没有未决项。图扩展提高 Recall@3/@5，但降低 Recall@1 和 MRR；JOIN 对照是 Gold SQL 使用代理，不是业务语义金标。
 
 **判断：**“给少外键数据库建业务图”作为工程方向可做，但单独建图不是足够的创新点，且本轮模型输出还只是粗粒度 schema graph。BizWeave 的候选差异应落在带证据来源和验证/未决状态的 `事件/状态/时间口径/粒度 → 物理表列与连接路径` 映射，并在候选路径冲突时做查询条件化选择或拒答。暂不扩展 BIRD 提示词/模型；下一步先人工审阅 Spider 2.0-Lite 或可访问业务文档中的真实映射与歧义，再决定是否启动主实验。
+
+## 2026-11-22：Spider `bike_1` 低外键业务图 pilot
+
+完成第二个基准上的单库探索性试验，报告见 [BizWeave low-FK Spider business-graph pilot](../reports/bizweave_spider_low_fk_graph_20261122_001/README.md)。Spider 1.0 `bike_1` 有4张表、1组声明外键列对、104条train问题。图含4个节点（全部标为entity）、1条边；声明FK及全部物理表/列绑定有效，证据ID都指向输入记录。5个训练题中出现的唯一SQL JOIN代理覆盖1/5个独立JOIN列对。
+
+检索方面，typed graph Recall@3为99.52%，raw-schema BM25为99.04%，仅高0.48个百分点；但Recall@1为39.42%对71.63%，MRR为0.740对0.926。typed graph与flat graph在Recall@3相同，没有体现一跳类型传播的优势。模型没有生成事件、状态、时间依据、指标或粒度节点，也没有未决项；一些自然语言解释超过Spider字段本身能证明的范围。证据ID有效不能替代claim entailment审查。
+
+**判断：**这轮只支持“模型可以从低外键schema生成结构有效的图草稿”，不支持业务语义可靠性或检索收益；继续在`bike_1`调prompt的价值低，停止当前run。与BIRD零外键结果合看，论文差异仍应放在业务证据约束的事件/状态/时间/粒度到物理实现映射、歧义条件下的选择或弃答，而不是单纯建图。按既定门槛，下一步先审阅有真实业务说明且可人工判标签的数据，不扩充当前低外键单库实验。
