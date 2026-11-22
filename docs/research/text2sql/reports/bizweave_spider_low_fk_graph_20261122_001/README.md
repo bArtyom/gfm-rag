@@ -24,6 +24,8 @@ The immutable official Spider 1.0 archive has 166 schemas and 7,000 train questi
 
 The archive is `/mnt/liansp3/sources/datasets/spider_official/spider_data_20261107_confirmed.zip`, SHA-256 `00636695dabed6b5f4b8328a16b13e069a2f16591d5efcce57660669c85b121b`. `tables.json` SHA-256 is `61bb20aa401f03164e2d7f3b16509b7b5f79cc9c943ca7bd159046df1159e2ed`; `train_spider.json` SHA-256 is `c43d0d72e59e1a9e1a60837da9bf70d5a6277226bdb7f634d544f380646f527a`. The schema-only model input SHA-256 is `2f3754baf41c4dab982ec7f2cc79940dd6a143908832f0894463cf8c812f2699`.
 
+The official Spider distribution is licensed CC BY-SA 4.0, as recorded in the local resource index. Only the required JSON members were read directly from the archive; the database bundle was not extracted.
+
 `bike_1` is a low-FK, not zero-FK, test. Spider's schema file has no business descriptions, so table and column identifiers alone cannot verify event meaning, time basis, grain, cardinality, or metric definitions.
 
 ## Model-generated graph and evidence checks
@@ -62,7 +64,32 @@ The main research direction remains a provenance- and verification-aware mapping
 - **Model:** local `Qwen2.5-Coder-7B-Instruct`, `/mnt/liansp3/sources/models/qwen25-coder-7b`; config, tokenizer-config, and weight-index SHA-256 values are frozen in the linked config. The request returned HTTP 200 and valid JSON in 26.790 seconds, with 7,187 input, 1,201 output, and 8,388 total tokens. The shared ledger records exactly one call with usage. External API cost: CNY 0.
 - **Runtime:** inference Python 3.10.20, vLLM 0.8.5, PyTorch 2.6.0, Transformers 4.51.3; evaluation Python 3.9.20, SQLGlot 30.8.0 in `gmn_alphasql`. No package was installed or upgraded. vLLM used BF16, GPU 1 only, context 32,768, maximum generation 4,096, eager execution, one sequence; the request used temperature 0, seed 20261122, and JSON-object mode. The startup log reported Hugging Face generation defaults; the effective request log showed repetition penalty 1.1. The evaluator emitted a SQLGlot/sqlglotrs deprecation warning, with no parse failures.
 - **Resources:** before startup GPU 1 had 24,161 MiB free and 0% utilization; GPU 0 and GPU 3 were already occupied by other processes and were not used. RAM available was 427 GiB with 192 CPU cores; port 8780 was free. vLLM loaded 14.248 GiB of model weights; peak observed GPU 1 use was about 19,915 MiB. The model server ran for about three minutes (roughly 0.05 GPU-hours, estimated from the launch/log window) and was stopped after the generation. GPU 1 returned to 403 MiB used and port 8780 was no longer listening. Local GPU time is reported separately and is not assigned a currency price.
-- **Commands:** input preparation: `conda run -n gmn_alphasql python3 scripts/research/bizweave_spider_low_fk_graph_20261122_001/prepare_spider_inputs.py --config configs/text2sql/bizweave_spider_low_fk_graph_20261122_001.json`. Service launch and one generation request are recorded in `/mnt/liansp3/logs/bizweave_spider_low_fk_graph_20261122_001/inference_001/launch_manifest.json`; request stdout and server log remain local. Evaluation commands used the same run config, first with `--limit 5`, then over all selected tasks.
+- **Commands:** input preparation: `conda run -n gmn_alphasql python3 scripts/research/bizweave_spider_low_fk_graph_20261122_001/prepare_spider_inputs.py --config configs/text2sql/bizweave_spider_low_fk_graph_20261122_001.json`. The exact inference and CPU-evaluation commands were:
+
+  ```bash
+  CUDA_VISIBLE_DEVICES=1 conda run -p /mnt/liansp3/资源环境/qbridge_vllm085_20260829 python3.10 -m vllm.entrypoints.openai.api_server \
+    --model /mnt/liansp3/sources/models/qwen25-coder-7b \
+    --served-model-name Qwen2.5-Coder-7B-Instruct --host 127.0.0.1 --port 8780 \
+    --dtype bfloat16 --max-model-len 32768 --gpu-memory-utilization 0.82 \
+    --max-num-seqs 1 --enforce-eager
+
+  conda run -p /mnt/liansp3/资源环境/qbridge_vllm085_20260829 python3.10 \
+    scripts/research/bizweave_spider_low_fk_graph_20261122_001/generate_spider_graph.py \
+    --config configs/text2sql/bizweave_spider_low_fk_graph_20261122_001.json \
+    --base-url http://127.0.0.1:8780/v1
+
+  conda run -n gmn_alphasql python3 \
+    scripts/research/bizweave_spider_low_fk_graph_20261122_001/evaluate_spider_graph.py \
+    --config configs/text2sql/bizweave_spider_low_fk_graph_20261122_001.json \
+    --limit 5 --output-dir /mnt/liansp3/sources/results/bizweave_spider_low_fk_graph_20261122_001/evaluation_smoke_001
+
+  conda run -n gmn_alphasql python3 \
+    scripts/research/bizweave_spider_low_fk_graph_20261122_001/evaluate_spider_graph.py \
+    --config configs/text2sql/bizweave_spider_low_fk_graph_20261122_001.json \
+    --output-dir /mnt/liansp3/sources/results/bizweave_spider_low_fk_graph_20261122_001/evaluation_001
+  ```
+
+  The local launch manifest also records these commands, resource snapshots, and hashes. Request stdout and server log remain local.
 - **Local artifacts:** result root `/mnt/liansp3/sources/results/bizweave_spider_low_fk_graph_20261122_001/`; logs `/mnt/liansp3/logs/bizweave_spider_low_fk_graph_20261122_001/`. The model graph, raw response, Spider question text/SQL, per-question rankings, and logs are local only. This repository contains the protocol, source code, this report, and anonymous aggregate metrics.
 - **Limitations:** one database and one generation; Spider identifiers provide weak semantic evidence; no evidence-entailment audit, human labels, confidence intervals, cross-database replication, model-contamination check, or SQL execution. Gold SQL usage is only a retrieval/JOIN proxy, not a unique business-correct answer.
 
