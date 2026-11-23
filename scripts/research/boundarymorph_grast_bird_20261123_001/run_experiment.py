@@ -147,7 +147,10 @@ def read_query_order(path: Path) -> list[int]:
 
 def load_inputs(config: dict, repo_root: Path):
     common = import_p1_support(config, repo_root)
-    prepared = common.prepare_p1_inputs(load_tokenizer=False)
+    # The archived SchemaNode dataclass requires token_count even when the
+    # experiment does not use token lengths. Reuse the local Qwen tokenizer to
+    # populate that field; this performs no model forward pass.
+    prepared = common.prepare_p1_inputs(load_tokenizer=True)
     questions = prepared["questions"]
     nodes = prepared["nodes"]
     if len(questions) != 1534 or len(nodes) != 873:
