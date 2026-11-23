@@ -1,0 +1,89 @@
+{
+  "experiment_id": "boundarymorph_grast_bird_20261123_001",
+  "data": {
+    "dataset": "BIRD dev (exploratory, previously used during development)",
+    "questions": 1534,
+    "eligible_questions": 1460,
+    "databases": 11,
+    "gold_columns": 6523,
+    "question_file_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "schema_file_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97"
+  },
+  "selection": {
+    "candidate_pool_size": 64,
+    "final_capacity": 30,
+    "maximum_score_budget": 16,
+    "random_seed": 20261123,
+    "scoring_pairs": 71457,
+    "budget_distribution": {
+      "16": 1389,
+      "11": 145
+    }
+  },
+  "methods": {
+    "BoundaryMORPH": {
+      "full_recall_at_30": 0.6924657534246575,
+      "full_recall_count": 1011,
+      "macro_column_recall_at_30": 0.868007447271146,
+      "macro_column_precision_at_30": 0.14795202514380598,
+      "conditional_full_recall_given_candidate_complete": 0.8246329526916802,
+      "below16_gold_column_occurrences_recovered": 853
+    },
+    "FixedTop16-GP": {
+      "full_recall_at_30": 0.6671232876712329,
+      "full_recall_count": 974,
+      "macro_column_recall_at_30": 0.8551307349423789,
+      "macro_column_precision_at_30": 0.14580590642234478,
+      "conditional_full_recall_given_candidate_complete": 0.7944535073409462,
+      "below16_gold_column_occurrences_recovered": 758
+    },
+    "Random16-GP": {
+      "full_recall_at_30": 0.6041095890410959,
+      "full_recall_count": 882,
+      "macro_column_recall_at_30": 0.839711078495325,
+      "macro_column_precision_at_30": 0.14359129455019864,
+      "conditional_full_recall_given_candidate_complete": 0.7194127243066885,
+      "below16_gold_column_occurrences_recovered": 785
+    }
+  },
+  "candidate_pool_ceiling": {
+    "full_recall": 0.8397260273972603,
+    "full_recall_questions": 1226,
+    "macro_column_recall": 0.94411013263753,
+    "micro_column_recall": 0.935459144565384,
+    "minimum_fraction_for_gate": 0.25
+  },
+  "paired_comparison_vs_fixed": {
+    "boundary_rescued_questions": 51,
+    "boundary_damaged_questions": 14,
+    "net_full_recall_questions": 37
+  },
+  "boundary_gain_percentage_points": {
+    "vs_fixed": 2.534246575342469,
+    "vs_random": 8.835616438356164
+  },
+  "database_cluster_bootstrap_95_ci_percentage_points": {
+    "replicates": 10000,
+    "seed": 20261123,
+    "vs_fixed": [0.6891522139113266, 4.29378183554049],
+    "vs_random": [3.8523212647189026, 14.814814814814814]
+  },
+  "decision": {
+    "registered_gate_passed": true,
+    "status": "KEEP_FOR_SEPARATE_REPLICATION",
+    "scope_note": "Proxy-model, BIRD-dev result; not a faithful GRAST-SQL reproduction or held-out generalization claim."
+  },
+  "local_model_usage_full_run": {
+    "model": "jina-reranker-v2-base-multilingual",
+    "revision": "9cfeff2df7d40d1b78e75e5e9cebec92a99813c9",
+    "input_tokens_after_truncation": 4333198,
+    "output_tokens": 0,
+    "forward_batches": 4473,
+    "gpu_inference_seconds": 41.35416713619222
+  },
+  "external_api": {
+    "attempts": 0,
+    "fees_cny": 0,
+    "fees_usd": 0
+  }
+}
