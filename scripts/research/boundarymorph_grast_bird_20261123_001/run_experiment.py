@@ -314,7 +314,7 @@ def gp_posterior(state: dict, observations: list[tuple[int, float]], config: dic
 def choose_boundary_candidate(state: dict, observations: list[tuple[int, float]],
                               config: dict) -> int:
     mean, sigma = gp_posterior(state, observations, config)
-    observed = {index for index, _score in observations}
+    observed = {int(observation[0]) for observation in observations}
     unobserved = [index for index in range(state["n"]) if index not in observed]
     if not unobserved:
         raise RuntimeError("Boundary acquisition exhausted the candidate pool")
@@ -368,8 +368,13 @@ def load_scorer(config: dict, device: str):
     if sha256_file(weights_path) != config["query_aware_score_proxy"]["weights_sha256"]:
         raise RuntimeError("Local Jina reranker weights hash mismatch")
     tokenizer = AutoTokenizer.from_pretrained(
-        str(model_path), local_files_only=True, trust_remote_code=True
+        str(model_path),
+        local_files_only=True,
+        trust_remote_code=True,
+        fix_mistral_regex=bool(config["query_aware_score_proxy"]["fix_mistral_regex"]),
     )
+    if config["query_aware_score_proxy"]["expected_tokenizer_class_family"] not in type(tokenizer).__name__:
+        raise RuntimeError(f"Unexpected local scorer tokenizer class: {type(tokenizer).__name__}")
     model = AutoModelForSequenceClassification.from_pretrained(
         str(model_path),
         local_files_only=True,
@@ -806,6 +811,16 @@ def main() -> None:
     }
     write_json(args.output_dir / "input_manifest_private.json", input_manifest)
     tokenizer, model = load_scorer(config, device)
+    write_json(args.output_dir / "scorer_manifest_private.json", {
+        "model": config["query_aware_score_proxy"]["model"],
+        "revision": config["query_aware_score_proxy"]["revision"],
+        "weights_sha256": config["query_aware_score_proxy"]["weights_sha256"],
+        "tokenizer_class": type(tokenizer).__name__,
+        "fix_mistral_regex": config["query_aware_score_proxy"]["fix_mistral_regex"],
+        "dtype": config["query_aware_score_proxy"]["dtype"],
+        "native_attention_fallback": True,
+        "local_files_only": True,
+    })
     torch.cuda.reset_peak_memory_stats(0)
     print(f"[{args.mode}] inputs aligned; selected_questions={len(states)}; scorer loaded", flush=True)
 

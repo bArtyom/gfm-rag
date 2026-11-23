@@ -33,6 +33,8 @@
     "batch_size": 16,
     "score_transform": "sigmoid(logit)",
     "dtype": "bfloat16",
+    "fix_mistral_regex": false,
+    "expected_tokenizer_class_family": "XLMRoberta",
     "warning": "Proxy only; the official GRAST-SQL query-aware scorer checkpoint was not available locally."
   },
   "methods": ["FixedTop16-GP", "Random16-GP", "BoundaryMORPH"],
