@@ -4,6 +4,10 @@
 
 **状态:** preregistered，尚未读取本轮结果
 
+### 首次 smoke 前的输入修订（2026-11-23）
+
+执行前复核发现，BIRD-dev 的冻结 P1.6 输入包含 75 份经过 hash 校验的数据库描述 CSV；旧低成本向量使用的列文本包含列名、声明类型、可用的 column description、data format 与 value description。实验两臂将复用并逐节点校验这份完全相同的列文本，不再按最初草案只用列名和类型。当前没有 GRAST 图缓存，因此 GRAST `make_desc` 中的 `sample_values`、`has_null` 以及图侧的额外 meaning 元数据仍不可用；不会伪造这些字段。该修订发生在 smoke 与结果读取前，不改变 H1、样本、M/B 预算或停止门。
+
 **层级:** 主假设的最小可行性 gate；exploratory，不作为论文主结果
 
 **方向:** 验证固定低成本候选排序之外，昂贵问题—字段编码是否存在值得学习的选择余量。
@@ -29,7 +33,7 @@
 - Gold 字段 ID 从既有 P1.6 私有 `column_gold_ranks` 与冻结 query/node 向量重建；先在每题逐项核验重新计算的 Top-5/10/20 ID 与原缓存一致。任一不一致即停止，不能打开或解析 Gold SQL 来绕过该检查。
 - 低成本分数：复用 `/mnt/liansp3/sources/results/gfmrag_p1_6_rebaseline_20261016/full_1534_20261018_01/embedding_cache_private.npz`，不重新编码。缓存来自 Qwen3-Embedding-0.6B、1024 维；精确模型清单 hash 为 `b89ec1366231e37e92c64eaff3f98edce0f0c6af15cc8c7991ed900520143c68`。
 - 高成本模型：Hugging Face `griffith-bigdata/GRAST-SQL-0.6B-BIRD-Reranker`，冻结 revision `50b224a1e8557ad6629c7dafddeba7b73c603acb`，Apache-2.0。只下载模型 safetensors 与 tokenizer/config，不下载 GNN `.pt` 检查点。
-- 问题—字段输入采用上游 GRAST-SQL commit `4c698cae31da8299deb5c809101d172d5b2ddeb3` 的问答指令、前缀/后缀和字段描述构造；当前本地 BIRD schema 没有 GRAST 图缓存，所以字段描述只含表名、列名和声明类型，meaning、sample-values、null/value 描述留空。实际 token 成本按冻结模型 tokenizer 对最终 prompt 计数。此输入信息缺失是重要限制，结果不等同于官方完整字段增强流程。
+- 问题—字段输入采用上游 GRAST-SQL commit `4c698cae31da8299deb5c809101d172d5b2ddeb3` 的问答指令、前缀/后缀，并使用 P1.6 冻结节点文本（表/列名、类型及其已存在的描述、格式和值描述）；在运行前逐节点核对 text hash 与 token 数。由于没有 GRAST 图缓存，`make_desc` 的 `sample_values`、`has_null` 和图侧 meaning 元数据不可用。实际 token 成本按冻结 GRAST reranker tokenizer 对最终 prompt 计数；本实验仍不是官方完整字段增强流程。
 - reranker 分数按模型下一 token 的 `yes`/`no` logits 计算二类 softmax 概率；批内 padding token 不算入逻辑预算，但另报物理填充 token（若可取）。单条 prompt 超过 4,096 tokens、非有限分数或 tokenizer/model revision 不匹配均停止。
 - 输出格式固定为每列一行 `table.column (declared_type)`，B 用同一 tokenizer 计算；不补表、不闭包、不额外加键。
 - Tie-break 固定为字段 ID 字典序。无随机训练；抽样 seed `20261123`。
@@ -55,4 +59,4 @@
 
 ## 结果解释边界
 
-此实验只测一个使用公开 BIRD-dev 训练过的 reranker 直接给列对打分的 encoder-only 上限，不能证明动态策略可在线实现。低成本 embedding cache 与高成本 GRAST reranker 来自不同模型；字段描述缺少 GRAST 预处理的语义和值信息；BIRD-dev 是已暴露开发集；`B` 不含 FK/Steiner 闭包。任何通过结果都只支持下一步在数据库隔离数据上学习并验证预算调度器，不支持新颖性、全流程收益或泛化主张。
+此实验只测一个使用公开 BIRD-dev 训练过的 reranker 直接给列对打分的 encoder-only 上限，不能证明动态策略可在线实现。低成本 embedding cache 与高成本 GRAST reranker 来自不同模型；复用的 BIRD 描述没有 GRAST 图缓存中的 `sample_values`、`has_null` 和额外 meaning 元数据；BIRD-dev 是已暴露开发集；`B` 不含 FK/Steiner 闭包。任何通过结果都只支持下一步在数据库隔离数据上学习并验证预算调度器，不支持新颖性、全流程收益或泛化主张。
