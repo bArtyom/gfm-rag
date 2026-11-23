@@ -1,6 +1,6 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
-> **RAMP-SL 编码预算上限 gate（2026-11-23）：** [预注册方案](plans/ramp_sl_encoding_budget_gate_20261123.md)；[报告页](reports/ramp_sl_encoding_budget_gate_20261123_001/README.md)当前为预注册状态，未有实验结果。首轮比较固定低成本 Top-M 与昂贵编码离线上限，M=4,096、B=2,048；若上限差低于预设 3pp 即停止，不代表完整 GRAST-SQL 复现。用户已授权执行此最小可行性实验。
+> **RAMP-SL 编码预算上限 gate（2026-11-23）：** [预注册方案](plans/ramp_sl_encoding_budget_gate_20261123.md)；[实验报告](reports/ramp_sl_encoding_budget_gate_20261123_001/README.md)已更新。Smoke 5/5；pilot 110题/11库，oracle完整覆盖90.91% vs 静态66.36%（+24.545pp），通过扩展门；full按16M输入token上限停止于1,046/1,460题、8库（oracle87.48% vs 57.65%，+29.828pp）。BIRD-dev探索性、offline encoder-only；不代表完整GRAST-SQL复现或SQL EX收益。
 
 > **预算内修复监督（2026-11-21 UTC+8）：** [真实小模型训练与留库100题](reports/budget_repair_attention_bird_20261121_01/README.md)：独立/global/修复/dense原read完整保留52/50/64/79；修复237事件跨7训练库，vs普通global救14损0，但事后未训练起点68，完整gate失败。停止本版本，无SQL生成；真实3513图前向含smoke/CPU核验、CUDA事件17.784s，语言token0，不称总体优势或创新成立。
 
@@ -30,9 +30,9 @@
 
 | 文档 | 作用 | 状态 |
 |---|---|---|
-| [RAMP-SL 渐进式 Schema 编码 Idea](plans/ramp_sl_progressive_schema_encoding_idea_20261123.md) | 基于 GRAST-SQL 的昂贵字段编码预算分配与近期工作的边界审阅 | 首轮最小可行性实验已获授权；方法收益未验证 |
-| [RAMP-SL 编码预算上限预注册](plans/ramp_sl_encoding_budget_gate_20261123.md) | 固定 M/B 下静态 Top-M 与昂贵编码离线上限对照 | 已预注册；BIRD-dev exploratory gate，实验进行中 |
-| [RAMP-SL 编码预算上限试验报告](reports/ramp_sl_encoding_budget_gate_20261123_001/README.md) | 记录运行门槛、匿名结果与决定 | 预注册；待 smoke/pilot 运行 |
+| [RAMP-SL 渐进式 Schema 编码 Idea](plans/ramp_sl_progressive_schema_encoding_idea_20261123.md) | 基于 GRAST-SQL 的昂贵字段编码预算分配与近期工作的边界审阅 | 候选想法；独立预算上限 gate 已执行，方法收益尚未验证 |
+| [RAMP-SL 编码预算上限预注册](plans/ramp_sl_encoding_budget_gate_20261123.md) | 固定 M/B 下静态 Top-M 与昂贵编码离线上限对照 | 协议冻结；pilot扩展门通过；full按token预算停止，见报告 |
+| [RAMP-SL 编码预算上限试验报告](reports/ramp_sl_encoding_budget_gate_20261123_001/README.md) | 记录 pilot/full 的门槛、运行状态与匿名结果；另有 [匿名汇总](reports/ramp_sl_encoding_budget_gate_20261123_001/aggregate.public.json) | 探索性 pilot/full 部分结果已完成；全量未完成 |
 | [论文与代码审计](paper-and-code-audit.md) | QuadGraph 四层图、Qwen3 Embedding 输出维度、GraphReasoner 投影约束、相似度归一化 | 讨论版，待按当前 fork commit 复核 |
 | [实验路线图](experiment-roadmap.md) | P0 数据审计 → P1 维度消融 → P2 评分消融 → P3 Text2SQL EX → P4 可选 GFM 适配 | 研究指导 v1，尚未按本路线图执行 |
 | [数据与复现规范](reproducibility-contract.md) | Gold 约束、FK 实例标识、反泄漏、缓存版本、评测模板与 Go/No-go | 待实现/执行 |
