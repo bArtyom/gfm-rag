@@ -1,0 +1,83 @@
+{
+  "run_id": "ramp_sl_encoding_budget_gate_20261123_001",
+  "dataset": "BIRD-dev",
+  "status": "pilot_gate_passed_full_stopped_at_preregistered_input_token_cap",
+  "comparison": {
+    "static_method": "Static-TopM from frozen Qwen3-Embedding-0.6B P1.6 cache",
+    "oracle_method": "Offline GRAST-SQL 0.6B BIRD reranker ranking",
+    "primary_metric": "complete_gold_column_coverage_at_B",
+    "M_encoder_input_token_budget_per_question": 4096,
+    "B_serialized_schema_token_budget_per_question": 2048
+  },
+  "model": {
+    "repository": "griffith-bigdata/GRAST-SQL-0.6B-BIRD-Reranker",
+    "revision": "50b224a1e8557ad6629c7dafddeba7b73c603acb",
+    "safetensors_sha256": "545b970a33ac183ae1746a732f455f5b0a94822be1329526c41aef891ba84fdd"
+  },
+  "stages": [
+    {
+      "stage": "smoke",
+      "status": "completed",
+      "questions": 5,
+      "databases": 5,
+      "local_model_input_tokens_scored_in_stage": 88794,
+      "local_model_output_tokens": 0,
+      "gpu_scoring_seconds": 4.207
+    },
+    {
+      "stage": "pilot",
+      "status": "completed_gate_expand_full",
+      "questions": 110,
+      "databases": 11,
+      "static_complete_gold_coverage": {
+        "count": 73,
+        "rate": 0.663636
+      },
+      "offline_oracle_complete_gold_coverage": {
+        "count": 100,
+        "rate": 0.909091
+      },
+      "oracle_minus_static_percentage_points": 24.545,
+      "local_model_input_tokens_scored_in_stage": 1475074,
+      "budget_accounted_input_tokens_including_reused_scores": 1563868,
+      "local_model_output_tokens": 0,
+      "gpu_scoring_seconds": 54.865
+    },
+    {
+      "stage": "full",
+      "status": "stopped_input_token_cap",
+      "questions_completed": 1046,
+      "questions_planned": 1460,
+      "databases": 8,
+      "static_complete_gold_coverage": {
+        "count": 603,
+        "rate": 0.576482
+      },
+      "offline_oracle_complete_gold_coverage": {
+        "count": 915,
+        "rate": 0.874761
+      },
+      "oracle_minus_static_percentage_points": 29.828,
+      "local_model_input_tokens_scored_in_stage": 14770428,
+      "budget_accounted_input_tokens_including_reused_scores": 15968847,
+      "registered_input_token_cap": 16000000,
+      "remaining_budget_accounted_input_tokens": 31153,
+      "local_model_output_tokens": 0,
+      "gpu_scoring_seconds": 416.33,
+      "database_coverage_note": "dataset-order cap truncation; only 8 databases represented"
+    }
+  ],
+  "total_actual_local_inference_across_all_stages": {
+    "input_tokens": 16334296,
+    "output_tokens": 0,
+    "gpu_scoring_seconds": 475.402
+  },
+  "external_model_api": {
+    "calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "estimated_fee_CNY": "0"
+  },
+  "interpretation_limit": "BIRD-dev exploratory encoder-only offline upper-bound comparison; not full GRAST-SQL reproduction, not an online budget policy, and not an end-to-end SQL result."
+}
