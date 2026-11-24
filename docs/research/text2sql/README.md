@@ -87,7 +87,7 @@
 
 此前试验都不直接验证当前假设：11 月 17 日合成试验验证的是手写事件/约束规则；BIRD 与 Spider 图 pilot 只输入 Schema/字段说明；在线需求 smoke 测的是旧结构化输出路径。它们只能作为工程先导证据。11 月 17 日详情见[实验报告](reports/bizweave_business_semantic_pilot_20261117_001/README.md)、[协议](../../../experiments/bizweave_business_semantic_pilot_20261117_001/protocol.md)和[匿名聚合](reports/bizweave_business_semantic_pilot_20261117_001/aggregate.public.json)；新主线目前没有真实文档映射成绩。
 
-当前已预注册 BIRD-Ent 最多 5 条、按数据资产分层的文档字段映射与条件式 Oracle Mapping Gate，尚未读取样本；协议见[计划](plans/bizweave_birdent_oracle_mapping_gate_20261124_001.md)。
+已完成 BIRD-Ent 最多 5 条、按数据资产分层的文档字段映射与条件式 Oracle Mapping Gate：5/5 样本有直接字段映射证据；Oracle Column Recall@10 宏平均 0.7467，FlatDocBM25 为 0.6600，预注册的 2/5 提升门刚好通过。结果来自 AI 助手审阅的人工式 Oracle 映射，不是独立人类标签或自动构图效果。详见[报告](reports/bizweave_birdent_oracle_mapping_gate_20261124_001/README.md)、[协议](plans/bizweave_birdent_oracle_mapping_gate_20261124_001.md)与[评测修订](plans/bizweave_birdent_oracle_mapping_gate_20261124_001_amendment_001.md)。下一步只建议开展 30–50 条独立人类审核的探索 pilot；尚无新颖性或端到端 SQL 收益结论。
 
 
 ## 从今往后的提交规范
