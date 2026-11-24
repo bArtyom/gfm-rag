@@ -324,6 +324,8 @@ class OutputPacker:
         self.tokenizer = tokenizer
         self.texts = texts
         self._length_cache: dict[tuple[str, ...], int] = {}
+        self._piece_length_cache: dict[str, int] = {}
+        self._newline_tokens = len(self.tokenizer.encode("\n", add_special_tokens=False))
 
     def token_length(self, ordered_ids: list[str]) -> int:
         key = tuple(ordered_ids)
@@ -334,6 +336,17 @@ class OutputPacker:
 
     def pack(self, ids: Iterable[str], scores: dict[str, float], budget: int) -> tuple[list[str], int]:
         ordered = sorted(ids, key=lambda cid: (-float(scores[cid]), cid))
+        if ordered:
+            upper_bound = 0
+            for cid in ordered:
+                if cid not in self._piece_length_cache:
+                    self._piece_length_cache[cid] = len(self.tokenizer.encode(self.texts[cid], add_special_tokens=False))
+                upper_bound += self._piece_length_cache[cid]
+            upper_bound += max(0, len(ordered) - 1) * self._newline_tokens
+            if upper_bound <= budget:
+                exact = self.token_length(ordered)
+                if exact <= budget:
+                    return ordered, exact
         selected: list[str] = []
         for cid in ordered:
             candidate = selected + [cid]
@@ -917,28 +930,35 @@ def expected_ramp_gain(
     state: QuestionState,
     packer: OutputPacker,
     budget_b: int,
-    observations: dict[str, float],
-    planned: list[str],
+    base_scores: dict[str, float],
+    current_quality: float,
     mean: np.ndarray,
     sigma: np.ndarray,
     p_by_id: dict[str, float],
     candidate_id: str,
 ) -> float:
     ids = state.q.candidate_ids
-    base_scores = dict(observations)
-    for cid in planned:
-        base_scores[cid] = float(np.clip(mean[state.index_by_id[cid]], 0.0, 1.0))
-    current, _ = packer.pack(base_scores.keys(), base_scores, budget_b)
-    current_q = log_set_quality(current, p_by_id, ids)
     idx = state.index_by_id[candidate_id]
-    gains = []
+    base_order = sorted(base_scores, key=lambda cid: (-float(base_scores[cid]), cid))
+    rank_counts: Counter[int] = Counter()
+    rank_scores: dict[int, float] = {}
     for z in QUANTILE_Z:
         simulated = float(np.clip(mean[idx] + sigma[idx] * z, 0.0, 1.0))
+        rank = sum(
+            1 for cid in base_order
+            if float(base_scores[cid]) > simulated
+            or (float(base_scores[cid]) == simulated and cid < candidate_id)
+        )
+        rank_counts[rank] += 1
+        rank_scores[rank] = simulated
+    weighted_gain = 0.0
+    for rank, count in rank_counts.items():
         scores = dict(base_scores)
-        scores[candidate_id] = simulated
+        scores[candidate_id] = rank_scores[rank]
         output, _ = packer.pack(scores.keys(), scores, budget_b)
-        gains.append(max(0.0, log_set_quality(output, p_by_id, ids) - current_q))
-    return float(np.mean(gains))
+        gain = max(0.0, log_set_quality(output, p_by_id, ids) - current_quality)
+        weighted_gain += count * gain
+    return weighted_gain / len(QUANTILE_Z)
 
 
 def plan_ramp_batch(
@@ -956,6 +976,11 @@ def plan_ramp_batch(
     used = set(observations)
     virtual_remaining = int(remaining_tokens)
     while virtual_remaining > 0:
+        base_scores = dict(observations)
+        for cid in planned:
+            base_scores[cid] = float(np.clip(mean[state.index_by_id[cid]], 0.0, 1.0))
+        current_output, _ = packer.pack(base_scores.keys(), base_scores, budget_b)
+        current_quality = log_set_quality(current_output, p_by_id, state.q.candidate_ids)
         ordered_candidates = sorted(
             (cid for cid in state.q.candidate_ids if cid not in used),
             key=lambda cid: (state.q.costs[cid], cid),
@@ -966,7 +991,8 @@ def plan_ramp_batch(
             cost = state.q.costs[cid]
             if cost > virtual_remaining:
                 continue
-            gain = expected_ramp_gain(state, packer, budget_b, observations, planned, mean, sigma, p_by_id, cid)
+            gain = expected_ramp_gain(state, packer, budget_b, base_scores, current_quality,
+                                      mean, sigma, p_by_id, cid)
             value = gain / cost if cost_aware else gain
             if value > best_value + 1e-12:
                 best_value = value
