@@ -24,6 +24,7 @@ The research repository was `https://github.com/bArtyom/gfm-rag`, branch `resear
 - Dataset: [BIRD-Ent](https://huggingface.co/datasets/jjjycaptain/BIRD-Spider-Ent/tree/cde16ccf0eb606585642d6b06209760d73fd28dc), revision `cde16ccf0eb606585642d6b06209760d73fd28dc`; dataset-card license `CC-BY-SA-4.0`.
 - Unit: one unique business document paired with one associated evaluation database schema.
 - Sample: 30 cases, consisting of 18 balanced hash-selected cases, 6 cases with the lowest document/schema token Jaccard overlap, and 6 cases selected by predeclared multi-component language cues. These strata are diagnostic and must not be interpreted as representative prevalence.
+- Selection seed: `bizweave-codex-review-20261124-001`.
 - Candidate documents were identified through task `gold_knowledge_ids` only to pair documents with their associated schemas. This is an oracle-selected document pool. It cannot support a claim about retrieval quality.
 - The review packet excluded question text, SQL, Gold table/column labels, and task IDs. No SQL was executed.
 
