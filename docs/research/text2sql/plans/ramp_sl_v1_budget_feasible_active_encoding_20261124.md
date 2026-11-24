@@ -4,7 +4,7 @@
 >
 > **工作分支：** research/ramp-sl-v1-active-encoding-20261124，基于 RAMP-SL 结果提交 c8c75d3c53e0cf73e80d56fe995a4e99a425c4d6；不改 main，不重开已停止的预算修复、Steiner 或 G2 主线。
 >
-> **先前证据：** [RAMP-SL 昂贵评分上限报告](../reports/ramp_sl_encoding_budget_gate_20261123_001/README.md)；[RAMP-SL idea](ramp_sl_progressive_schema_encoding_idea_20261123.md)；[BoundaryMORPH 独立报告](../reports/boundarymorph_grast_bird_20261123_001/README.md)（注意它在另一个研究分支，当前基线未合并到本分支）。遵守 [复现契约](../reproducibility-contract.md)。
+> **先前证据：** [RAMP-SL 昂贵评分上限报告](../reports/ramp_sl_encoding_budget_gate_20261123_001/README.md)；[RAMP-SL idea](ramp_sl_progressive_schema_encoding_idea_20261123.md)；[BoundaryMORPH 独立报告](https://github.com/bArtyom/gfm-rag/blob/d9cca989dbe38f2b8d717860e86ad2665a9305fc/docs/research/text2sql/reports/boundarymorph_grast_bird_20261123_001/README.md)（注意它在另一个研究分支，当前基线未合并到本分支）。遵守 [复现契约](../reproducibility-contract.md)。
 
 ## 1. 已经证明了什么、还没证明什么
 
