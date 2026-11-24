@@ -1,0 +1,59 @@
+{
+  "run_id": "bizweave_birdent_oracle_mapping_gate_20261124_001",
+  "status": "exploratory_gate_pass",
+  "dataset": {
+    "repository": "jjjycaptain/BIRD-Spider-Ent",
+    "revision": "cde16ccf0eb606585642d6b06209760d73fd28dc",
+    "license": "CC-BY-SA-4.0"
+  },
+  "sample": {
+    "tasks": 5,
+    "distinct_data_assets": 5,
+    "linked_documents": 9,
+    "database_tables_per_task_min": 3,
+    "database_tables_per_task_max": 8,
+    "schema_columns_per_task_min": 12,
+    "schema_columns_per_task_max": 124
+  },
+  "mapping_audit": {
+    "annotation_source": "AI-assistant review with exact document spans; not independent human gold labels",
+    "assertions_total": 30,
+    "direct_supported_assertions": 23,
+    "conflicting_proposed_or_unresolved_assertions": 7,
+    "supported_column_mapping_edges": 26,
+    "tasks_with_at_least_one_supported_column_mapping": 5
+  },
+  "sql_derived_labels": {
+    "sqlglot_version": "30.12.0",
+    "unique_required_columns": 15,
+    "resolved_columns": 15,
+    "unresolved_columns": 0,
+    "sql_execution": false
+  },
+  "retrieval": {
+    "candidate_universe": "all physical columns in each task's evaluation database",
+    "k_columns": 10,
+    "k_tables": 5,
+    "flat_doc_bm25_macro_column_recall_at_10": 0.66,
+    "oracle_bizweave_macro_column_recall_at_10": 0.7466666666666667,
+    "macro_column_recall_gain": 0.0866666666666667,
+    "flat_doc_bm25_macro_reciprocal_rank": 0.55,
+    "oracle_bizweave_macro_reciprocal_rank": 1.0,
+    "flat_doc_bm25_macro_table_recall_at_5": 1.0,
+    "oracle_bizweave_macro_table_recall_at_5": 1.0,
+    "oracle_cases_better_equal_worse": [2, 2, 1]
+  },
+  "decision": {
+    "pre_registered_success_gate": "Oracle column Recall@10 improves in at least 2 of 5 tasks",
+    "gate_result": "PASS at 2 of 5",
+    "scope": "Proceed only to a separately registered 30-50 case exploratory annotation pilot with human review; this is not an end-to-end or novelty result"
+  },
+  "privacy": {
+    "raw_questions_published": false,
+    "gold_sql_published": false,
+    "document_text_published": false,
+    "per_case_mappings_or_scores_published": false
+  },
+  "model_api_calls": 0,
+  "gpu_used": false
+}
