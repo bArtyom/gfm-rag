@@ -1,0 +1,84 @@
+{
+  "run_id": "bizweave_birdent_codex_review_pilot_20261124_001",
+  "dataset": {
+    "name": "BIRD-Ent",
+    "revision": "cde16ccf0eb606585642d6b06209760d73fd28dc",
+    "license": "CC-BY-SA-4.0"
+  },
+  "review": {
+    "cases_total": 30,
+    "reviewer_count": 1,
+    "reviewer_type": "single current Codex app assistant; underlying model version unavailable",
+    "independent_human_annotation": false,
+    "cases_with_direct_mapping": 30,
+    "strata": {
+      "balanced_hash_sample": {
+        "cases": 18,
+        "direct_mapping_cases": 18,
+        "direct_supported_assertions": 70,
+        "direct_supported_edges": 80
+      },
+      "low_document_schema_token_jaccard": {
+        "cases": 6,
+        "direct_mapping_cases": 6,
+        "direct_supported_assertions": 13,
+        "direct_supported_edges": 15
+      },
+      "multi_component_language_cue": {
+        "cases": 6,
+        "direct_mapping_cases": 6,
+        "direct_supported_assertions": 21,
+        "direct_supported_edges": 27
+      }
+    },
+    "assertions_by_status": {
+      "direct_supported": 104,
+      "inferred": 5,
+      "ambiguous": 9,
+      "conflict": 3,
+      "proposed_schema": 25,
+      "unsupported": 4
+    },
+    "direct_supported_edges_total": 122,
+    "cases_with_explicit_multi_column_dependency": 12,
+    "distinct_data_asset_domains_with_multi_column_cases": 7
+  },
+  "validation": {
+    "direct_assertions_with_exact_source_span": 104,
+    "exact_source_span_rate": 1.0,
+    "direct_edges_with_schema_member_target": 122,
+    "schema_membership_rate": 1.0
+  },
+  "continuation_gate": {
+    "direct_mapping_cases_min": 18,
+    "direct_mapping_cases_observed": 30,
+    "low_overlap_direct_cases_min": 3,
+    "low_overlap_direct_cases_observed": 6,
+    "multi_column_cases_min": 6,
+    "multi_column_cases_observed": 12,
+    "multi_column_domains_min": 3,
+    "multi_column_domains_observed": 7,
+    "exact_span_and_schema_validation_required": 1.0,
+    "exact_span_and_schema_validation_observed": 1.0,
+    "decision": "pass exploratory continuation gate"
+  },
+  "provenance": {
+    "preregistration_github_commit": "ca4862fc0cceac08d41535da7747d360ec0d688a",
+    "dataset_packet_sha256": "15421a95956439a04f2ea6a070e321c3c47859e5785076ae1e622b2a651f64b7",
+    "selected_case_manifest_sha256": "aa81680ac84e3b318256a767fe19ed097a5d1c04f8256f58ff619950186b086d",
+    "selection_summary_sha256": "ffebfb7614b3cebd155256a9fe336a99115c570f08ff5780686988d2b001d887"
+  },
+  "limitations": [
+    "Candidate documents were selected from task gold_knowledge_ids only to pair documents and schemas; this is an oracle-selected pool and does not evaluate retrieval.",
+    "The strata are diagnostic samples, not a representative prevalence estimate.",
+    "The benchmark documents are dataset-created artifacts, not validated real-enterprise policies.",
+    "One AI reviewer was used; there was no independent human annotation or agreement estimate.",
+    "No automatic graph construction, retrieval comparison, SQL generation, or SQL execution was evaluated."
+  ],
+  "privacy": {
+    "documents_published": false,
+    "case_ids_or_mappings_published": false,
+    "questions_or_sql_published": false,
+    "exact_evidence_spans_published": false
+  }
+}
