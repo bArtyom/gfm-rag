@@ -1,0 +1,63 @@
+{
+  "run_id": "bizweave_birdent_codex_review_pilot_20261124_001",
+  "status": "preregistered",
+  "dataset": {
+    "repository": "jjjycaptain/BIRD-Spider-Ent",
+    "revision": "cde16ccf0eb606585642d6b06209760d73fd28dc",
+    "license": "CC-BY-SA-4.0",
+    "used_files": [
+      "BIRD-Ent/BIRD-Ent.json",
+      "BIRD-Ent/data_assets.json",
+      "BIRD-Ent/knowledge_documents.json",
+      "BIRD-Ent/table_name_mappings.json"
+    ],
+    "sql_execution": false
+  },
+  "sample": {
+    "cases": 30,
+    "unit": "unique document paired with one associated evaluation-database schema",
+    "strata": {
+      "balanced_hash_sample": 18,
+      "low_document_schema_token_jaccard": 6,
+      "multi_component_language_cue": 6
+    },
+    "seed": "bizweave-codex-review-20261124-001",
+    "excluded_document_ids": ["0"],
+    "excluded_eval_databases": ["california_schools"],
+    "excluded_physical_tables": ["xelion11_bkpub_ttl_metadata_drop"],
+    "candidate_documents_from": "task gold_knowledge_ids, used only to identify linked documents and schemas"
+  },
+  "review": {
+    "reviewer": "current Codex app assistant",
+    "reviewer_count": 1,
+    "independent_human_annotation": false,
+    "blind_to": ["question text", "SQL", "gold table/column labels", "task identifiers"],
+    "positive_status": "direct_supported",
+    "evidence_requirement": "exact verbatim document span and schema member target",
+    "multi_column_definition": "one supported assertion requires a relation, formula, rule, or component dependency over at least two columns; co-mention alone is insufficient"
+  },
+  "continuation_gate": {
+    "direct_mapping_cases_min": 18,
+    "direct_mapping_cases_denominator": 30,
+    "low_overlap_direct_cases_min": 3,
+    "low_overlap_denominator": 6,
+    "explicit_multi_column_cases_min": 6,
+    "multi_column_domain_count_min": 3,
+    "counted_edge_exact_span_validation": 1.0,
+    "counted_edge_schema_membership_validation": 1.0
+  },
+  "resources": {
+    "cpu_only": true,
+    "gpu": false,
+    "local_qwen": false,
+    "external_model_api": false,
+    "sql_execution": false,
+    "dependency_installation": false
+  },
+  "privacy": {
+    "publish_documents": false,
+    "publish_questions_or_sql": false,
+    "publish_case_ids_or_mappings": false,
+    "public_artifacts": ["protocol", "code", "anonymized_aggregate", "report"]
+  }
+}
