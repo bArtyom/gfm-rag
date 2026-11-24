@@ -47,6 +47,7 @@
     "revision": "50b224a1e8557ad6629c7dafddeba7b73c603acb",
     "weights_sha256_from_source_run": "545b970a33ac183ae1746a732f455f5b0a94822be1329526c41aef891ba84fdd",
     "cached_score": "softmax(logit_yes, logit_no)",
+    "static_baseline_score_source": "historical static_scores_by_id from the candidate-only scoring pass; shared initial M0 observations use those same values when present and the full-column cache otherwise, later adaptive batches use the full-column cache",
     "tokenizer_path": "/mnt/liansp3/sources/models/grast-sql-0.6b-bird-reranker",
     "input_cost": "exact GRAST tokenizer input tokens, including repeated query/instruction prefix, verified against all cached rows",
     "new_model_inference": false
@@ -167,9 +168,9 @@
   },
   "pre_test_amendment": {
     "date": "2026-11-24",
-    "reason": "Initial training smoke found noneligible P1.6 label rows for questions outside the frozen score cache.",
-    "training_only_audit": "All 741 cached training questions match eligible labels; 45 additional ineligible label rows have no cached-score question match. No test Gold rows were parsed.",
-    "change": "Skip noneligible label rows; report the eligible evaluable denominator after sealing. Keep the frozen split, token budgets, primary metric, thresholds, and methods unchanged."
+    "reason": "The first smoke exposed unrelated noneligible P1.6 label rows; the second smoke found two of five historical Static-TopM packed outputs differed when the all-column score pass was reused.",
+    "training_only_audit": "All 741 cached training questions match eligible labels; 45 additional ineligible label rows have no cached-score question match. In the second smoke, candidate lists, input-token totals, and output-token totals matched for all five questions; packed column IDs matched for three. No test Gold rows were parsed.",
+    "change": "Skip noneligible label rows; use archived candidate-only static scores for Static-TopM and shared initial M0 columns when available, falling back to the full-column cache only for initial columns absent from the archived static set. Later adaptive batches use the full-column score cache. Report the eligible evaluable denominator after sealing. Keep the frozen split, token budgets, primary metric, thresholds, and other methods unchanged."
   },
   "private_output_root": "/mnt/liansp3/sources/results/ramp_sl_v1_active_encoding_20261124_001",
   "private_log_root": "/mnt/liansp3/研究项目/Text2SQL/Seed-Steiner-20261108/project/logs/ramp_sl_v1_active_encoding_20261124_001"

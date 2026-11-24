@@ -193,6 +193,8 @@ class ScoreReplayStore:
         if sha256_file(path) != expected_sha256:
             raise RuntimeError("Full GRAST replay cache hash mismatch")
         self._private_scores: dict[tuple[str, int], dict[str, float]] = {}
+        self._static_scores: dict[tuple[str, int], dict[str, float]] = {}
+        self._static_candidate_ids: dict[tuple[str, int], list[str]] = {}
         self._costs: dict[tuple[str, int], dict[str, int]] = {}
         self._model_hashes: set[str] = set()
         self._replay_read_trace: list[dict[str, Any]] = []
@@ -208,10 +210,17 @@ class ScoreReplayStore:
                 if row.get("model_revision") != expected_revision or row.get("model_sha256") != expected_weights_sha256:
                     raise RuntimeError("Cached scorer identity mismatch")
                 scores = row.get("scores_by_id")
+                static_scores = row.get("static_scores_by_id")
+                static_ids = row.get("static_candidate_ids")
                 costs = row.get("input_tokens_by_id")
                 if not isinstance(scores, dict) or not isinstance(costs, dict) or set(scores) != set(costs):
                     raise RuntimeError("Cached scores/token-cost maps are malformed")
+                if (not isinstance(static_scores, dict) or not isinstance(static_ids, list)
+                        or set(static_scores) != set(static_ids) or not set(static_ids).issubset(scores)):
+                    raise RuntimeError("Historical Static-TopM cache map is malformed")
                 self._private_scores[key] = {str(cid): float(score) for cid, score in scores.items()}
+                self._static_scores[key] = {str(cid): float(score) for cid, score in static_scores.items()}
+                self._static_candidate_ids[key] = [str(cid) for cid in static_ids]
                 self._costs[key] = {str(cid): int(cost) for cid, cost in costs.items()}
                 self._model_hashes.add(str(row["model_sha256"]))
         if len(self._private_scores) != 1046 or self._model_hashes != {expected_weights_sha256}:
@@ -228,6 +237,11 @@ class ScoreReplayStore:
         if q.db_id not in train_db_ids:
             raise PermissionError("Full scorer values may be read only for training databases")
         return dict(self._private_scores[q.key])
+
+    def training_initial_scores(self, q: QuestionData, train_db_ids: set[str]) -> dict[str, float]:
+        if q.db_id not in train_db_ids:
+            raise PermissionError("Initial scorer values may be read only for training databases")
+        return dict(self._static_scores[q.key])
 
     def authorize_postseal_reference(self, sealed_path: Path, expected_question_count: int) -> str:
         if sealed_path.name != "private_predictions_sealed.jsonl" or not sealed_path.is_file():
@@ -278,9 +292,14 @@ class ScoreSession:
         batch_number = self.batch_count
         self.batch_count += 1
         visible_at_utc = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        static_score_source = self._store._static_scores[self._q.key]
+        full_score_source = self._store._private_scores[self._q.key]
         scores = {}
         for cid in column_ids:
-            value = float(self._store._private_scores[self._q.key][cid])
+            if self.arm == "Static-TopM" or (batch_number == 0 and cid in static_score_source):
+                value = float(static_score_source[cid])
+            else:
+                value = float(full_score_source[cid])
             if not math.isfinite(value) or value < 0.0 or value > 1.0:
                 raise RuntimeError("Selected cached GRAST score is non-finite or outside [0,1]")
             cost = self.cost(cid)
@@ -798,7 +817,7 @@ def fit_training_models(
             raise RuntimeError("A training question lacks its Gold-column labels")
         state = states[q.key]
         selected = budget_fill(state.cheap_order, q.costs, budget)
-        observation_scores = store.training_scores(q, train_db_ids)
+        observation_scores = store.training_initial_scores(q, train_db_ids)
         observed = {cid: observation_scores[cid] for cid in selected}
         initial_score_tokens += sum(q.costs[cid] for cid in selected)
         mean, sigma, used_fallback, _reason = posterior_or_fallback(

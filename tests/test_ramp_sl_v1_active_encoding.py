@@ -58,6 +58,8 @@ def make_question(db_id: str = "test_db") -> ramp.QuestionData:
 def make_fake_store(q: ramp.QuestionData) -> ramp.ScoreReplayStore:
     store = ramp.ScoreReplayStore.__new__(ramp.ScoreReplayStore)
     store._private_scores = {q.key: {cid: 0.2 + index * 0.1 for index, cid in enumerate(q.candidate_ids)}}
+    store._static_scores = {q.key: {cid: 0.9 - index * 0.1 for index, cid in enumerate(q.candidate_ids)}}
+    store._static_candidate_ids = {q.key: list(q.candidate_ids)}
     store._costs = {q.key: dict(q.costs)}
     store._model_hashes = set()
     store._replay_read_trace = []
@@ -85,6 +87,24 @@ class RampSLV1ContractTests(unittest.TestCase):
         store = make_fake_store(q)
         with self.assertRaises(PermissionError):
             store.make_session(q, "unit", 10, "test", {"other_db"})
+
+    def test_shared_initial_batch_uses_historical_scores_then_adaptive_batch_uses_full_cache(self) -> None:
+        q = make_question()
+        store = make_fake_store(q)
+        static = store.make_session(q, "Static-TopM", 10, "test", {q.db_id})
+        other = store.make_session(q, "Random-2R", 10, "test", {q.db_id})
+        self.assertEqual(static.score_batch(["c1"])["c1"], other.score_batch(["c1"])["c1"])
+        self.assertNotEqual(other.score_batch(["c2"])["c2"], store._static_scores[q.key]["c2"])
+
+    def test_initial_column_missing_from_historical_static_set_uses_full_score_cache(self) -> None:
+        q = make_question()
+        store = make_fake_store(q)
+        store._static_scores[q.key] = {"c1": 0.91}
+        store._static_candidate_ids[q.key] = ["c1"]
+        session = store.make_session(q, "Random-2R", 10, "test", {q.db_id})
+        first_scores = session.score_batch(["c1", "c2"])
+        self.assertEqual(first_scores["c1"], 0.91)
+        self.assertEqual(first_scores["c2"], store._private_scores[q.key]["c2"])
 
     def test_ramp_second_round_scores_one_planned_batch(self) -> None:
         q = make_question()
