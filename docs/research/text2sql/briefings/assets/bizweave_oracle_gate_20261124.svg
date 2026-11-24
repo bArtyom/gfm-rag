@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="545" viewBox="0 0 1120 545" role="img" aria-labelledby="chartTitle chartDesc">
+<title id="chartTitle">BizWeave BIRD-Ent Oracle Mapping Gate 指标对比</title>
+<desc id="chartDesc">五条样本宏平均。Column Recall at 10: FlatDocBM25 0.6600, OracleBizWeave 0.7467。MRR：FlatDocBM25 0.55，OracleBizWeave 1.0。Table Recall at 5：两者均为 1.0，已饱和。理想映射上界，不能代表自动建图效果。</desc>
+<rect width="1120" height="545" fill="#F8FAFC"/>
+<rect x="24" y="20" width="1072" height="505" rx="18" fill="white" stroke="#E2E8F0"/>
+<text x="58" y="74" fill="#0F172A" font-family="Arial,'Noto Sans SC',sans-serif" font-size="27" font-weight="700">BIRD-Ent：Oracle Mapping 小样本 Gate</text>
+<text x="58" y="103" fill="#64748B" font-family="Arial,'Noto Sans SC',sans-serif" font-size="17">5 个任务 · 宏平均 · 同数据库候选全集与相同 K</text>
+<rect x="689" y="59" width="17" height="17" rx="3" fill="#64748B"/>
+<text x="715" y="74" font-family="Arial,'Noto Sans SC',sans-serif" font-size="16" fill="#334155">FlatDocBM25</text>
+<rect x="864" y="59" width="17" height="17" rx="3" fill="#0891B2"/>
+<text x="890" y="74" font-family="Arial,'Noto Sans SC',sans-serif" font-size="16" fill="#334155">OracleBizWeave</text>
+<line x1="313" y1="142" x2="313" y2="420" stroke="#CBD5E1" stroke-width="1"/>
+<line x1="483" y1="142" x2="483" y2="420" stroke="#E2E8F0"/>
+<line x1="653" y1="142" x2="653" y2="420" stroke="#E2E8F0"/>
+<line x1="823" y1="142" x2="823" y2="420" stroke="#E2E8F0"/>
+<line x1="993" y1="142" x2="993" y2="420" stroke="#E2E8F0"/>
+<text x="308" y="443" font-family="Arial,sans-serif" font-size="15" text-anchor="middle" fill="#64748B">0</text>
+<text x="483" y="443" font-family="Arial,sans-serif" font-size="15" text-anchor="middle" fill="#64748B">0.25</text>
+<text x="653" y="443" font-family="Arial,sans-serif" font-size="15" text-anchor="middle" fill="#64748B">0.50</text>
+<text x="823" y="443" font-family="Arial,sans-serif" font-size="15" text-anchor="middle" fill="#64748B">0.75</text>
+<text x="993" y="443" font-family="Arial,sans-serif" font-size="15" text-anchor="middle" fill="#64748B">1.00</text>
+<text x="58" y="194" font-family="Arial,'Noto Sans SC',sans-serif" font-size="19" font-weight="700" fill="#0F172A">Column Recall@10</text>
+<rect x="313" y="159" width="448.8" height="25" rx="5" fill="#64748B"/>
+<text x="772" y="178" font-family="Arial,sans-serif" font-size="16" fill="#475569" font-weight="700">0.6600</text>
+<rect x="313" y="197" width="507.76" height="25" rx="5" fill="#0891B2"/>
+<text x="833" y="216" font-family="Arial,sans-serif" font-size="16" fill="#0E7490" font-weight="700">0.7467</text>
+<text x="58" y="312" font-family="Arial,'Noto Sans SC',sans-serif" font-size="19" font-weight="700" fill="#0F172A">MRR</text>
+<rect x="313" y="274" width="374" height="25" rx="5" fill="#64748B"/>
+<text x="699" y="293" font-family="Arial,sans-serif" font-size="16" fill="#475569" font-weight="700">0.5500</text>
+<rect x="313" y="312" width="680" height="25" rx="5" fill="#0891B2"/>
+<text x="1002" y="331" font-family="Arial,sans-serif" font-size="16" fill="#0E7490" font-weight="700">1.0000</text>
+<rect x="54" y="461" width="1012" height="42" rx="9" fill="#F1F5F9"/>
+<text x="73" y="488" font-family="Arial,'Noto Sans SC',sans-serif" font-size="16" fill="#334155">注意：正确映射由审阅者提供，且已知关联 Gold 文档；这是机会门槛/上界实验，非自动构图收益。</text>
+</svg>
