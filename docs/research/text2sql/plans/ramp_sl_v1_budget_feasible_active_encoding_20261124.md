@@ -31,7 +31,7 @@
 
 1. 用便宜 cosine 在全库列排序；逐列装入 M0=2,048，按实测 GRAST prompt token 计费，跳过装不下的列，得到 S0。
 2. 仅对 S0 进行昂贵 GRAST 0.6B Scorer 推理，取 P(yes)，保存实际评分与成本。
-3. 对未评分列 C\S0，使用 **BoundaryMORPH 相同类别的 GP 代理**结合廉价列向量、排名先验和 S0 观测来估计昂贵分数的均值 μ(c)、标准差 σ(c)。GP 按查询独立拟合；固定 vMF/cosine 核、训练列内中位距离尺度与稳定 jitter；不进行 test 参数搜索。用概率 logit（先 clip 至 [1e-4,1−1e-4]）建立 GP，预测后 sigmoid 回到 [0,1]。如 GP 奇异、样本不足或预测非有限，执行固定 fallback：训练集校准的便宜分数预测并记录 fallback 数量；不能用未评分字段的真实昂贵分数初始化 GP。
+3. 对未评分列 C\S0，使用 **BoundaryMORPH 的冻结 GP 代理**结合廉价列向量、排名先验和 S0 观测来估计昂贵分数的均值 μ(c)、标准差 σ(c)。在单题所有候选列的 L2-normalized embedding 上构建 cosine 矩阵；median_distance = max(median(1−cosine_ij, i<j), 1e−6)，κ=ln(2)/median_distance，K_ij=exp(κ(cosine_ij−1))。N>1 时 prior_i=1−rank_index_i/(N−1)，N=1 时 prior=1；另加**问题向量作为 score=1、prior=1 的零成本 anchor**，anchor 的核使用同一 κ。对观测的 score−prior residual 做均值中心化及标准差缩放，标准差下限 0.05；GP 核对角 jitter=1e−6；用原 BoundaryMORPH 的后验均值、方差公式，所得 μ 在用于打包/预测时 clip 到 [0,1]，σ 保持非负。本轮 GP 直接拟合 GRAST P(yes)，**不额外做 logit 变换**，以控制变量。无 test 参数搜索。若 GP 奇异、样本不足或预测非有限，执行固定 fallback：训练集校准的 cheap-only 分数预测并记录数量；不能用未评分字段的真实昂贵分数初始化 GP。
 
 ### 2.3 训练库内拟合“需要这个字段”的轻量校准器
 
@@ -93,7 +93,7 @@
 | Static-TopM | 无分轮，cheap 顺序取满 M | 无 | 原实验现实基线 |
 | Stratified-2R | cheap Top-M0 | 按 cheap 排名分位桶轮询，跳过不合成本列；seed=20261124 | 强制探索非前排字段的简单基线 |
 | Random-2R | cheap Top-M0 | 固定 SHA256(seed,q,id) 顺序取满剩余 M | 额外下界 |
-| BoundaryMORPH-2R | cheap Top-M0 | 基于 GP 的 Top-K 边界不确定性，K 为在 B 下当前可输出列数；同一 M，按 token 计费；若边界不可定义，按预定 cheap fallback | 既有主动采样方法的公平迁移；**需要新实现与验证，不能把旧 Jina 结果直接搬来** |
+| BoundaryMORPH-2R | cheap Top-M0 | 基于相同 GP 的 Top-K 边界不确定性，K 为在 B 下当前可输出列数；**第二轮逐个真实评分、逐个更新 GP**，总输入 token 仍≤M；若边界不可定义，使用固定 cheap fallback，并如实记录顺序调用的时延 | 既有主动采样方法的公平迁移；**需要新实现与验证，不能把旧 Jina 结果直接搬来** |
 | Calibrated-2R | cheap Top-M0 | 只用训练库 p(c)/t(q,c)，**不使用第一轮 GRAST→GP 残差更新**；其余相同 | 检验是否只是有监督重排序 |
 | **RAMP-SL V1** | cheap Top-M0 | GP + 8 点反事实集合质量提升 / t(q,c) 的第二轮批次 | 待验证的新策略 |
 | Full-score Reference | 在全列上评分后再预算选择 | **实际评分成本通常超过 M** | 只给参考 headroom，不进公平排名/GO 判定 |
