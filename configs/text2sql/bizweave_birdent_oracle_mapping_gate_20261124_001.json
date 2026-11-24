@@ -1,0 +1,61 @@
+{
+  "run_id": "bizweave_birdent_oracle_mapping_gate_20261124_001",
+  "status": "preregistered",
+  "dataset": {
+    "repo": "jjjycaptain/BIRD-Spider-Ent",
+    "revision": "cde16ccf0eb606585642d6b06209760d73fd28dc",
+    "license": "CC-BY-SA-4.0",
+    "required_files": [
+      "README.md",
+      "NOTICE.md",
+      "licenses/CC-BY-SA-4.0.md",
+      "BIRD-Ent/BIRD-Ent.json",
+      "BIRD-Ent/data_assets.json",
+      "BIRD-Ent/knowledge_documents.json"
+    ],
+    "database_files": false
+  },
+  "sample": {
+    "max_tasks": 5,
+    "selection": "source order; tasks with non-empty gold knowledge ids; prioritize distinct data assets",
+    "strata": "at most one task per data asset where available",
+    "blind_mapping_to_question_and_gold": true
+  },
+  "audit_gate": {
+    "minimum_tasks_with_supported_nontrivial_column_mapping": 3,
+    "maximum_tasks": 5
+  },
+  "retrieval": {
+    "run_only_if_audit_gate_passes": true,
+    "baseline": "question_plus_gold_knowledge_document_text_to_schema_columns_bm25",
+    "method": "oracle_claim_to_column_bm25_propagation_with_schema_bm25_fill",
+    "tokenizer": "lowercase_alphanumeric_split_snake_and_camel_case",
+    "bm25_k1": 1.5,
+    "bm25_b": 0.75,
+    "primary_metric": "gold_required_column_recall_at_10",
+    "secondary_metrics": ["gold_table_recall_at_5", "mrr"],
+    "stable_tie_break": "column_id_lexicographic"
+  },
+  "success_gate": {
+    "minimum_cases_with_improved_column_recall": 2,
+    "denominator": 5,
+    "interpretation": "continue_to_30_50_case_exploratory_annotation_pilot_only"
+  },
+  "resources": {
+    "cpu_only": true,
+    "max_cpu_threads": 4,
+    "max_rss_gib": 4,
+    "wall_time_seconds": 900,
+    "model_api_calls": 0,
+    "gpu": false,
+    "sql_execution": false,
+    "dependency_installation": false
+  },
+  "privacy": {
+    "publish_raw_questions": false,
+    "publish_gold_sql": false,
+    "publish_documents": false,
+    "publish_per_case_mappings": false,
+    "public_output": "anonymized_aggregate_and_report_only"
+  }
+}
