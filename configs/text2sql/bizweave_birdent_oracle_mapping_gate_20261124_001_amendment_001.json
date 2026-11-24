@@ -1,0 +1,27 @@
+{
+  "run_id": "bizweave_birdent_oracle_mapping_gate_20261124_001",
+  "amendment": 1,
+  "status": "preregistered_before_gold_question_sql_scoring",
+  "mapping_review_sha256": "ffd47bdebf172c4ed460c16f7a68f733ed70e5785c2fca63c0c6af9f9afb8934",
+  "evaluation_only_files": [
+    "BIRD-Ent/table_name_mappings.json",
+    "BIRD-Ent/column_name_mappings.json"
+  ],
+  "evaluation_procedure": {
+    "column_labels": "parse_original_SQL_with_existing_SQLGlot_and_normalize_with_pinned_name_mappings",
+    "sql_execution": false,
+    "unresolved_or_ambiguous_labels": "retain_and_report; no silent denominator filtering",
+    "primary_metric": "gold_required_column_recall_at_10_when_resolvable",
+    "secondary_metric": "gold_table_recall_at_5_on_all_selected_cases"
+  },
+  "blindness": {
+    "evaluation_only_files_used_for_mapping_review": false,
+    "questions_or_gold_labels_seen_during_mapping_review": false
+  },
+  "resource_changes": {
+    "model_api_calls": 0,
+    "gpu": false,
+    "dependency_installation": false,
+    "sql_execution": false
+  }
+}
