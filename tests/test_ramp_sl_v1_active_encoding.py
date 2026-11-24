@@ -105,6 +105,9 @@ class RampSLV1ContractTests(unittest.TestCase):
         first_scores = session.score_batch(["c1", "c2"])
         self.assertEqual(first_scores["c1"], 0.91)
         self.assertEqual(first_scores["c2"], store._private_scores[q.key]["c2"])
+        training_initial = store.training_initial_scores(q, {q.db_id})
+        self.assertEqual(training_initial["c1"], 0.91)
+        self.assertEqual(training_initial["c2"], store._private_scores[q.key]["c2"])
 
     def test_ramp_second_round_scores_one_planned_batch(self) -> None:
         q = make_question()

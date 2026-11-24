@@ -24,6 +24,8 @@ The first smoke attempt stopped before creating predictions because the label lo
 
 The second smoke attempt found the same Static-TopM candidates and token totals as the historical run for all five sampled training questions, but two packed column lists differed. The cache contains a separate all-column inference pass; replaying those values did not reproduce the archived candidate-only static outputs. Static-TopM uses the archived candidate-only scores. The shared initial M0 batch uses those same cached values where available and the all-column cache for any initial column absent from the historical static set; later adaptive batches use the all-column cache. This pre-test correction changes no database split, budget, primary metric, threshold, or method. No test Gold rows have been parsed.
 
+The third smoke stopped during training-feature construction: some M0 candidates were not part of the historical static candidate set, but the training path did not yet apply the registered all-column fallback. The training feature builder now uses the same mixed initial-score map as the replay API. This is a code consistency correction; no test predictions or Gold labels were read.
+
 The held-out policies are run once. Their outputs are sealed before any test Gold labels or full-score reference values are read. The full-score reference is explicitly marked non-budget-feasible and is excluded from the primary baseline gate. Any budget-contract violation, held-out leakage, hash mismatch, or failed train-only gate stops the run.
 
 ## Results

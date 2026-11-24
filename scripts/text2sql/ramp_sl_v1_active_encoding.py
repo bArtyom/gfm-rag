@@ -241,7 +241,9 @@ class ScoreReplayStore:
     def training_initial_scores(self, q: QuestionData, train_db_ids: set[str]) -> dict[str, float]:
         if q.db_id not in train_db_ids:
             raise PermissionError("Initial scorer values may be read only for training databases")
-        return dict(self._static_scores[q.key])
+        full_scores = self._private_scores[q.key]
+        static_scores = self._static_scores[q.key]
+        return {cid: static_scores.get(cid, value) for cid, value in full_scores.items()}
 
     def authorize_postseal_reference(self, sealed_path: Path, expected_question_count: int) -> str:
         if sealed_path.name != "private_predictions_sealed.jsonl" or not sealed_path.is_file():
