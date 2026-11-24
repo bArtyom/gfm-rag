@@ -39,7 +39,8 @@
     "test_questions": 305,
     "train_questions": 741,
     "test_gold_read_before_prediction_seal": false,
-    "full_score_values_available_to_policy_before_score_api_calls": false
+    "full_score_values_available_to_policy_before_score_api_calls": false,
+    "gold_eligibility_policy": "Use only P1.6 column_eligible questions for calibration and coverage metrics; noneligible rows in the same databases are counted and excluded. All 305 heldout cache questions still receive sealed online predictions. After sealing, evaluate only heldout cache questions with eligible Gold labels; require at least 80 evaluable questions for the science gate."
   },
   "scorer": {
     "model": "griffith-bigdata/GRAST-SQL-0.6B-BIRD-Reranker",
@@ -151,6 +152,7 @@
   },
   "stopping_rules": [
     "HOLD_INSUFFICIENT_COVERAGE if the frozen database split gates fail",
+    "HOLD_INSUFFICIENT_EVALUABLE_TEST_COVERAGE if fewer than 80 heldout cached questions have eligible Gold labels after sealing",
     "CONTRACT_FAIL if any score read, encoder token, or output token exceeds its frozen budget",
     "STOP_THIS_V1 if any science GO criterion fails; do not tune or rerun against the same test databases",
     "Stop on data/hash mismatch, non-finite result, repeated failure, or CPU/wall budget exhaustion"
@@ -162,6 +164,12 @@
     "runner": "scripts/text2sql/ramp_sl_v1_active_encoding.py",
     "test_file": "tests/test_ramp_sl_v1_active_encoding.py",
     "report": "docs/research/text2sql/reports/ramp_sl_v1_active_encoding_20261124_001/README.md"
+  },
+  "pre_test_amendment": {
+    "date": "2026-11-24",
+    "reason": "Initial training smoke found noneligible P1.6 label rows for questions outside the frozen score cache.",
+    "training_only_audit": "All 741 cached training questions match eligible labels; 45 additional ineligible label rows have no cached-score question match. No test Gold rows were parsed.",
+    "change": "Skip noneligible label rows; report the eligible evaluable denominator after sealing. Keep the frozen split, token budgets, primary metric, thresholds, and methods unchanged."
   },
   "private_output_root": "/mnt/liansp3/sources/results/ramp_sl_v1_active_encoding_20261124_001",
   "private_log_root": "/mnt/liansp3/研究项目/Text2SQL/Seed-Steiner-20261108/project/logs/ramp_sl_v1_active_encoding_20261124_001"

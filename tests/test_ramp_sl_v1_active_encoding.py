@@ -8,6 +8,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import numpy as np
 
@@ -132,6 +133,20 @@ class RampSLV1ContractTests(unittest.TestCase):
         with self.assertRaises(PermissionError):
             ramp.load_gold_rows({"test_db"}, test_db_ids={"test_db"})
 
+    def test_gold_loader_skips_uneligible_noncache_rows(self) -> None:
+        rows = [
+            {"db_id": "train_db", "question_id": 1, "column_eligible": True, "gold_column_ids_private": ["c1"]},
+            {"db_id": "train_db", "question_id": 2, "column_eligible": False, "gold_column_ids_private": []},
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            label_path = Path(directory) / "labels.jsonl"
+            label_path.write_text("".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8")
+            with patch.object(ramp, "LABEL_PATH", label_path):
+                labels, stats = ramp.load_gold_rows({"train_db"}, expected_count=1, return_stats=True)
+        self.assertEqual(labels, {("train_db", 1): {"c1"}})
+        self.assertEqual(stats["ineligible_label_rows"], 1)
+        self.assertEqual(stats["eligible_label_rows"], 1)
+
     def test_static_history_regression_skips_heldout_rows_without_parsing_gold(self) -> None:
         q = make_question(db_id="train_db")
         state = ramp.build_state(q)
@@ -196,6 +211,18 @@ class RampSLV1ContractTests(unittest.TestCase):
         row["methods"]["FullScore-Reference-AfterSeal"]["output_tokens"] = 2049
         with self.assertRaises(RuntimeError):
             ramp.verify_prediction_rows([row], 4096, {"FullScore-Reference-AfterSeal": 2048})
+
+    def test_budgeted_score_trace_must_match_recorded_token_total(self) -> None:
+        row = {"db_id": "db", "question_id": 1, "methods": {
+            "Static-TopM": {
+                "selected_for_scoring": ["a"], "scored_count": 1,
+                "replay_input_tokens": 3, "output_tokens": 0, "budget_B": 2048,
+                "budget_feasible": True, "budget_contract_pass": True,
+                "score_read_trace": [{"column_id_sha256": "x", "input_tokens": 2, "call_order": 0}],
+            }
+        }}
+        with self.assertRaises(RuntimeError):
+            ramp.verify_prediction_rows([row], 4096, {"Static-TopM": 2048})
 
     def test_calibrator_accepts_distinct_preregistered_feature_sets(self) -> None:
         rng = np.random.default_rng(7)

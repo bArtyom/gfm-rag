@@ -720,7 +720,8 @@ def load_gold_rows(
     test_db_ids: set[str] | None = None,
     sealed_prediction_path: Path | None = None,
     expected_seal_sha256: str | None = None,
-) -> dict[tuple[str, int], set[str]]:
+    return_stats: bool = False,
+) -> dict[tuple[str, int], set[str]] | tuple[dict[tuple[str, int], set[str]], dict[str, int]]:
     """Parse only rows belonging to the authorized split; test rows are skipped pre-seal."""
     if test_db_ids is not None and allowed_db_ids.intersection(test_db_ids):
         if (sealed_prediction_path is None or not sealed_prediction_path.is_file()
@@ -728,6 +729,9 @@ def load_gold_rows(
                 or not expected_seal_sha256 or sha256_file(sealed_prediction_path) != expected_seal_sha256):
             raise PermissionError("Test Gold labels require the matching sealed prediction file")
     labels: dict[tuple[str, int], set[str]] = {}
+    seen_keys: set[tuple[str, int]] = set()
+    eligible_rows = 0
+    ineligible_rows = 0
     with LABEL_PATH.open("rb") as stream:
         for raw_line in stream:
             if not raw_line.strip():
@@ -740,14 +744,22 @@ def load_gold_rows(
                 continue
             row = json.loads(raw_line)
             key = (str(row["db_id"]), int(row["question_id"]))
-            if key in labels:
+            if key in seen_keys:
                 raise RuntimeError("Duplicate Gold-label key")
+            seen_keys.add(key)
             if not bool(row.get("column_eligible")):
-                raise RuntimeError("Cached score question is not Gold-column eligible")
+                ineligible_rows += 1
+                continue
+            eligible_rows += 1
             labels[key] = set(str(cid) for cid in row["gold_column_ids_private"])
     if expected_count is not None and len(labels) != expected_count:
         raise RuntimeError(f"Expected {expected_count} labels for authorized databases, found {len(labels)}")
-    return labels
+    stats = {
+        "label_rows_parsed_for_allowed_databases": len(seen_keys),
+        "eligible_label_rows": eligible_rows,
+        "ineligible_label_rows": ineligible_rows,
+    }
+    return (labels, stats) if return_stats else labels
 
 
 def fit_training_models(
@@ -1178,13 +1190,23 @@ def verify_prediction_rows(rows: list[dict[str, Any]], m: int, budget_by_method:
         for group in result_groups:
             for method, result in group.items():
                 method_counts[method] += 1
-                score_reads += len(result.get("score_read_trace", []))
+                trace = result.get("score_read_trace", [])
+                score_reads += len(trace)
                 output_budget = int(budget_by_method.get(method, result.get("budget_B", 0)))
                 if int(result["output_tokens"]) > output_budget:
                     violations.append({"method": method, "reason": "output budget"})
                 if len(result["selected_for_scoring"]) != int(result["scored_count"]):
                     violations.append({"method": method, "reason": "count"})
                 if result.get("budget_feasible", True):
+                    trace_tokens = [int(entry["input_tokens"]) for entry in trace]
+                    trace_ids = [str(entry["column_id_sha256"]) for entry in trace]
+                    trace_order = [int(entry["call_order"]) for entry in trace]
+                    if sum(trace_tokens) != int(result["replay_input_tokens"]):
+                        violations.append({"method": method, "reason": "score trace token sum"})
+                    if len(trace_ids) != len(set(trace_ids)):
+                        violations.append({"method": method, "reason": "duplicate score trace ID"})
+                    if trace_order != list(range(len(trace_order))):
+                        violations.append({"method": method, "reason": "score trace order"})
                     if int(result["replay_input_tokens"]) > m:
                         violations.append({"method": method, "reason": "input budget"})
                     if not result.get("budget_contract_pass"):
@@ -1291,10 +1313,20 @@ def method_metrics(rows: list[dict[str, Any]], method: str, gold_by_key: dict[tu
     }
 
 
-def paired_comparison(rows: list[dict[str, Any]], a: str, b: str, gold_by_key: dict[tuple[str, int], set[str]], bootstrap_replicates: int, seed: int) -> dict[str, Any]:
+def paired_comparison(
+    rows: list[dict[str, Any]],
+    a: str,
+    b: str,
+    gold_by_key: dict[tuple[str, int], set[str]],
+    bootstrap_replicates: int,
+    seed: int,
+    all_db_ids: set[str] | None = None,
+) -> dict[str, Any]:
     db_rescue: Counter[str] = Counter()
     db_damage: Counter[str] = Counter()
     db_n: Counter[str] = Counter()
+    for db_id in all_db_ids or set():
+        db_n[db_id] = 0
     for row in rows:
         key = (str(row["db_id"]), int(row["question_id"]))
         gold = gold_by_key[key]
@@ -1455,6 +1487,7 @@ def evaluate_full(
     gold_by_key: dict[tuple[str, int], set[str]],
     q_by_key: dict[tuple[str, int], QuestionData],
     config: dict[str, Any],
+    heldout_db_ids: set[str],
 ) -> dict[str, Any]:
     rows = prediction_rows
     methods = list(rows[0]["methods"].keys()) if rows else []
@@ -1475,6 +1508,7 @@ def evaluate_full(
         method: paired_comparison(
             rows, method, "Static-TopM", gold_by_key,
             int(config["bootstrap"]["replicates"]), int(config["bootstrap"]["seed"]),
+            all_db_ids=heldout_db_ids,
         )
         for method in methods if method != "Static-TopM"
     }
@@ -1523,6 +1557,7 @@ def evaluate_full(
         sensitivity_comparisons[key] = paired_comparison(
             filtered, names[0], names[1], gold_by_key,
             int(config["bootstrap"]["replicates"]), int(config["bootstrap"]["seed"]),
+            all_db_ids=heldout_db_ids,
         )
     set_level_qualified = any(
         sensitivity_comparisons[key]["difference_pp"] > 0.0
@@ -1535,6 +1570,7 @@ def evaluate_full(
         "evaluation_scope": "BIRD-dev database-isolated replay; exploratory only, data/model were previously exposed",
         "question_count": len(rows),
         "database_count": len({row["db_id"] for row in rows}),
+        "heldout_database_count": len(heldout_db_ids),
         "methods": results,
         "paired_vs_static": comparisons,
         "strongest_feasible_baseline": strongest,
@@ -1579,10 +1615,13 @@ def main() -> None:
     train_questions = [q for q in questions if q.db_id in train_db_ids]
     test_questions = [q for q in questions if q.db_id in test_db_ids]
     # Training labels are restricted by database before Gold fields are parsed.
-    train_labels = load_gold_rows(train_db_ids, expected_count=len(train_questions))
+    train_labels, train_label_stats = load_gold_rows(
+        train_db_ids, expected_count=len(train_questions), return_stats=True
+    )
     fallback, calibrator, cheap_calibrator, training_metadata = fit_training_models(
         train_questions, train_db_ids, store, train_labels, config, start_wall, start_cpu
     )
+    training_metadata["gold_label_eligibility"] = train_label_stats
     write_model_artifact(args.output_dir / "private_training_model.json", fallback, calibrator, cheap_calibrator, training_metadata)
     tokenizer = AutoTokenizer.from_pretrained(str(TOKENIZER_PATH), local_files_only=True, trust_remote_code=False)
     tokenizer.padding_side = "left"
@@ -1726,23 +1765,70 @@ def main() -> None:
     reference_path = args.output_dir / "private_full_score_reference_after_seal.jsonl"
     write_jsonl(reference_path, reference_rows)
     # Explicit post-seal permit is enforced above, before any test Gold parsing.
-    test_labels = load_gold_rows(
+    all_test_eligible_labels, test_label_stats = load_gold_rows(
         test_db_ids,
-        expected_count=len(test_questions),
         test_db_ids=test_db_ids,
         sealed_prediction_path=sealed_path,
         expected_seal_sha256=seal_sha256,
+        return_stats=True,
     )
-    if len(test_labels) != len(test_questions):
-        raise RuntimeError("Test Gold count differs from sealed prediction count")
     q_by_key = {q.key: q for q in questions}
-    for row in prediction_rows:
+    test_cache_keys = {q.key for q in test_questions}
+    labels_outside_cached_questions = set(all_test_eligible_labels).difference(test_cache_keys)
+    test_labels = {
+        key: gold for key, gold in all_test_eligible_labels.items()
+        if key in test_cache_keys
+    }
+    evaluable_predictions = [
+        row for row in prediction_rows
+        if (row["db_id"], int(row["question_id"])) in test_labels
+    ]
+    evaluable_reference_rows = [
+        reference for reference in reference_rows
+        if (reference["db_id"], int(reference["question_id"])) in test_labels
+    ]
+    for row in evaluable_predictions:
         key = (row["db_id"], int(row["question_id"]))
-        if key not in test_labels:
-            raise RuntimeError("Missing sealed test label")
         if not test_labels[key].issubset(q_by_key[key].candidate_ids):
             raise RuntimeError("Test Gold column lies outside the frozen candidate universe")
-    aggregate = evaluate_full(prediction_rows, reference_rows, test_labels, q_by_key, config)
+    eligibility_receipt = {
+        "cache_complete_heldout_questions": len(test_questions),
+        "evaluable_heldout_questions": len(test_labels),
+        "cached_questions_without_eligible_gold": len(test_cache_keys.difference(test_labels)),
+        "eligible_gold_rows_outside_cached_questions": len(labels_outside_cached_questions),
+        "label_file_rows_parsed_after_seal": test_label_stats["label_rows_parsed_for_allowed_databases"],
+        "eligible_label_rows_parsed_after_seal": test_label_stats["eligible_label_rows"],
+        "ineligible_label_rows_parsed_after_seal": test_label_stats["ineligible_label_rows"],
+        "test_gold_rows_before_prediction_seal": 0,
+    }
+    write_json(args.output_dir / "postseal_eligibility_private.json", eligibility_receipt)
+    if len(test_labels) < 80:
+        hold = {
+            "run_id": RUN_ID,
+            "status": "HOLD_INSUFFICIENT_EVALUABLE_TEST_COVERAGE",
+            "evaluation_scope": "BIRD-dev database-isolated replay; exploratory only, data/model were previously exposed",
+            "eligibility": eligibility_receipt,
+            "test_database_hashes": split["test_db_hashes"],
+            "training_database_hashes": split["train_db_hashes"],
+            "new_local_model_inference_tokens": 0,
+            "external_api_calls": 0,
+            "sql_execution": False,
+        }
+        write_json(args.output_dir / "aggregate_private.json", hold)
+        write_json(args.output_dir / "aggregate_public.json", hold)
+        write_json(args.output_dir / "verification_summary.json", {
+            "state": hold["status"],
+            "sealed_prediction_sha256": seal_sha256,
+            "sealed_prediction_rows": len(prediction_rows),
+            "test_gold_loaded_after_seal": True,
+            "test_gold_rows_before_seal": 0,
+            "eligibility": eligibility_receipt,
+        })
+        print(json.dumps(hold, ensure_ascii=False, indent=2, sort_keys=True))
+        return
+    aggregate = evaluate_full(
+        evaluable_predictions, evaluable_reference_rows, test_labels, q_by_key, config, test_db_ids
+    )
     aggregate.update({
         "execution_commit": git_output("rev-parse", "HEAD"),
         "runner_sha256": sha256_file(Path(__file__).resolve()),
@@ -1752,7 +1838,8 @@ def main() -> None:
         "test_database_hashes": split["test_db_hashes"],
         "training_database_hashes": split["train_db_hashes"],
         "training_metadata": training_metadata,
-        "test_gold_rows_read_after_seal": len(test_labels),
+        "test_gold_rows_read_after_seal": test_label_stats["label_rows_parsed_for_allowed_databases"],
+        "eligibility": eligibility_receipt,
         "test_policy_selected_score_reads_before_seal": sum(
             len(result["score_read_trace"])
             for row in prediction_rows
@@ -1769,7 +1856,7 @@ def main() -> None:
     write_json(args.output_dir / "aggregate_private.json", aggregate)
     # The public aggregate contains no question IDs, database names, Gold IDs, or score traces.
     public = {k: v for k, v in aggregate.items() if k not in {"execution_commit", "runner_sha256", "config_sha256", "prediction_seal_sha256", "full_score_reference_sha256", "training_metadata", "test_gold_rows_read_after_seal", "test_gold_rows_before_prediction_seal", "test_policy_score_reads_after_first_round", "resource_snapshot_end"}}
-    public["test_database_count"] = len(test_db_ids)
+    public["heldout_database_count"] = len(test_db_ids)
     public["training_database_count"] = len(train_db_ids)
     write_json(args.output_dir / "aggregate_public.json", public)
     verification = {
