@@ -1,0 +1,40 @@
+{
+  "cached_model_scores_read": false,
+  "calibrator_implementation": "scipy.optimize.minimize(method='L-BFGS-B'), fixed L2 logistic objective; no package installation",
+  "complete_score_databases": 8,
+  "complete_score_questions": 1046,
+  "embedding_cache_sha256": "c7bb9ed942aa793e34e1253a5d1d8f8d8d871c95bdfdc33718dde7396d345250",
+  "environment_versions": {
+    "numpy": "2.2.6",
+    "scipy": "1.16.3",
+    "tokenizers": "0.22.1",
+    "transformers": "4.57.1"
+  },
+  "full_cache_prompt_token_costs_verified": true,
+  "node_manifest_sha256": "81ccc51c442c9d4771a16f600340c37f2673887fc0672d8179ecc20d39296754",
+  "question_rows": 1534,
+  "questions_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+  "run_id": "ramp_sl_v1_active_encoding_20261124_001",
+  "schema_nodes": 873,
+  "schema_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+  "scikit_learn_available": false,
+  "score_cache_sha256": "6945c91cc4a4a7dc4579c9f32a901d94a08d28c6bf175bfd73dc076bb473c960",
+  "state": "PASS_GOLD_BLIND_PREFLIGHT",
+  "test_db_count": 3,
+  "test_db_hashes": [
+    "24bc363e384350c9088dbaca53d41ec78523b72e6c215bc67b314fc7921e4fe5",
+    "bbb0b42b8be23f76989a779499ba140554254a8eb60096f4c827e3d8d9afde05",
+    "bd3d9a21b4c97040e255729710b56c6bd50d04d916bc1ce72341a4421392604e"
+  ],
+  "test_gold_read": false,
+  "test_question_count": 305,
+  "train_db_count": 5,
+  "train_db_hashes": [
+    "1e94b912a1e2fa97de162459b81a37db0e84103ef7b2668e03176bbcdba6f722",
+    "332a228e886f3105cadcd84acccf9b2ea631eff03394d286f2c9248a9e152df3",
+    "475328a4f9e33aec46b9a8c5ba36ddfe80948c0990fb6435ac1c298a50dc7632",
+    "7a1c36ae40bbb5328501216d178c8c3929efe952bb283ed4fe62ca98389b2033",
+    "fed0e4820af42571c936e28300ccb88026f72e075232358cd1fae4e802fe902b"
+  ],
+  "train_question_count": 741
+}

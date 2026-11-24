@@ -1,0 +1,168 @@
+{
+  "experiment_id": "ramp_sl_v1_active_encoding_20261124_001",
+  "status": "preregistered_not_run",
+  "project_repository": "https://github.com/bArtyom/gfm-rag",
+  "project_branch": "research/ramp-sl-v1-active-encoding-20261124",
+  "protocol_commit": "bdecff28b1f35b66423aff6f5663455d31f4874b",
+  "analysis_base_commit": "c8c75d3c53e0cf73e80d56fe995a4e99a425c4d6",
+  "experiment_question": "Under a real GRAST input-token budget, does two-round query-aware column acquisition improve complete reference-column coverage over static and strong budget-feasible baselines on database-isolated BIRD-dev replay?",
+  "hypothesis": "With the same candidate universe, cached scorer, M=4096 input tokens, and B=2048 output tokens, RAMP-SL V1 reaches at least +3.0 percentage points over Static-TopM, at least +1.0 point over the strongest budget-feasible comparator, and positive net rescue on at least two of three held-out databases.",
+  "data": {
+    "dataset": "BIRD-dev",
+    "questions_path": "/mnt/liansp3/sources/datasets/bird/dev/dev.json",
+    "schema_path": "/mnt/liansp3/sources/datasets/bird/dev/dev_tables.json",
+    "questions_sha256": "630272f2b1c44d8cef2c3b246f623355cf0bbc1e832c81061df895530dfc2f06",
+    "schema_sha256": "35e7f73f2bc3a3bc4def9466215f7617ff8b37e9b2837f03539a42c9e9c69d97",
+    "embedding_cache_path": "/mnt/liansp3/sources/results/gfmrag_p1_6_rebaseline_20261016/full_1534_20261018_01/embedding_cache_private.npz",
+    "embedding_cache_sha256": "c7bb9ed942aa793e34e1253a5d1d8f8d8d871c95bdfdc33718dde7396d345250",
+    "ordered_node_manifest_path": "/mnt/liansp3/sources/results/gfmrag_p1_6_rebaseline_20261016/full_1534_20261018_01/ordered_node_manifest.json",
+    "ordered_node_manifest_sha256": "81ccc51c442c9d4771a16f600340c37f2673887fc0672d8179ecc20d39296754",
+    "cached_score_and_token_path": "/mnt/liansp3/sources/results/ramp_sl_encoding_budget_gate_20261123_001/full_001/private_model_scores.jsonl",
+    "cached_score_and_token_sha256": "6945c91cc4a4a7dc4579c9f32a901d94a08d28c6bf175bfd73dc076bb473c960",
+    "prior_static_detail_path": "/mnt/liansp3/sources/results/ramp_sl_encoding_budget_gate_20261123_001/full_001/private_per_question.jsonl",
+    "prior_static_run_id": "ramp_sl_encoding_budget_gate_20261123_001",
+    "cache_complete_questions": 1046,
+    "cache_complete_databases": 8,
+    "test_split_rule": "Among databases with at least 40 questions with full cached scores, sort by SHA256('ramp-v1-test-20261124|' + db_id); first three are test, remainder train.",
+    "test_db_sha256": [
+      "24bc363e384350c9088dbaca53d41ec78523b72e6c215bc67b314fc7921e4fe5",
+      "bbb0b42b8be23f76989a779499ba140554254a8eb60096f4c827e3d8d9afde05",
+      "bd3d9a21b4c97040e255729710b56c6bd50d04d916bc1ce72341a4421392604e"
+    ],
+    "train_db_sha256": [
+      "1e94b912a1e2fa97de162459b81a37db0e84103ef7b2668e03176bbcdba6f722",
+      "332a228e886f3105cadcd84acccf9b2ea631eff03394d286f2c9248a9e152df3",
+      "475328a4f9e33aec46b9a8c5ba36ddfe80948c0990fb6435ac1c298a50dc7632",
+      "7a1c36ae40bbb5328501216d178c8c3929efe952bb283ed4fe62ca98389b2033",
+      "fed0e4820af42571c936e28300ccb88026f72e075232358cd1fae4e802fe902b"
+    ],
+    "test_questions": 305,
+    "train_questions": 741,
+    "test_gold_read_before_prediction_seal": false,
+    "full_score_values_available_to_policy_before_score_api_calls": false
+  },
+  "scorer": {
+    "model": "griffith-bigdata/GRAST-SQL-0.6B-BIRD-Reranker",
+    "revision": "50b224a1e8557ad6629c7dafddeba7b73c603acb",
+    "weights_sha256_from_source_run": "545b970a33ac183ae1746a732f455f5b0a94822be1329526c41aef891ba84fdd",
+    "cached_score": "softmax(logit_yes, logit_no)",
+    "tokenizer_path": "/mnt/liansp3/sources/models/grast-sql-0.6b-bird-reranker",
+    "input_cost": "exact GRAST tokenizer input tokens, including repeated query/instruction prefix, verified against all cached rows",
+    "new_model_inference": false
+  },
+  "budgets": {
+    "M_input_tokens_per_question": 4096,
+    "M0_first_round_input_tokens": 2048,
+    "B_output_schema_tokens": 2048,
+    "B_sensitivity_tokens": [512, 1024],
+    "maximum_single_prompt_tokens": 4096,
+    "cpu_threads": 8,
+    "maximum_cpu_seconds": 3600,
+    "maximum_wall_seconds": 7200,
+    "maximum_process_rss_gib": 16,
+    "gpu_seconds": 0,
+    "external_api_calls": 0,
+    "sql_execution": false
+  },
+  "methods": [
+    "Static-TopM",
+    "Stratified-2R",
+    "Random-2R",
+    "BoundaryMORPH-2R",
+    "Calibrated-2R",
+    "RAMP-SL-V1",
+    "RAMP-SL-V1-CostUnaware-Ablation",
+    "FullScore-Reference-AfterSeal"
+  ],
+  "calibrator": {
+    "model": "binary L2 logistic regression",
+    "role": "RAMP-SL V1 propensity model using the preregistered online-visible first-round features",
+    "features": [
+      "cheap_cosine",
+      "cheap_rank_percentile",
+      "log1p_grast_input_tokens",
+      "schema_name_query_overlap",
+      "gp_mean_or_observed_score",
+      "gp_sigma",
+      "score_observed_flag",
+      "observed_grast_score"
+    ],
+    "C": 1.0,
+    "solver": "SciPy L-BFGS-B",
+    "max_iterations": 200,
+    "class_weight": null,
+    "feature_scaling": "mean/std estimated on training databases only; zero/near-zero std replaced with 1",
+    "reason_for_solver": "scikit-learn is absent in the frozen environment; use existing SciPy with the fixed L2 logistic objective; install no dependencies"
+  },
+  "cheap_calibrator": {
+    "model": "binary L2 logistic regression",
+    "role": "Calibrated-2R p(c)/token comparator; deliberately excludes first-round GRAST observations and GP residual features",
+    "features": [
+      "cheap_cosine",
+      "cheap_rank_percentile",
+      "log1p_grast_input_tokens",
+      "schema_name_query_overlap"
+    ],
+    "C": 1.0,
+    "solver": "SciPy L-BFGS-B",
+    "max_iterations": 200,
+    "class_weight": null,
+    "feature_scaling": "mean/std estimated on training databases only; zero/near-zero std replaced with 1"
+  },
+  "selection": {
+    "cheap_rank": "frozen P1.6 Qwen3-Embedding-0.6B 1024D exact cosine, stable node_id tie-break",
+    "candidate_universe": "all columns in each database",
+    "gp_kernel": "exp(kappa * (cosine - 1)); kappa=ln(2)/max(median(1-cosine), 1e-6)",
+    "gp_prior": "1 - rank_index/(N-1), with 1 for N=1",
+    "query_anchor": "zero-cost, score=1, prior=1",
+    "gp_jitter": 0.000001,
+    "residual_scale_floor": 0.05,
+    "gp_target": "GRAST P(yes), no logit transform; predicted mean clipped to [0,1] for output packing",
+    "gp_fallback_if_real_observations_below": 2,
+    "gp_fallback_model": "training-database-only ridge predictor from cheap cosine, rank percentile, log token cost, and lexical name overlap; target is cached GRAST P(yes); standardized features, zero-mean coefficients with unpenalized intercept, ridge lambda=0.001; fallback residual standard deviation is fixed from training rows",
+    "ramp_expected_gain_quantiles": [
+      -1.5341205443525463,
+      -0.887146559018876,
+      -0.4887764111146695,
+      -0.1573106846101707,
+      0.1573106846101707,
+      0.4887764111146695,
+      0.887146559018876,
+      1.5341205443525463
+    ],
+    "set_utility": "sum(log(1-p(c))) over candidate columns not retained by the shared B packer; p clipped to [1e-4,1-1e-4]",
+    "schema_name_overlap": "query-token set overlap with table.column identifier tokens divided by identifier-token count",
+    "output_packer": "same GRAST tokenizer, node.text serialization, score-descending ordering, stable node_id tie-break as frozen RAMP-SL runner"
+  },
+  "random_seed": 20261124,
+  "bootstrap": {
+    "method": "database-cluster percentile bootstrap",
+    "replicates": 10000,
+    "seed": 20261124,
+    "note": "Only three test databases; interval will be reported as unstable/exploratory."
+  },
+  "success_criteria": {
+    "ramp_minus_static_complete_coverage_pp_min": 3.0,
+    "ramp_minus_strongest_feasible_baseline_pp_min": 1.0,
+    "positive_net_rescue_databases_min": 2,
+    "zero_budget_violations": true,
+    "zero_unselected_score_reads_before_seal": true,
+    "set_level_claim_requires_ramp_over_calibrated_at_B_512_or_1024": true
+  },
+  "stopping_rules": [
+    "HOLD_INSUFFICIENT_COVERAGE if the frozen database split gates fail",
+    "CONTRACT_FAIL if any score read, encoder token, or output token exceeds its frozen budget",
+    "STOP_THIS_V1 if any science GO criterion fails; do not tune or rerun against the same test databases",
+    "Stop on data/hash mismatch, non-finite result, repeated failure, or CPU/wall budget exhaustion"
+  ],
+  "source_files": {
+    "protocol": "docs/research/text2sql/plans/ramp_sl_v1_budget_feasible_active_encoding_20261124.md",
+    "innovation_boundary": "docs/research/text2sql/plans/ramp_sl_innovation_positioning_structure_aware_v2_20261124.md",
+    "preflight_receipt": "docs/research/text2sql/reports/ramp_sl_v1_active_encoding_20261124_001/preflight_public.json",
+    "runner": "scripts/text2sql/ramp_sl_v1_active_encoding.py",
+    "test_file": "tests/test_ramp_sl_v1_active_encoding.py",
+    "report": "docs/research/text2sql/reports/ramp_sl_v1_active_encoding_20261124_001/README.md"
+  },
+  "private_output_root": "/mnt/liansp3/sources/results/ramp_sl_v1_active_encoding_20261124_001",
+  "private_log_root": "/mnt/liansp3/研究项目/Text2SQL/Seed-Steiner-20261108/project/logs/ramp_sl_v1_active_encoding_20261124_001"
+}
