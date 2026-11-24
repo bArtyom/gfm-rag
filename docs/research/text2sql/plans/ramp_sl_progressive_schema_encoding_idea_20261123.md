@@ -1,6 +1,6 @@
 # RAMP-SL：面向完整召回的渐进式 Schema 编码
 
-> **状态更新（2026-11-24）：** 首轮[编码预算上限实验](../reports/ramp_sl_encoding_budget_gate_20261123_001/README.md)已完成 pilot、并按预设 16M 输入 token 上限停止 full 扩展；它验证的是 Offline Oracle 余量，**尚未验证预算可行的 RAMP-SL 算法**。新的[ RAMP-SL V1 两轮主动编码实验指导](ramp_sl_v1_budget_feasible_active_encoding_20261124.md)已写入仓库，**尚未运行（NOT RUN）**。本文保留为原始 idea 与创新边界记录，不用后续方案覆盖历史。
+> **状态更新（2026-11-24）：** 首轮[编码预算上限实验](../reports/ramp_sl_encoding_budget_gate_20261123_001/README.md)已完成 pilot、并按预设 16M 输入 token 上限停止 full 扩展；它验证的是 Offline Oracle 余量，**尚未验证预算可行的 RAMP-SL 算法**。新的[ RAMP-SL V1 两轮主动编码实验指导](ramp_sl_v1_budget_feasible_active_encoding_20261124.md)已写入仓库，**尚未运行（NOT RUN）**。本文保留为原始 idea 与创新边界记录，不用后续方案覆盖历史。 创新性与后续结构感知路线详见[2026-11-24 决策记录](ramp_sl_innovation_positioning_structure_aware_v2_20261124.md)，它尚未预注册 V2 实验。
 >
 > 来源版本：用户附件日期 2026-11-22；本次整理日期 2026-11-23。附件中的源码审计基于可变 `main`，没有记录可复核的 commit；本次未运行 GRAST-SQL，也未重做整仓代码审计。
 
