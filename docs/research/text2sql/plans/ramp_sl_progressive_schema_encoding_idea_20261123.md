@@ -1,6 +1,6 @@
 # RAMP-SL：面向完整召回的渐进式 Schema 编码
 
-> **状态：已获用户授权进入首轮最小可行性实验。** 本文整理自用户提供的 GRAST-SQL 路线图与代码审计建议，并结合当前研究仓库中已有结果作了概念审阅。当前只执行独立预注册的“编码预算上限 gate”；候选方法尚未验证，也不代表完整 GRAST-SQL 复现。
+> **状态更新（2026-11-24）：** 首轮[编码预算上限实验](../reports/ramp_sl_encoding_budget_gate_20261123_001/README.md)已完成 pilot、并按预设 16M 输入 token 上限停止 full 扩展；它验证的是 Offline Oracle 余量，**尚未验证预算可行的 RAMP-SL 算法**。新的[ RAMP-SL V1 两轮主动编码实验指导](ramp_sl_v1_budget_feasible_active_encoding_20261124.md)已写入仓库，**尚未运行（NOT RUN）**。本文保留为原始 idea 与创新边界记录，不用后续方案覆盖历史。
 >
 > 来源版本：用户附件日期 2026-11-22；本次整理日期 2026-11-23。附件中的源码审计基于可变 `main`，没有记录可复核的 commit；本次未运行 GRAST-SQL，也未重做整仓代码审计。
 
