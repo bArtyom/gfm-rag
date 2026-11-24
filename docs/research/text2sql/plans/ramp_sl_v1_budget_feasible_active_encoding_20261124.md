@@ -6,6 +6,8 @@
 >
 > **先前证据：** [RAMP-SL 昂贵评分上限报告](../reports/ramp_sl_encoding_budget_gate_20261123_001/README.md)；[RAMP-SL idea](ramp_sl_progressive_schema_encoding_idea_20261123.md)；[BoundaryMORPH 独立报告](https://github.com/bArtyom/gfm-rag/blob/d9cca989dbe38f2b8d717860e86ad2665a9305fc/docs/research/text2sql/reports/boundarymorph_grast_bird_20261123_001/README.md)（注意它在另一个研究分支，当前基线未合并到本分支）。遵守 [复现契约](../reproducibility-contract.md)。
 
+> **创新性与 V2 条件路线（补充记录，2026-11-24）：** [RAMP-SL 的方法贡献边界与 Structure-aware V2 决策记录](ramp_sl_innovation_positioning_structure_aware_v2_20261124.md)。明确冻结 GRAST scorer 只是模型基座；V1 用于检验公平计算预算下的主动选择，GP/两轮/Token 成本本身不等于创新。仅在 V1 误差归因支持结构互补性且 FK/Role 质量门通过的条件下，另立 V2 协议；**本文件的 V1 已定参数及 Gate 不变**。
+
 ## 1. 已经证明了什么、还没证明什么
 
 2026-11-23 BIRD-dev 离线上限实验使用冻结 Qwen3-Embedding-0.6B 1024D cache，以及正式发布的 GRAST-SQL 0.6B BIRD Reranker 的 yes/no logits。固定入选字段的昂贵评分输入预算 M=4,096 tokens、Schema 输出预算 B=2,048 tokens：
