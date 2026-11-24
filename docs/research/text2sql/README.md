@@ -81,9 +81,13 @@
 
 此处只提交全局审计和G2预注册指导，原分支已运行成果没有被假装合并main；所有原实验结论和失败回执照实保留。
 
-### 邻接探索线：BizWeave 业务事件与约束检索（2026-11-17）
+### 邻接探索线：BizWeave Business–Schema 图（2026-11-23 当前定义）
 
-本线与当前G2机制Gate分开，不改变其优先级。提案已收敛为“同样可JOIN时，用事件、状态、时间、粒度和证据状态选择业务实现，并在证据不足时弃答”；想法见[BizWeave brief](ideas/bizweave.md)。CPU合成机制门通过：8/8正确实现、4/4对照切换、2/2未决弃答；最强未结构化基线5/8。BIRD train/dev解析通过，宽泛候选供给门通过，但dev状态/状态谓词候选为0，且没有人工审核的业务路径标签；因此本轮没有真实数据检索成绩，也不支持新颖性或端到端SQL主张。详见[实验报告](reports/bizweave_business_semantic_pilot_20261117_001/README.md)、[协议](../../../experiments/bizweave_business_semantic_pilot_20261117_001/protocol.md)和[匿名聚合](reports/bizweave_business_semantic_pilot_20261117_001/aggregate.public.json)。后续真实打分须先做盲审标签验证。
+当前主线已按[2026-11-23 讨论纪要](ideas/bizweave_discussion_minutes_20261123.md)更新为：从 Schema 与业务文档自动归纳有证据的 Business–Schema 图，并用于 Schema Linking / Retrieval；当前不以 JOIN 路径裁决、弃答或 SQL 生成为主贡献。见[当前 Idea](ideas/bizweave.md)和[评审报告](ideas/bizweave_review_20261123.md)。已发现 DANKE 等直接相邻工作，新颖性未确认。
+
+此前试验都不直接验证当前假设：11 月 17 日合成试验验证的是手写事件/约束规则；BIRD 与 Spider 图 pilot 只输入 Schema/字段说明；在线需求 smoke 测的是旧结构化输出路径。它们只能作为工程先导证据。11 月 17 日详情见[实验报告](reports/bizweave_business_semantic_pilot_20261117_001/README.md)、[协议](../../../experiments/bizweave_business_semantic_pilot_20261117_001/protocol.md)和[匿名聚合](reports/bizweave_business_semantic_pilot_20261117_001/aggregate.public.json)；新主线目前没有真实文档映射成绩。
+
+当前已预注册 BIRD-Ent 最多 5 条、按数据资产分层的文档字段映射与条件式 Oracle Mapping Gate，尚未读取样本；协议见[计划](plans/bizweave_birdent_oracle_mapping_gate_20261124_001.md)。
 
 
 ## 从今往后的提交规范
