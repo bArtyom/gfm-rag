@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "run_id": "ramp_sl_v1_active_encoding_20261124_001",
+  "execution_code_commit": "8c58826de43ee6bc7768183cb6520659aa085d73",
+  "runner_sha256": "9b990ef096f17d807190a97f4f3a0541a34f9da81195a2c7046b08631af16a1c",
+  "config_sha256": "5d721d78dee0857d9fbb41dcf9d86fe3fffbb47c40a14d5be2ec85e1e664fe61",
+  "state": "INCOMPLETE_BUDGET_LIMIT",
+  "training_audit": {
+    "state": "PASS_TRAIN_ONLY_REPLAY",
+    "question_count": 100,
+    "train_database_count": 5,
+    "test_database_rows_parsed": 0,
+    "test_gold_used": false,
+    "methods": 7,
+    "all_method_budgets_pass": true,
+    "static_historical_matches": 100,
+    "static_historical_mismatches": 0,
+    "elapsed_wall_seconds": 749.633,
+    "process_cpu_seconds": 750.062,
+    "peak_rss_gib": 1.126
+  },
+  "heldout_replay": {
+    "state": "STOPPED_AT_REGISTERED_CPU_TIME_LIMIT",
+    "expected_questions": 305,
+    "unsealed_prediction_rows": 234,
+    "prediction_sealed": false,
+    "test_gold_loaded": false,
+    "full_score_reference_loaded": false,
+    "metrics_computed": false,
+    "registered_cpu_time_limit_seconds": 3600,
+    "wall_time_approx_seconds": 3679,
+    "stop_error": "TimeoutError: registered CPU-time budget exceeded",
+    "partial_private_file_sha256": "4d9263751aa5281b1e720e2c47a95c092967b73852a5ced1e09fc7a212887c8f"
+  },
+  "resources": {
+    "new_model_inference": false,
+    "external_model_api_calls": 0,
+    "gpu_inference": false,
+    "sql_execution": false,
+    "environment": "think2sql_20260909; Python 3.12.14",
+    "observed_process_rss_gib_approx": 1.2
+  },
+  "science_gate": {
+    "state": "NOT_EVALUATED",
+    "reason": "Held-out predictions were incomplete and unsealed; no test labels or metrics were read."
+  },
+  "privacy": {
+    "public_file_contains_question_or_column_rows": false,
+    "private_predictions_uploaded": false,
+    "private_logs_uploaded": false
+  }
+}
