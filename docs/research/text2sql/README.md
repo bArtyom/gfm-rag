@@ -1,5 +1,7 @@
 # Text2SQL × QuadGraph / G-reasoner：研究工作台
 
+> **RAMP-SL 创新性定位（2026-11-24｜研究判断，NOT RUN）：** [方法贡献边界与 Structure-aware V2 决策记录](plans/ramp_sl_innovation_positioning_structure_aware_v2_20261124.md)。GRAST Scorer 是冻结模型基座，GP/两轮主动选择已有先例，V1 仍属公平预算基线验证；只有证明可信 Schema 结构在**昂贵编码前的 acquisition 阶段**提供独立贡献，才可能形成 V2 方法创新。FK/Role Gold Gate 未过时 V2-FK HOLD，且不改变 V1 原实验门槛。
+
 > **RAMP-SL V1 下一轮（2026-11-24｜方案已入库，NOT RUN）：** [两轮主动 Schema 编码实验指导](plans/ramp_sl_v1_budget_feasible_active_encoding_20261124.md)。固定真实 GRAST 评分输入预算 M=4,096、第一轮 M0=2,048、主输出预算 B=2,048；比较 Static、分层/随机采样、BoundaryMORPH、校准相关性与 GP+集合效用策略。先对既有离线全列评分做严格预算 replay 和按数据库隔离验证；禁止读取未收费分数或测试 Gold。上轮 Oracle 的 +24.545/+29.828pp 仅为离线参考差距，不能视为 V1 收益。
 
 > **RAMP-SL 编码预算上限 gate（2026-11-23）：** [预注册方案](plans/ramp_sl_encoding_budget_gate_20261123.md)；[实验报告](reports/ramp_sl_encoding_budget_gate_20261123_001/README.md)已更新。Smoke 5/5；pilot 110题/11库，oracle完整覆盖90.91% vs 静态66.36%（+24.545pp），通过扩展门；full按16M输入token上限停止于1,046/1,460题、8库（oracle87.48% vs 57.65%，+29.828pp）。BIRD-dev探索性、offline encoder-only；不代表完整GRAST-SQL复现或SQL EX收益。
@@ -32,6 +34,7 @@
 
 | 文档 | 作用 | 状态 |
 |---|---|---|
+| [RAMP-SL 创新性定位与结构感知 V2 决策记录](plans/ramp_sl_innovation_positioning_structure_aware_v2_20261124.md) | 区分 GRAST 模型复用与方法贡献，记录 BoundaryMORPH 等近邻、V1 退化风险、结构感知 V2 候选与条件式决策树 | IDEA / NOT RUN；不得修改既定 V1 Gate |
 | [RAMP-SL V1 两轮主动编码实验指导（2026-11-24）](plans/ramp_sl_v1_budget_feasible_active_encoding_20261124.md) | 真实 GRAST Token 预算下两轮主动列选择：算法、对照、预算回放、测试隔离、停止门与消融 | 设计已保存；尚未执行算法实验（NOT RUN） |
 | [RAMP-SL 渐进式 Schema 编码 Idea](plans/ramp_sl_progressive_schema_encoding_idea_20261123.md) | 基于 GRAST-SQL 的昂贵字段编码预算分配与近期工作的边界审阅 | 候选想法；独立预算上限 gate 已执行，方法收益尚未验证 |
 | [RAMP-SL 编码预算上限预注册](plans/ramp_sl_encoding_budget_gate_20261123.md) | 固定 M/B 下静态 Top-M 与昂贵编码离线上限对照 | 协议冻结；pilot扩展门通过；full按token预算停止，见报告 |
